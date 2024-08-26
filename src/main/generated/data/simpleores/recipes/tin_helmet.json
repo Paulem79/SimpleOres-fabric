@@ -12,7 +12,6 @@
     "R R"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:tin_helmet"
+    "item": "simpleores:tin_helmet"
   }
 }

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_axe"
+            "items": [
+              "simpleores:adamantium_axe"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_boots"
+            "items": [
+              "simpleores:adamantium_boots"
+            ]
           }
         ]
       },
@@ -25,7 +29,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_chestplate"
+            "items": [
+              "simpleores:adamantium_chestplate"
+            ]
           }
         ]
       },
@@ -35,7 +41,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_helmet"
+            "items": [
+              "simpleores:adamantium_helmet"
+            ]
           }
         ]
       },
@@ -45,7 +53,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_hoe"
+            "items": [
+              "simpleores:adamantium_hoe"
+            ]
           }
         ]
       },
@@ -55,7 +65,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_leggings"
+            "items": [
+              "simpleores:adamantium_leggings"
+            ]
           }
         ]
       },
@@ -65,7 +77,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_pickaxe"
+            "items": [
+              "simpleores:adamantium_pickaxe"
+            ]
           }
         ]
       },
@@ -75,7 +89,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_shovel"
+            "items": [
+              "simpleores:adamantium_shovel"
+            ]
           }
         ]
       },
@@ -85,7 +101,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_sword"
+            "items": [
+              "simpleores:adamantium_sword"
+            ]
           }
         ]
       },

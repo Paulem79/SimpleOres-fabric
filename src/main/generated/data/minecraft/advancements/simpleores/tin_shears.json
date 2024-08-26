@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_shears"
+            "items": [
+              "simpleores:tin_shears"
+            ]
           }
         ]
       },
@@ -17,8 +19,8 @@
       "translate": "advancements.tin_shears_ach.desc"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:tin_shears"
+      "item": "simpleores:tin_shears",
+      "nbt": "{Damage:0}"
     },
     "title": {
       "translate": "advancements.tin_shears_ach"

@@ -16,7 +16,6 @@
     "S "
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:mythril_hoe"
+    "item": "simpleores:mythril_hoe"
   }
 }

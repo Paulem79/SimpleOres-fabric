@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:onyx_sword"
+            "items": [
+              "simpleores:onyx_sword"
+            ]
           }
         ]
       },
@@ -17,8 +19,8 @@
       "translate": "advancements.onyx_sword_ach.desc"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:onyx_sword"
+      "item": "simpleores:onyx_sword",
+      "nbt": "{Damage:0}"
     },
     "title": {
       "translate": "advancements.onyx_sword_ach"

@@ -4,7 +4,7 @@ import io.github.paulem.simpleores.blocks.ModBlocks;
 import io.github.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.block.*;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
@@ -32,8 +32,6 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
         getOrCreateTagBuilder(ConventionalBlockTags.ORES)
                 .forceAddTag(ModTags.Blocks.SIMPLEORES_ORES);
-
-        FabricTagProvider<Block>.FabricTagBuilder storageBlocksTag = getOrCreateTagBuilder(ConventionalBlockTags.STORAGE_BLOCKS);
 
         // ------------------- BLOCKS BREAK -------------------
 
@@ -66,9 +64,6 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
             String path = identifier.getPath();
 
             pickaxeMineable.add(block);
-
-            if(path.contains("block"))
-                storageBlocksTag.add(block);
 
             if(path.contains("tin") || path.contains("copper"))
                 needsStoneTool.add(block);

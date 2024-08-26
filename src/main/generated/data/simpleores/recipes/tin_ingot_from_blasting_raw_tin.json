@@ -7,7 +7,5 @@
   "ingredient": {
     "item": "simpleores:raw_tin"
   },
-  "result": {
-    "id": "simpleores:tin_ingot"
-  }
+  "result": "simpleores:tin_ingot"
 }

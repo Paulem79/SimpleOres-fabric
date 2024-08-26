@@ -11,7 +11,6 @@
     "RR"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:mythril_pressure_plate"
+    "item": "simpleores:mythril_pressure_plate"
   }
 }

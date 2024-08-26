@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_nugget"
+            "items": [
+              "simpleores:tin_nugget"
+            ]
           }
         ]
       },

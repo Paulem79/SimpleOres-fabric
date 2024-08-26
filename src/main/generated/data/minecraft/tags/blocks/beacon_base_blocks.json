@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "minecraft:copper_block",
     "simpleores:adamantium_block",

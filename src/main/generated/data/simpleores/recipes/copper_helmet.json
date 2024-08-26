@@ -12,7 +12,6 @@
     "R R"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:copper_helmet"
+    "item": "simpleores:copper_helmet"
   }
 }

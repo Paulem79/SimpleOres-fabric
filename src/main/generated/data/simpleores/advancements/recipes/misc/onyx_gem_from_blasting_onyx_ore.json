@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:onyx_ore"
+            "items": [
+              "simpleores:onyx_ore"
+            ]
           }
         ]
       },

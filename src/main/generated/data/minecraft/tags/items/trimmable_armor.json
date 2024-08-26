@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "simpleores:copper_helmet",
+    "simpleores:copper_leggings",
+    "simpleores:copper_chestplate",
+    "simpleores:copper_boots",
+    "simpleores:tin_helmet",
+    "simpleores:tin_leggings",
+    "simpleores:tin_chestplate",
+    "simpleores:tin_boots",
+    "simpleores:mythril_helmet",
+    "simpleores:mythril_leggings",
+    "simpleores:mythril_chestplate",
+    "simpleores:mythril_boots",
+    "simpleores:adamantium_helmet",
+    "simpleores:adamantium_leggings",
+    "simpleores:adamantium_chestplate",
+    "simpleores:adamantium_boots",
+    "simpleores:onyx_helmet",
+    "simpleores:onyx_leggings",
+    "simpleores:onyx_chestplate",
+    "simpleores:onyx_boots"
+  ]
+}

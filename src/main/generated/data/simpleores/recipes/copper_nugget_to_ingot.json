@@ -12,7 +12,6 @@
     "RRR"
   ],
   "result": {
-    "count": 1,
-    "id": "minecraft:copper_ingot"
+    "item": "minecraft:copper_ingot"
   }
 }

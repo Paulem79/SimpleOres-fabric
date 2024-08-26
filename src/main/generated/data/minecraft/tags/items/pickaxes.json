@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "simpleores:copper_pickaxe",
     "simpleores:tin_pickaxe",

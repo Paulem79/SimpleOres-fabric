@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:raw_adamantium"
+            "items": [
+              "simpleores:raw_adamantium"
+            ]
           }
         ]
       },
@@ -17,8 +19,7 @@
       "translate": "advancements.adamantium_ach.desc"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:adamantium_ore"
+      "item": "simpleores:adamantium_ore"
     },
     "title": {
       "translate": "advancements.adamantium_ach"

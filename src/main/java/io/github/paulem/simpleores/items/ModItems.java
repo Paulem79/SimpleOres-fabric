@@ -3,6 +3,7 @@ package io.github.paulem.simpleores.items;
 import com.google.common.base.Suppliers;
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.armors.AdvancedArmorItem;
 import io.github.paulem.simpleores.armors.ModArmorMaterials;
 import mod.alexndr.simplecorelib.api.content.config.SimpleOresConfig;
 import mod.alexndr.simplecorelib.api.content.content.MythrilBow;
@@ -65,142 +66,68 @@ public class ModItems {
 
     // swords: constant dmg 3, eff -2.4
     public static final SwordItem COPPER_SWORD = registerItem("copper_sword",
-            new SwordItem(SimpleOresTiers.COPPER,
-                    new Item.Settings().attributeModifiers(
-                            SwordItem.createAttributeModifiers(SimpleOresTiers.COPPER, 3, -2.4f)
-                    )));
+            new SwordItem(SimpleOresTiers.COPPER, 3, -2.4f, new Item.Settings()));
 
     public static final SwordItem TIN_SWORD = registerItem("tin_sword",
-            new SwordItem(SimpleOresTiers.TIN,
-                    new Item.Settings().attributeModifiers(
-                            SwordItem.createAttributeModifiers(SimpleOresTiers.TIN,  3, -2.4F)
-                    )));
+            new SwordItem(SimpleOresTiers.TIN, 3, -2.4F, new Item.Settings()));
 
     public static final SwordItem MYTHRIL_SWORD = registerItem("mythril_sword",
-            new SwordItem(SimpleOresTiers.MYTHRIL,
-                    new Item.Settings().attributeModifiers(
-                            SwordItem.createAttributeModifiers(SimpleOresTiers.MYTHRIL, 3, -2.4F)
-                    )));
+            new SwordItem(SimpleOresTiers.MYTHRIL, 3, -2.4F, new Item.Settings()));
 
     public static final SwordItem ADAMANTIUM_SWORD = registerItem("adamantium_sword",
-            new SwordItem(SimpleOresTiers.ADAMANTIUM,
-                    new Item.Settings().attributeModifiers(
-                            SwordItem.createAttributeModifiers(SimpleOresTiers.ADAMANTIUM, 3, -2.4F)
-                    )));
+            new SwordItem(SimpleOresTiers.ADAMANTIUM, 3, -2.4F,
+                    new Item.Settings()));
 
     public static final SwordItem ONYX_SWORD = registerItem("onyx_sword",
-            new SwordItem(SimpleOresTiers.ONYX,
-                    new Item.Settings().attributeModifiers(
-                            SwordItem.createAttributeModifiers(SimpleOresTiers.ONYX, 3, -2.4F)
-                    )));
+            new SwordItem(SimpleOresTiers.ONYX, 3, -2.4F, new Item.Settings()));
 
     // pickaxes: constant dmg 1, eff: -2.8
     public static final PickaxeItem COPPER_PICKAXE = registerItem("copper_pickaxe",
-            new PickaxeItem(SimpleOresTiers.COPPER,
-                    new Item.Settings().attributeModifiers(
-                            PickaxeItem.createAttributeModifiers(SimpleOresTiers.COPPER, 1, -2.8F)
-                    )));
+            new PickaxeItem(SimpleOresTiers.COPPER, 1, -2.8F, new Item.Settings()));
     public static final PickaxeItem TIN_PICKAXE = registerItem("tin_pickaxe",
-            new PickaxeItem(SimpleOresTiers.TIN,
-                    new Item.Settings().attributeModifiers(
-                            PickaxeItem.createAttributeModifiers(SimpleOresTiers.TIN, 1, -2.8F)
-                    )));
+            new PickaxeItem(SimpleOresTiers.TIN, 1, -2.8F, new Item.Settings()));
     public static final PickaxeItem MYTHRIL_PICKAXE = registerItem("mythril_pickaxe",
-            new PickaxeItem(SimpleOresTiers.MYTHRIL,
-                    new Item.Settings().attributeModifiers(
-                            PickaxeItem.createAttributeModifiers(SimpleOresTiers.MYTHRIL, 1, -2.8F)
-                    )));
+            new PickaxeItem(SimpleOresTiers.MYTHRIL, 1, -2.8F, new Item.Settings()));
     public static final PickaxeItem ADAMANTIUM_PICKAXE = registerItem("adamantium_pickaxe",
-            new PickaxeItem(SimpleOresTiers.ADAMANTIUM,
-                    new Item.Settings().attributeModifiers(
-                            PickaxeItem.createAttributeModifiers(SimpleOresTiers.ADAMANTIUM, 1, -2.8F)
-                    )));
+            new PickaxeItem(SimpleOresTiers.ADAMANTIUM, 1, -2.8F, new Item.Settings()));
     public static final PickaxeItem ONYX_PICKAXE = registerItem("onyx_pickaxe",
-            new PickaxeItem(SimpleOresTiers.ONYX,
-                    new Item.Settings().attributeModifiers(
-                            PickaxeItem.createAttributeModifiers(SimpleOresTiers.ONYX, 1, -2.8F)
-                    )));
+            new PickaxeItem(SimpleOresTiers.ONYX, 1, -2.8F, new Item.Settings()));
 
     // axes: axe dmg + tier dmg == ~8.0  (9.0 for uber-materials); constant eff: -3.2 (3.1 to 3.0 for uberliness)
     public static final AxeItem COPPER_AXE = registerItem("copper_axe",
-            new AxeItem(SimpleOresTiers.COPPER,
-                    new Item.Settings().attributeModifiers(
-                            AxeItem.createAttributeModifiers(SimpleOresTiers.COPPER,  7.0F, -3.2F)
-                    )));
+            new AxeItem(SimpleOresTiers.COPPER, 7.0F, -3.2F, new Item.Settings()));
     public static final AxeItem TIN_AXE = registerItem("tin_axe",
-            new AxeItem(SimpleOresTiers.TIN,
-                    new Item.Settings().attributeModifiers(
-                            AxeItem.createAttributeModifiers(SimpleOresTiers.TIN,  7.0F, -3.2F)
-                    )));
+            new AxeItem(SimpleOresTiers.TIN, 7.0F, -3.2F, new Item.Settings()));
     public static final AxeItem MYTHRIL_AXE = registerItem("mythril_axe",
-            new AxeItem(SimpleOresTiers.MYTHRIL,
-                    new Item.Settings().attributeModifiers(
-                            AxeItem.createAttributeModifiers(SimpleOresTiers.MYTHRIL,  5.0F, -3.2F)
-                    )));
+            new AxeItem(SimpleOresTiers.MYTHRIL, 5.0F, -3.2F, new Item.Settings()));
     public static final AxeItem ADAMANTIUM_AXE = registerItem("adamantium_axe",
-            new AxeItem(SimpleOresTiers.ADAMANTIUM,
-                    new Item.Settings().attributeModifiers(
-                            AxeItem.createAttributeModifiers(SimpleOresTiers.ADAMANTIUM,  5.0F, -3.2F)
-                    )));
+            new AxeItem(SimpleOresTiers.ADAMANTIUM, 5.0F, -3.2F, new Item.Settings()));
     public static final AxeItem ONYX_AXE = registerItem("onyx_axe",
-            new AxeItem(SimpleOresTiers.ONYX,
-                    new Item.Settings().attributeModifiers(
-                            AxeItem.createAttributeModifiers(SimpleOresTiers.ONYX, 4.0F, -3.0F)
-                    )));
+            new AxeItem(SimpleOresTiers.ONYX, 4.0F, -3.0F, new Item.Settings()));
 
     // shovels: constant dmg: 1.5, eff: -3.0
     public static final ShovelItem COPPER_SHOVEL = registerItem("copper_shovel",
-            new ShovelItem(SimpleOresTiers.COPPER,
-                    new Item.Settings().attributeModifiers(
-                            ShovelItem.createAttributeModifiers(SimpleOresTiers.COPPER, 1.5F, -3.0F)
-                    )));
+            new ShovelItem(SimpleOresTiers.COPPER, 1.5F, -3.0F, new Item.Settings()));
     public static final ShovelItem TIN_SHOVEL = registerItem("tin_shovel",
-            new ShovelItem(SimpleOresTiers.TIN,
-                    new Item.Settings().attributeModifiers(
-                            ShovelItem.createAttributeModifiers(SimpleOresTiers.TIN, 1.5F, -3.0F)
-                    )));
+            new ShovelItem(SimpleOresTiers.TIN, 1.5F, -3.0F, new Item.Settings()));
     public static final ShovelItem MYTHRIL_SHOVEL = registerItem("mythril_shovel",
-            new ShovelItem(SimpleOresTiers.MYTHRIL,
-                    new Item.Settings().attributeModifiers(
-                            ShovelItem.createAttributeModifiers(SimpleOresTiers.MYTHRIL, 1.5F, -3.0F)
-                    )));
+            new ShovelItem(SimpleOresTiers.MYTHRIL, 1.5F, -3.0F, new Item.Settings()));
     public static final ShovelItem ADAMANTIUM_SHOVEL = registerItem("adamantium_shovel",
-            new ShovelItem(SimpleOresTiers.ADAMANTIUM,
-                    new Item.Settings().attributeModifiers(
-                            ShovelItem.createAttributeModifiers(SimpleOresTiers.ADAMANTIUM, 1.5F, -3.0F)
-                    )));
+            new ShovelItem(SimpleOresTiers.ADAMANTIUM, 1.5F, -3.0F, new Item.Settings()));
     public static final ShovelItem ONYX_SHOVEL = registerItem("onyx_shovel",
-            new ShovelItem(SimpleOresTiers.ONYX,
-                    new Item.Settings().attributeModifiers(
-                            ShovelItem.createAttributeModifiers(SimpleOresTiers.ONYX, 1.5F, -3.0F)
-                    )));
+            new ShovelItem(SimpleOresTiers.ONYX, 1.5F, -3.0F, new Item.Settings()));
 
     // hoes: hoe dmg + tier dmg == 0; Eff: -3 for bad hoe materials, 0 for uber materials, rest in-between.
     public static final HoeItem COPPER_HOE = registerItem("copper_hoe",
-            new HoeItem(SimpleOresTiers.COPPER,
-                    new Item.Settings().attributeModifiers(
-                            HoeItem.createAttributeModifiers(SimpleOresTiers.COPPER, -1, -2.0F)
-                    )));
+            new HoeItem(SimpleOresTiers.COPPER, -1, -2.0F, new Item.Settings()));
     public static final HoeItem TIN_HOE = registerItem("tin_hoe",
-            new HoeItem(SimpleOresTiers.TIN,
-                    new Item.Settings().attributeModifiers(
-                            HoeItem.createAttributeModifiers(SimpleOresTiers.TIN, -1, -2.0F)
-                    )));
+            new HoeItem(SimpleOresTiers.TIN, -1, -2.0F, new Item.Settings()));
     public static final HoeItem MYTHRIL_HOE = registerItem("mythril_hoe",
-            new HoeItem(SimpleOresTiers.MYTHRIL,
-                    new Item.Settings().attributeModifiers(
-                            HoeItem.createAttributeModifiers(SimpleOresTiers.MYTHRIL, -3, -1.0F)
-                    )));
+            new HoeItem(SimpleOresTiers.MYTHRIL, -3, -1.0F, new Item.Settings()));
     public static final HoeItem ADAMANTIUM_HOE = registerItem("adamantium_hoe",
-            new HoeItem(SimpleOresTiers.ADAMANTIUM,
-                    new Item.Settings().attributeModifiers(
-                            HoeItem.createAttributeModifiers(SimpleOresTiers.ADAMANTIUM, -3, -1.0F)
-                    )));
+            new HoeItem(SimpleOresTiers.ADAMANTIUM, -3, -1.0F, new Item.Settings()));
     public static final HoeItem ONYX_HOE = registerItem("onyx_hoe",
-            new HoeItem(SimpleOresTiers.ONYX,
-                    new Item.Settings().attributeModifiers(
-                            HoeItem.createAttributeModifiers(SimpleOresTiers.ONYX, -5, 0.0F)
-                    )));
+            new HoeItem(SimpleOresTiers.ONYX, -5, 0.0F, new Item.Settings()));
 
     // shears
     public static final AdvancedShearsItem COPPER_SHEARS = registerItem(
@@ -222,93 +149,53 @@ public class ModItems {
     // ARMOR
     // copper
     public static final ArmorItem COPPER_HELMET = registerItem("copper_helmet",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET));
     public static final ArmorItem COPPER_LEGGINGS = registerItem("copper_leggings",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem COPPER_CHESTPLATE = registerItem("copper_chestplate",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE));
     public static final ArmorItem COPPER_BOOTS = registerItem("copper_boots",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS));
 
     // tin
     public static final ArmorItem TIN_HELMET = registerItem("tin_helmet",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.HELMET));
     public static final ArmorItem TIN_LEGGINGS = registerItem("tin_leggings",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem TIN_CHESTPLATE = registerItem("tin_chestplate",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.CHESTPLATE));
     public static final ArmorItem TIN_BOOTS = registerItem("tin_boots",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.BOOTS));
 
     // mythril
     public static final ArmorItem MYTHRIL_HELMET = registerItem("mythril_helmet",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.HELMET));
     public static final ArmorItem MYTHRIL_LEGGINGS = registerItem("mythril_leggings",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem MYTHRIL_CHESTPLATE = registerItem("mythril_chestplate",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.CHESTPLATE));
     public static final ArmorItem MYTHRIL_BOOTS = registerItem("mythril_boots",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.BOOTS));
 
     // adamantium
     public static final ArmorItem ADAMANTIUM_HELMET = registerItem("adamantium_helmet",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.HELMET));
     public static final ArmorItem ADAMANTIUM_LEGGINGS = registerItem("adamantium_leggings",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem ADAMANTIUM_CHESTPLATE = registerItem("adamantium_chestplate",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.CHESTPLATE));
     public static final ArmorItem ADAMANTIUM_BOOTS = registerItem("adamantium_boots",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.BOOTS));
 
     // onyx
     public static final ArmorItem ONYX_HELMET = registerItem("onyx_helmet",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.HELMET));
     public static final ArmorItem ONYX_LEGGINGS = registerItem("onyx_leggings",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem ONYX_CHESTPLATE = registerItem("onyx_chestplate",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.CHESTPLATE));
     public static final ArmorItem ONYX_BOOTS = registerItem("onyx_boots",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.BOOTS));
 
     
     public static<T extends Item> T registerItem(String name, T item) {

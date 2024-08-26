@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_bricks"
+            "items": [
+              "simpleores:mythril_bricks"
+            ]
           }
         ]
       },

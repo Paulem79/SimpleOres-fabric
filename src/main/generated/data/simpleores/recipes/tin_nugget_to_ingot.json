@@ -12,7 +12,6 @@
     "RRR"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:tin_ingot"
+    "item": "simpleores:tin_ingot"
   }
 }

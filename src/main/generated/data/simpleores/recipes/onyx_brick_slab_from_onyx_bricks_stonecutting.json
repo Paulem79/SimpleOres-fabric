@@ -1,10 +1,8 @@
 {
   "type": "minecraft:stonecutting",
+  "count": 2,
   "ingredient": {
     "item": "simpleores:onyx_bricks"
   },
-  "result": {
-    "count": 2,
-    "id": "simpleores:onyx_brick_slab"
-  }
+  "result": "simpleores:onyx_brick_slab"
 }

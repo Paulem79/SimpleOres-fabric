@@ -16,7 +16,6 @@
     " S"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:copper_axe"
+    "item": "simpleores:copper_axe"
   }
 }

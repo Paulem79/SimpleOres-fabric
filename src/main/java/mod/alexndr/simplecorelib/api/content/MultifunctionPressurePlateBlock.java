@@ -4,20 +4,21 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WeightedPressurePlateBlock;
-import net.minecraft.client.item.TooltipType;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -132,8 +133,8 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
 
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext pContext, List<Text> pTooltip, TooltipType options) {
-        super.appendTooltip(stack, pContext, pTooltip, options);
+    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        super.appendTooltip(stack, world, tooltip, options);
         // end-switch
         String tipKey = switch (this.sensitivity) {
             case EVERYTHING, EVERYTHING_WEIGHTED -> "tips.pressure_plate.everything";
@@ -142,9 +143,8 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
             case PLAYERS, PLAYERS_WEIGHTED -> "tips.pressure_plate.players";
         };
 
-        pTooltip.add(Text.translatable(tipKey).formatted(Formatting.GREEN));
+        tooltip.add(Text.translatable(tipKey).formatted(Formatting.GREEN));
     }
-
 
 
     /**

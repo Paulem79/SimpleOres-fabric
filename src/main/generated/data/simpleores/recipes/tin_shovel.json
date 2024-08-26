@@ -16,7 +16,6 @@
     "S"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:tin_shovel"
+    "item": "simpleores:tin_shovel"
   }
 }

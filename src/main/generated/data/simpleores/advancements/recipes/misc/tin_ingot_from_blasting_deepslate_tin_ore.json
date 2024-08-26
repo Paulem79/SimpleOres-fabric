@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:deepslate_tin_ore"
+            "items": [
+              "simpleores:deepslate_tin_ore"
+            ]
           }
         ]
       },

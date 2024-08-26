@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "simpleores:copper_sword",
     "simpleores:tin_sword",

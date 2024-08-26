@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_axe"
+            "items": [
+              "simpleores:mythril_axe"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_boots"
+            "items": [
+              "simpleores:mythril_boots"
+            ]
           }
         ]
       },
@@ -25,7 +29,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_chestplate"
+            "items": [
+              "simpleores:mythril_chestplate"
+            ]
           }
         ]
       },
@@ -35,7 +41,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_helmet"
+            "items": [
+              "simpleores:mythril_helmet"
+            ]
           }
         ]
       },
@@ -45,7 +53,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_hoe"
+            "items": [
+              "simpleores:mythril_hoe"
+            ]
           }
         ]
       },
@@ -55,7 +65,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_leggings"
+            "items": [
+              "simpleores:mythril_leggings"
+            ]
           }
         ]
       },
@@ -65,7 +77,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_pickaxe"
+            "items": [
+              "simpleores:mythril_pickaxe"
+            ]
           }
         ]
       },
@@ -75,7 +89,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_shovel"
+            "items": [
+              "simpleores:mythril_shovel"
+            ]
           }
         ]
       },
@@ -85,7 +101,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_sword"
+            "items": [
+              "simpleores:mythril_sword"
+            ]
           }
         ]
       },

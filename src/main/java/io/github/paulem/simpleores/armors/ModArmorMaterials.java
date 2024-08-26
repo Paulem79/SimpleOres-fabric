@@ -1,106 +1,88 @@
 package io.github.paulem.simpleores.armors;
 
 import io.github.paulem.simpleores.SimpleOres;
-import io.github.paulem.simpleores.items.ModItems;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import mod.alexndr.simplecorelib.api.content.content.SimpleOresTiers;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 
-import java.util.EnumMap;
-import java.util.List;
 import java.util.function.Supplier;
 
-public final class ModArmorMaterials
-{
-    public static final RegistryEntry<ArmorMaterial> COPPER;
-    public static final RegistryEntry<ArmorMaterial> TIN;
-    public static final RegistryEntry<ArmorMaterial> MYTHRIL;
-    public static final RegistryEntry<ArmorMaterial> ADAMANTIUM;
-    public static final RegistryEntry<ArmorMaterial> ONYX;
+public enum ModArmorMaterials implements ArmorMaterial {
+    COPPER("copper", new int[] { 88, 128, 120, 104 }, new int[] { 1, 2, 3, 2 },
+            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, 0, SimpleOresTiers.COPPER),
 
-    static {// We place copper somewhere between leather and chainmail.
-        COPPER =
-                register("copper", Util.make(new EnumMap<>(ArmorItem.Type.class), (attribute) -> {
-                            attribute.put(ArmorItem.Type.BOOTS, 1);
-                            attribute.put(ArmorItem.Type.LEGGINGS, 2);
-                            attribute.put(ArmorItem.Type.CHESTPLATE, 3);
-                            attribute.put(ArmorItem.Type.HELMET, 2);
-                            attribute.put(ArmorItem.Type.BODY, 3);
-                        }), 8, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, 0, Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS)
-                ); // end copper
+    TIN("tin", new int[] { 99, 144, 135, 117 }, new int[] { 1, 2, 3, 2 },
+            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, 0, SimpleOresTiers.TIN),
 
-        TIN = register("tin", 
-                Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 1);
-                    map.put(ArmorItem.Type.LEGGINGS, 2);
-                    map.put(ArmorItem.Type.CHESTPLATE, 3);
-                    map.put(ArmorItem.Type.HELMET, 2);
-                    map.put(ArmorItem.Type.BODY, 3);
-                }),
-                9, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,
-                0, 0,
-                Ingredient.ofItems(ModItems.TIN_INGOT));
+    MYTHRIL("mythril", new int[] { 242, 352, 330, 286 }, new int[] { 3, 4, 5, 3 },
+            SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0, 0, SimpleOresTiers.MYTHRIL),
 
-        MYTHRIL = register("mythril", Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 3);
-                    map.put(ArmorItem.Type.LEGGINGS, 4);
-                    map.put(ArmorItem.Type.CHESTPLATE, 5);
-                    map.put(ArmorItem.Type.HELMET, 3);
-                    map.put(ArmorItem.Type.BODY, 4);
-                }),
-                12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,
-                0, 0,
-                Ingredient.ofItems(ModItems.MYTHRIL_INGOT));
+    ADAMANTIUM("adamantium", new int[] { 308, 448, 420, 364 }, new int[] { 2, 6, 8, 3 },
+            SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1, 0, SimpleOresTiers.ADAMANTIUM),
 
-        ADAMANTIUM = register("adamantium", 
-                Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 2);
-                    map.put(ArmorItem.Type.LEGGINGS, 6);
-                    map.put(ArmorItem.Type.CHESTPLATE, 8);
-                    map.put(ArmorItem.Type.HELMET, 3);
-                    map.put(ArmorItem.Type.BODY, 8);
-                }),
-                3, SoundEvents.ITEM_ARMOR_EQUIP_IRON,
-                1, 0,
-                Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT));
+    ONYX("onyx", new int[] { 495, 720, 675, 585 }, new int[] { 5, 6, 8, 5 },
+            SoundEvents.ITEM_ARMOR_EQUIP_TURTLE, 0, 0, SimpleOresTiers.ONYX);
 
-        ONYX = register("onyx", 
-                Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 5);
-                    map.put(ArmorItem.Type.LEGGINGS, 6);
-                    map.put(ArmorItem.Type.CHESTPLATE, 8);
-                    map.put(ArmorItem.Type.HELMET, 5);
-                    map.put(ArmorItem.Type.BODY, 11);
-                }),
-                15, SoundEvents.ITEM_ARMOR_EQUIP_TURTLE,
-                2, 0,
-                Ingredient.ofItems(ModItems.ONYX_GEM));
+    private final String name;
+    private final int[] protectionAmounts;
+    private final int enchantability;
+    private final SoundEvent equipSound;
+    private final float thougness;
+    private final float knockbackResistance;
+    private final Supplier<Ingredient> repairIngredient;
+    private final int[] durability;
+
+    ModArmorMaterials(String name, int[] durability, int[] protectionAmounts, SoundEvent equipSound, float thougness, float knockbackResistance, SimpleOresTiers simpleOresTiers) {
+        this.name = name;
+        this.durability = durability;
+        this.protectionAmounts = protectionAmounts;
+        this.enchantability = simpleOresTiers.getEnchantability();
+        this.equipSound = equipSound;
+        this.thougness = thougness;
+        this.knockbackResistance = knockbackResistance;
+        this.repairIngredient = simpleOresTiers::getRepairIngredient;
     }
 
-    /**
-     * @param name                  Name ofItems the armor material
-     * @param typeProtections       The amount ofItems protection per slot
-     * @param enchantability        The higher the number, the more likely better enchantments will be applied when using the enchanting table
-     * @param toughness             Toughness for netherite armor
-     * @param knockbackResistance   The knockback resistance for armor
-     * @param ingredientItem        Item used in anvil to repair the armor piece
-     * @return Registered armor material
-     */
-    private static RegistryEntry<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> typeProtections, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Ingredient ingredientItem)
-    {
-        Identifier loc = Identifier.of(SimpleOres.MOD_ID, name);
-        Supplier<Ingredient> ingredient = () -> ingredientItem;
-        List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
-
-        return Registry.registerReference(Registries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance));
+    @Override
+    public int getDurability(ArmorItem.Type type) {
+        return durability[type.ordinal()];
     }
 
-} // end class
+    @Override
+    public int getProtection(ArmorItem.Type type) {
+        return protectionAmounts[type.ordinal()];
+    }
+
+    @Override
+    public int getEnchantability() {
+        return this.enchantability;
+    }
+
+    @Override
+    public SoundEvent getEquipSound() {
+        return this.equipSound;
+    }
+
+    @Override
+    public Ingredient getRepairIngredient() {
+        return this.repairIngredient.get();
+    }
+
+    @Override
+    public String getName() {
+        return SimpleOres.MOD_ID + ":" + this.name;
+    }
+
+    @Override
+    public float getToughness() {
+        return this.thougness;
+    }
+
+    @Override
+    public float getKnockbackResistance() {
+        return this.knockbackResistance;
+    }
+}

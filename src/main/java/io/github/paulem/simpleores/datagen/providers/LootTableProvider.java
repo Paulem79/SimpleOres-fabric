@@ -13,8 +13,8 @@ import net.minecraft.registry.RegistryWrapper;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTableProvider extends FabricBlockLootTableProvider {
-    public LootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup);
+    public LootTableProvider(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
     @Override

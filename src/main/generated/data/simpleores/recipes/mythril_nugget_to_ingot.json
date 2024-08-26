@@ -12,7 +12,6 @@
     "RRR"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:mythril_ingot"
+    "item": "simpleores:mythril_ingot"
   }
 }

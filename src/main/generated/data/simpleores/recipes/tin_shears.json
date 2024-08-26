@@ -12,7 +12,6 @@
     "R "
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:tin_shears"
+    "item": "simpleores:tin_shears"
   }
 }

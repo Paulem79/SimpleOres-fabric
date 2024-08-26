@@ -16,7 +16,6 @@
     " S "
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:tin_pickaxe"
+    "item": "simpleores:tin_pickaxe"
   }
 }

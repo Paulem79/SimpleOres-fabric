@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_ingot"
+            "items": [
+              "simpleores:adamantium_ingot"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:stick"
+            "items": [
+              "minecraft:stick"
+            ]
           }
         ]
       },

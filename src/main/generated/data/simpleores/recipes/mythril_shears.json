@@ -12,7 +12,6 @@
     "R "
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:mythril_shears"
+    "item": "simpleores:mythril_shears"
   }
 }

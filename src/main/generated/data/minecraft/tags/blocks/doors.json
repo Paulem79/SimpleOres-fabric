@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "simpleores:tin_door",
     "simpleores:adamantium_door",

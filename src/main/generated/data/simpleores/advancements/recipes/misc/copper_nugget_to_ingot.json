@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:copper_nugget"
+            "items": [
+              "simpleores:copper_nugget"
+            ]
           }
         ]
       },

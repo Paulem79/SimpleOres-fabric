@@ -7,7 +7,5 @@
   "ingredient": {
     "item": "simpleores:deepslate_adamantium_ore"
   },
-  "result": {
-    "id": "simpleores:adamantium_ingot"
-  }
+  "result": "simpleores:adamantium_ingot"
 }

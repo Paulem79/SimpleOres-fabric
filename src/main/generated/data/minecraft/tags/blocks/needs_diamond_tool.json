@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "simpleores:onyx_block",
     "simpleores:onyx_ore",

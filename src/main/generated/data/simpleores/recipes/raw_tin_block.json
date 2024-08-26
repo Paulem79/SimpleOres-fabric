@@ -12,7 +12,6 @@
     "###"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:raw_tin_block"
+    "item": "simpleores:raw_tin_block"
   }
 }

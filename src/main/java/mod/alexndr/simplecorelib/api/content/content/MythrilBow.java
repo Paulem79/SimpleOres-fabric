@@ -3,19 +3,21 @@ package mod.alexndr.simplecorelib.api.content.content;
 import io.github.paulem.simpleores.items.ModItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -35,8 +37,8 @@ public class MythrilBow extends BowItem
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, TooltipContext pContext, List<Text> tooltip, TooltipType flagIn) {
-        super.appendTooltip(stack, pContext, tooltip, flagIn);
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
         tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
         tooltip.add(Text.translatable("tips.efficiency_tooltip").formatted(Formatting.GREEN));
     }
@@ -44,32 +46,29 @@ public class MythrilBow extends BowItem
     @Override
     public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
         // add the default enchantments for Mythril bow.
-        ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
-        stack = this.addMythrilEnchantments(oldEnchants, stack);
+        Map<Enchantment, Integer> enchMap = EnchantmentHelper.get(stack);
+        stack = this.addMythrilEnchantments(enchMap, stack);
 
         super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
-        EnchantmentHelper.set(stack, oldEnchants);
+        EnchantmentHelper.set(enchMap, stack);
     }// end onPlayerStoppedUsing()
 
-    private ItemStack addMythrilEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack)
+    private ItemStack addMythrilEnchantments(Map<Enchantment, Integer> enchMap, ItemStack stack)
     {
         if (stack.isEmpty()) return stack;
 
-        ItemEnchantmentsComponent.Builder enchMap = new ItemEnchantmentsComponent.Builder(oldEnch);
-
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        enchMap.add(Enchantments.POWER, 2);
+        enchMap.put(Enchantments.POWER, 2);
 
         // add intrinsic INFINITY enchantment if RNG <= EFFICIENCY.
-        if (rng.nextInt(100) < EFFICIENCY) enchMap.add(Enchantments.INFINITY, 1);
+        if (rng.nextInt(100) < EFFICIENCY) enchMap.put(Enchantments.INFINITY, 1);
 
         // add intrinsic enchantments, if any.
-        ItemEnchantmentsComponent tmpEnchMap = enchMap.build();
-        if (!tmpEnchMap.isEmpty()) {
-            EnchantmentHelper.set(stack, tmpEnchMap);
+        if (!enchMap.isEmpty()) {
+            EnchantmentHelper.set(enchMap, stack);
         }
         return stack;
     } // end addMythrilEnchantments()

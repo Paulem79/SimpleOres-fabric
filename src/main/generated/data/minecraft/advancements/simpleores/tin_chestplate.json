@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_chestplate"
+            "items": [
+              "simpleores:tin_chestplate"
+            ]
           }
         ]
       },
@@ -17,8 +19,8 @@
       "translate": "advancements.tin_chestplate_ach.desc"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:tin_chestplate"
+      "item": "simpleores:tin_chestplate",
+      "nbt": "{Damage:0}"
     },
     "title": {
       "translate": "advancements.tin_chestplate_ach"

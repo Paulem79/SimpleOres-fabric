@@ -7,7 +7,5 @@
   "ingredient": {
     "item": "simpleores:mythril_ore"
   },
-  "result": {
-    "id": "simpleores:mythril_ingot"
-  }
+  "result": "simpleores:mythril_ingot"
 }

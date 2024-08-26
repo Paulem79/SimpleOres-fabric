@@ -13,7 +13,6 @@
     "RRR"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:copper_chestplate"
+    "item": "simpleores:copper_chestplate"
   }
 }

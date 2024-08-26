@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:deepslate_mythril_ore"
+            "items": [
+              "simpleores:deepslate_mythril_ore"
+            ]
           }
         ]
       },

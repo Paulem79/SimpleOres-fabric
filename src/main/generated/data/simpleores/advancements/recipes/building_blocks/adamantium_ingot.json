@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:adamantium_block"
+            "items": [
+              "simpleores:adamantium_block"
+            ]
           }
         ]
       },

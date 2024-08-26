@@ -1,20 +1,11 @@
-// 1.20.6	2024-08-26T22:20:18.3811009	SimpleOres/Tags for minecraft:item
-b97e017050e903ecd93f6b0b4dc8d2d8e7dc1a29 data\minecraft\tags\items\stairs.json
-606c3c4bb79f4097260435325be8e835476f55c8 data\c\tags\items\tools\shears.json
-85962c7b9d7300509371878e0a40e6f95b1ecf5f data\minecraft\tags\items\hoes.json
-606c3c4bb79f4097260435325be8e835476f55c8 data\simpleores\tags\items\shears.json
-d14a4f12e519be373186d20562101f202ee65936 data\minecraft\tags\items\enchantable\durability.json
-bcb445ed14538cd185780a44cfbe7cc2c2e25fb2 data\minecraft\tags\items\pickaxes.json
-1276811b28309ef1539c42243a8d4a7d3e8e03a0 data\minecraft\tags\items\slabs.json
-3650e6bb6d701f03674f7ca3b5b5c1dd115f189e data\minecraft\tags\items\swords.json
-baea33e2922c2281f2ead15cfd6465e3dde95dcd data\minecraft\tags\items\head_armor.json
-5255fd11d3a5c24e3cd4288ef463cbcc1dd0b59c data\minecraft\tags\items\doors.json
-4d9880899d1bf6b86b257fbc45f2c99dfa5bb184 data\minecraft\tags\items\chest_armor.json
-a428ea847da4fd7595eabc823aa426b621d97a7f data\minecraft\tags\items\axes.json
-3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\items\tools\ranged_weapons.json
-3b10b4b5e3bd59e37d381434945e598df37d515f data\minecraft\tags\items\enchantable\bow.json
-def284c9b59d430f345b4a6eb6fa88bf8b6a1036 data\minecraft\tags\items\shovels.json
-606c3c4bb79f4097260435325be8e835476f55c8 data\minecraft\tags\items\enchantable\mining.json
-365515ada0852fa27d0a03154be62613af14f84a data\minecraft\tags\items\leg_armor.json
-3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\items\tools\bows.json
-c06735c012ba5f55cb0c3db4699cc6cb9f59e3ff data\minecraft\tags\items\foot_armor.json
+// 1.20.4	2024-08-26T23:48:19.6851017	SimpleOres/Tags for minecraft:item
+fa1bfe1bb4679bcba3c0a99278c4757113e29c60 data\minecraft\tags\items\stairs.json
+5aa6abb0e5ecc5163729bc0b4fb37608961c153b data\simpleores\tags\items\shears.json
+b012332de1869789cf68a0f0389cd099f06d958f data\minecraft\tags\items\hoes.json
+4651fb0471a2de29c6a808250c56078d1dd620bd data\minecraft\tags\items\pickaxes.json
+937d6f05db51fa5f691dd2709fa6993bce99baa8 data\minecraft\tags\items\slabs.json
+38e594cf2e4b82677edaa49ff98f366133c10606 data\minecraft\tags\items\shovels.json
+9e924412e846a69a9d2733299b209047bb6ea304 data\minecraft\tags\items\trimmable_armor.json
+6d3e7a00226e0860076deb0336ceb8f09479e09d data\minecraft\tags\items\swords.json
+7e4d37973914a2ab73f64d7e26929269bbf06ddc data\minecraft\tags\items\doors.json
+65c329b2325e0188759c64610d0d22a201a82b88 data\minecraft\tags\items\axes.json

@@ -24,12 +24,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class AdvancementsProvider extends FabricAdvancementProvider {
-    public AdvancementsProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(output, registryLookup);
+    public AdvancementsProvider(FabricDataOutput output) {
+        super(output);
     }
 
     @Override
-    public void generateAdvancement(RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
+    public void generateAdvancement(Consumer<AdvancementEntry> consumer) {
         AdvancementEntry rootAdvancement = buildAdvancement(
                 null,
                 consumer,

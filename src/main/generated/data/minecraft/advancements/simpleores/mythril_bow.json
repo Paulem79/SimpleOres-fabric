@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_bow"
+            "items": [
+              "simpleores:mythril_bow"
+            ]
           }
         ]
       },
@@ -17,8 +19,8 @@
       "translate": "advancements.mythril_bow_ach.desc"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:mythril_bow"
+      "item": "simpleores:mythril_bow",
+      "nbt": "{Damage:0}"
     },
     "title": {
       "translate": "advancements.mythril_bow_ach"

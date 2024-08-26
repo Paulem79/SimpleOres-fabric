@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
-import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
 
 public class ModCustomTrades {
@@ -14,25 +13,25 @@ public class ModCustomTrades {
         // ARMORER
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 1, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new ItemStack(Items.EMERALD, 3),
                     new ItemStack(ModItems.COPPER_HELMET),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 7),
+                    new ItemStack(Items.EMERALD, 7),
                     new ItemStack(ModItems.COPPER_CHESTPLATE),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 5),
+                    new ItemStack(Items.EMERALD, 5),
                     new ItemStack(ModItems.COPPER_LEGGINGS),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 2),
+                    new ItemStack(Items.EMERALD, 2),
                     new ItemStack(ModItems.COPPER_BOOTS),
                     12, 1, 0.2F
             ));
@@ -40,25 +39,25 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 2, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.COPPER_INGOT, 4),
+                    new ItemStack(Items.COPPER_INGOT, 4),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.TIN_INGOT, 4),
+                    new ItemStack(ModItems.TIN_INGOT, 4),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new ItemStack(Items.EMERALD, 3),
                     new ItemStack(ModItems.TIN_LEGGINGS),
                     12, 5, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.TIN_BOOTS),
                     12, 5, 0.2F
             ));
@@ -66,19 +65,19 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.MYTHRIL_INGOT),
+                    new ItemStack(ModItems.MYTHRIL_INGOT),
                     new ItemStack(Items.EMERALD),
                     12, 20, 0.05F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.TIN_HELMET),
                     12, 10, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new ItemStack(Items.EMERALD, 3),
                     new ItemStack(ModItems.TIN_CHESTPLATE),
                     12, 10, 0.2F
             ));
@@ -111,61 +110,61 @@ public class ModCustomTrades {
         // TOOLSMITH
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 2, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.COPPER_INGOT, 4),
+                    new ItemStack(Items.COPPER_INGOT, 4),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.TIN_INGOT, 4),
+                    new ItemStack(ModItems.TIN_INGOT, 4),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.COPPER_AXE),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.COPPER_SHOVEL),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.COPPER_HOE),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.COPPER_PICKAXE),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.TIN_AXE),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.TIN_SHOVEL),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.TIN_HOE),
                     12, 1, 0.2F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.TIN_PICKAXE),
                     12, 1, 0.2F
             ));
@@ -173,7 +172,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.MYTHRIL_INGOT),
+                    new ItemStack(ModItems.MYTHRIL_INGOT),
                     new ItemStack(Items.EMERALD),
                     12, 20, 0.05F
             ));
@@ -194,7 +193,7 @@ public class ModCustomTrades {
             ).create(entity, random));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new ItemStack(Items.EMERALD),
                     new ItemStack(ModItems.MYTHRIL_HOE),
                     3, 10, 0.2F
             ));
@@ -202,7 +201,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 4, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.ADAMANTIUM_INGOT),
+                    new ItemStack(ModItems.ADAMANTIUM_INGOT),
                     new ItemStack(Items.EMERALD, 2),
                     12, 30, 0.05F
             ));
@@ -228,7 +227,7 @@ public class ModCustomTrades {
         // WEAPONSMITH
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 1, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new ItemStack(Items.EMERALD, 3),
                     new ItemStack(ModItems.MYTHRIL_AXE),
                     12, 1, 0.2F
             ));
@@ -241,13 +240,13 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 2, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.COPPER_INGOT, 4),
+                    new ItemStack(Items.COPPER_INGOT, 4),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.TIN_INGOT, 4),
+                    new ItemStack(ModItems.TIN_INGOT, 4),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
@@ -255,7 +254,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 3, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.MYTHRIL_INGOT),
+                    new ItemStack(ModItems.MYTHRIL_INGOT),
                     new ItemStack(Items.EMERALD),
                     12, 20, 0.05F
             ));
@@ -263,7 +262,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 4, factories -> {
             factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.ADAMANTIUM_INGOT),
+                    new ItemStack(ModItems.ADAMANTIUM_INGOT),
                     new ItemStack(Items.EMERALD),
                     12, 30, 0.05F
             ));

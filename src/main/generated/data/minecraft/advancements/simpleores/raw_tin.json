@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:raw_tin"
+            "items": [
+              "simpleores:raw_tin"
+            ]
           }
         ]
       },
@@ -17,8 +19,7 @@
       "translate": "advancements.tin_ach.desc"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:tin_ore"
+      "item": "simpleores:tin_ore"
     },
     "title": {
       "translate": "advancements.tin_ach"

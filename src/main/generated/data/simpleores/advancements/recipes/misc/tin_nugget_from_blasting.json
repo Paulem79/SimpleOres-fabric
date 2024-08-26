@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_axe"
+            "items": [
+              "simpleores:tin_axe"
+            ]
           }
         ]
       },
@@ -21,7 +23,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_boots"
+            "items": [
+              "simpleores:tin_boots"
+            ]
           }
         ]
       },
@@ -31,7 +35,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_chestplate"
+            "items": [
+              "simpleores:tin_chestplate"
+            ]
           }
         ]
       },
@@ -41,7 +47,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_helmet"
+            "items": [
+              "simpleores:tin_helmet"
+            ]
           }
         ]
       },
@@ -51,7 +59,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_hoe"
+            "items": [
+              "simpleores:tin_hoe"
+            ]
           }
         ]
       },
@@ -61,7 +71,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_leggings"
+            "items": [
+              "simpleores:tin_leggings"
+            ]
           }
         ]
       },
@@ -71,7 +83,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_pickaxe"
+            "items": [
+              "simpleores:tin_pickaxe"
+            ]
           }
         ]
       },
@@ -81,7 +95,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_shovel"
+            "items": [
+              "simpleores:tin_shovel"
+            ]
           }
         ]
       },
@@ -91,7 +107,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:tin_sword"
+            "items": [
+              "simpleores:tin_sword"
+            ]
           }
         ]
       },

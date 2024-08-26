@@ -1,6 +1,5 @@
 package io.github.paulem.simpleores.items;
 
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.item.ToolMaterial;
 
@@ -13,7 +12,6 @@ public class AdvancedShearsItem extends ShearsItem {
         super(settings
                 .maxCount(1)
                 .maxDamage(toolMaterials.getDurability())
-                .component(DataComponentTypes.TOOL, ShearsItem.createToolComponent())
         );
     }
 }

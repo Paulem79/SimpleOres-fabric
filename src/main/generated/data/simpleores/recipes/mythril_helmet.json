@@ -12,7 +12,6 @@
     "R R"
   ],
   "result": {
-    "count": 1,
-    "id": "simpleores:mythril_helmet"
+    "item": "simpleores:mythril_helmet"
   }
 }

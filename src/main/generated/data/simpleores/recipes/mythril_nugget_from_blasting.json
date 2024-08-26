@@ -32,7 +32,5 @@
       "item": "simpleores:mythril_boots"
     }
   ],
-  "result": {
-    "id": "simpleores:mythril_nugget"
-  }
+  "result": "simpleores:mythril_nugget"
 }

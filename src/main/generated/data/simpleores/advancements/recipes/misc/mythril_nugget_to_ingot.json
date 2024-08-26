@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:mythril_nugget"
+            "items": [
+              "simpleores:mythril_nugget"
+            ]
           }
         ]
       },

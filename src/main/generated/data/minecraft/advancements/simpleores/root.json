@@ -4,7 +4,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:crafting_table"
+            "items": [
+              "minecraft:crafting_table"
+            ]
           }
         ]
       },
@@ -18,8 +20,8 @@
       "translate": "advancements.welcome"
     },
     "icon": {
-      "count": 1,
-      "id": "simpleores:copper_pickaxe"
+      "item": "simpleores:copper_pickaxe",
+      "nbt": "{Damage:0}"
     },
     "show_toast": false,
     "title": {

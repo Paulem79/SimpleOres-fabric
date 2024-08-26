@@ -1,13 +1,12 @@
-// 1.20.6	2024-08-26T22:20:18.3831481	SimpleOres/Tags for minecraft:block
-f63f5cb090e994c84030d2f524a08898a1493817 data\minecraft\tags\blocks\needs_diamond_tool.json
-cb0a1b3631d08b9c0fbcc5067eb3e2324d8afcfe data\c\tags\blocks\ores.json
-35341855567968b646fb0238560a13d5d7cb0219 data\minecraft\tags\blocks\mineable\pickaxe.json
-cc3ea39b155206069ebe86b5846a7db4baa403a4 data\minecraft\tags\blocks\needs_iron_tool.json
-5255fd11d3a5c24e3cd4288ef463cbcc1dd0b59c data\minecraft\tags\blocks\doors.json
-1864ec8d47c6aec82d21b400b14f5f02274813a2 data\minecraft\tags\blocks\needs_stone_tool.json
-997a1ad68dbffe16d73df61f2a457d0a0b0dc33d data\minecraft\tags\blocks\beacon_base_blocks.json
-1276811b28309ef1539c42243a8d4a7d3e8e03a0 data\minecraft\tags\blocks\slabs.json
-b97e017050e903ecd93f6b0b4dc8d2d8e7dc1a29 data\minecraft\tags\blocks\stairs.json
-8244ddc9bf39b33948934c96bb6458f97631de53 data\minecraft\tags\blocks\pressure_plates.json
-3db526b414eb3722e746002ea1ea8a2c0321cbd4 data\simpleores\tags\blocks\simpleores_ores.json
-8bb3de0e3208cd485ed63e0c66d9c5ffe70f6052 data\c\tags\blocks\storage_blocks.json
+// 1.20.4	2024-08-26T23:48:19.6886926	SimpleOres/Tags for minecraft:block
+fa1bfe1bb4679bcba3c0a99278c4757113e29c60 data\minecraft\tags\blocks\stairs.json
+e10a19571c6feb577aa56cd70670bf6442c68945 data\minecraft\tags\blocks\needs_diamond_tool.json
+ef3c4a50e0f20b0c4abfc73c9f2dad5e55acb7b4 data\minecraft\tags\blocks\pressure_plates.json
+dee582dd94c22c91225d34e7ea5ef68b38dfb713 data\c\tags\blocks\ores.json
+f526908005241de71cd869aca4d219a2410cefc1 data\minecraft\tags\blocks\mineable\pickaxe.json
+c4eaec88dbf3f39fd016ad999b07844622d444d1 data\minecraft\tags\blocks\needs_iron_tool.json
+7e4d37973914a2ab73f64d7e26929269bbf06ddc data\minecraft\tags\blocks\doors.json
+b5d86a58534f32d4342211cd70fc70237bc94e15 data\simpleores\tags\blocks\simpleores_ores.json
+765b549ea35c7b0eb3762600880ed978e3927d8c data\minecraft\tags\blocks\needs_stone_tool.json
+f2b7cc4f6d0c556b316c3143df20524628b1976d data\minecraft\tags\blocks\beacon_base_blocks.json
+937d6f05db51fa5f691dd2709fa6993bce99baa8 data\minecraft\tags\blocks\slabs.json

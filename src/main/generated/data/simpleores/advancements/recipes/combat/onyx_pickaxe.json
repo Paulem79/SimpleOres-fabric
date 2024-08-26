@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "simpleores:onyx_gem"
+            "items": [
+              "simpleores:onyx_gem"
+            ]
           }
         ]
       },
@@ -15,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:stick"
+            "items": [
+              "minecraft:stick"
+            ]
           }
         ]
       },
