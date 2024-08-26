@@ -4,16 +4,13 @@ import io.github.paulem.simpleores.items.ModItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -36,7 +33,7 @@ public class OnyxBow extends BowItem
     {
         // add the default enchantments for Onyx bow.
         ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
-        stack = this.addOnyxEnchantments(oldEnchants, stack, worldIn);
+        stack = this.addOnyxEnchantments(oldEnchants, stack);
 
         super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
 
@@ -44,18 +41,16 @@ public class OnyxBow extends BowItem
         EnchantmentHelper.set(stack, oldEnchants);
     }
 
-    private ItemStack addOnyxEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
+    private ItemStack addOnyxEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack)
     {
         if (stack.isEmpty()) return stack;
 
         ItemEnchantmentsComponent.Builder enchMap = new ItemEnchantmentsComponent.Builder(oldEnch);
 
-        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
-
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        enchMap.add(enchantmentImpl.getOrThrow(Enchantments.POWER), 2);
-        enchMap.add(enchantmentImpl.getOrThrow(Enchantments.FLAME), 1);
+        enchMap.add(Enchantments.POWER, 2);
+        enchMap.add(Enchantments.FLAME, 1);
 
         // add intrinsic enchantments, if any.
         ItemEnchantmentsComponent tmpEnchMap = enchMap.build();

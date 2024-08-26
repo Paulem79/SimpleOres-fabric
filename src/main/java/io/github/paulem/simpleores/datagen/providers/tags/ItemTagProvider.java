@@ -49,11 +49,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                             .add(bowItem);
                     this.getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
                             .add(bowItem);
-                    this.getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPON_TOOLS)
-                            .add(bowItem);
                     this.getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPONS_TOOLS)
-                            .add(bowItem);
-                    this.getOrCreateTagBuilder(ConventionalItemTags.BOW_TOOLS)
                             .add(bowItem);
                     this.getOrCreateTagBuilder(ConventionalItemTags.BOWS_TOOLS)
                             .add(bowItem);
@@ -64,8 +60,6 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                     this.getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
                             .add(shearsItem);
                     this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
-                            .add(shearsItem);
-                    this.getOrCreateTagBuilder(ConventionalItemTags.SHEAR_TOOLS)
                             .add(shearsItem);
                     this.getOrCreateTagBuilder(ConventionalItemTags.SHEARS_TOOLS)
                             .add(shearsItem);

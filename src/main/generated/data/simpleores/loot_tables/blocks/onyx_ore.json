@@ -16,7 +16,7 @@
                     "predicates": {
                       "minecraft:enchantments": [
                         {
-                          "enchantments": "minecraft:silk_touch",
+                          "enchantment": "minecraft:silk_touch",
                           "levels": {
                             "min": 1
                           }
@@ -26,7 +26,7 @@
                   }
                 }
               ],
-              "name": "simpleores:deepslate_mythril_ore"
+              "name": "simpleores:onyx_ore"
             },
             {
               "type": "minecraft:item",
@@ -40,7 +40,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "simpleores:raw_mythril"
+              "name": "simpleores:onyx_gem"
             }
           ]
         }

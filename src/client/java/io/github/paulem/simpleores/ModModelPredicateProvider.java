@@ -13,14 +13,14 @@ public class ModModelPredicateProvider {
     }
 
     private static void registerNewBow(Item bow) {
-        ModelPredicateProviderRegistry.register(bow, Identifier.ofVanilla("pull"), (stack, world, entity, seed) -> {
+        ModelPredicateProviderRegistry.register(bow, new Identifier(Identifier.DEFAULT_NAMESPACE, "pull"), (stack, world, entity, seed) -> {
             if (entity == null) {
                 return 0.0F;
             } else {
-                return entity.getActiveItem() != stack ? 0.0F : (float)(stack.getMaxUseTime(entity) - entity.getItemUseTimeLeft()) / 20.0F;
+                return entity.getActiveItem() != stack ? 0.0F : (float)(stack.getMaxUseTime() - entity.getItemUseTimeLeft()) / 20.0F;
             }
         });
-        ModelPredicateProviderRegistry.register(bow, Identifier.ofVanilla("pulling"), (stack, world, entity, seed) -> entity != null
+        ModelPredicateProviderRegistry.register(bow, new Identifier(Identifier.DEFAULT_NAMESPACE, "pulling"), (stack, world, entity, seed) -> entity != null
                 && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);
     }
 }

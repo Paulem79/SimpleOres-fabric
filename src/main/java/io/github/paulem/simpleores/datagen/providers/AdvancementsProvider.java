@@ -36,7 +36,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 ModItems.COPPER_PICKAXE,
                 Text.translatable("advancements.welcome"),
                 Text.translatable("advancements.welcome"),
-                Identifier.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
+                new Identifier(Identifier.DEFAULT_NAMESPACE, "textures/gui/advancements/backgrounds/stone.png"),
                 AdvancementFrame.TASK,
                 false,
                 false,

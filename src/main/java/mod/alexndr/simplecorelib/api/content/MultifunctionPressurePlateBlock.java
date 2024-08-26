@@ -4,7 +4,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.WeightedPressurePlateBlock;
-import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.client.item.TooltipType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -132,8 +132,8 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
 
 
     @Override
-    public void appendTooltip(ItemStack pStack, Item.TooltipContext pContext, List<Text> pTooltip, TooltipType pFlag) {
-        super.appendTooltip(pStack, pContext, pTooltip, pFlag);
+    public void appendTooltip(ItemStack stack, Item.TooltipContext pContext, List<Text> pTooltip, TooltipType options) {
+        super.appendTooltip(stack, pContext, pTooltip, options);
         // end-switch
         String tipKey = switch (this.sensitivity) {
             case EVERYTHING, EVERYTHING_WEIGHTED -> "tips.pressure_plate.everything";

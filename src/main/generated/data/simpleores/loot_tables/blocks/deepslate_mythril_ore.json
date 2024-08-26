@@ -16,7 +16,7 @@
                     "predicates": {
                       "minecraft:enchantments": [
                         {
-                          "enchantments": "minecraft:silk_touch",
+                          "enchantment": "minecraft:silk_touch",
                           "levels": {
                             "min": 1
                           }
@@ -26,7 +26,7 @@
                   }
                 }
               ],
-              "name": "simpleores:mythril_ore"
+              "name": "simpleores:deepslate_mythril_ore"
             },
             {
               "type": "minecraft:item",

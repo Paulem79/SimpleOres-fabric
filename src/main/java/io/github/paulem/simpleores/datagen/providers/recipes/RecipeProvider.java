@@ -112,7 +112,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.bucket())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.bucket())));
         }
 
         if(container.block() != null) offerReversibleCompactingRecipes(exporter, RecipeCategory.BUILDING_BLOCKS, requiredItem, RecipeCategory.DECORATIONS, container.block());
@@ -124,7 +124,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.pressurePlate())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.pressurePlate())));
         }
 
         if(container.cut() != null) {
@@ -134,7 +134,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.cut())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.cut())));
 
             offerStonecuttingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, container.cut(), requiredItem);
             // END ingot to cut block
@@ -145,7 +145,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         .input('R', container.cut())
                         .criterion(hasItem(container.cut()), conditionsFromItem(container.cut()))
                         .group(group)
-                        .offerTo(exporter, Identifier.of(getRecipeName(container.cutSlab())));
+                        .offerTo(exporter, new Identifier(getRecipeName(container.cutSlab())));
 
                 offerStonecuttingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, container.cutSlab(), container.cut(), 2);
                 // END cut block to cut slabs
@@ -159,7 +159,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         .input('R', container.cut())
                         .criterion(hasItem(container.cut()), conditionsFromItem(container.cut()))
                         .group(group)
-                        .offerTo(exporter, Identifier.of(getRecipeName(container.stairs())));
+                        .offerTo(exporter, new Identifier(getRecipeName(container.stairs())));
 
                 offerStonecuttingRecipe(exporter, RecipeCategory.BUILDING_BLOCKS, container.stairs(), container.cut());
                 // END cut block to cut stairs
@@ -170,7 +170,7 @@ public class RecipeProvider extends FabricRecipeProvider {
             createDoorRecipe(container.door(), Ingredient.ofItems(requiredItem))
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.door())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.door())));
         }
         if(container.bars() != null) ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, container.bars(), 16)
                 .pattern("RRR")
@@ -178,7 +178,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .input('R', requiredItem)
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(container.bars())));
+                .offerTo(exporter, new Identifier(getRecipeName(container.bars())));
 
         // ARMORS
         if(container.helmet() != null) {
@@ -189,7 +189,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.helmet())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.helmet())));
         }
         if(container.chesplate() != null) {
             SMELT_NUGGET_ITEMS.add(container.chesplate());
@@ -200,7 +200,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.chesplate())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.chesplate())));
         }
         if(container.leggings() != null) {
             SMELT_NUGGET_ITEMS.add(container.leggings());
@@ -211,7 +211,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.leggings())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.leggings())));
         }
         if(container.boots() != null) {
             SMELT_NUGGET_ITEMS.add(container.boots());
@@ -221,14 +221,14 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .input('R', requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                     .group(group)
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.boots())));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.boots())));
         }
 
         if(container.nugget() != null) {
             ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, container.nugget(), 9)
                     .input(requiredItem)
                     .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
-                    .offerTo(exporter, Identifier.of(getRecipeName(requiredItem) + "_to_nugget"));
+                    .offerTo(exporter, new Identifier(getRecipeName(requiredItem) + "_to_nugget"));
 
             ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, requiredItem)
                     .pattern("RRR")
@@ -236,7 +236,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .pattern("RRR")
                     .input('R', container.nugget())
                     .criterion(hasItem(container.nugget()), conditionsFromItem(container.nugget()))
-                    .offerTo(exporter, Identifier.of(getRecipeName(container.nugget()) + "_to_ingot"));
+                    .offerTo(exporter, new Identifier(getRecipeName(container.nugget()) + "_to_ingot"));
         }
 
         if(container.nugget() != null && !SMELT_NUGGET_ITEMS.isEmpty()) {
@@ -298,7 +298,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .input('R', requiredItem)
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output)));
+                .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 
     public static void createHoeRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
@@ -311,7 +311,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output)));
+                .offerTo(exporter, new Identifier(getRecipeName(output)));
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("RR")
@@ -322,7 +322,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output) + "_inverted"));
+                .offerTo(exporter, new Identifier(getRecipeName(output) + "_inverted"));
     }
 
     public static void createShovelRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
@@ -335,7 +335,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output)));
+                .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 
     public static void createPickaxeRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
@@ -348,7 +348,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output)));
+                .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 
     public static void createAxeRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
@@ -361,7 +361,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output)));
+                .offerTo(exporter, new Identifier(getRecipeName(output)));
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("RR")
@@ -372,7 +372,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output) + "_inverted"));
+                .offerTo(exporter, new Identifier(getRecipeName(output) + "_inverted"));
     }
 
     public static void createSwordRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
@@ -385,6 +385,6 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(requiredItem), conditionsFromItem(requiredItem))
                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                 .group(group)
-                .offerTo(exporter, Identifier.of(getRecipeName(output)));
+                .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 }
