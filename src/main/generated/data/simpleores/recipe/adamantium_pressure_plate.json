@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "adamantium",
+  "key": {
+    "R": {
+      "item": "simpleores:adamantium_ingot"
+    }
+  },
+  "pattern": [
+    "RR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:adamantium_pressure_plate"
+  }
+}

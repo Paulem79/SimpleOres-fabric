@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "onyx",
+  "key": {
+    "R": {
+      "item": "simpleores:onyx_gem"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "R R",
+    "R R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:onyx_leggings"
+  }
+}

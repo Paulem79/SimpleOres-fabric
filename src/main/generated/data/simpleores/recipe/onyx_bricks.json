@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "onyx",
+  "key": {
+    "R": {
+      "item": "simpleores:onyx_gem"
+    }
+  },
+  "pattern": [
+    "RR",
+    "RR"
+  ],
+  "result": {
+    "count": 4,
+    "id": "simpleores:onyx_bricks"
+  }
+}

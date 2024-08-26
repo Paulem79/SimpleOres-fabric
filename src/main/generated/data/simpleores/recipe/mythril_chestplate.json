@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "mythril",
+  "key": {
+    "R": {
+      "item": "simpleores:mythril_ingot"
+    }
+  },
+  "pattern": [
+    "R R",
+    "RRR",
+    "RRR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:mythril_chestplate"
+  }
+}

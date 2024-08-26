@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "copper",
+  "key": {
+    "R": {
+      "item": "minecraft:copper_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "RR",
+    "S ",
+    "S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:copper_hoe"
+  }
+}

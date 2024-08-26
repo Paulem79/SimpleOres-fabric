@@ -1,0 +1,6 @@
+{
+    "tips.pressure_plate.everything" : "Triggered by anything",
+    "tips.pressure_plate.living" : "Triggered by living things",
+    "tips.pressure_plate.mobs" : "Triggerd by non-player mobs",
+    "tips.pressure_plate.players" : "Triggered only by players"
+}

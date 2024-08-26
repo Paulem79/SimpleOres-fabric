@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "simpleores:adamantium_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "simpleores:adamantium_ingot"
+  }
+}

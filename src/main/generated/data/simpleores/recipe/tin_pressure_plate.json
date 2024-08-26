@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "tin",
+  "key": {
+    "R": {
+      "item": "simpleores:tin_ingot"
+    }
+  },
+  "pattern": [
+    "RR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:tin_pressure_plate"
+  }
+}

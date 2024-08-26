@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "mythril",
+  "key": {
+    "R": {
+      "item": "simpleores:mythril_ingot"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RRR"
+  ],
+  "result": {
+    "count": 16,
+    "id": "simpleores:mythril_bars"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "onyx",
+  "key": {
+    "R": {
+      "item": "simpleores:onyx_gem"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "R",
+    "R",
+    "S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:onyx_sword"
+  }
+}

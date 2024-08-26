@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:simpleores/raw_tin",
+  "criteria": {
+    "raw_mythril": {
+      "conditions": {
+        "items": [
+          {
+            "items": "simpleores:raw_mythril"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.mythril_ach.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "simpleores:mythril_ore"
+    },
+    "title": {
+      "translate": "advancements.mythril_ach"
+    }
+  },
+  "requirements": [
+    [
+      "raw_mythril"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "simpleores",
+	"version": "${version}",
+	"name": "SimpleOres",
+	"description": "An unofficial port of SimpleOres for fabric",
+	"authors": [
+		"Paulem"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/simpleores/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.paulem.simpleores.SimpleOres"
+		],
+		"client": [
+			"io.github.paulem.simpleores.SimpleOresClient"
+		],
+		"fabric-datagen": [
+          "io.github.paulem.simpleores.datagen.SimpleOresDataGenerator"
+		]
+	},
+	"mixins": [
+		"simpleores.mixins.json"
+	],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": ">=1.21-",
+		"java": "*",
+		"fabric-api": "*",
+		"cloth-config": "*",
+		"bucketlib": "*"
+	}
+}

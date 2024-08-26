@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:simpleores/raw_adamantium",
+  "criteria": {
+    "adamantium_shears": {
+      "conditions": {
+        "items": [
+          {
+            "items": "simpleores:adamantium_shears"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.adamantium_shears_ach.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "simpleores:adamantium_shears"
+    },
+    "title": {
+      "translate": "advancements.adamantium_shears_ach"
+    }
+  },
+  "requirements": [
+    [
+      "adamantium_shears"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

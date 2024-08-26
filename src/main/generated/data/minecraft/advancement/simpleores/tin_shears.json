@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:simpleores/raw_tin",
+  "criteria": {
+    "tin_shears": {
+      "conditions": {
+        "items": [
+          {
+            "items": "simpleores:tin_shears"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.tin_shears_ach.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "simpleores:tin_shears"
+    },
+    "title": {
+      "translate": "advancements.tin_shears_ach"
+    }
+  },
+  "requirements": [
+    [
+      "tin_shears"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

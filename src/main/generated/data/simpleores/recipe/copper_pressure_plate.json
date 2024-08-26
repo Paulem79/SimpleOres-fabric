@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "copper",
+  "key": {
+    "R": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "RR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:copper_pressure_plate"
+  }
+}

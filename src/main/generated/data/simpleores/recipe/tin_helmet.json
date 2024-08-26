@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "tin",
+  "key": {
+    "R": {
+      "item": "simpleores:tin_ingot"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "R R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:tin_helmet"
+  }
+}

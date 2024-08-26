@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left",
+  "textures": {
+    "bottom": "simpleores:block/mythril_door_bottom",
+    "top": "simpleores:block/mythril_door_top"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "tin",
+  "key": {
+    "R": {
+      "item": "simpleores:tin_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "R",
+    "R",
+    "S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:tin_sword"
+  }
+}

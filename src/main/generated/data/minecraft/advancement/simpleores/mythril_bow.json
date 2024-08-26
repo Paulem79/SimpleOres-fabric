@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:simpleores/raw_mythril",
+  "criteria": {
+    "mythril_bow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "simpleores:mythril_bow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.mythril_bow_ach.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "simpleores:mythril_bow"
+    },
+    "title": {
+      "translate": "advancements.mythril_bow_ach"
+    }
+  },
+  "requirements": [
+    [
+      "mythril_bow"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

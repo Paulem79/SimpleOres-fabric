@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "onyx",
+  "key": {
+    "R": {
+      "item": "simpleores:onyx_gem"
+    }
+  },
+  "pattern": [
+    "RR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:onyx_pressure_plate"
+  }
+}

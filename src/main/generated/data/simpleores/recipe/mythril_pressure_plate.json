@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "mythril",
+  "key": {
+    "R": {
+      "item": "simpleores:mythril_ingot"
+    }
+  },
+  "pattern": [
+    "RR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:mythril_pressure_plate"
+  }
+}

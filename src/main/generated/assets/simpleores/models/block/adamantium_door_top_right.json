@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right",
+  "textures": {
+    "bottom": "simpleores:block/adamantium_door_bottom",
+    "top": "simpleores:block/adamantium_door_top"
+  }
+}

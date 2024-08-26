@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "adamantium",
+  "key": {
+    "R": {
+      "item": "simpleores:adamantium_ingot"
+    }
+  },
+  "pattern": [
+    "RR",
+    "RR"
+  ],
+  "result": {
+    "count": 4,
+    "id": "simpleores:adamantium_bricks"
+  }
+}
