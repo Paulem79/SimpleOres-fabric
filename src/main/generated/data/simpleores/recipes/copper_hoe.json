@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:copper_hoe"
-  }
+  },
+  "show_notification": true
 }

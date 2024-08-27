@@ -14,5 +14,6 @@
   "result": {
     "count": 16,
     "item": "simpleores:tin_bars"
-  }
+  },
+  "show_notification": true
 }

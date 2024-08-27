@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_shears"
-  }
+  },
+  "show_notification": true
 }

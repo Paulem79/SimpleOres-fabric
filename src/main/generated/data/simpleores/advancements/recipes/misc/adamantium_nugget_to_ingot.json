@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_adamantium_nugget"
+      "has_adamantium_nugget",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:adamantium_nugget_to_ingot"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

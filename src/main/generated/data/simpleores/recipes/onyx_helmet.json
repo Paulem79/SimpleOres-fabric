@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_helmet"
-  }
+  },
+  "show_notification": true
 }

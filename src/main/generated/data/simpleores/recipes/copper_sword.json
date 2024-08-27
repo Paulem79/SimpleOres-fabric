@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:copper_sword"
-  }
+  },
+  "show_notification": true
 }

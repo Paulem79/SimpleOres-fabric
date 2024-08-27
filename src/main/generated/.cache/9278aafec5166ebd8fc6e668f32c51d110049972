@@ -1,9 +1,10 @@
-// 1.20.4	2024-08-27T19:53:13.2999841	SimpleOres/Block Loot Tables
+// 1.20.1	2024-08-27T23:40:29.4799525	SimpleOres/Block Loot Tables
 385f1fe2233c53ee2a585f2b383bac33446992ad data\simpleores\loot_tables\blocks\onyx_door.json
 cfb01c1064d4cd5936c256ba6764013a0fabdce1 data\simpleores\loot_tables\blocks\onyx_brick_stairs.json
 0e9f30153a269da2b733562d037c0d06cd88f6cf data\simpleores\loot_tables\blocks\onyx_bricks.json
 5bb31b9015928b1578ce211632444f43d35875a2 data\simpleores\loot_tables\blocks\adamantium_door.json
 a1ff37c3abf0116755ce38d9cfc502ec42961a5b data\simpleores\loot_tables\blocks\raw_mythril_block.json
+8d5c4b871a99bb6e6e5d124eacc58c076a49279e data\simpleores\loot_tables\blocks\copper_door.json
 e8128e168f6dbdc21bfc9fcf6fe1be687df53bcf data\simpleores\loot_tables\blocks\adamantium_block.json
 d6022d06776eb85e6300ff6464842c66c57ad002 data\simpleores\loot_tables\blocks\adamantium_bricks.json
 1be9dc1c3eab6faca56d15e15efb62bf1c5fae57 data\simpleores\loot_tables\blocks\copper_pressure_plate.json
@@ -12,8 +13,8 @@ f88aa9826fc20066c8aecdd358032c3209bd5f19 data\simpleores\loot_tables\blocks\tin_
 f980c5cf2d2973d87de2bdc51c6aecbfc62ec6c3 data\simpleores\loot_tables\blocks\raw_tin_block.json
 f0573ce7292b9633bd4a183ec9990574d2050c78 data\simpleores\loot_tables\blocks\raw_adamantium_block.json
 2322ed119bc841828eff985951c1da7e1ee72541 data\simpleores\loot_tables\blocks\adamantium_brick_stairs.json
-f14ef51badfa48078318f18d01d4a18ff0637046 data\simpleores\loot_tables\blocks\adamantium_bars.json
 c7d2602ae0f644e53178d7a0bba305c8f863c2c2 data\simpleores\loot_tables\blocks\mythril_brick_stairs.json
+f14ef51badfa48078318f18d01d4a18ff0637046 data\simpleores\loot_tables\blocks\adamantium_bars.json
 e7d7c9766e4fc401dd80934f4b8c2e77ed76bc0f data\simpleores\loot_tables\blocks\deepslate_mythril_ore.json
 cfb9509cb9a79a31105925dcade6c2f7c302ce5b data\simpleores\loot_tables\blocks\tin_bricks.json
 65a8b194eaf5e9e26d89c8d77b9270dc960f2639 data\simpleores\loot_tables\blocks\tin_ore.json

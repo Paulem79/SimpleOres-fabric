@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_raw_tin"
+      "has_raw_tin",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:tin_ingot_from_smelting_raw_tin"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

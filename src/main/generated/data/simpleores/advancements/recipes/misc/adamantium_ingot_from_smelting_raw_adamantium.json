@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_raw_adamantium"
+      "has_raw_adamantium",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:adamantium_ingot_from_smelting_raw_adamantium"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

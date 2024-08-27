@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:adamantium_shovel"
-  }
+  },
+  "show_notification": true
 }

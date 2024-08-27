@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:tin_helmet"
-  }
+  },
+  "show_notification": true
 }

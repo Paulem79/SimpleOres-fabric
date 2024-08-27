@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_onyx_gem"
+      "has_onyx_gem",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:onyx_leggings"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

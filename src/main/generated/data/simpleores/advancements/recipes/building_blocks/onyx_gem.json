@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_onyx_block"
+      "has_onyx_block",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:onyx_gem"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

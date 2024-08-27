@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:adamantium_helmet"
-  }
+  },
+  "show_notification": true
 }

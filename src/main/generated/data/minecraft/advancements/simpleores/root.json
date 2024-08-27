@@ -19,6 +19,8 @@
     "description": {
       "translate": "advancements.welcome"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "simpleores:copper_pickaxe",
       "nbt": "{Damage:0}"

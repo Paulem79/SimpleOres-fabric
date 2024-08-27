@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_onyx_bricks"
+      "has_onyx_bricks",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:onyx_brick_slab_from_onyx_bricks_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

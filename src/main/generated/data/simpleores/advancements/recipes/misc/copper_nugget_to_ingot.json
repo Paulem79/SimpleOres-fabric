@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_copper_nugget"
+      "has_copper_nugget",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:copper_nugget_to_ingot"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

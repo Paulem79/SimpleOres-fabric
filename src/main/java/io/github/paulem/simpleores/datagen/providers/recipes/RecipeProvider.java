@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RecipeProvider extends FabricRecipeProvider {
     public RecipeProvider(FabricDataOutput output) {
@@ -26,13 +27,39 @@ public class RecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void generate(Consumer<RecipeJsonProvider> exporter) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.MYTHRIL_BOW)
+                .pattern(" RS")
+                .pattern("F S")
+                .pattern(" RS")
+                .input('S', Items.STICK)
+                .input('F', Items.IRON_INGOT)
+                .input('R', ModItems.MYTHRIL_ROD)
+                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                .criterion(hasItem(ModItems.MYTHRIL_ROD), conditionsFromItem(ModItems.MYTHRIL_ROD))
+                .group("mythril")
+                .offerTo(exporter, new Identifier(getRecipeName(ModItems.MYTHRIL_BOW)));
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ONYX_BOW)
+                .pattern(" RS")
+                .pattern("F S")
+                .pattern(" RS")
+                .input('S', Items.STICK)
+                .input('F', Items.IRON_INGOT)
+                .input('R', ModItems.ONYX_ROD)
+                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                .criterion(hasItem(ModItems.ONYX_ROD), conditionsFromItem(ModItems.ONYX_ROD))
+                .group("onyx")
+                .offerTo(exporter, new Identifier(getRecipeName(ModItems.ONYX_BOW)));
+
         // Copper
         createToolsAndArmorsRecipe(Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
                 ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE,
                 ModItems.COPPER_HELMET, ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS, ModItems.COPPER_SHEARS,
                 Blocks.COPPER_ORE, Blocks.DEEPSLATE_COPPER_ORE, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, Items.RAW_COPPER, ModItems.COPPER_NUGGET,
-                null, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null, ModItems.COPPER_BUCKET, null, true
+                ModBlocks.copper_door, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null, ModItems.COPPER_BUCKET, null, true
         ));
 
         // Tin
@@ -75,7 +102,7 @@ public class RecipeProvider extends FabricRecipeProvider {
      * @param group The group of the recipe
      * @param container ORDER : sword, pickaxe, axe, shovel, hoe, helmet, chesplate, leggings, boots
      */
-    public static void createToolsAndArmorsRecipe(ItemConvertible requiredItem, RecipeExporter exporter, String group, MaterialRecipeContainer container) {
+    public static void createToolsAndArmorsRecipe(ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group, MaterialRecipeContainer container) {
         List<ItemConvertible> SMELT_NUGGET_ITEMS = new ArrayList<>();
 
         // TOOLS
@@ -289,7 +316,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         }
     }
 
-    private static void createShearsRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group) {
+    private static void createShearsRecipe(ItemConvertible output, ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, output)
                 .pattern(" R")
                 .pattern("R ")
@@ -299,7 +326,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 
-    public static void createHoeRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
+    public static void createHoeRecipe(ItemConvertible output, ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group){
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("RR")
                 .pattern("S ")
@@ -323,7 +350,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(getRecipeName(output) + "_inverted"));
     }
 
-    public static void createShovelRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
+    public static void createShovelRecipe(ItemConvertible output, ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group){
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("R")
                 .pattern("S")
@@ -336,7 +363,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 
-    public static void createPickaxeRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
+    public static void createPickaxeRecipe(ItemConvertible output, ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group){
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("RRR")
                 .pattern(" S ")
@@ -349,7 +376,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(getRecipeName(output)));
     }
 
-    public static void createAxeRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
+    public static void createAxeRecipe(ItemConvertible output, ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group){
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("RR")
                 .pattern("SR")
@@ -373,7 +400,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter, new Identifier(getRecipeName(output) + "_inverted"));
     }
 
-    public static void createSwordRecipe(ItemConvertible output, ItemConvertible requiredItem, RecipeExporter exporter, String group){
+    public static void createSwordRecipe(ItemConvertible output, ItemConvertible requiredItem, Consumer<RecipeJsonProvider> exporter, String group){
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, output)
                 .pattern("R")
                 .pattern("R")

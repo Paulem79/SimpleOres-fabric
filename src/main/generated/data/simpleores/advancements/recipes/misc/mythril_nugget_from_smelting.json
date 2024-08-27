@@ -118,7 +118,6 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_mythril_sword",
       "has_mythril_pickaxe",
       "has_mythril_axe",
@@ -127,12 +126,14 @@
       "has_mythril_helmet",
       "has_mythril_chestplate",
       "has_mythril_leggings",
-      "has_mythril_boots"
+      "has_mythril_boots",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:mythril_nugget_from_smelting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

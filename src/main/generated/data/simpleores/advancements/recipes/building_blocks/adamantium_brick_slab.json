@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_adamantium_bricks"
+      "has_adamantium_bricks",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:adamantium_brick_slab"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

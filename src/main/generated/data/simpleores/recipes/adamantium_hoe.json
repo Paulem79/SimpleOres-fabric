@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:adamantium_hoe"
-  }
+  },
+  "show_notification": true
 }

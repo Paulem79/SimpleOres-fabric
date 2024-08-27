@@ -118,7 +118,6 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_adamantium_sword",
       "has_adamantium_pickaxe",
       "has_adamantium_axe",
@@ -127,12 +126,14 @@
       "has_adamantium_helmet",
       "has_adamantium_chestplate",
       "has_adamantium_leggings",
-      "has_adamantium_boots"
+      "has_adamantium_boots",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:adamantium_nugget_from_blasting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

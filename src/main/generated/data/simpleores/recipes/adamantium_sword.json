@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:adamantium_sword"
-  }
+  },
+  "show_notification": true
 }

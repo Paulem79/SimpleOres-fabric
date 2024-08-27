@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_boots"
-  }
+  },
+  "show_notification": true
 }

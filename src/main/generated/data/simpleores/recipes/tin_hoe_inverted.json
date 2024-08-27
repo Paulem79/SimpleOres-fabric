@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:tin_hoe"
-  }
+  },
+  "show_notification": true
 }

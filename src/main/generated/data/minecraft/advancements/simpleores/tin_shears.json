@@ -15,13 +15,17 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.tin_shears_ach.desc"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "simpleores:tin_shears",
       "nbt": "{Damage:0}"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.tin_shears_ach"
     }

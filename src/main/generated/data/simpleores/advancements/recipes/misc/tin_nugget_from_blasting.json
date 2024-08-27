@@ -118,7 +118,6 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_tin_sword",
       "has_tin_pickaxe",
       "has_tin_axe",
@@ -127,12 +126,14 @@
       "has_tin_helmet",
       "has_tin_chestplate",
       "has_tin_leggings",
-      "has_tin_boots"
+      "has_tin_boots",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:tin_nugget_from_blasting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

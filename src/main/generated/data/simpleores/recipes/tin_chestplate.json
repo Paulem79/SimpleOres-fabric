@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "simpleores:tin_chestplate"
-  }
+  },
+  "show_notification": true
 }

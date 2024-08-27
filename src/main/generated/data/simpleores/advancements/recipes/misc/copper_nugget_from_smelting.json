@@ -130,7 +130,6 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_copper_sword",
       "has_copper_pickaxe",
       "has_copper_axe",
@@ -140,12 +139,14 @@
       "has_copper_helmet",
       "has_copper_chestplate",
       "has_copper_leggings",
-      "has_copper_boots"
+      "has_copper_boots",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:copper_nugget_from_smelting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

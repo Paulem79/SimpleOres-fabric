@@ -48,7 +48,8 @@ dependencies {
 	modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modImplementation("com.github.cech12.BucketLib:fabric:${bucketlib_version}")
+	modImplementation("de.cech12.bucketlib:fabric:${bucketlib_version}")
+	include("de.cech12.bucketlib:fabric:${bucketlib_version}")
 	
 }
 

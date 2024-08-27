@@ -15,12 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.copper_ach.desc"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "minecraft:copper_ore"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.copper_ach"
     }

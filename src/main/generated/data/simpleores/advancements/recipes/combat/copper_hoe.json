@@ -34,14 +34,15 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_copper_ingot",
-      "has_stick"
+      "has_stick",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:copper_hoe"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

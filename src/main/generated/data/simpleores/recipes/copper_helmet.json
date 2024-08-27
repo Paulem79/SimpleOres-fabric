@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:copper_helmet"
-  }
+  },
+  "show_notification": true
 }

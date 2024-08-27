@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:copper_bucket"
-  }
+  },
+  "show_notification": true
 }

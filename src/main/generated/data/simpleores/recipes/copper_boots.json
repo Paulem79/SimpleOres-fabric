@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:copper_boots"
-  }
+  },
+  "show_notification": true
 }

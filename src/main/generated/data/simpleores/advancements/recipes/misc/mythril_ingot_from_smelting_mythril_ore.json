@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_mythril_ore"
+      "has_mythril_ore",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:mythril_ingot_from_smelting_mythril_ore"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

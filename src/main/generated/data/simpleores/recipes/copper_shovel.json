@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:copper_shovel"
-  }
+  },
+  "show_notification": true
 }

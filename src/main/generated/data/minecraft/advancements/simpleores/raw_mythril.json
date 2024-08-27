@@ -15,12 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.mythril_ach.desc"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "simpleores:mythril_ore"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.mythril_ach"
     }

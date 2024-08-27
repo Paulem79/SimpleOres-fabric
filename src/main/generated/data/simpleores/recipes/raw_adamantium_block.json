@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:raw_adamantium_block"
-  }
+  },
+  "show_notification": true
 }

@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:copper_axe"
-  }
+  },
+  "show_notification": true
 }

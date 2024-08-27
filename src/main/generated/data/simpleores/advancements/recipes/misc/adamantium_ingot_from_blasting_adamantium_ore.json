@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_adamantium_ore"
+      "has_adamantium_ore",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:adamantium_ingot_from_blasting_adamantium_ore"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

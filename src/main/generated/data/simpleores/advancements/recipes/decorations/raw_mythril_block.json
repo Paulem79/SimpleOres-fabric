@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_raw_mythril"
+      "has_raw_mythril",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:raw_mythril_block"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

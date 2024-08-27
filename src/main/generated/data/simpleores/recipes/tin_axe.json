@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:tin_axe"
-  }
+  },
+  "show_notification": true
 }

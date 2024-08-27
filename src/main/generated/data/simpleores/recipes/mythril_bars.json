@@ -14,5 +14,6 @@
   "result": {
     "count": 16,
     "item": "simpleores:mythril_bars"
-  }
+  },
+  "show_notification": true
 }

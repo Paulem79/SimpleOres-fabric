@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:raw_mythril_block"
-  }
+  },
+  "show_notification": true
 }

@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:copper_shears"
-  }
+  },
+  "show_notification": true
 }

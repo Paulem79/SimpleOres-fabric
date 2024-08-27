@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_chestplate"
-  }
+  },
+  "show_notification": true
 }

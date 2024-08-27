@@ -65,49 +65,49 @@ public class ModBlocks {
 
     // ORE BLOCKS
     public static final ExperienceDroppingBlock TIN_ORE = registerBlock("tin_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(2, 5), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .requiresTool()
-                    .strength(3.0F)
+                    .strength(3.0F), UniformIntProvider.create(2, 5)
             ));
     public static final ExperienceDroppingBlock DEEPSLATE_TIN_ORE = registerBlock("deepslate_tin_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(2, 5), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .sounds(BlockSoundGroup.DEEPSLATE)
                     .requiresTool()
-                    .strength(3.0F)
+                    .strength(3.0F), UniformIntProvider.create(2, 5)
             ));
     public static final ExperienceDroppingBlock MYTHRIL_ORE = registerBlock("mythril_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(2, 5), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .requiresTool()
-                    .strength(4.0F, 3.0F)
+                    .strength(4.0F, 3.0F), UniformIntProvider.create(2, 5)
             ));
     public static final ExperienceDroppingBlock DEEPSLATE_MYTHRIL_ORE = registerBlock("deepslate_mythril_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(2, 5), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .sounds(BlockSoundGroup.DEEPSLATE)
                     .requiresTool()
-                    .strength(4.0F, 3.0F)
+                    .strength(4.0F, 3.0F), UniformIntProvider.create(2, 5)
             ));
     public static final ExperienceDroppingBlock ADAMANTIUM_ORE = registerBlock("adamantium_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(2, 5), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .requiresTool()
-                    .strength(5.0F, 3.0F)
+                    .strength(5.0F, 3.0F), UniformIntProvider.create(2, 5)
             ));
     public static final ExperienceDroppingBlock DEEPSLATE_ADAMANTIUM_ORE = registerBlock("deepslate_adamantium_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(2, 5), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.STONE_GRAY)
                     .sounds(BlockSoundGroup.DEEPSLATE)
                     .requiresTool()
-                    .strength(5.0F, 3.0F)
+                    .strength(5.0F, 3.0F), UniformIntProvider.create(2, 5)
             ));
     public static final ExperienceDroppingBlock ONYX_ORE = registerBlock("onyx_ore",
-            new ExperienceDroppingBlock(UniformIntProvider.create(9, 14), AbstractBlock.Settings.create()
+            new ExperienceDroppingBlock(AbstractBlock.Settings.create()
                     .mapColor(MapColor.BLACK)
                     .requiresTool()
-                    .strength(7.0F, 3.0F)
+                    .strength(7.0F, 3.0F), UniformIntProvider.create(9, 14)
             ));
 
     // Blocks - bricks - Simple Ores
@@ -150,21 +150,21 @@ public class ModBlocks {
                     AbstractBlock.Settings.copy(MYTHRIL_BRICKS)));
 
     // Blocks - doors - simpleores
-    /*public static DoorBlock copper_door = registerBlock("copper_door",
-            new DoorBlock(BlockSetType.COPPER, AbstractBlock.Settings.create().mapColor(MapColor.ORANGE)
-                    .requiresTool().strength(3.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));*/ // Already present on 1.21+
+    public static DoorBlock copper_door = registerBlock("copper_door",
+            new DoorBlock(AbstractBlock.Settings.create().mapColor(MapColor.ORANGE)
+                    .requiresTool().strength(3.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY), BlockSetType.IRON)); // Already present on 1.21+
     public static DoorBlock tin_door = registerBlock("tin_door",
-            new DoorBlock(BlockSetType.IRON, AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY)
-                    .requiresTool().strength(4.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));
+            new DoorBlock(AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY)
+                    .requiresTool().strength(4.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY), BlockSetType.IRON));
     public static DoorBlock adamantium_door = registerBlock("adamantium_door",
-            new DoorBlock(BlockSetType.IRON, AbstractBlock.Settings.create().mapColor(MapColor.GREEN)
-                    .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));
+            new DoorBlock(AbstractBlock.Settings.create().mapColor(MapColor.GREEN)
+                    .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY), BlockSetType.IRON));
     public static DoorBlock onyx_door = registerBlock("onyx_door",
-            new DoorBlock(BlockSetType.STONE, AbstractBlock.Settings.create().mapColor(MapColor.SPRUCE_BROWN)
-                    .requiresTool().strength(20.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));
+            new DoorBlock(AbstractBlock.Settings.create().mapColor(MapColor.SPRUCE_BROWN)
+                    .requiresTool().strength(20.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY), BlockSetType.STONE));
     public static DoorBlock mythril_door = registerBlock("mythril_door",
-            new DoorBlock(BlockSetType.IRON, AbstractBlock.Settings.create().mapColor(MapColor.BLUE)
-                    .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));
+            new DoorBlock(AbstractBlock.Settings.create().mapColor(MapColor.BLUE)
+                    .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY), BlockSetType.IRON));
 
     // Blocks - bars - simpleores
     public static PaneBlock copper_bars = registerBlock("copper_bars",

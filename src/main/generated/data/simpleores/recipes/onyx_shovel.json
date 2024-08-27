@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_shovel"
-  }
+  },
+  "show_notification": true
 }

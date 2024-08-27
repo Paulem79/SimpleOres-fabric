@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:adamantium_boots"
-  }
+  },
+  "show_notification": true
 }

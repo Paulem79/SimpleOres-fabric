@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_leggings"
-  }
+  },
+  "show_notification": true
 }

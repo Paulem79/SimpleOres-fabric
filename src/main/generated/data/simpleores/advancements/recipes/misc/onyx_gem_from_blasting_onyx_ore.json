@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_onyx_ore"
+      "has_onyx_ore",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:onyx_gem_from_blasting_onyx_ore"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

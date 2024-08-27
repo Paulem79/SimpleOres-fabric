@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "simpleores:tin_block"
-  }
+  },
+  "show_notification": true
 }

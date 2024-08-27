@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "simpleores:onyx_axe"
-  }
+  },
+  "show_notification": true
 }

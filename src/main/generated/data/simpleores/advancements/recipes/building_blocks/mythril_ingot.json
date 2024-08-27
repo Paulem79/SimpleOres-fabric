@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_mythril_block"
+      "has_mythril_block",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:mythril_ingot"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

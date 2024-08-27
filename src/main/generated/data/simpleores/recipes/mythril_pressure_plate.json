@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "simpleores:mythril_pressure_plate"
-  }
+  },
+  "show_notification": true
 }

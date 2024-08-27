@@ -22,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_adamantium_ingot"
+      "has_adamantium_ingot",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "minecraft:adamantium_boots"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

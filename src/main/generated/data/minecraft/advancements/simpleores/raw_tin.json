@@ -15,12 +15,16 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.tin_ach.desc"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
       "item": "simpleores:tin_ore"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancements.tin_ach"
     }
