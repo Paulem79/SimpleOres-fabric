@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:adamantium_ingot_from_smelting_deepslate_adamantium_ore"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

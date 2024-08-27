@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:onyx_pickaxe"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

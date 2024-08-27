@@ -35,11 +35,11 @@ public class ModelProvider extends FabricModelProvider {
         onyxBricksPool.stairs(ModBlocks.onyx_brick_stairs);
         onyxBricksPool.slab(ModBlocks.ONYX_BRICK_SLAB);
 
-        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK);
-        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.tin_pressure_plate, ModBlocks.TIN_BLOCK);
-        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BLOCK);
-        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BLOCK);
-        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.onyx_pressure_plate, ModBlocks.ONYX_BLOCK);
+        blockStateModelGenerator.registerPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK);
+        blockStateModelGenerator.registerPressurePlate(ModBlocks.tin_pressure_plate, ModBlocks.TIN_BLOCK);
+        blockStateModelGenerator.registerPressurePlate(ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BLOCK);
+        blockStateModelGenerator.registerPressurePlate(ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BLOCK);
+        blockStateModelGenerator.registerPressurePlate(ModBlocks.onyx_pressure_plate, ModBlocks.ONYX_BLOCK);
 
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
             Block block = blockItem.getBlock();

@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:adamantium_ingot_from_blasting_raw_adamantium"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

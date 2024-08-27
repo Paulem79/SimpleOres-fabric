@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:mythril_hoe_inverted"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

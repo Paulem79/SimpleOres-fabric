@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:adamantium_brick_slab_from_adamantium_bricks_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

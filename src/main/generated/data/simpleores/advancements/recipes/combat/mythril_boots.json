@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:mythril_boots"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

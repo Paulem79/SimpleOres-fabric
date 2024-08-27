@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:mythril_bricks_from_mythril_ingot_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

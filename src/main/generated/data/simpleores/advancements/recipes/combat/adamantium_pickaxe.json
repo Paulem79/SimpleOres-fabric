@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:adamantium_pickaxe"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

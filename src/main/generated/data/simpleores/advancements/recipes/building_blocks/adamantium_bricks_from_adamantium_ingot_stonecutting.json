@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:adamantium_bricks_from_adamantium_ingot_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:copper_bucket"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

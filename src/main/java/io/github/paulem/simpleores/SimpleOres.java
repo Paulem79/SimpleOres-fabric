@@ -9,10 +9,8 @@ import io.github.paulem.simpleores.items.ModItems;
 import io.github.paulem.simpleores.villagers.ModCustomTrades;
 import net.fabricmc.api.ModInitializer;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +32,16 @@ public class SimpleOres implements ModInitializer {
 			}
 		});
 
-		Registry.register(Registries.ITEM_GROUP, Identifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SIMPLEORES).register(content -> {
+			content.addAll(ModBlocks.registeredBlockItems.values()
+					.stream()
+					.map(blockItem -> new ItemStack(blockItem.asItem()))
+					.toList());
+			content.addAll(ModItems.registeredItems.values()
+					.stream()
+					.map(ItemStack::new)
+					.toList());
+		});
 
 		ModWorldGeneration.generateModWorldGen();
 

@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:mythril_sword"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

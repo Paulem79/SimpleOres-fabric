@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:tin_axe_inverted"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

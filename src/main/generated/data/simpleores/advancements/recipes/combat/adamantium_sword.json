@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:adamantium_sword"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

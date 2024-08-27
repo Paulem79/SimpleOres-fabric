@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:adamantium_shovel"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

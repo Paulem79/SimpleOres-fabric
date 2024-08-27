@@ -56,6 +56,5 @@
     "recipes": [
       "minecraft:mythril_bow"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:onyx_gem"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

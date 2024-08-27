@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:raw_adamantium_block"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

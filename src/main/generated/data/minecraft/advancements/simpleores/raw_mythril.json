@@ -33,6 +33,5 @@
     [
       "raw_mythril"
     ]
-  ],
-  "sends_telemetry_event": true
+  ]
 }

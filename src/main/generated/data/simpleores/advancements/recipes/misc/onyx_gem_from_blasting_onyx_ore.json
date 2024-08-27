@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:onyx_gem_from_blasting_onyx_ore"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

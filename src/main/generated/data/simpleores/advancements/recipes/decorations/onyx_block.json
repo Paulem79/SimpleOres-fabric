@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:onyx_block"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

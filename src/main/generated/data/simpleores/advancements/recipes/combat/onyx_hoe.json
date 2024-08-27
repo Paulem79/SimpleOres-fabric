@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:onyx_hoe"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

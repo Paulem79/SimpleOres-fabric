@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:raw_mythril"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

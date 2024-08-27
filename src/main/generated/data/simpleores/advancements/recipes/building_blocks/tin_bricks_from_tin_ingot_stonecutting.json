@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:tin_bricks_from_tin_ingot_stonecutting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

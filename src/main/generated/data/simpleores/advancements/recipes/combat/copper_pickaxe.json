@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:copper_pickaxe"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

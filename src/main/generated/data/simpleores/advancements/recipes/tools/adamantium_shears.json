@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:adamantium_shears"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

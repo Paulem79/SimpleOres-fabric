@@ -30,6 +30,5 @@
     "recipes": [
       "minecraft:adamantium_ingot_to_nugget"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

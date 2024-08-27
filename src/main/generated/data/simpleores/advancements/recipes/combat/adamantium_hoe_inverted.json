@@ -43,6 +43,5 @@
     "recipes": [
       "minecraft:adamantium_hoe_inverted"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
