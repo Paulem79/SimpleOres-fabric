@@ -21,27 +21,27 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         ModItems.registeredItems.forEach(((identifier, item) -> {
-            switch (item) {
-                case SwordItem swordItem -> this.getOrCreateTagBuilder(ItemTags.SWORDS)
+            if (item instanceof SwordItem swordItem) {
+                this.getOrCreateTagBuilder(ItemTags.SWORDS)
                         .add(swordItem);
-                case AxeItem axeItem -> this.getOrCreateTagBuilder(ItemTags.AXES)
+            } else if (item instanceof AxeItem axeItem) {
+                this.getOrCreateTagBuilder(ItemTags.AXES)
                         .add(axeItem);
-                case PickaxeItem pickaxeItem -> this.getOrCreateTagBuilder(ItemTags.PICKAXES)
+            } else if (item instanceof PickaxeItem pickaxeItem) {
+                this.getOrCreateTagBuilder(ItemTags.PICKAXES)
                         .add(pickaxeItem);
-                case ShovelItem shovelItem -> this.getOrCreateTagBuilder(ItemTags.SHOVELS)
+            } else if (item instanceof ShovelItem shovelItem) {
+                this.getOrCreateTagBuilder(ItemTags.SHOVELS)
                         .add(shovelItem);
-                case HoeItem hoeItem -> this.getOrCreateTagBuilder(ItemTags.HOES)
+            } else if (item instanceof HoeItem hoeItem) {
+                this.getOrCreateTagBuilder(ItemTags.HOES)
                         .add(hoeItem);
-                case ArmorItem armorItem -> {
-                    this.getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
-                            .add(armorItem);
-                }
-                case AdvancedShearsItem shearsItem -> {
-                    this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
-                            .add(shearsItem);
-                }
-                case null, default -> {
-                }
+            } else if (item instanceof ArmorItem armorItem) {
+                this.getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
+                        .add(armorItem);
+            } else if (item instanceof AdvancedShearsItem shearsItem) {
+                this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
+                        .add(shearsItem);
             }
         }));
 

@@ -56,12 +56,15 @@ public class ModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
-            switch (item) {
-                case BowItem bowItem -> {}
-                case UniversalBucketItem bucketItem -> {}
-                case ArmorItem armorItem -> itemModelGenerator.registerArmor(armorItem);
-                case ToolItem toolItem -> itemModelGenerator.register(item, Models.HANDHELD);
-                case null, default -> itemModelGenerator.register(item, Models.GENERATED);
+            if (item instanceof BowItem || item instanceof UniversalBucketItem)
+                continue;
+
+            if (item instanceof ArmorItem armorItem) {
+                itemModelGenerator.registerArmor(armorItem);
+            } else if (item instanceof ToolItem) {
+                itemModelGenerator.register(item, Models.HANDHELD);
+            } else {
+                itemModelGenerator.register(item, Models.GENERATED);
             }
         }
     }

@@ -1,4 +1,4 @@
-// 1.20.4	2024-08-26T23:48:19.6751588	SimpleOres/Recipes
+// 1.20.4	2024-08-27T19:53:13.2891991	SimpleOres/Recipes
 c2268da8d389f8a7ae79c50280af61dd8c2fddbb data\simpleores\recipes\mythril_block.json
 190ec8e858d68431b52dcf923d6a90230b026546 data\simpleores\advancements\recipes\combat\copper_axe.json
 89da53ab5b6e8248738ee27c8acceba0cb3f1a06 data\simpleores\recipes\onyx_brick_stairs_from_onyx_bricks_stonecutting.json
@@ -243,8 +243,8 @@ bb02d9c112f49122274dc35b3c02cf4187831e53 data\simpleores\advancements\recipes\mi
 bf616f19005ab59c71c5c5c74fc2e026a4a0ee50 data\simpleores\recipes\raw_tin_block.json
 deb02abf60243333e17a3dfaa86bebafb60a89c2 data\simpleores\advancements\recipes\building_blocks\tin_ingot.json
 1f96d3d142336d3fe70ae29901497e5bba6d6a20 data\simpleores\advancements\recipes\building_blocks\onyx_gem.json
-b20332286458dbb5f7854934a96347534e941bf2 data\simpleores\recipes\adamantium_brick_stairs.json
 3d76cce7fe4d135be015ada3be60b269ef109f37 data\simpleores\recipes\adamantium_brick_stairs_from_adamantium_bricks_stonecutting.json
+b20332286458dbb5f7854934a96347534e941bf2 data\simpleores\recipes\adamantium_brick_stairs.json
 4a3b62d013ea2466e0c2480b67e68aeaee218641 data\simpleores\recipes\adamantium_ingot_from_smelting_raw_adamantium.json
 f1939d9479967f140be195cb7a41e3a3c28baf04 data\simpleores\recipes\tin_ingot_from_smelting_raw_tin.json
 efb0d4e433f4cd9d2306ebb9d8710ce6959fe96e data\simpleores\recipes\onyx_hoe.json
