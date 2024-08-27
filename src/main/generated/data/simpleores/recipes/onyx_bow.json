@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "onyx",
+  "key": {
+    "F": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "simpleores:onyx_rod"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " RS",
+    "F S",
+    " RS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "simpleores:onyx_bow"
+  }
+}

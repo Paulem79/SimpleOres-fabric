@@ -1,4 +1,4 @@
-// 1.20.6	2024-08-26T22:20:18.3836609	SimpleOres/Model Definitions
+// 1.20.6	2024-08-27T23:51:38.6678743	SimpleOres/Model Definitions
 4d7bc58e6ca2581694e9df22fb823a3e4b7a6f05 assets\simpleores\models\block\mythril_brick_stairs_inner.json
 161e4795536afa08b5a62d5387250992474a9e33 assets\simpleores\models\block\onyx_brick_stairs_inner.json
 60691bcc68d41f92146bd47f9b7e7e739b1032f6 assets\simpleores\blockstates\adamantium_block.json
@@ -272,8 +272,8 @@ d135b6a7f5e64a51027e0d02af4041b37230c13d assets\simpleores\models\item\copper_bo
 d0d70750b10a2a467eb5dbfd8b5bb1f848f01e4b assets\simpleores\models\block\adamantium_door_top_left.json
 9a385f75d3e03042253af3e05cb2e1026a935f43 assets\simpleores\models\block\adamantium_brick_stairs_outer.json
 84e2afc07c50fdefcbed1407e4748c45cfff7fde assets\simpleores\models\item\tin_helmet_diamond_trim.json
-a5f0e5c42c7aca74c29a95bd77f4d2c932daaf92 assets\simpleores\models\item\adamantium_block.json
 0966a084ea15d65488d6a8435583eb97be1fdee8 assets\simpleores\models\item\adamantium_pickaxe.json
+a5f0e5c42c7aca74c29a95bd77f4d2c932daaf92 assets\simpleores\models\item\adamantium_block.json
 55416d6a15b6024607c8600cea84636212c15cc1 assets\simpleores\models\block\mythril_pressure_plate_down.json
 480fd3558cca92a6f6d281c2450792da16c9064b assets\simpleores\models\item\mythril_block.json
 28abe6eb51bcfb51038584005ada5e8876d18fb8 assets\simpleores\blockstates\tin_block.json
