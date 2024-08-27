@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "mythril",
+  "key": {
+    "F": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "simpleores:mythril_rod"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " RS",
+    "F S",
+    " RS"
+  ],
+  "result": {
+    "item": "simpleores:mythril_bow"
+  }
+}

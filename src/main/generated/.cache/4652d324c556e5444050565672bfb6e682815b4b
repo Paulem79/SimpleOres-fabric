@@ -1,4 +1,4 @@
-// 1.20.4	2024-08-27T19:53:13.2969851	SimpleOres/Model Definitions
+// 1.20.4	2024-08-27T23:53:14.2563915	SimpleOres/Model Definitions
 4d7bc58e6ca2581694e9df22fb823a3e4b7a6f05 assets\simpleores\models\block\mythril_brick_stairs_inner.json
 161e4795536afa08b5a62d5387250992474a9e33 assets\simpleores\models\block\onyx_brick_stairs_inner.json
 60691bcc68d41f92146bd47f9b7e7e739b1032f6 assets\simpleores\blockstates\adamantium_block.json
@@ -243,8 +243,8 @@ fd8a15787bd30b4e9ad0507cfb7844eefa9fc7cb assets\simpleores\models\block\adamanti
 d7e3f67d21a7ce7f765db84c5970423abf91d707 assets\simpleores\models\item\adamantium_helmet_quartz_trim.json
 f6a6555ea73032346314ec94a20912ce7771a29d assets\simpleores\models\item\tin_helmet_emerald_trim.json
 a37aef3f5d3d2a363e621736c072ba9ef27e22cc assets\simpleores\models\item\tin_shears.json
-cc57133913df8a983067878275d04f008bf226cd assets\simpleores\models\item\adamantium_helmet_iron_trim.json
 26545d56dda296498bf92c5eb750a5621dd767fe assets\simpleores\models\item\mythril_boots_emerald_trim.json
+cc57133913df8a983067878275d04f008bf226cd assets\simpleores\models\item\adamantium_helmet_iron_trim.json
 7ec483b7df5576f7d29421859c77cacd610c249c assets\simpleores\blockstates\raw_tin_block.json
 b103cd604b9ff375e850a9b1c06c0cdd6a408828 assets\simpleores\models\item\copper_leggings.json
 7e7a3252d7f64a4b83ec48f46f669877cd17c7ca assets\simpleores\models\item\copper_helmet_diamond_trim.json
@@ -254,8 +254,8 @@ b7223b76a970ff04d581930209d54e3ee917dfb4 assets\simpleores\models\block\onyx_bri
 14d412d4b099b4415e735fb838e28c46ad69c27a assets\simpleores\models\block\onyx_bricks.json
 e7ec141914846ed5e1949e8d56b0bb8b7d531a1c assets\simpleores\models\item\tin_helmet_gold_trim.json
 f49b22c154f8c6b5e035e8b2247c4eb200017116 assets\simpleores\models\item\tin_boots_netherite_trim.json
-bd0517265ce60c71323c13d381064185c2aca898 assets\simpleores\models\item\adamantium_pressure_plate.json
 477efab4e7504e35e056030dd843db13b69c0807 assets\simpleores\blockstates\deepslate_adamantium_ore.json
+bd0517265ce60c71323c13d381064185c2aca898 assets\simpleores\models\item\adamantium_pressure_plate.json
 c1e29c5b1670b56defe47972a1a37ae367d491d3 assets\simpleores\models\item\adamantium_helmet_lapis_trim.json
 eeb17187fa17c6af996dcf367487200866d989e2 assets\simpleores\models\item\onyx_helmet_copper_trim.json
 e867128aa94396be53907c65969ec1bba0f85a19 assets\simpleores\models\item\tin_axe.json

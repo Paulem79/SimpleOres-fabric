@@ -27,6 +27,32 @@ public class RecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.MYTHRIL_BOW)
+                .pattern(" RS")
+                .pattern("F S")
+                .pattern(" RS")
+                .input('S', Items.STICK)
+                .input('F', Items.IRON_INGOT)
+                .input('R', ModItems.MYTHRIL_ROD)
+                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                .criterion(hasItem(ModItems.MYTHRIL_ROD), conditionsFromItem(ModItems.MYTHRIL_ROD))
+                .group("mythril")
+                .offerTo(exporter, new Identifier(getRecipeName(ModItems.MYTHRIL_BOW)));
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ONYX_BOW)
+                .pattern(" RS")
+                .pattern("F S")
+                .pattern(" RS")
+                .input('S', Items.STICK)
+                .input('F', Items.IRON_INGOT)
+                .input('R', ModItems.ONYX_ROD)
+                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                .criterion(hasItem(ModItems.ONYX_ROD), conditionsFromItem(ModItems.ONYX_ROD))
+                .group("onyx")
+                .offerTo(exporter, new Identifier(getRecipeName(ModItems.ONYX_BOW)));
+
         // Copper
         createToolsAndArmorsRecipe(Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
                 ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE,
