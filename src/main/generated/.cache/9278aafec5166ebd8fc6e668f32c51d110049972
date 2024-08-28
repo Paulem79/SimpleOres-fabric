@@ -1,9 +1,10 @@
-// 1.20.6	2024-08-27T23:51:38.6698785	SimpleOres/Block Loot Tables
+// 1.20.6	2024-08-28T10:36:48.0712151	SimpleOres/Block Loot Tables
 385f1fe2233c53ee2a585f2b383bac33446992ad data\simpleores\loot_tables\blocks\onyx_door.json
 cfb01c1064d4cd5936c256ba6764013a0fabdce1 data\simpleores\loot_tables\blocks\onyx_brick_stairs.json
 0e9f30153a269da2b733562d037c0d06cd88f6cf data\simpleores\loot_tables\blocks\onyx_bricks.json
 5bb31b9015928b1578ce211632444f43d35875a2 data\simpleores\loot_tables\blocks\adamantium_door.json
 a1ff37c3abf0116755ce38d9cfc502ec42961a5b data\simpleores\loot_tables\blocks\raw_mythril_block.json
+8d5c4b871a99bb6e6e5d124eacc58c076a49279e data\simpleores\loot_tables\blocks\copper_door.json
 e8128e168f6dbdc21bfc9fcf6fe1be687df53bcf data\simpleores\loot_tables\blocks\adamantium_block.json
 d6022d06776eb85e6300ff6464842c66c57ad002 data\simpleores\loot_tables\blocks\adamantium_bricks.json
 1be9dc1c3eab6faca56d15e15efb62bf1c5fae57 data\simpleores\loot_tables\blocks\copper_pressure_plate.json

@@ -1,4 +1,4 @@
-// 1.20.6	2024-08-27T23:51:38.658877	SimpleOres/Recipes
+// 1.20.6	2024-08-28T10:36:48.0594183	SimpleOres/Recipes
 de31b4cca2b0280c954a4e7b4b55c63dec76acaa data\simpleores\recipes\mythril_block.json
 9a1c69f2e89aa057c2738c2d45bbe11a93f76551 data\simpleores\advancements\recipes\combat\copper_axe.json
 d49f40ba2ec465df48fc58d22560e9e5638e85ae data\simpleores\recipes\onyx_brick_stairs_from_onyx_bricks_stonecutting.json
@@ -81,6 +81,7 @@ f98092f8ad9641d10d790d8b3c4a3ccce3ad1373 data\simpleores\advancements\recipes\re
 a718ac6304c1c974d2badaea1c06a7970ef4ac43 data\simpleores\recipes\tin_axe.json
 ff00da7b17b7e5df571b571ae3c2388c481176aa data\simpleores\recipes\tin_ingot_from_blasting_deepslate_tin_ore.json
 b2bfc5c784fa5ca77a2570acc0ed279cae5f8235 data\simpleores\advancements\recipes\combat\mythril_chestplate.json
+d5429b6508a1c73826898e18d0721796a4f74f21 data\simpleores\recipes\copper_door.json
 73e9e0b785f084b4bfe6e3f612dd8b3f0d6a0031 data\simpleores\recipes\tin_boots.json
 fa937d07d62fe3d7d85f44da8841575e4d2d2fb5 data\simpleores\advancements\recipes\decorations\copper_block.json
 058b00373efd0d7135727d728bedee3e669eb8cd data\simpleores\recipes\adamantium_brick_slab.json
@@ -203,6 +204,7 @@ ea8466aeef32fdd941cbf01e477d55c0959f9c00 data\simpleores\advancements\recipes\bu
 c4384f580169d9418853295ce802716098d2764d data\simpleores\recipes\adamantium_bricks_from_adamantium_ingot_stonecutting.json
 5ee85fab35d1b2c586388a333cba66fa63c08ca5 data\simpleores\advancements\recipes\misc\onyx_bow.json
 2d4c5ee4fd57b745a8df8a194b077f09a411956c data\simpleores\advancements\recipes\building_blocks\adamantium_brick_slab.json
+da50b80ffbb5363ad6d61fffab2f8dacfc4af08a data\simpleores\advancements\recipes\redstone\copper_door.json
 4bc9a007c3fd5e709b5deaf9e72d76843b6e4783 data\simpleores\recipes\mythril_sword.json
 69dc2ae6b26b20f5405f72de92851fc4d786512d data\simpleores\advancements\recipes\building_blocks\adamantium_brick_slab_from_adamantium_bricks_stonecutting.json
 85dc9d89a210172893e95f74c02a2189053f1b38 data\simpleores\advancements\recipes\combat\onyx_axe.json

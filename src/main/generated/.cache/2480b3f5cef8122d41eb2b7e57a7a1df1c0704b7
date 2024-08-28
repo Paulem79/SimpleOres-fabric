@@ -1,10 +1,10 @@
-// 1.20.6	2024-08-27T23:51:38.666874	SimpleOres/Tags for minecraft:block
+// 1.20.6	2024-08-28T10:36:48.0676115	SimpleOres/Tags for minecraft:block
 f63f5cb090e994c84030d2f524a08898a1493817 data\minecraft\tags\blocks\needs_diamond_tool.json
 cb0a1b3631d08b9c0fbcc5067eb3e2324d8afcfe data\c\tags\blocks\ores.json
-35341855567968b646fb0238560a13d5d7cb0219 data\minecraft\tags\blocks\mineable\pickaxe.json
+cd3770adf106c8766677570af95459d773665a19 data\minecraft\tags\blocks\mineable\pickaxe.json
 cc3ea39b155206069ebe86b5846a7db4baa403a4 data\minecraft\tags\blocks\needs_iron_tool.json
-5255fd11d3a5c24e3cd4288ef463cbcc1dd0b59c data\minecraft\tags\blocks\doors.json
-1864ec8d47c6aec82d21b400b14f5f02274813a2 data\minecraft\tags\blocks\needs_stone_tool.json
+eb55f3f9c14a67562be87bcea5bc78b6efc9009a data\minecraft\tags\blocks\doors.json
+f6ece192421571d7121078474a44106c381765b8 data\minecraft\tags\blocks\needs_stone_tool.json
 997a1ad68dbffe16d73df61f2a457d0a0b0dc33d data\minecraft\tags\blocks\beacon_base_blocks.json
 1276811b28309ef1539c42243a8d4a7d3e8e03a0 data\minecraft\tags\blocks\slabs.json
 b97e017050e903ecd93f6b0b4dc8d2d8e7dc1a29 data\minecraft\tags\blocks\stairs.json
