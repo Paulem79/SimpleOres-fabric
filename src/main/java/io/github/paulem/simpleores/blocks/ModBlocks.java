@@ -111,8 +111,6 @@ public class ModBlocks {
             ));
 
     // Blocks - bricks - Simple Ores
-//    public static Block copper_bricks = registerBlock("copper_bricks",
-//            new Block(BlockBehaviour.Properties.copy(Blocks.COPPER_BLOCK)));
     public static Block TIN_BRICKS = registerBlock("tin_bricks",
             new Block(AbstractBlock.Settings.copy(TIN_BLOCK)));
     public static Block ONYX_BRICKS = registerBlock("onyx_bricks",
@@ -133,9 +131,6 @@ public class ModBlocks {
             new SlabBlock(AbstractBlock.Settings.copy(ADAMANTIUM_BRICKS)));
 
     // Blocks - stairs - simpleores
-//    public static StairsBlock copper_brick_stairs = registerBlock("copper_brick_stairs",
-//            new StairsBlock( copper_bricks.getDefaultState(),
-//                                   BlockBehaviour.Properties.copy(copper_bricks)));
     public static StairsBlock tin_brick_stairs = registerBlock("tin_brick_stairs",
             new StairsBlock(TIN_BRICKS.getDefaultState(),
                     AbstractBlock.Settings.copy(TIN_BRICKS)));
@@ -150,9 +145,9 @@ public class ModBlocks {
                     AbstractBlock.Settings.copy(MYTHRIL_BRICKS)));
 
     // Blocks - doors - simpleores
-    /*public static DoorBlock copper_door = registerBlock("copper_door",
+    public static DoorBlock copper_door = registerBlock("copper_door",
             new DoorBlock(BlockSetType.COPPER, AbstractBlock.Settings.create().mapColor(MapColor.ORANGE)
-                    .requiresTool().strength(3.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));*/ // Already present on 1.21+
+                    .requiresTool().strength(3.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY))); // Already present on 1.21+
     public static DoorBlock tin_door = registerBlock("tin_door",
             new DoorBlock(BlockSetType.IRON, AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY)
                     .requiresTool().strength(4.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));

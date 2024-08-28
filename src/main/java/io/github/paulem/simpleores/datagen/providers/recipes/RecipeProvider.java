@@ -58,7 +58,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE,
                 ModItems.COPPER_HELMET, ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS, ModItems.COPPER_SHEARS,
                 Blocks.COPPER_ORE, Blocks.DEEPSLATE_COPPER_ORE, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, Items.RAW_COPPER, ModItems.COPPER_NUGGET,
-                null, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null, ModItems.COPPER_BUCKET, null, true
+                ModBlocks.copper_door, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null, ModItems.COPPER_BUCKET, null, true
         ));
 
         // Tin
