@@ -1,7 +1,7 @@
 package io.github.paulem.simpleores.datagen.providers.tags;
 
 import io.github.paulem.simpleores.blocks.ModBlocks;
-import io.github.paulem.simpleores.items.AdvancedShearsItem;
+import io.github.paulem.simpleores.items.custom.AdvancedShearsItem;
 import io.github.paulem.simpleores.items.ModItems;
 import io.github.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -42,6 +42,18 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             } else if (item instanceof AdvancedShearsItem shearsItem) {
                 this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
                         .add(shearsItem);
+            } else if(identifier.getPath().contains("_nugget")) {
+                // Nuggets
+                this.getOrCreateTagBuilder(ModTags.Items.NUGGETS)
+                        .add(item);
+            } else if(identifier.getPath().contains("_dust")) {
+                // Dusts
+                this.getOrCreateTagBuilder(ModTags.Items.DUSTS)
+                        .add(item);
+            } else if(identifier.getPath().contains("crushed_") && identifier.getPath().contains("_ore")) {
+                // Crushed Ore
+                this.getOrCreateTagBuilder(ModTags.Items.CRUSHED_ORES)
+                        .add(item);
             }
         }));
 

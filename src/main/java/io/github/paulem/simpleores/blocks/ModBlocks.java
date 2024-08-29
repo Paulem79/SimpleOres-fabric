@@ -1,7 +1,7 @@
 package io.github.paulem.simpleores.blocks;
 
 import io.github.paulem.simpleores.SimpleOres;
-import mod.alexndr.simplecorelib.api.content.MultifunctionPressurePlateBlock;
+import io.github.paulem.simpleores.blocks.custom.MultifunctionPressurePlateBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
