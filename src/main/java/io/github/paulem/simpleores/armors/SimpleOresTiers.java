@@ -1,4 +1,4 @@
-package mod.alexndr.simplecorelib.api.content.content;
+package io.github.paulem.simpleores.armors;
 
 import com.google.common.base.Suppliers;
 import io.github.paulem.simpleores.items.ModItems;

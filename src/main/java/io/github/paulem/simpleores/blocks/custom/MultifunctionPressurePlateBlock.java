@@ -1,4 +1,4 @@
-package mod.alexndr.simplecorelib.api.content;
+package io.github.paulem.simpleores.blocks.custom;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockSetType;

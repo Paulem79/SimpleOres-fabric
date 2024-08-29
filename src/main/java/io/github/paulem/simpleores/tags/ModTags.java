@@ -21,6 +21,15 @@ public class ModTags {
         public static final TagKey<Item> SHEARS =
                 createTag("shears");
 
+        public static final TagKey<Item> NUGGETS =
+                createTag("nuggets");
+
+        public static final TagKey<Item> DUSTS =
+                createTag("dusts");
+
+        public static final TagKey<Item> CRUSHED_ORES =
+                createTag("crushed_ores");
+
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(SimpleOres.MOD_ID, name));
         }

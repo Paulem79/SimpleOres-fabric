@@ -3,11 +3,13 @@ package io.github.paulem.simpleores.items;
 import com.google.common.base.Suppliers;
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.armors.AdvancedArmorItem;
 import io.github.paulem.simpleores.armors.ModArmorMaterials;
-import mod.alexndr.simplecorelib.api.content.config.SimpleOresConfig;
-import mod.alexndr.simplecorelib.api.content.content.MythrilBow;
-import mod.alexndr.simplecorelib.api.content.content.OnyxBow;
-import mod.alexndr.simplecorelib.api.content.content.SimpleOresTiers;
+import io.github.paulem.simpleores.config.SimpleOresConfig;
+import io.github.paulem.simpleores.items.custom.AdvancedShearsItem;
+import io.github.paulem.simpleores.items.custom.MythrilBow;
+import io.github.paulem.simpleores.items.custom.OnyxBow;
+import io.github.paulem.simpleores.armors.SimpleOresTiers;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ShearsDispenserBehavior;
 import net.minecraft.item.*;
@@ -50,9 +52,9 @@ public class ModItems {
     public static final UniversalBucketItem COPPER_BUCKET = registerItem("copper_bucket",
             new UniversalBucketItem(
                     new UniversalBucketItem.Properties()
-                            .upperCrackingTemperature(SimpleOresConfig.copperBucketMeltTemperature)
-                            .burningTemperature(SimpleOresConfig.copperBucketFireTemperature)
-                            .milking(Suppliers.ofInstance(SimpleOresConfig.enableCopperBucketMilking))
+                            .upperCrackingTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature)
+                            .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature)
+                            .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking))
             ));
 
 
@@ -222,93 +224,53 @@ public class ModItems {
     // ARMOR
     // copper
     public static final ArmorItem COPPER_HELMET = registerItem("copper_helmet",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
-    public static final ArmorItem COPPER_LEGGINGS = registerItem("copper_leggings",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET));
     public static final ArmorItem COPPER_CHESTPLATE = registerItem("copper_chestplate",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.CHESTPLATE));
+    public static final ArmorItem COPPER_LEGGINGS = registerItem("copper_leggings",
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem COPPER_BOOTS = registerItem("copper_boots",
-            new ArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.copperArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS));
 
     // tin
     public static final ArmorItem TIN_HELMET = registerItem("tin_helmet",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
-    public static final ArmorItem TIN_LEGGINGS = registerItem("tin_leggings",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.HELMET));
     public static final ArmorItem TIN_CHESTPLATE = registerItem("tin_chestplate",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.CHESTPLATE));
+    public static final ArmorItem TIN_LEGGINGS = registerItem("tin_leggings",
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem TIN_BOOTS = registerItem("tin_boots",
-            new ArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.tinArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.TIN, ArmorItem.Type.BOOTS));
 
     // mythril
     public static final ArmorItem MYTHRIL_HELMET = registerItem("mythril_helmet",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
-    public static final ArmorItem MYTHRIL_LEGGINGS = registerItem("mythril_leggings",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.HELMET));
     public static final ArmorItem MYTHRIL_CHESTPLATE = registerItem("mythril_chestplate",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.CHESTPLATE));
+    public static final ArmorItem MYTHRIL_LEGGINGS = registerItem("mythril_leggings",
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem MYTHRIL_BOOTS = registerItem("mythril_boots",
-            new ArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.mythrilArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, ArmorItem.Type.BOOTS));
 
     // adamantium
     public static final ArmorItem ADAMANTIUM_HELMET = registerItem("adamantium_helmet",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
-    public static final ArmorItem ADAMANTIUM_LEGGINGS = registerItem("adamantium_leggings",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.HELMET));
     public static final ArmorItem ADAMANTIUM_CHESTPLATE = registerItem("adamantium_chestplate",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.CHESTPLATE));
+    public static final ArmorItem ADAMANTIUM_LEGGINGS = registerItem("adamantium_leggings",
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem ADAMANTIUM_BOOTS = registerItem("adamantium_boots",
-            new ArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.adamantiumArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, ArmorItem.Type.BOOTS));
 
     // onyx
     public static final ArmorItem ONYX_HELMET = registerItem("onyx_helmet",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.HELMET,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.HELMET.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
-    public static final ArmorItem ONYX_LEGGINGS = registerItem("onyx_leggings",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.LEGGINGS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.LEGGINGS.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.HELMET));
     public static final ArmorItem ONYX_CHESTPLATE = registerItem("onyx_chestplate",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.CHESTPLATE,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.CHESTPLATE.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.CHESTPLATE));
+    public static final ArmorItem ONYX_LEGGINGS = registerItem("onyx_leggings",
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.LEGGINGS));
     public static final ArmorItem ONYX_BOOTS = registerItem("onyx_boots",
-            new ArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.BOOTS,
-                    new Item.Settings().maxDamage(
-                            ArmorItem.Type.BOOTS.getMaxDamage(SimpleOresConfig.onyxArmorDurability))));
+            new AdvancedArmorItem(ModArmorMaterials.ONYX, ArmorItem.Type.BOOTS));
 
     
     public static<T extends Item> T registerItem(String name, T item) {

@@ -1,4 +1,4 @@
-package io.github.paulem.simpleores.items;
+package io.github.paulem.simpleores.items.custom;
 
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ShearsItem;

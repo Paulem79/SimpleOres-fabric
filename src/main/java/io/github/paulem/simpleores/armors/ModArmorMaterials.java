@@ -29,59 +29,39 @@ public final class ModArmorMaterials
     static {// We place copper somewhere between leather and chainmail.
         COPPER =
                 register("copper", Util.make(new EnumMap<>(ArmorItem.Type.class), (attribute) -> {
-                            attribute.put(ArmorItem.Type.BOOTS, 1);
-                            attribute.put(ArmorItem.Type.LEGGINGS, 2);
-                            attribute.put(ArmorItem.Type.CHESTPLATE, 3);
-                            attribute.put(ArmorItem.Type.HELMET, 2);
-                            attribute.put(ArmorItem.Type.BODY, 3);
-                        }), 8, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0, 0, Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS)
+                            SimpleOres.CONFIG.copperArmorProtection.setProtectionAmount(attribute);
+                        }), 8, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SimpleOres.CONFIG.copperArmorProtection.thoughness(), SimpleOres.CONFIG.copperArmorProtection.knockbackProtection(), Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS)
                 ); // end copper
 
-        TIN = register("tin", 
+        TIN = register("tin",
                 Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 1);
-                    map.put(ArmorItem.Type.LEGGINGS, 2);
-                    map.put(ArmorItem.Type.CHESTPLATE, 3);
-                    map.put(ArmorItem.Type.HELMET, 2);
-                    map.put(ArmorItem.Type.BODY, 3);
+                    SimpleOres.CONFIG.tinArmorProtection.setProtectionAmount(map);
                 }),
                 9, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,
-                0, 0,
+                SimpleOres.CONFIG.tinArmorProtection.thoughness(), SimpleOres.CONFIG.tinArmorProtection.knockbackProtection(),
                 Ingredient.ofItems(ModItems.TIN_INGOT));
 
         MYTHRIL = register("mythril", Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 3);
-                    map.put(ArmorItem.Type.LEGGINGS, 4);
-                    map.put(ArmorItem.Type.CHESTPLATE, 5);
-                    map.put(ArmorItem.Type.HELMET, 3);
-                    map.put(ArmorItem.Type.BODY, 4);
+                    SimpleOres.CONFIG.mythrilArmorProtection.setProtectionAmount(map);
                 }),
                 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,
-                0, 0,
+                SimpleOres.CONFIG.mythrilArmorProtection.thoughness(), SimpleOres.CONFIG.mythrilArmorProtection.knockbackProtection(),
                 Ingredient.ofItems(ModItems.MYTHRIL_INGOT));
 
-        ADAMANTIUM = register("adamantium", 
+        ADAMANTIUM = register("adamantium",
                 Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 2);
-                    map.put(ArmorItem.Type.LEGGINGS, 6);
-                    map.put(ArmorItem.Type.CHESTPLATE, 8);
-                    map.put(ArmorItem.Type.HELMET, 3);
-                    map.put(ArmorItem.Type.BODY, 8);
+                    SimpleOres.CONFIG.adamantiumArmorProtection.setProtectionAmount(map);
                 }),
                 3, SoundEvents.ITEM_ARMOR_EQUIP_IRON,
-                1, 0,
+                SimpleOres.CONFIG.adamantiumArmorProtection.thoughness(), SimpleOres.CONFIG.adamantiumArmorProtection.knockbackProtection(),
                 Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT));
 
-        ONYX = register("onyx", 
+        ONYX = register("onyx",
                 Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    map.put(ArmorItem.Type.BOOTS, 5);
-                    map.put(ArmorItem.Type.LEGGINGS, 6);
-                    map.put(ArmorItem.Type.CHESTPLATE, 8);
-                    map.put(ArmorItem.Type.HELMET, 5);
-                    map.put(ArmorItem.Type.BODY, 11);
+                    SimpleOres.CONFIG.onyxArmorProtection.setProtectionAmount(map);
                 }),
                 15, SoundEvents.ITEM_ARMOR_EQUIP_TURTLE,
-                2, 0,
+                SimpleOres.CONFIG.onyxArmorProtection.thoughness(), SimpleOres.CONFIG.onyxArmorProtection.knockbackProtection(),
                 Ingredient.ofItems(ModItems.ONYX_GEM));
     }
 
