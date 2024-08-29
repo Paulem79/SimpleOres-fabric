@@ -2,7 +2,7 @@ package io.github.paulem.simpleores.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import io.github.paulem.simpleores.items.AdvancedShearsItem;
+import io.github.paulem.simpleores.items.custom.AdvancedShearsItem;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.PumpkinBlock;
 import net.minecraft.item.Item;

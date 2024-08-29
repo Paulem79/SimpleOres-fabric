@@ -2,6 +2,7 @@ package io.github.paulem.simpleores.datagen.world;
 
 import io.github.paulem.simpleores.SimpleOres;
 import io.github.paulem.simpleores.blocks.ModBlocks;
+import io.github.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registerable;
@@ -28,11 +29,11 @@ public class ModConfiguredFeatures {
 
 
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
-        addOre(context, TIN_ORE_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, 7);
-        addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, 16);
-        addOre(context, MYTHRIL_ORE_KEY, ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, 4);
-        addOre(context, ADAMANTIUM_ORE_KEY, ModBlocks.ADAMANTIUM_ORE, ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, 4);
-        addOreNether(context, ONYX_ORE_KEY, ModBlocks.ONYX_ORE, 4);
+        addOre(context, TIN_ORE_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, SimpleOresConfig.NotEditable.tinOreBlocksPerVeins);
+        addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, SimpleOresConfig.NotEditable.tinVeinBlocksPerVeins);
+        addOre(context, MYTHRIL_ORE_KEY, ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, SimpleOresConfig.NotEditable.mythrilBlocksPerVeins);
+        addOre(context, ADAMANTIUM_ORE_KEY, ModBlocks.ADAMANTIUM_ORE, ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, SimpleOresConfig.NotEditable.adamantiumBlocksPerVeins);
+        addOreNether(context, ONYX_ORE_KEY, ModBlocks.ONYX_ORE, SimpleOresConfig.NotEditable.onyxBlocksPerVeins);
     }
 
     private static void addOre(Registerable<ConfiguredFeature<?, ?>> context, RegistryKey<ConfiguredFeature<?, ?>> key, Block stoneOre, Block deepslateOre, int count){
@@ -47,7 +48,7 @@ public class ModConfiguredFeatures {
     }
 
     private static void addOreNether(Registerable<ConfiguredFeature<?, ?>> context, RegistryKey<ConfiguredFeature<?, ?>> key, Block stoneOre, int count){
-        RuleTest netherrackReplaceables = new TagMatchRuleTest(BlockTags.NETHER_CARVER_REPLACEABLES);
+        RuleTest netherrackReplaceables = new BlockMatchRuleTest(Blocks.NETHERRACK);
 
         List<OreFeatureConfig.Target> netherrackOres =
                 List.of(OreFeatureConfig.createTarget(netherrackReplaceables, stoneOre.getDefaultState()));

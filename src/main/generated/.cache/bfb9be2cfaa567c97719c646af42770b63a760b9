@@ -1,23 +1,26 @@
-// 1.21	2024-08-27T23:49:38.0514876	SimpleOres/Tags for minecraft:item
-d14a4f12e519be373186d20562101f202ee65936 data\minecraft\tags\item\enchantable\durability.json
-3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\ranged_weapons.json
+// 1.21	2024-08-29T23:53:04.7960968	SimpleOres/Tags for minecraft:item
+a156aa9ebe129441dbf935dc15769938b0849253 data\simpleores\tags\item\dusts.json
 1276811b28309ef1539c42243a8d4a7d3e8e03a0 data\minecraft\tags\item\slabs.json
+24b7ce1c63483f1ea4c51c6c602011e26243b0a0 data\simpleores\tags\item\crushed_ores.json
 3650e6bb6d701f03674f7ca3b5b5c1dd115f189e data\minecraft\tags\item\swords.json
-3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\ranged_weapon.json
-606c3c4bb79f4097260435325be8e835476f55c8 data\c\tags\item\tools\shears.json
-bcb445ed14538cd185780a44cfbe7cc2c2e25fb2 data\minecraft\tags\item\pickaxes.json
 3b10b4b5e3bd59e37d381434945e598df37d515f data\minecraft\tags\item\enchantable\bow.json
 c06735c012ba5f55cb0c3db4699cc6cb9f59e3ff data\minecraft\tags\item\foot_armor.json
-606c3c4bb79f4097260435325be8e835476f55c8 data\c\tags\item\tools\shear.json
 606c3c4bb79f4097260435325be8e835476f55c8 data\simpleores\tags\item\shears.json
-3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\bow.json
+606c3c4bb79f4097260435325be8e835476f55c8 data\c\tags\item\tools\shear.json
 b97e017050e903ecd93f6b0b4dc8d2d8e7dc1a29 data\minecraft\tags\item\stairs.json
 def284c9b59d430f345b4a6eb6fa88bf8b6a1036 data\minecraft\tags\item\shovels.json
 365515ada0852fa27d0a03154be62613af14f84a data\minecraft\tags\item\leg_armor.json
 3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\bows.json
 a428ea847da4fd7595eabc823aa426b621d97a7f data\minecraft\tags\item\axes.json
-baea33e2922c2281f2ead15cfd6465e3dde95dcd data\minecraft\tags\item\head_armor.json
 606c3c4bb79f4097260435325be8e835476f55c8 data\minecraft\tags\item\enchantable\mining.json
-85962c7b9d7300509371878e0a40e6f95b1ecf5f data\minecraft\tags\item\hoes.json
 4d9880899d1bf6b86b257fbc45f2c99dfa5bb184 data\minecraft\tags\item\chest_armor.json
 5255fd11d3a5c24e3cd4288ef463cbcc1dd0b59c data\minecraft\tags\item\doors.json
+3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\ranged_weapons.json
+d14a4f12e519be373186d20562101f202ee65936 data\minecraft\tags\item\enchantable\durability.json
+3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\ranged_weapon.json
+606c3c4bb79f4097260435325be8e835476f55c8 data\c\tags\item\tools\shears.json
+bcb445ed14538cd185780a44cfbe7cc2c2e25fb2 data\minecraft\tags\item\pickaxes.json
+3b10b4b5e3bd59e37d381434945e598df37d515f data\c\tags\item\tools\bow.json
+baea33e2922c2281f2ead15cfd6465e3dde95dcd data\minecraft\tags\item\head_armor.json
+9bfda72c67f4fb91953ef88457a11570d0810b4a data\simpleores\tags\item\nuggets.json
+85962c7b9d7300509371878e0a40e6f95b1ecf5f data\minecraft\tags\item\hoes.json

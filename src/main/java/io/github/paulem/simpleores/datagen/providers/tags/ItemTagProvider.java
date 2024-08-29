@@ -2,7 +2,7 @@ package io.github.paulem.simpleores.datagen.providers.tags;
 
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import io.github.paulem.simpleores.blocks.ModBlocks;
-import io.github.paulem.simpleores.items.AdvancedShearsItem;
+import io.github.paulem.simpleores.items.custom.AdvancedShearsItem;
 import io.github.paulem.simpleores.items.ModItems;
 import io.github.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -23,6 +23,20 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         ModItems.registeredItems.forEach(((identifier, item) -> {
+            if(identifier.getPath().contains("_nugget")) {
+                // Nuggets
+                this.getOrCreateTagBuilder(ModTags.Items.NUGGETS)
+                        .add(item);
+            } else if(identifier.getPath().contains("_dust")) {
+                // Dusts
+                this.getOrCreateTagBuilder(ModTags.Items.DUSTS)
+                        .add(item);
+            } else if(identifier.getPath().contains("crushed_") && identifier.getPath().contains("_ore")) {
+                // Crushed Ore
+                this.getOrCreateTagBuilder(ModTags.Items.CRUSHED_ORES)
+                        .add(item);
+            }
+
             switch (item) {
                 case SwordItem swordItem -> this.getOrCreateTagBuilder(ItemTags.SWORDS)
                         .add(swordItem);

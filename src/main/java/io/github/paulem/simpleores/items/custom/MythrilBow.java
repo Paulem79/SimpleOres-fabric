@@ -1,4 +1,4 @@
-package mod.alexndr.simplecorelib.api.content.content;
+package io.github.paulem.simpleores.items.custom;
 
 import io.github.paulem.simpleores.items.ModItems;
 import net.fabricmc.api.EnvType;
@@ -19,32 +19,44 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Random;
 
 /**
- * Custom bow that does extra damage (intrinsic POWER 2 enchantment) and sets
- * things on fire (intrinsic FLAME enchantment).
+ *  A bow with some special features: Efficiency, which makes it act like an
+ *  INFINITY bow sometimes, and extra damage (equivalent to POWER 2).
  */
-public class OnyxBow extends BowItem
+public class MythrilBow extends BowItem
 {
-    public OnyxBow(Settings builder)
+    private static final int EFFICIENCY = 50;
+    private final Random rng;
+
+    public MythrilBow(Settings builder)
     {
         super(builder);
+        rng = new Random();
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft)
-    {
-        // add the default enchantments for Onyx bow.
+    @Environment(EnvType.CLIENT)
+    public void appendTooltip(ItemStack stack, TooltipContext pContext, List<Text> tooltip, TooltipType flagIn) {
+        super.appendTooltip(stack, pContext, tooltip, flagIn);
+        tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
+        tooltip.add(Text.translatable("tips.efficiency_tooltip").formatted(Formatting.GREEN));
+    }
+
+    @Override
+    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+        // add the default enchantments for Mythril bow.
         ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
-        stack = this.addOnyxEnchantments(oldEnchants, stack, worldIn);
+        stack = this.addMythrilEnchantments(oldEnchants, stack, worldIn);
 
         super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
         EnchantmentHelper.set(stack, oldEnchants);
-    }
+    }// end onPlayerStoppedUsing()
 
-    private ItemStack addOnyxEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
+    private ItemStack addMythrilEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
     {
         if (stack.isEmpty()) return stack;
 
@@ -55,7 +67,9 @@ public class OnyxBow extends BowItem
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
         enchMap.add(enchantmentImpl.getOrThrow(Enchantments.POWER), 2);
-        enchMap.add(enchantmentImpl.getOrThrow(Enchantments.FLAME), 1);
+
+        // add intrinsic INFINITY enchantment if RNG <= EFFICIENCY.
+        if (rng.nextInt(100) < EFFICIENCY) enchMap.add(enchantmentImpl.getOrThrow(Enchantments.INFINITY), 1);
 
         // add intrinsic enchantments, if any.
         ItemEnchantmentsComponent tmpEnchMap = enchMap.build();
@@ -66,21 +80,13 @@ public class OnyxBow extends BowItem
     } // end addMythrilEnchantments()
 
     @Override
-    @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, TooltipContext pContext, List<Text> tooltip, TooltipType flagIn) {
-        super.appendTooltip(stack, pContext, tooltip, flagIn);
-        tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
-        tooltip.add(Text.translatable("tips.flame_tooltip").formatted(Formatting.GREEN));
-    }
-
-    @Override
-    public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate) {
+    public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate)
+    {
         return this.getRepairIngredient().test(pRepairCandidate) || super.canRepair(pStack, pRepairCandidate);
     }
     
     public Ingredient getRepairIngredient()
     {
-        return Ingredient.ofItems(ModItems.ONYX_ROD);
+        return Ingredient.ofItems(ModItems.MYTHRIL_ROD);
     }
-
-}  // end class OnyxBow
+}  // end class MythrilBow

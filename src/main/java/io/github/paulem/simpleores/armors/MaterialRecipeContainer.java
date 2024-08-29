@@ -1,7 +1,7 @@
 package io.github.paulem.simpleores.armors;
 
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
-import io.github.paulem.simpleores.items.AdvancedShearsItem;
+import io.github.paulem.simpleores.items.custom.AdvancedShearsItem;
 import mod.alexndr.simplecorelib.api.content.MultifunctionPressurePlateBlock;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
