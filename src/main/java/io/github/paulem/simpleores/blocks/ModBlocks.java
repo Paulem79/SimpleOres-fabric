@@ -1,7 +1,7 @@
 package io.github.paulem.simpleores.blocks;
 
 import io.github.paulem.simpleores.SimpleOres;
-import mod.alexndr.simplecorelib.api.content.MultifunctionPressurePlateBlock;
+import io.github.paulem.simpleores.blocks.custom.MultifunctionPressurePlateBlock;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;

@@ -42,6 +42,18 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             } else if (item instanceof AdvancedShearsItem shearsItem) {
                 this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
                         .add(shearsItem);
+            } else if(identifier.getPath().contains("_nugget")) {
+                // Nuggets
+                this.getOrCreateTagBuilder(ModTags.Items.NUGGETS)
+                        .add(item);
+            } else if(identifier.getPath().contains("_dust")) {
+                // Dusts
+                this.getOrCreateTagBuilder(ModTags.Items.DUSTS)
+                        .add(item);
+            } else if(identifier.getPath().contains("crushed_") && identifier.getPath().contains("_ore")) {
+                // Crushed Ore
+                this.getOrCreateTagBuilder(ModTags.Items.CRUSHED_ORES)
+                        .add(item);
             }
         }));
 

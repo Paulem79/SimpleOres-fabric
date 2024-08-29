@@ -1,4 +1,4 @@
-package mod.alexndr.simplecorelib.api.content.content;
+package io.github.paulem.simpleores.items.custom;
 
 import io.github.paulem.simpleores.items.ModItems;
 import net.fabricmc.api.EnvType;

@@ -18,6 +18,9 @@
 		"main": [
 			"io.github.paulem.simpleores.SimpleOres"
 		],
+		"modmenu": [
+			"io.github.paulem.simpleores.config.ModMenuCompat"
+		],
 		"client": [
 			"io.github.paulem.simpleores.SimpleOresClient"
 		],
@@ -29,10 +32,13 @@
 		"simpleores.mixins.json"
 	],
 	"depends": {
-		"fabricloader": "*",
-		"minecraft": "1.19.4",
 		"java": "*",
+		"minecraft": "1.19.4",
+		"fabricloader": "*",
 		"fabric-api": "*",
 		"cloth-config": "*"
+	},
+	"recommends": {
+		"modmenu": "*"
 	}
 }

@@ -1,6 +1,5 @@
-package mod.alexndr.simplecorelib.api.content.content;
+package io.github.paulem.simpleores.items;
 
-import io.github.paulem.simpleores.items.ModItems;
 import net.fabricmc.yarn.constants.MiningLevels;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
