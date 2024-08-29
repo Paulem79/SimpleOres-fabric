@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "simpleores:tin_dust",
+    "simpleores:copper_dust",
+    "simpleores:mythril_dust",
+    "simpleores:adamantium_dust"
+  ]
+}

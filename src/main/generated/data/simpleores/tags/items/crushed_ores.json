@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "simpleores:crushed_tin_ore",
+    "simpleores:crushed_copper_ore",
+    "simpleores:crushed_mythril_ore",
+    "simpleores:crushed_adamantium_ore"
+  ]
+}

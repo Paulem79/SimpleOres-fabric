@@ -1,6 +1,7 @@
 package io.github.paulem.simpleores.datagen.world;
 
 import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
@@ -31,7 +32,7 @@ public class ModPlacedFeatures {
                 context,
                 TIN_ORE_PLACED_KEY,
                 tinEntry,
-                ModOrePlacement.modifiersWithCount(10, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.tinOreVeinPerChunks, // Vein per chunk
                         HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(108), YOffset.belowTop(236)))
         );
 
@@ -41,7 +42,7 @@ public class ModPlacedFeatures {
                 context,
                 TIN_VEIN_PLACED_KEY,
                 tinVeinEntry,
-                ModOrePlacement.modifiersWithCount(4, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.tinVeinVeinPerChunks, // Vein per chunk
                         HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(24), YOffset.aboveBottom(64)))
         );
 
@@ -51,7 +52,7 @@ public class ModPlacedFeatures {
                 context,
                 MYTHRIL_ORE_PLACED_KEY,
                 mythrilEntry,
-                ModOrePlacement.modifiersWithCount(8, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.mythrilVeinPerChunks, // Vein per chunk
                         HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(1), YOffset.aboveBottom(96)))
         );
 
@@ -61,7 +62,7 @@ public class ModPlacedFeatures {
                 context,
                 ADAMANTIUM_ORE_PLACED_KEY,
                 adamantiumEntry,
-                ModOrePlacement.modifiersWithCount(4, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.adamantiumVeinPerChunks, // Vein per chunk
                         HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(1), YOffset.aboveBottom(48)))
         );
 
@@ -71,7 +72,7 @@ public class ModPlacedFeatures {
                 context,
                 ONYX_ORE_PLACED_KEY,
                 onyxEntry,
-                ModOrePlacement.modifiersWithCount(5, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
                         HeightRangePlacementModifier.uniform(YOffset.aboveBottom(10), YOffset.belowTop(10)))
         );
     }

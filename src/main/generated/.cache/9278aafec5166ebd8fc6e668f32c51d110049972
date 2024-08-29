@@ -1,4 +1,4 @@
-// 1.20.4	2024-08-28T10:40:45.9572766	SimpleOres/Block Loot Tables
+// 1.20.4	2024-08-29T22:50:14.9199856	SimpleOres/Block Loot Tables
 385f1fe2233c53ee2a585f2b383bac33446992ad data\simpleores\loot_tables\blocks\onyx_door.json
 cfb01c1064d4cd5936c256ba6764013a0fabdce1 data\simpleores\loot_tables\blocks\onyx_brick_stairs.json
 0e9f30153a269da2b733562d037c0d06cd88f6cf data\simpleores\loot_tables\blocks\onyx_bricks.json
@@ -13,8 +13,8 @@ f88aa9826fc20066c8aecdd358032c3209bd5f19 data\simpleores\loot_tables\blocks\tin_
 f980c5cf2d2973d87de2bdc51c6aecbfc62ec6c3 data\simpleores\loot_tables\blocks\raw_tin_block.json
 f0573ce7292b9633bd4a183ec9990574d2050c78 data\simpleores\loot_tables\blocks\raw_adamantium_block.json
 2322ed119bc841828eff985951c1da7e1ee72541 data\simpleores\loot_tables\blocks\adamantium_brick_stairs.json
-f14ef51badfa48078318f18d01d4a18ff0637046 data\simpleores\loot_tables\blocks\adamantium_bars.json
 c7d2602ae0f644e53178d7a0bba305c8f863c2c2 data\simpleores\loot_tables\blocks\mythril_brick_stairs.json
+f14ef51badfa48078318f18d01d4a18ff0637046 data\simpleores\loot_tables\blocks\adamantium_bars.json
 e7d7c9766e4fc401dd80934f4b8c2e77ed76bc0f data\simpleores\loot_tables\blocks\deepslate_mythril_ore.json
 cfb9509cb9a79a31105925dcade6c2f7c302ce5b data\simpleores\loot_tables\blocks\tin_bricks.json
 65a8b194eaf5e9e26d89c8d77b9270dc960f2639 data\simpleores\loot_tables\blocks\tin_ore.json

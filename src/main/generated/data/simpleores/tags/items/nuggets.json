@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "simpleores:tin_nugget",
+    "simpleores:copper_nugget",
+    "simpleores:mythril_nugget",
+    "simpleores:adamantium_nugget"
+  ]
+}
