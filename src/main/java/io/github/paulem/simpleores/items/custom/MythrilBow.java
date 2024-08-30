@@ -16,6 +16,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,7 +45,8 @@ public class MythrilBow extends BowItem
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft)
+    {
         // add the default enchantments for Mythril bow.
         Map<Enchantment, Integer> enchMap = EnchantmentHelper.get(stack);
         stack = this.addMythrilEnchantments(enchMap, stack);
@@ -53,18 +55,26 @@ public class MythrilBow extends BowItem
 
         // remove temporary intrinsic enchantments.
         EnchantmentHelper.set(enchMap, stack);
-    }// end onPlayerStoppedUsing()
+    }
 
-    private ItemStack addMythrilEnchantments(Map<Enchantment, Integer> enchMap, ItemStack stack)
+    private ItemStack addMythrilEnchantments(Map<Enchantment,Integer> oldEnch, ItemStack stack)
     {
         if (stack.isEmpty()) return stack;
 
+        Map<Enchantment,Integer> enchMap = new HashMap<>(oldEnch);
+
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        enchMap.put(Enchantments.POWER, 2);
+        if (!(enchMap.containsKey(Enchantments.POWER) && enchMap.get(Enchantments.POWER) > 1) )
+        {
+            enchMap.put(Enchantments.POWER, 2);
+        }
 
         // add intrinsic INFINITY enchantment if RNG <= EFFICIENCY.
-        if (rng.nextInt(100) < EFFICIENCY) enchMap.put(Enchantments.INFINITY, 1);
+        if (!enchMap.containsKey(Enchantments.INFINITY))
+        {
+            if (rng.nextInt(100) < EFFICIENCY) enchMap.put(Enchantments.INFINITY, 1);
+        }
 
         // add intrinsic enchantments, if any.
         if (!enchMap.isEmpty()) {
@@ -78,7 +88,7 @@ public class MythrilBow extends BowItem
     {
         return this.getRepairIngredient().test(pRepairCandidate) || super.canRepair(pStack, pRepairCandidate);
     }
-    
+
     public Ingredient getRepairIngredient()
     {
         return Ingredient.ofItems(ModItems.MYTHRIL_ROD);

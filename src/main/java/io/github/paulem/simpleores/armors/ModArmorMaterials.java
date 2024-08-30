@@ -1,6 +1,7 @@
 package io.github.paulem.simpleores.armors;
 
 import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.config.SimpleOresConfig;
 import io.github.paulem.simpleores.items.SimpleOresTiers;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
@@ -13,20 +14,20 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
-    COPPER("copper", SimpleOres.CONFIG.copperArmorDurability, SimpleOres.CONFIG.copperArmorProtection.getProtectionAmount(),
-            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SimpleOres.CONFIG.copperArmorProtection.thoughness(), SimpleOres.CONFIG.copperArmorProtection.knockbackProtection(), SimpleOresTiers.COPPER),
+    COPPER("copper", SimpleOres.CONFIG.copperArmorDurability, SimpleOres.CONFIG.copperArmorProtection,
+            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SimpleOresTiers.COPPER),
 
-    TIN("tin", SimpleOres.CONFIG.tinArmorDurability, SimpleOres.CONFIG.tinArmorProtection.getProtectionAmount(),
-            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SimpleOres.CONFIG.tinArmorProtection.thoughness(), SimpleOres.CONFIG.tinArmorProtection.knockbackProtection(), SimpleOresTiers.TIN),
+    TIN("tin", SimpleOres.CONFIG.tinArmorDurability, SimpleOres.CONFIG.tinArmorProtection,
+            SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SimpleOresTiers.TIN),
 
-    MYTHRIL("mythril", SimpleOres.CONFIG.mythrilArmorDurability, SimpleOres.CONFIG.mythrilArmorProtection.getProtectionAmount(),
-            SoundEvents.ITEM_ARMOR_EQUIP_GOLD, SimpleOres.CONFIG.mythrilArmorProtection.thoughness(), SimpleOres.CONFIG.mythrilArmorProtection.knockbackProtection(), SimpleOresTiers.MYTHRIL),
+    MYTHRIL("mythril", SimpleOres.CONFIG.mythrilArmorDurability, SimpleOres.CONFIG.mythrilArmorProtection,
+            SoundEvents.ITEM_ARMOR_EQUIP_GOLD, SimpleOresTiers.MYTHRIL),
 
-    ADAMANTIUM("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability, SimpleOres.CONFIG.adamantiumArmorProtection.getProtectionAmount(),
-            SoundEvents.ITEM_ARMOR_EQUIP_IRON, SimpleOres.CONFIG.adamantiumArmorProtection.thoughness(), SimpleOres.CONFIG.adamantiumArmorProtection.knockbackProtection(), SimpleOresTiers.ADAMANTIUM),
+    ADAMANTIUM("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability, SimpleOres.CONFIG.adamantiumArmorProtection,
+            SoundEvents.ITEM_ARMOR_EQUIP_IRON, SimpleOresTiers.ADAMANTIUM),
 
-    ONYX("onyx", SimpleOres.CONFIG.onyxArmorDurability, SimpleOres.CONFIG.onyxArmorProtection.getProtectionAmount(),
-            SoundEvents.ITEM_ARMOR_EQUIP_TURTLE, SimpleOres.CONFIG.onyxArmorProtection.thoughness(), SimpleOres.CONFIG.onyxArmorProtection.knockbackProtection(), SimpleOresTiers.ONYX);
+    ONYX("onyx", SimpleOres.CONFIG.onyxArmorDurability, SimpleOres.CONFIG.onyxArmorProtection,
+            SoundEvents.ITEM_ARMOR_EQUIP_TURTLE, SimpleOresTiers.ONYX);
 
     private static final EnumMap<ArmorItem.Type, Integer> BASE_DURABILITY = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
         map.put(ArmorItem.Type.BOOTS, 13);
@@ -51,8 +52,19 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.enchantability = simpleOresTiers.getEnchantability();
         this.equipSound = equipSound;
         this.thougness = thougness;
-        this.knockbackResistance = knockbackResistance;
-        this.repairIngredient = simpleOresTiers::getRepairIngredient;
+        this.knockbackResistance = knockbackResistance/10;
+        this.repairIngredient = simpleOresTiers.getRepairIngredientSupplier();
+    }
+
+    ModArmorMaterials(String name, int durabilityMultiplier, SimpleOresConfig.ArmorProtection armorProtection, SoundEvent equipSound, SimpleOresTiers simpleOresTiers) {
+        this.name = name;
+        this.durabilityMultiplier = durabilityMultiplier;
+        this.protectionAmounts = armorProtection.getProtectionAmount();
+        this.enchantability = armorProtection.enchantability();
+        this.equipSound = equipSound;
+        this.thougness = armorProtection.thoughness();
+        this.knockbackResistance = armorProtection.knockbackProtection()/10;
+        this.repairIngredient = simpleOresTiers.getRepairIngredientSupplier();
     }
 
     @Override

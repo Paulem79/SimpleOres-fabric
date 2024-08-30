@@ -25,12 +25,12 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_stick": {
+    "has_string": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:stick"
+              "minecraft:string"
             ]
           }
         ]
@@ -46,7 +46,7 @@
   },
   "requirements": [
     [
-      "has_stick",
+      "has_string",
       "has_iron_ingot",
       "has_onyx_rod",
       "has_the_recipe"
