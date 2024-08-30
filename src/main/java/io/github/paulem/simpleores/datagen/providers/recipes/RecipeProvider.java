@@ -33,27 +33,43 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .pattern(" RS")
                 .pattern("F S")
                 .pattern(" RS")
-                .input('S', Items.STICK)
+                .input('S', Items.STRING)
                 .input('F', Items.IRON_INGOT)
                 .input('R', ModItems.MYTHRIL_ROD)
-                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
                 .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                 .criterion(hasItem(ModItems.MYTHRIL_ROD), conditionsFromItem(ModItems.MYTHRIL_ROD))
                 .group("mythril")
                 .offerTo(exporter, Identifier.of(getRecipeName(ModItems.MYTHRIL_BOW)));
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.MYTHRIL_ROD)
+                .pattern("R")
+                .pattern("R")
+                .input('R', ModItems.MYTHRIL_INGOT)
+                .criterion(hasItem(ModItems.MYTHRIL_INGOT), conditionsFromItem(ModItems.MYTHRIL_INGOT))
+                .group("mythril")
+                .offerTo(exporter, Identifier.of(getRecipeName(ModItems.MYTHRIL_ROD)));
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ONYX_BOW)
                 .pattern(" RS")
                 .pattern("F S")
                 .pattern(" RS")
-                .input('S', Items.STICK)
+                .input('S', Items.STRING)
                 .input('F', Items.IRON_INGOT)
                 .input('R', ModItems.ONYX_ROD)
-                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STRING))
                 .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                 .criterion(hasItem(ModItems.ONYX_ROD), conditionsFromItem(ModItems.ONYX_ROD))
                 .group("onyx")
                 .offerTo(exporter, Identifier.of(getRecipeName(ModItems.ONYX_BOW)));
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ONYX_ROD)
+                .pattern("R")
+                .pattern("R")
+                .input('R', ModItems.ONYX_GEM)
+                .criterion(hasItem(ModItems.ONYX_GEM), conditionsFromItem(ModItems.ONYX_GEM))
+                .group("onyx")
+                .offerTo(exporter, Identifier.of(getRecipeName(ModItems.ONYX_ROD)));
 
         // Copper
         createToolsAndArmorsRecipe(Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(

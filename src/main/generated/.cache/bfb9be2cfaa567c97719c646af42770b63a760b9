@@ -1,12 +1,12 @@
-// 1.21	2024-08-29T23:53:04.7960968	SimpleOres/Tags for minecraft:item
+// 1.21	2024-08-30T16:13:41.065498	SimpleOres/Tags for minecraft:item
 a156aa9ebe129441dbf935dc15769938b0849253 data\simpleores\tags\item\dusts.json
 1276811b28309ef1539c42243a8d4a7d3e8e03a0 data\minecraft\tags\item\slabs.json
 24b7ce1c63483f1ea4c51c6c602011e26243b0a0 data\simpleores\tags\item\crushed_ores.json
 3650e6bb6d701f03674f7ca3b5b5c1dd115f189e data\minecraft\tags\item\swords.json
 3b10b4b5e3bd59e37d381434945e598df37d515f data\minecraft\tags\item\enchantable\bow.json
 c06735c012ba5f55cb0c3db4699cc6cb9f59e3ff data\minecraft\tags\item\foot_armor.json
-606c3c4bb79f4097260435325be8e835476f55c8 data\simpleores\tags\item\shears.json
 606c3c4bb79f4097260435325be8e835476f55c8 data\c\tags\item\tools\shear.json
+606c3c4bb79f4097260435325be8e835476f55c8 data\simpleores\tags\item\shears.json
 b97e017050e903ecd93f6b0b4dc8d2d8e7dc1a29 data\minecraft\tags\item\stairs.json
 def284c9b59d430f345b4a6eb6fa88bf8b6a1036 data\minecraft\tags\item\shovels.json
 365515ada0852fa27d0a03154be62613af14f84a data\minecraft\tags\item\leg_armor.json

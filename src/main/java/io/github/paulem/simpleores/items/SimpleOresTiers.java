@@ -1,7 +1,8 @@
-package mod.alexndr.simplecorelib.api.content.content;
+package io.github.paulem.simpleores.items;
 
 import com.google.common.base.Suppliers;
-import io.github.paulem.simpleores.items.ModItems;
+import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.block.Block;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
@@ -17,11 +18,11 @@ import java.util.function.Supplier;
  *
  */
 public enum SimpleOresTiers implements ToolMaterial {
-	COPPER(BlockTags.INCORRECT_FOR_STONE_TOOL, 185, 4.0f, 1.0f, 8, () -> Ingredient.ofItems(Items.COPPER_INGOT)),
-	TIN(BlockTags.INCORRECT_FOR_STONE_TOOL, 220, 3.5F, 1.0F, 8, () -> Ingredient.ofItems(ModItems.TIN_INGOT)),
-	MYTHRIL(BlockTags.INCORRECT_FOR_IRON_TOOL, 800, 8.0F, 3.0F, 12, () -> Ingredient.ofItems(ModItems.MYTHRIL_INGOT)),
-	ADAMANTIUM(BlockTags.INCORRECT_FOR_IRON_TOOL, 1150, 14.0F, 3.0F, 3, () -> Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT)),
-	ONYX(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 3280, 10.0F, 5.0F, 15, () -> Ingredient.ofItems(ModItems.ONYX_GEM));
+	COPPER(SimpleOres.CONFIG.copperTools, () -> Ingredient.ofItems(Items.COPPER_INGOT)),
+	TIN(SimpleOres.CONFIG.tinTools, () -> Ingredient.ofItems(ModItems.TIN_INGOT)),
+	MYTHRIL(SimpleOres.CONFIG.mythrilTools, () -> Ingredient.ofItems(ModItems.MYTHRIL_INGOT)),
+	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools, () -> Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT)),
+	ONYX(SimpleOres.CONFIG.onyxTools, () -> Ingredient.ofItems(ModItems.ONYX_GEM));
 
 	private final TagKey<Block> inverseTag;
 	private final int itemDurability;
@@ -44,6 +45,22 @@ public enum SimpleOresTiers implements ToolMaterial {
 		this.attackDamage = attackDamage;
 		this.enchantability = enchantability;
 		this.repairIngredient = Suppliers.memoize(repairIngredient::get);
+	}
+
+	SimpleOresTiers(SimpleOresConfig.ToolsProperties toolsProperties, Supplier<Ingredient> repairIngredient) {
+		this.inverseTag = switch (toolsProperties.miningLevel()){
+			case WOOD -> BlockTags.INCORRECT_FOR_WOODEN_TOOL;
+			case STONE -> BlockTags.INCORRECT_FOR_STONE_TOOL;
+			case IRON -> BlockTags.INCORRECT_FOR_IRON_TOOL;
+			case DIAMOND -> BlockTags.INCORRECT_FOR_DIAMOND_TOOL;
+			case NETHERITE -> BlockTags.INCORRECT_FOR_NETHERITE_TOOL;
+		};
+
+		this.itemDurability = toolsProperties.itemDurability();
+		this.miningSpeed = toolsProperties.miningSpeed();
+		this.attackDamage = toolsProperties.attackDamage();
+		this.enchantability = toolsProperties.enchantability();
+		this.repairIngredient = repairIngredient;
 	}
 
 	@Override
@@ -74,5 +91,13 @@ public enum SimpleOresTiers implements ToolMaterial {
 	@Override
 	public Ingredient getRepairIngredient() {
 		return this.repairIngredient.get();
+	}
+
+	public enum MiningLevels {
+		WOOD,
+		STONE,
+		IRON,
+		DIAMOND,
+		NETHERITE;
 	}
 }
