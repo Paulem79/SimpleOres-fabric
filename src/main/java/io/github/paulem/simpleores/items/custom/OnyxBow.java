@@ -16,6 +16,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,14 @@ public class OnyxBow extends BowItem
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
+        tooltip.add(Text.translatable("tips.flame_tooltip").formatted(Formatting.GREEN));
+    }
+
+    @Override
     public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft)
     {
         // add the default enchantments for Onyx bow.
@@ -43,27 +52,27 @@ public class OnyxBow extends BowItem
         EnchantmentHelper.set(enchMap, stack);
     }
 
-    private ItemStack addOnyxEnchantments(Map<Enchantment, Integer> enchMap, ItemStack stack)
+    private ItemStack addOnyxEnchantments(Map<Enchantment,Integer> oldEnch, ItemStack stack)
     {
         if (stack.isEmpty()) return stack;
 
+        Map<Enchantment,Integer> enchMap = new HashMap<>(oldEnch);
+
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        enchMap.put(Enchantments.POWER, 2);
-        enchMap.put(Enchantments.FLAME, 1);
+        if (!(enchMap.containsKey(Enchantments.POWER) && enchMap.get(Enchantments.POWER) > 1) )
+        {
+            enchMap.put(Enchantments.POWER, 2);
+        }
+
+        if (!enchMap.containsKey(Enchantments.FLAME)) enchMap.put(Enchantments.FLAME, 1);
 
         // add intrinsic enchantments, if any.
-        EnchantmentHelper.set(enchMap, stack);
+        if (!enchMap.isEmpty()) {
+            EnchantmentHelper.set(enchMap, stack);
+        }
         return stack;
     } // end addMythrilEnchantments()
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-        tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
-        tooltip.add(Text.translatable("tips.flame_tooltip").formatted(Formatting.GREEN));
-    }
 
     @Override
     public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate) {
