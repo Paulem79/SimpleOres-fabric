@@ -8,8 +8,9 @@
 		"Paulem"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://paulem79.github.io",
+		"sources": "https://github.com/Paulem79/SimpleOres-fabric",
+		"issues": "https://github.com/Paulem79/SimpleOres-fabric/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/simpleores/icon.png",

@@ -59,9 +59,9 @@ public class ModItems {
     // TOOLS & WEAPONS
     // bows
     public static final MythrilBow MYTHRIL_BOW = registerItem("mythril_bow",
-            new MythrilBow(new Item.Settings().maxDamage(750)));
+            new MythrilBow(new Item.Settings().maxDamage(SimpleOres.CONFIG.mythrilBowDurability)));
     public static final OnyxBow ONYX_BOW = registerItem("onyx_bow",
-            new OnyxBow(new Item.Settings().maxDamage(1000)));
+            new OnyxBow(new Item.Settings().maxDamage(SimpleOres.CONFIG.onyxBowDurability)));
 
     // swords: constant dmg 3, eff -2.4
     public static final SwordItem COPPER_SWORD = registerItem("copper_sword",
