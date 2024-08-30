@@ -1,10 +1,12 @@
 package io.github.paulem.simpleores.config;
 
 import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.items.SimpleOresTiers;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.util.Util;
 
 import java.util.EnumMap;
 
@@ -33,7 +35,7 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection copperArmorProtection = new ArmorProtection(2, 3, 2, 1, 3, 0, 0);
+    public ArmorProtection copperArmorProtection = new ArmorProtection(2, 3, 2, 1, 3, 0, 0, 8);
 
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
@@ -41,7 +43,7 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection tinArmorProtection = new ArmorProtection(2, 3, 2, 1, 3, 0, 0);
+    public ArmorProtection tinArmorProtection = new ArmorProtection(2, 3, 2, 1, 3, 0, 0, 8);
 
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
@@ -49,7 +51,7 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection mythrilArmorProtection = new ArmorProtection(3, 5, 4, 3, 4, 0, 0);
+    public ArmorProtection mythrilArmorProtection = new ArmorProtection(3, 5, 4, 3, 4, 0, 0, 12);
 
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
@@ -57,7 +59,7 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection adamantiumArmorProtection = new ArmorProtection(3, 8, 6, 2, 8, 1, 0);
+    public ArmorProtection adamantiumArmorProtection = new ArmorProtection(3, 8, 6, 2, 8, 1, 0, 3);
 
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
@@ -65,7 +67,7 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection onyxArmorProtection = new ArmorProtection(5, 8, 6, 5, 11, 2, 0);
+    public ArmorProtection onyxArmorProtection = new ArmorProtection(5, 8, 6, 5, 11, 2, 0, 15);
 
     @SuppressWarnings("all")
     public static final class ArmorProtection {
@@ -76,22 +78,26 @@ public class SimpleOresConfig implements ConfigData
         private int body;
         private int thoughness;
         private int knockbackProtection;
+        private int enchantability;
 
-        public ArmorProtection(int helmet, int chestplate, int leggings, int boots, int body, int thoughness, int knockbackProtection) {
+        public ArmorProtection(int helmet, int chestplate, int leggings, int boots, int body, int thoughness, int knockbackProtection, int enchantability) {
             this.helmet = helmet;
             this.chestplate = chestplate;
             this.leggings = leggings;
             this.boots = boots;
             this.thoughness = thoughness;
             this.knockbackProtection = knockbackProtection;
+            this.enchantability = enchantability;
         }
 
-        public void setProtectionAmount(EnumMap<ArmorItem.Type, Integer> attribute) {
-            attribute.put(ArmorItem.Type.BOOTS, boots());
-            attribute.put(ArmorItem.Type.LEGGINGS, leggings());
-            attribute.put(ArmorItem.Type.CHESTPLATE, chestplate());
-            attribute.put(ArmorItem.Type.HELMET, helmet());
-            attribute.put(ArmorItem.Type.BODY, body());
+        public EnumMap<ArmorItem.Type, Integer> setProtectionAmount() {
+            return Util.make(new EnumMap<>(ArmorItem.Type.class), attribute -> {
+                attribute.put(ArmorItem.Type.BOOTS, boots());
+                attribute.put(ArmorItem.Type.LEGGINGS, leggings());
+                attribute.put(ArmorItem.Type.CHESTPLATE, chestplate());
+                attribute.put(ArmorItem.Type.HELMET, helmet());
+                attribute.put(ArmorItem.Type.BODY, body());
+            });
         }
 
         public int helmet() {
@@ -122,7 +128,80 @@ public class SimpleOresConfig implements ConfigData
             return knockbackProtection;
         }
 
+        public int enchantability() {
+            return enchantability;
+        }
+
     }
+
+    // tools
+    @ConfigEntry.Gui.PrefixText
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("tools")
+    @ConfigEntry.Gui.CollapsibleObject
+    public ToolsProperties copperTools = new ToolsProperties(SimpleOresTiers.MiningLevels.STONE, 185, 4.0f, 1.0f, 8);
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("tools")
+    @ConfigEntry.Gui.CollapsibleObject
+    public ToolsProperties tinTools = new ToolsProperties(SimpleOresTiers.MiningLevels.STONE, 220, 3.5F, 1.0F, 8);
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("tools")
+    @ConfigEntry.Gui.CollapsibleObject
+    public ToolsProperties mythrilTools = new ToolsProperties(SimpleOresTiers.MiningLevels.IRON, 800, 8.0F, 3.0F, 12);
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("tools")
+    @ConfigEntry.Gui.CollapsibleObject
+    public ToolsProperties adamantiumTools = new ToolsProperties(SimpleOresTiers.MiningLevels.IRON, 1150, 14.0F, 3.0F, 3);
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("tools")
+    @ConfigEntry.Gui.CollapsibleObject
+    public ToolsProperties onyxTools = new ToolsProperties(SimpleOresTiers.MiningLevels.NETHERITE, 3280, 10.0F, 5.0F, 15);
+
+    @SuppressWarnings("all")
+    public static final class ToolsProperties {
+        private SimpleOresTiers.MiningLevels miningLevel;
+        private int itemDurability;
+        private float miningSpeed;
+        private float attackDamage;
+        private int enchantability;
+
+        public ToolsProperties(SimpleOresTiers.MiningLevels miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
+            this.miningLevel = miningLevel;
+            this.itemDurability = itemDurability;
+            this.miningSpeed = miningSpeed;
+            this.attackDamage = attackDamage;
+            this.enchantability = enchantability;
+        }
+
+        public SimpleOresTiers.MiningLevels miningLevel() {
+            return miningLevel;
+        }
+
+        public int itemDurability() {
+            return itemDurability;
+        }
+
+        public float miningSpeed() {
+            return miningSpeed;
+        }
+
+        public float attackDamage() {
+            return attackDamage;
+        }
+
+        public int enchantability() {
+            return enchantability;
+        }
+    }
+
+    // bows
+    @ConfigEntry.Gui.PrefixText
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("bows")
+    public int mythrilBowDurability = 750;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("bows")
+    public int onyxBowDurability = 1000;
 
     // copper bucket
     @ConfigEntry.Gui.PrefixText

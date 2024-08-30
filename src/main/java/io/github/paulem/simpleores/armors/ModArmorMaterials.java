@@ -1,6 +1,7 @@
 package io.github.paulem.simpleores.armors;
 
 import io.github.paulem.simpleores.SimpleOres;
+import io.github.paulem.simpleores.config.SimpleOresConfig;
 import io.github.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.item.ArmorItem;
@@ -12,7 +13,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -27,42 +27,22 @@ public final class ModArmorMaterials
     public static final RegistryEntry<ArmorMaterial> ONYX;
 
     static {// We place copper somewhere between leather and chainmail.
-        COPPER =
-                register("copper", Util.make(new EnumMap<>(ArmorItem.Type.class), (attribute) -> {
-                            SimpleOres.CONFIG.copperArmorProtection.setProtectionAmount(attribute);
-                        }), 8, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SimpleOres.CONFIG.copperArmorProtection.thoughness(), SimpleOres.CONFIG.copperArmorProtection.knockbackProtection(), Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS)
-                ); // end copper
+        COPPER = register("copper", SimpleOres.CONFIG.copperArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS));
 
         TIN = register("tin",
-                Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    SimpleOres.CONFIG.tinArmorProtection.setProtectionAmount(map);
-                }),
-                9, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,
-                SimpleOres.CONFIG.tinArmorProtection.thoughness(), SimpleOres.CONFIG.tinArmorProtection.knockbackProtection(),
+                SimpleOres.CONFIG.tinArmorProtection,
+                SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,
                 Ingredient.ofItems(ModItems.TIN_INGOT));
 
-        MYTHRIL = register("mythril", Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    SimpleOres.CONFIG.mythrilArmorProtection.setProtectionAmount(map);
-                }),
-                12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,
-                SimpleOres.CONFIG.mythrilArmorProtection.thoughness(), SimpleOres.CONFIG.mythrilArmorProtection.knockbackProtection(),
-                Ingredient.ofItems(ModItems.MYTHRIL_INGOT));
+        MYTHRIL = register("mythril", SimpleOres.CONFIG.mythrilArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, Ingredient.ofItems(ModItems.MYTHRIL_INGOT));
 
-        ADAMANTIUM = register("adamantium",
-                Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    SimpleOres.CONFIG.adamantiumArmorProtection.setProtectionAmount(map);
-                }),
-                3, SoundEvents.ITEM_ARMOR_EQUIP_IRON,
-                SimpleOres.CONFIG.adamantiumArmorProtection.thoughness(), SimpleOres.CONFIG.adamantiumArmorProtection.knockbackProtection(),
-                Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT));
+        ADAMANTIUM = register("adamantium", SimpleOres.CONFIG.adamantiumArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_IRON, Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT));
 
-        ONYX = register("onyx",
-                Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                    SimpleOres.CONFIG.onyxArmorProtection.setProtectionAmount(map);
-                }),
-                15, SoundEvents.ITEM_ARMOR_EQUIP_TURTLE,
-                SimpleOres.CONFIG.onyxArmorProtection.thoughness(), SimpleOres.CONFIG.onyxArmorProtection.knockbackProtection(),
-                Ingredient.ofItems(ModItems.ONYX_GEM));
+        ONYX = register("onyx", SimpleOres.CONFIG.onyxArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_TURTLE, Ingredient.ofItems(ModItems.ONYX_GEM));
+    }
+
+    private static RegistryEntry<ArmorMaterial> register(String name, SimpleOresConfig.ArmorProtection armorProtection, RegistryEntry<SoundEvent> equipSound, Ingredient ingredientItem) {
+        return register(name, armorProtection.setProtectionAmount(), armorProtection.enchantability(), equipSound, armorProtection.thoughness(), armorProtection.knockbackProtection(), ingredientItem);
     }
 
     /**
@@ -80,7 +60,7 @@ public final class ModArmorMaterials
         Supplier<Ingredient> ingredient = () -> ingredientItem;
         List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
 
-        return Registry.registerReference(Registries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance));
+        return Registry.registerReference(Registries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance/10));
     }
 
 } // end class

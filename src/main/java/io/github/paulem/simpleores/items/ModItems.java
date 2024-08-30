@@ -5,11 +5,9 @@ import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import io.github.paulem.simpleores.SimpleOres;
 import io.github.paulem.simpleores.armors.AdvancedArmorItem;
 import io.github.paulem.simpleores.armors.ModArmorMaterials;
-import io.github.paulem.simpleores.config.SimpleOresConfig;
 import io.github.paulem.simpleores.items.custom.AdvancedShearsItem;
 import io.github.paulem.simpleores.items.custom.MythrilBow;
 import io.github.paulem.simpleores.items.custom.OnyxBow;
-import io.github.paulem.simpleores.armors.SimpleOresTiers;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ShearsDispenserBehavior;
 import net.minecraft.item.*;
@@ -61,9 +59,9 @@ public class ModItems {
     // TOOLS & WEAPONS
     // bows
     public static final MythrilBow MYTHRIL_BOW = registerItem("mythril_bow",
-            new MythrilBow(new Item.Settings().maxDamage(750)));
+            new MythrilBow(new Item.Settings().maxDamage(SimpleOres.CONFIG.mythrilBowDurability)));
     public static final OnyxBow ONYX_BOW = registerItem("onyx_bow",
-            new OnyxBow(new Item.Settings().maxDamage(1000)));
+            new OnyxBow(new Item.Settings().maxDamage(SimpleOres.CONFIG.onyxBowDurability)));
 
     // swords: constant dmg 3, eff -2.4
     public static final SwordItem COPPER_SWORD = registerItem("copper_sword",

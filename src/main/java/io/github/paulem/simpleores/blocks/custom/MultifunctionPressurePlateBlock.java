@@ -1,5 +1,6 @@
 package io.github.paulem.simpleores.blocks.custom;
 
+import io.github.paulem.simpleores.mixin.accessor.WeightedPressurePlateBlockAccessor;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.BlockState;
@@ -91,10 +92,10 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
 
         if (is_weighted)
         {
-            int i = Math.min(list.size(), this.weight);
+            int i = Math.min(list.size(), ((WeightedPressurePlateBlockAccessor) this).getWeight());
             if (i > 0)
             {
-                float f = (float) i / (float) this.weight;
+                float f = (float) i / (float) ((WeightedPressurePlateBlockAccessor) this).getWeight();
                 return MathHelper.ceil(f * 15.0F);
             }
             else
