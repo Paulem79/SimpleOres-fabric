@@ -35,7 +35,7 @@ public class SimpleOres implements ModInitializer {
         try {
             CONFIG.validatePostLoad();
         } catch (ConfigData.ValidationException e) {
-            LOGGER.info("Config validation failed");
+            LOGGER.warn("Config validation failed");
         }
 
         ModBlocks.init();
@@ -52,6 +52,9 @@ public class SimpleOres implements ModInitializer {
 
 		ModWorldGeneration.generateModWorldGen();
 
-		ModCustomTrades.registerCustomTrades();
+		// If trades are enabled
+		if(SimpleOres.CONFIG.enableTrades) {
+			ModCustomTrades.registerCustomTrades();
+		}
 	}
 }
