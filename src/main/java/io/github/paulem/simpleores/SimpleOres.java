@@ -53,6 +53,9 @@ public class SimpleOres implements ModInitializer {
 
 		ModWorldGeneration.generateModWorldGen();
 
-		ModCustomTrades.registerCustomTrades();
+		// If trades are enabled
+		if(SimpleOres.CONFIG.enableTrades) {
+			ModCustomTrades.registerCustomTrades();
+		}
 	}
 }
