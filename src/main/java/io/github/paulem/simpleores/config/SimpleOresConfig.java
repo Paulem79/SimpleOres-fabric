@@ -188,6 +188,147 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Category("bows")
     public int onyxBowDurability = 1000;
 
+    // villagers
+    @ConfigEntry.Gui.PrefixText
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean enableTrades = true;
+
+    // ARMORER
+    @ConfigEntry.Gui.PrefixText
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldCopperHelmet = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldCopperChestplate = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldCopperLeggings = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldCopperBoots = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerCopperToEmeralds = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerTinToEmeralds = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldTinLeggings = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldTinBoots = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerMythrilToEmeralds = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldTinHelmet = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldTinChestplate = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldMythrilLeggingsEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldMythrilBootsEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldMythrilHelmetEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean armorerEmeraldMythrilChestplateEnchanted = true;
+
+    // TOOLSMITH
+    @ConfigEntry.Gui.PrefixText
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithCopperToEmeralds = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithTinToEmeralds = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldCopperAxe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldCopperShovel = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldCopperHoe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldCopperPickaxe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldTinAxe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldTinShovel = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldTinHoe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldTinPickaxe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithMythrilToEmerald = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldMythrilAxeEnchantedLvl3 = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldMythrilShovelEnchantedLvl3 = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldMythrilPickaxeEnchantedLvl3 = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldMythrilHoe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithAdamantiumToEmerald = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldAdamantiumAxeEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldMythrilShovelEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean toolsmithEmeraldMythrilPickaxeEnchanted = true;
+
+    // WEAPONSMITH
+    @ConfigEntry.Gui.PrefixText
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithEmeraldMythrilAxe = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithEmeraldMythrilSwordEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithCopperToEmerald = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithTinToEmerald = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithMythrilToEmerald = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithAdamantiumToEmerald = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithEmeraldAdamantiumAxeEnchanted = true;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("villagers")
+    public boolean weaponsmithEmeraldAdamantiumSwordEnchanted = true;
+
     // copper bucket
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
