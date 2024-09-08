@@ -16,7 +16,6 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +35,7 @@ public class SimpleOres implements ModInitializer {
 		try {
 			CONFIG.validatePostLoad();
 		} catch (ConfigData.ValidationException e) {
-			LOGGER.info("Config validation failed");
+			LOGGER.warn("Config validation failed");
 		}
 
 		ModBlocks.init();
@@ -53,6 +52,9 @@ public class SimpleOres implements ModInitializer {
 
 		ModWorldGeneration.generateModWorldGen();
 
-		ModCustomTrades.registerCustomTrades();
+		// If trades are enabled
+		if(SimpleOres.CONFIG.enableTrades) {
+			ModCustomTrades.registerCustomTrades();
+		}
 	}
 }
