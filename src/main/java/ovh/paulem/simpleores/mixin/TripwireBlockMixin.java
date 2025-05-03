@@ -2,7 +2,7 @@ package ovh.paulem.simpleores.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import ovh.paulem.simpleores.items.custom.AdvancedShearsItem;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedShearsItem;
 import net.minecraft.block.TripwireBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

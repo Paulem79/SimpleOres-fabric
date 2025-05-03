@@ -1,9 +1,6 @@
 package ovh.paulem.simpleores.datagen;
 
-import ovh.paulem.simpleores.datagen.providers.AdvancementsProvider;
-import ovh.paulem.simpleores.datagen.providers.LootTableProvider;
-import ovh.paulem.simpleores.datagen.providers.ModelProvider;
-import ovh.paulem.simpleores.datagen.providers.WorldGenProvider;
+import ovh.paulem.simpleores.datagen.providers.*;
 import ovh.paulem.simpleores.datagen.providers.recipes.RecipeProvider;
 import ovh.paulem.simpleores.datagen.providers.tags.BlockTagProvider;
 import ovh.paulem.simpleores.datagen.providers.tags.ItemTagProvider;
@@ -26,6 +23,9 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(WorldGenProvider::new);
 		pack.addProvider(LootTableProvider::new);
 		pack.addProvider(AdvancementsProvider::new);
+
+		FabricDataGenerator.Pack secondaryPack = fabricDataGenerator.createPack();
+		secondaryPack.addProvider(ModEquipmentModelProvider::new);
 	}
 
 	@Override

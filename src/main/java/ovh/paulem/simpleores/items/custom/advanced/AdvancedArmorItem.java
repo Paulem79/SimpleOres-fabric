@@ -1,18 +1,26 @@
-package ovh.paulem.simpleores.armors;
+package ovh.paulem.simpleores.items.custom.advanced;
 
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.RegistryKey;
 import ovh.paulem.simpleores.SimpleOres;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
-import net.minecraft.registry.entry.RegistryEntry;
+import ovh.paulem.simpleores.armors.ModArmorMaterials;
 
 public class AdvancedArmorItem extends ArmorItem {
-    public AdvancedArmorItem(RegistryEntry<ArmorMaterial> material, Type type) {
+    private final ArmorMaterial material;
+    private final EquipmentType type;
+
+    public AdvancedArmorItem(ArmorMaterial material, EquipmentType type, RegistryKey<Item> key) {
         super(material, type,
-                new Item.Settings().maxDamage(getDurability(material, type)));
+                new Item.Settings().registryKey(key).maxDamage(getDurability(material, type)));
+
+        this.material = material;
+        this.type = type;
     }
 
-    private static int getDurability(RegistryEntry<ArmorMaterial> material, Type type) {
+    public static int getDurability(ArmorMaterial material, EquipmentType type) {
         if (material == ModArmorMaterials.COPPER){
             return type.getMaxDamage(SimpleOres.CONFIG.copperArmorDurability);
         } else if(material == ModArmorMaterials.TIN) {
@@ -26,5 +34,13 @@ public class AdvancedArmorItem extends ArmorItem {
         } else {
             return type.getMaxDamage(SimpleOres.CONFIG.copperArmorDurability);
         }
+    }
+
+    public ArmorMaterial getMaterial() {
+        return material;
+    }
+
+    public EquipmentType getType() {
+        return type;
     }
 }

@@ -1,11 +1,9 @@
 {
   "type": "energizedpower:pulverizer",
-  "ingredient": {
-    "item": "simpleores:mythril_ingot"
-  },
-  "output": {
-    "output": {
-      "item": "simpleores:mythril_dust"
+  "ingredient": "simpleores:mythril_ingot",
+  "result": {
+    "result": {
+      "id": "simpleores:mythril_dust"
     },
     "percentages": [ 1.0 ]
   }

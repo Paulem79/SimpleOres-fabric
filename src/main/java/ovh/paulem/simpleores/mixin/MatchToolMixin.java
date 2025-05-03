@@ -35,7 +35,7 @@ public abstract class MatchToolMixin implements LootCondition {
 
     static {
         CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
-            RegistryEntryList.Named<Item> modShears = Registries.ITEM.getEntryList(ModTags.Items.SHEARS).get();
+            RegistryEntryList.Named<Item> modShears = Registries.ITEM.getOrThrow(ModTags.Items.SHEARS);
             RegistryEntry<Item> shearsHolder = Registries.ITEM.getEntry(Items.SHEARS);
             //add mod shears to all MatchTool predicates that contains vanilla shears
             for (RegistryEntry<Item> modShear : modShears) {

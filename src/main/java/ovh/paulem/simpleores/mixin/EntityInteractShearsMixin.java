@@ -2,7 +2,7 @@ package ovh.paulem.simpleores.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import ovh.paulem.simpleores.items.custom.AdvancedShearsItem;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedShearsItem;
 import net.minecraft.entity.mob.BoggedEntity;
 import net.minecraft.entity.passive.MooshroomEntity;
 import net.minecraft.entity.passive.SheepEntity;

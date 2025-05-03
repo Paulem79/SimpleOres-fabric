@@ -1,18 +1,20 @@
-package ovh.paulem.simpleores.items.custom;
+package ovh.paulem.simpleores.items.custom.advanced;
 
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.Item;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.registry.RegistryKey;
 
 public class AdvancedShearsItem extends ShearsItem {
-    public AdvancedShearsItem(ToolMaterial toolMaterials) {
-        this(toolMaterials, new Settings());
+    public AdvancedShearsItem(ToolMaterial toolMaterials, RegistryKey<Item> registryKey) {
+        this(toolMaterials, new Settings().registryKey(registryKey));
     }
 
     public AdvancedShearsItem(ToolMaterial toolMaterials, Settings settings) {
         super(settings
                 .maxCount(1)
-                .maxDamage(toolMaterials.getDurability())
+                .maxDamage(toolMaterials.durability())
                 .component(DataComponentTypes.TOOL, ShearsItem.createToolComponent())
         );
     }

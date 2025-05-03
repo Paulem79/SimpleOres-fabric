@@ -28,20 +28,23 @@ public class OnyxBow extends BowItem
 {
     public OnyxBow(Settings builder)
     {
-        super(builder);
+        super(builder
+                .repairable(ModItems.ONYX_ROD)
+        );
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft)
+    public boolean onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft)
     {
         // add the default enchantments for Onyx bow.
         ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
         stack = this.addOnyxEnchantments(oldEnchants, stack, worldIn);
 
-        super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        boolean stopped = super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
         EnchantmentHelper.set(stack, oldEnchants);
+        return stopped;
     }
 
     private ItemStack addOnyxEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
@@ -50,7 +53,7 @@ public class OnyxBow extends BowItem
 
         ItemEnchantmentsComponent.Builder enchMap = new ItemEnchantmentsComponent.Builder(oldEnch);
 
-        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
 
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
@@ -72,15 +75,4 @@ public class OnyxBow extends BowItem
         tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
         tooltip.add(Text.translatable("tips.flame_tooltip").formatted(Formatting.GREEN));
     }
-
-    @Override
-    public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate) {
-        return this.getRepairIngredient().test(pRepairCandidate) || super.canRepair(pStack, pRepairCandidate);
-    }
-    
-    public Ingredient getRepairIngredient()
-    {
-        return Ingredient.ofItems(ModItems.ONYX_ROD);
-    }
-
 }  // end class OnyxBow

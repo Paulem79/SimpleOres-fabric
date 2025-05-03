@@ -1,11 +1,11 @@
 package ovh.paulem.simpleores.config;
 
+import net.minecraft.item.equipment.EquipmentType;
 import ovh.paulem.simpleores.SimpleOres;
-import ovh.paulem.simpleores.items.SimpleOresTiers;
+import ovh.paulem.simpleores.items.ModToolMaterials;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.util.Util;
 
 import java.util.EnumMap;
@@ -90,13 +90,13 @@ public class SimpleOresConfig implements ConfigData
             this.enchantability = enchantability;
         }
 
-        public EnumMap<ArmorItem.Type, Integer> setProtectionAmount() {
-            return Util.make(new EnumMap<>(ArmorItem.Type.class), attribute -> {
-                attribute.put(ArmorItem.Type.BOOTS, boots());
-                attribute.put(ArmorItem.Type.LEGGINGS, leggings());
-                attribute.put(ArmorItem.Type.CHESTPLATE, chestplate());
-                attribute.put(ArmorItem.Type.HELMET, helmet());
-                attribute.put(ArmorItem.Type.BODY, body());
+        public EnumMap<EquipmentType, Integer> setProtectionAmount() {
+            return Util.make(new EnumMap<>(EquipmentType.class), attribute -> {
+                attribute.put(EquipmentType.BOOTS, boots());
+                attribute.put(EquipmentType.LEGGINGS, leggings());
+                attribute.put(EquipmentType.CHESTPLATE, chestplate());
+                attribute.put(EquipmentType.HELMET, helmet());
+                attribute.put(EquipmentType.BODY, body());
             });
         }
 
@@ -139,33 +139,33 @@ public class SimpleOresConfig implements ConfigData
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties copperTools = new ToolsProperties(SimpleOresTiers.MiningLevels.STONE, 185, 4.0f, 1.0f, 8);
+    public ToolsProperties copperTools = new ToolsProperties(ModToolMaterials.MiningLevels.STONE, 185, 4.0f, 1.0f, 8);
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties tinTools = new ToolsProperties(SimpleOresTiers.MiningLevels.STONE, 220, 3.5F, 1.0F, 8);
+    public ToolsProperties tinTools = new ToolsProperties(ModToolMaterials.MiningLevels.STONE, 220, 3.5F, 1.0F, 8);
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties mythrilTools = new ToolsProperties(SimpleOresTiers.MiningLevels.IRON, 800, 8.0F, 3.0F, 12);
+    public ToolsProperties mythrilTools = new ToolsProperties(ModToolMaterials.MiningLevels.IRON, 800, 8.0F, 3.0F, 12);
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties adamantiumTools = new ToolsProperties(SimpleOresTiers.MiningLevels.IRON, 1150, 14.0F, 3.0F, 3);
+    public ToolsProperties adamantiumTools = new ToolsProperties(ModToolMaterials.MiningLevels.IRON, 1150, 14.0F, 3.0F, 3);
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties onyxTools = new ToolsProperties(SimpleOresTiers.MiningLevels.NETHERITE, 3280, 10.0F, 5.0F, 15);
+    public ToolsProperties onyxTools = new ToolsProperties(ModToolMaterials.MiningLevels.NETHERITE, 3280, 10.0F, 5.0F, 15);
 
     @SuppressWarnings("all")
     public static final class ToolsProperties {
-        private SimpleOresTiers.MiningLevels miningLevel;
+        private ModToolMaterials.MiningLevels miningLevel;
         private int itemDurability;
         private float miningSpeed;
         private float attackDamage;
         private int enchantability;
 
-        public ToolsProperties(SimpleOresTiers.MiningLevels miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
+        public ToolsProperties(ModToolMaterials.MiningLevels miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
             this.miningLevel = miningLevel;
             this.itemDurability = itemDurability;
             this.miningSpeed = miningSpeed;
@@ -173,7 +173,7 @@ public class SimpleOresConfig implements ConfigData
             this.enchantability = enchantability;
         }
 
-        public SimpleOresTiers.MiningLevels miningLevel() {
+        public ModToolMaterials.MiningLevels miningLevel() {
             return miningLevel;
         }
 

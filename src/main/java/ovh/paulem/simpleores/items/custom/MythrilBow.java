@@ -11,7 +11,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
@@ -32,7 +31,9 @@ public class MythrilBow extends BowItem
 
     public MythrilBow(Settings builder)
     {
-        super(builder);
+        super(builder
+                .repairable(ModItems.MYTHRIL_ROD)
+        );
         rng = new Random();
     }
 
@@ -45,15 +46,16 @@ public class MythrilBow extends BowItem
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+    public boolean onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
         // add the default enchantments for Mythril bow.
         ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
         stack = this.addMythrilEnchantments(oldEnchants, stack, worldIn);
 
-        super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        boolean stopped = super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
         EnchantmentHelper.set(stack, oldEnchants);
+        return stopped;
     }// end onPlayerStoppedUsing()
 
     private ItemStack addMythrilEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
@@ -62,7 +64,7 @@ public class MythrilBow extends BowItem
 
         ItemEnchantmentsComponent.Builder enchMap = new ItemEnchantmentsComponent.Builder(oldEnch);
 
-        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
 
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
@@ -78,15 +80,4 @@ public class MythrilBow extends BowItem
         }
         return stack;
     } // end addMythrilEnchantments()
-
-    @Override
-    public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate)
-    {
-        return this.getRepairIngredient().test(pRepairCandidate) || super.canRepair(pStack, pRepairCandidate);
-    }
-    
-    public Ingredient getRepairIngredient()
-    {
-        return Ingredient.ofItems(ModItems.MYTHRIL_ROD);
-    }
 }  // end class MythrilBow

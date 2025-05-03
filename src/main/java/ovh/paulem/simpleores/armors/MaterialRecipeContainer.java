@@ -1,7 +1,7 @@
 package ovh.paulem.simpleores.armors;
 
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
-import ovh.paulem.simpleores.items.custom.AdvancedShearsItem;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedShearsItem;
 import ovh.paulem.simpleores.blocks.custom.MultifunctionPressurePlateBlock;
 import net.minecraft.block.*;
 import net.minecraft.item.*;

@@ -1,6 +1,8 @@
 package ovh.paulem.simpleores.datagen.providers;
 
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
+import ovh.paulem.simpleores.armors.ModEquipmentModels;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -8,7 +10,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.*;
 import net.minecraft.data.client.*;
 import net.minecraft.item.*;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 public class ModelProvider extends FabricModelProvider {
@@ -59,8 +60,12 @@ public class ModelProvider extends FabricModelProvider {
             switch (item) {
                 case BowItem bowItem -> {}
                 case UniversalBucketItem bucketItem -> {}
-                case ArmorItem armorItem -> itemModelGenerator.registerArmor(armorItem);
-                case ToolItem toolItem -> itemModelGenerator.register(item, Models.HANDHELD);
+                case AdvancedArmorItem armorItem -> {
+                    Identifier identifier = armorItem.getMaterial().modelId();
+                    itemModelGenerator.registerArmor(item, identifier, ModEquipmentModels.REGISTERED_MODELS.get(identifier), armorItem.getType().getEquipmentSlot());
+                }
+                case MiningToolItem toolItem -> itemModelGenerator.register(item, Models.HANDHELD);
+                case SwordItem swordItem -> itemModelGenerator.register(item, Models.HANDHELD);
                 case null, default -> itemModelGenerator.register(item, Models.GENERATED);
             }
         }

@@ -16,8 +16,8 @@ public class WorldGenProvider extends FabricDynamicRegistryProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
         // HERE GOES FUTURE WORLD GEN!
-        entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
-        entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
+        entries.addAll(registries.getOrThrow(RegistryKeys.CONFIGURED_FEATURE));
+        entries.addAll(registries.getOrThrow(RegistryKeys.PLACED_FEATURE));
     }
 
     @Override

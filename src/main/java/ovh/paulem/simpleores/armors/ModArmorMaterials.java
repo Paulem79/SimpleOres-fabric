@@ -1,67 +1,66 @@
 package ovh.paulem.simpleores.armors;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.config.SimpleOresConfig;
-import ovh.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
+import ovh.paulem.simpleores.tags.ModTags;
 
 import java.util.EnumMap;
-import java.util.List;
-import java.util.function.Supplier;
 
 public final class ModArmorMaterials
 {
-    public static final RegistryEntry<ArmorMaterial> COPPER;
-    public static final RegistryEntry<ArmorMaterial> TIN;
-    public static final RegistryEntry<ArmorMaterial> MYTHRIL;
-    public static final RegistryEntry<ArmorMaterial> ADAMANTIUM;
-    public static final RegistryEntry<ArmorMaterial> ONYX;
+    public static final ArmorMaterial COPPER;
+    public static final ArmorMaterial TIN;
+    public static final ArmorMaterial MYTHRIL;
+    public static final ArmorMaterial ADAMANTIUM;
+    public static final ArmorMaterial ONYX;
 
-    static {// We place copper somewhere between leather and chainmail.
-        COPPER = register("copper", SimpleOres.CONFIG.copperArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS));
+    static {
+        COPPER = register("copper", SimpleOres.CONFIG.copperArmorDurability, SimpleOres.CONFIG.copperArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, ConventionalItemTags.COPPER_INGOTS);
 
-        TIN = register("tin",
+        TIN = register("tin", SimpleOres.CONFIG.tinArmorDurability,
                 SimpleOres.CONFIG.tinArmorProtection,
                 SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,
-                Ingredient.ofItems(ModItems.TIN_INGOT));
+                ModTags.Items.REPAIRS_TIN_ITEMS);
 
-        MYTHRIL = register("mythril", SimpleOres.CONFIG.mythrilArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, Ingredient.ofItems(ModItems.MYTHRIL_INGOT));
+        MYTHRIL = register("mythril", SimpleOres.CONFIG.mythrilArmorDurability, SimpleOres.CONFIG.mythrilArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, ModTags.Items.REPAIRS_MYTHRIL_ITEMS);
 
-        ADAMANTIUM = register("adamantium", SimpleOres.CONFIG.adamantiumArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_IRON, Ingredient.ofItems(ModItems.ADAMANTIUM_INGOT));
+        ADAMANTIUM = register("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability, SimpleOres.CONFIG.adamantiumArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_IRON, ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS);
 
-        ONYX = register("onyx", SimpleOres.CONFIG.onyxArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_TURTLE, Ingredient.ofItems(ModItems.ONYX_GEM));
+        ONYX = register("onyx", SimpleOres.CONFIG.onyxArmorDurability, SimpleOres.CONFIG.onyxArmorProtection, SoundEvents.ITEM_ARMOR_EQUIP_TURTLE, ModTags.Items.REPAIRS_ONYX_ITEMS);
     }
 
-    private static RegistryEntry<ArmorMaterial> register(String name, SimpleOresConfig.ArmorProtection armorProtection, RegistryEntry<SoundEvent> equipSound, Ingredient ingredientItem) {
-        return register(name, armorProtection.setProtectionAmount(), armorProtection.enchantability(), equipSound, armorProtection.thoughness(), armorProtection.knockbackProtection(), ingredientItem);
+    private static ArmorMaterial register(String name, int durabilityMultiplier, SimpleOresConfig.ArmorProtection armorProtection, RegistryEntry<SoundEvent> equipSound, TagKey<Item> repairIngredient) {
+        return register(name, durabilityMultiplier, armorProtection.setProtectionAmount(), armorProtection.enchantability(), equipSound, armorProtection.thoughness(), armorProtection.knockbackProtection(), repairIngredient);
     }
 
     /**
-     * @param name                  Name ofItems the armor material
-     * @param typeProtections       The amount ofItems protection per slot
+     * @param typeProtections       The amount of protection per slot
      * @param enchantability        The higher the number, the more likely better enchantments will be applied when using the enchanting table
      * @param toughness             Toughness for netherite armor
      * @param knockbackResistance   The knockback resistance for armor
-     * @param ingredientItem        Item used in anvil to repair the armor piece
      * @return Registered armor material
      */
-    private static RegistryEntry<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> typeProtections, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Ingredient ingredientItem)
+    private static ArmorMaterial register(String name, int durability, EnumMap<EquipmentType, Integer> typeProtections, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, TagKey<Item> repairIngredient)
     {
         Identifier loc = Identifier.of(SimpleOres.MOD_ID, name);
-        Supplier<Ingredient> ingredient = () -> ingredientItem;
-        List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
 
-        return Registry.registerReference(Registries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance/10));
+        EnumMap<EquipmentType, Integer> typeMap = new EnumMap<>(EquipmentType.class);
+        for (EquipmentType type : EquipmentType.values())
+        {
+            typeMap.put(type, typeProtections.get(type));
+        }
+
+        //return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance));
+        return new ArmorMaterial(durability, typeProtections, enchantability, equipSound, toughness, knockbackResistance, repairIngredient, loc);
     }
 
 } // end class

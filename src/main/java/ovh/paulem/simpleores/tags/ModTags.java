@@ -60,6 +60,18 @@ public class ModTags {
         public static final TagKey<Item> CRUSHED_ORES =
                 createTag("crushed_ores");
 
+        public static final TagKey<Item> REPAIRS_TIN_ITEMS =
+                createTag("repairs_tin_items");
+
+        public static final TagKey<Item> REPAIRS_MYTHRIL_ITEMS =
+                createTag("repairs_mythril_items");
+
+        public static final TagKey<Item> REPAIRS_ADAMANTIUM_ITEMS =
+                createTag("repairs_adamantium_items");
+
+        public static final TagKey<Item> REPAIRS_ONYX_ITEMS =
+                createTag("repairs_onyx_items");
+
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(SimpleOres.MOD_ID, name));
         }

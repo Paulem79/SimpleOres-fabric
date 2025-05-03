@@ -1,11 +1,9 @@
 {
   "type": "energizedpower:pulverizer",
-  "ingredient": {
-    "item": "simpleores:raw_adamantium_block"
-  },
-  "output": {
-    "output": {
-      "item": "simpleores:adamantium_dust"
+  "ingredient": "simpleores:raw_adamantium_block",
+  "result": {
+    "result": {
+      "id": "simpleores:adamantium_dust"
     },
     "percentages": [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.25 ]
   }
