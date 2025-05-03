@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "io.github.paulem.simpleores.mixin",
+  "package": "ovh.paulem.simpleores.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockInteractShearsMixin",
@@ -12,5 +12,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

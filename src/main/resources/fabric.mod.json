@@ -2,13 +2,13 @@
 	"schemaVersion": 1,
 	"id": "simpleores",
 	"version": "${version}",
-	"name": "SimpleOres",
+	"name": "SimpleOres Refabricated",
 	"description": "An unofficial port of SimpleOres for fabric",
 	"authors": [
 		"Paulem"
 	],
 	"contact": {
-		"homepage": "https://paulem79.github.io",
+		"homepage": "https://paulem.ovh",
 		"sources": "https://github.com/Paulem79/SimpleOres-fabric",
 		"issues": "https://github.com/Paulem79/SimpleOres-fabric/issues"
 	},
@@ -17,16 +17,16 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"io.github.paulem.simpleores.SimpleOres"
+          "ovh.paulem.simpleores.SimpleOres"
 		],
 		"modmenu": [
-			"io.github.paulem.simpleores.config.ModMenuCompat"
+          "ovh.paulem.simpleores.config.ModMenuCompat"
 		],
 		"client": [
-			"io.github.paulem.simpleores.SimpleOresClient"
+          "ovh.paulem.simpleores.SimpleOresClient"
 		],
 		"fabric-datagen": [
-          "io.github.paulem.simpleores.datagen.SimpleOresDataGenerator"
+          "ovh.paulem.simpleores.datagen.SimpleOresDataGenerator"
 		]
 	},
 	"mixins": [
@@ -34,13 +34,13 @@
 	],
 	"depends": {
 		"java": "*",
-		"minecraft": ">=1.21-",
+		"minecraft": ">=${min_version_range} <=${max_version_range}",
 		"fabricloader": "*",
 		"fabric-api": "*",
-		"cloth-config": "*",
-		"bucketlib": "*"
+		"cloth-config": "*"
 	},
 	"recommends": {
-		"modmenu": "*"
+		"modmenu": "*",
+		"energizedpower": "*"
 	}
 }
