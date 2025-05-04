@@ -1,6 +1,7 @@
 package ovh.paulem.simpleores.datagen.providers.recipes;
 
-import net.minecraft.data.server.recipe.*;
+import net.minecraft.data.recipe.RecipeExporter;
+import net.minecraft.data.recipe.RecipeGenerator;
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.armors.MaterialRecipeContainer;
 import ovh.paulem.simpleores.blocks.ModBlocks;
@@ -18,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static net.minecraft.data.server.recipe.RecipeGenerator.*;
+import static net.minecraft.data.recipe.RecipeGenerator.getRecipeName;
+import static net.minecraft.data.recipe.RecipeGenerator.hasItem;
 
 public class RecipeProvider extends FabricRecipeProvider {
     public RecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
@@ -81,7 +83,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE,
                         ModItems.COPPER_HELMET, ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS, ModItems.COPPER_SHEARS,
                         Blocks.COPPER_ORE, Blocks.DEEPSLATE_COPPER_ORE, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, Items.RAW_COPPER, null,
-                        null, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null, ModItems.COPPER_BUCKET, null, true
+                        null, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null, null, true
                 ));
 
                 // Tin
@@ -89,7 +91,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         ModItems.TIN_SWORD, ModItems.TIN_PICKAXE, ModItems.TIN_AXE, ModItems.TIN_SHOVEL, ModItems.TIN_HOE,
                         ModItems.TIN_HELMET, ModItems.TIN_CHESTPLATE, ModItems.TIN_LEGGINGS, ModItems.TIN_BOOTS, ModItems.TIN_SHEARS,
                         ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, ModBlocks.TIN_BLOCK, ModBlocks.RAW_TIN_BLOCK, ModItems.RAW_TIN, ModItems.TIN_NUGGET,
-                        ModBlocks.tin_door, ModBlocks.tin_bars, ModBlocks.tin_pressure_plate, ModBlocks.TIN_BRICKS, ModBlocks.TIN_BRICK_SLAB, ModBlocks.tin_brick_stairs, null, 0.4f, false
+                        ModBlocks.tin_door, ModBlocks.tin_bars, ModBlocks.tin_pressure_plate, ModBlocks.TIN_BRICKS, ModBlocks.TIN_BRICK_SLAB, ModBlocks.tin_brick_stairs, 0.4f, false
                 ));
 
                 // Mythril
@@ -97,7 +99,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         ModItems.MYTHRIL_SWORD, ModItems.MYTHRIL_PICKAXE, ModItems.MYTHRIL_AXE, ModItems.MYTHRIL_SHOVEL, ModItems.MYTHRIL_HOE,
                         ModItems.MYTHRIL_HELMET, ModItems.MYTHRIL_CHESTPLATE, ModItems.MYTHRIL_LEGGINGS, ModItems.MYTHRIL_BOOTS, ModItems.MYTHRIL_SHEARS,
                         ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, ModBlocks.MYTHRIL_BLOCK, ModBlocks.RAW_MYTHRIL_BLOCK, ModItems.RAW_MYTHRIL, ModItems.MYTHRIL_NUGGET,
-                        ModBlocks.mythril_door, ModBlocks.mythril_bars, ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BRICKS, ModBlocks.MYTHRIL_BRICK_SLAB, ModBlocks.mythril_brick_stairs, null, 0.7f, false
+                        ModBlocks.mythril_door, ModBlocks.mythril_bars, ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BRICKS, ModBlocks.MYTHRIL_BRICK_SLAB, ModBlocks.mythril_brick_stairs, 0.7f, false
                 ));
 
                 // Adamantium
@@ -105,7 +107,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         ModItems.ADAMANTIUM_SWORD, ModItems.ADAMANTIUM_PICKAXE, ModItems.ADAMANTIUM_AXE, ModItems.ADAMANTIUM_SHOVEL, ModItems.ADAMANTIUM_HOE,
                         ModItems.ADAMANTIUM_HELMET, ModItems.ADAMANTIUM_CHESTPLATE, ModItems.ADAMANTIUM_LEGGINGS, ModItems.ADAMANTIUM_BOOTS, ModItems.ADAMANTIUM_SHEARS,
                         ModBlocks.ADAMANTIUM_ORE, ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, ModBlocks.ADAMANTIUM_BLOCK, ModBlocks.RAW_ADAMANTIUM_BLOCK, ModItems.RAW_ADAMANTIUM, ModItems.ADAMANTIUM_NUGGET,
-                        ModBlocks.adamantium_door, ModBlocks.adamantium_bars, ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BRICKS, ModBlocks.ADAMANTIUM_BRICK_SLAB, ModBlocks.adamantium_brick_stairs, null, 0.7f, false
+                        ModBlocks.adamantium_door, ModBlocks.adamantium_bars, ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BRICKS, ModBlocks.ADAMANTIUM_BRICK_SLAB, ModBlocks.adamantium_brick_stairs, 0.7f, false
                 ));
 
                 // Onyx
@@ -113,7 +115,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                         ModItems.ONYX_SWORD, ModItems.ONYX_PICKAXE, ModItems.ONYX_AXE, ModItems.ONYX_SHOVEL, ModItems.ONYX_HOE,
                         ModItems.ONYX_HELMET, ModItems.ONYX_CHESTPLATE, ModItems.ONYX_LEGGINGS, ModItems.ONYX_BOOTS, ModItems.ONYX_SHEARS,
                         ModBlocks.ONYX_ORE, null, ModBlocks.ONYX_BLOCK, null, null, null,
-                        ModBlocks.onyx_door, ModBlocks.onyx_bars, ModBlocks.onyx_pressure_plate, ModBlocks.ONYX_BRICKS, ModBlocks.ONYX_BRICK_SLAB, ModBlocks.onyx_brick_stairs, null, 1f, false
+                        ModBlocks.onyx_door, ModBlocks.onyx_bars, ModBlocks.onyx_pressure_plate, ModBlocks.ONYX_BRICKS, ModBlocks.ONYX_BRICK_SLAB, ModBlocks.onyx_brick_stairs, 1f, false
                 ));
             }
         };
@@ -164,16 +166,6 @@ public class RecipeProvider extends FabricRecipeProvider {
         }
         if(container.shears() != null) {
             createShearsRecipe(generator, container.shears(), requiredItem, exporter, group);
-        }
-        if(container.bucket() != null) {
-            SMELT_NUGGET_ITEMS.add(container.bucket());
-            generator.createShaped(RecipeCategory.MISC, container.bucket())
-                    .pattern("R R")
-                    .pattern(" R ")
-                    .input('R', requiredItem)
-                    .criterion(hasItem(requiredItem), generator.conditionsFromItem(requiredItem))
-                    .group(group)
-                    .offerTo(exporter);
         }
 
         if(container.block() != null) generator.offerReversibleCompactingRecipes(RecipeCategory.BUILDING_BLOCKS, requiredItem, RecipeCategory.DECORATIONS, container.block());

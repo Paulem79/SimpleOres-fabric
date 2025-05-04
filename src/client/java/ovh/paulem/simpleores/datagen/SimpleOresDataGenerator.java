@@ -4,8 +4,8 @@ import ovh.paulem.simpleores.datagen.providers.*;
 import ovh.paulem.simpleores.datagen.providers.recipes.RecipeProvider;
 import ovh.paulem.simpleores.datagen.providers.tags.BlockTagProvider;
 import ovh.paulem.simpleores.datagen.providers.tags.ItemTagProvider;
-import ovh.paulem.simpleores.datagen.world.ModConfiguredFeatures;
-import ovh.paulem.simpleores.datagen.world.ModPlacedFeatures;
+import ovh.paulem.simpleores.world.ModConfiguredFeatures;
+import ovh.paulem.simpleores.world.ModPlacedFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.registry.RegistryBuilder;
@@ -25,7 +25,7 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(AdvancementsProvider::new);
 
 		FabricDataGenerator.Pack secondaryPack = fabricDataGenerator.createPack();
-		secondaryPack.addProvider(ModEquipmentModelProvider::new);
+		secondaryPack.addProvider(ModEquipmentAssetProvider::new);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
-package ovh.paulem.simpleores.datagen.world.gen;
+package ovh.paulem.simpleores.world;
 
-import ovh.paulem.simpleores.datagen.world.ModPlacedFeatures;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.world.gen.GenerationStep;

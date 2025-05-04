@@ -1,7 +1,7 @@
 package ovh.paulem.simpleores.armors;
 
+import net.minecraft.client.render.entity.equipment.EquipmentModel;
 import net.minecraft.item.equipment.ArmorMaterial;
-import net.minecraft.item.equipment.EquipmentModel;
 import net.minecraft.util.Identifier;
 
 import java.util.*;
@@ -27,7 +27,7 @@ public final class ModEquipmentModels
 
     private static EquipmentModel humanoidModel(ArmorMaterial armorMaterial)
     {
-        Identifier location = armorMaterial.modelId();
+        Identifier location = armorMaterial.assetId().getValue();
 
         EquipmentModel model = EquipmentModel.builder().addHumanoidLayers(location).build();
 

@@ -1,6 +1,5 @@
 package ovh.paulem.simpleores.armors;
 
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedShearsItem;
 import ovh.paulem.simpleores.blocks.custom.MultifunctionPressurePlateBlock;
 import net.minecraft.block.*;
@@ -13,6 +12,6 @@ public record MaterialRecipeContainer(@Nullable SwordItem sword, @Nullable Picka
                                       @Nullable Block ore, @Nullable Block deepslateOre, @Nullable Block block, @Nullable Block rawBlock,
                                       @Nullable Item raw, @Nullable Item nugget,
                                       @Nullable DoorBlock door, @Nullable PaneBlock bars, @Nullable MultifunctionPressurePlateBlock pressurePlate, @Nullable Block cut, @Nullable
-                                      SlabBlock cutSlab, @Nullable StairsBlock stairs, @Nullable UniversalBucketItem bucket,
+                                      SlabBlock cutSlab, @Nullable StairsBlock stairs,
                                       @Nullable Float smeltXp, boolean excludeSmeltCreation) {
 }

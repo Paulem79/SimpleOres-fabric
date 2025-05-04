@@ -1,4 +1,4 @@
-package ovh.paulem.simpleores.datagen.world.gen;
+package ovh.paulem.simpleores.world;
 
 public class ModWorldGeneration {
     public static void generateModWorldGen() {

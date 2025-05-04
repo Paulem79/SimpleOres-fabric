@@ -62,14 +62,6 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.copper_pick_ach.desc")
         );
 
-        AdvancementEntry copperBucket = buildAdvancement(
-                neitherOrNeitherIron,
-                consumer,
-                ModItems.COPPER_BUCKET,
-                Text.translatable("advancements.copper_bucket_ach"),
-                Text.translatable("advancements.copper_bucket_ach.desc")
-        );
-
         AdvancementEntry tinAdvancement = buildAdvancement(
                 neitherOrNeitherIron,
                 consumer,

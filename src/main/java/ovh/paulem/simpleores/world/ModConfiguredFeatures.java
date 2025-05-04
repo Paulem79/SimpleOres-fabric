@@ -1,4 +1,4 @@
-package ovh.paulem.simpleores.datagen.world;
+package ovh.paulem.simpleores.world;
 
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.blocks.ModBlocks;

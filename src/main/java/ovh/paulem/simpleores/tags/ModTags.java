@@ -39,9 +39,6 @@ public class ModTags {
         public static final TagKey<Item> ARMORS =
                 createTag("armors");
 
-        public static final TagKey<Item> BUCKETS =
-                createTag("buckets");
-
         public static final TagKey<Item> SHEARS =
                 createTag("shears");
 

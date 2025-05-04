@@ -1,9 +1,9 @@
 package ovh.paulem.simpleores.datagen.providers.tags;
 
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.impl.tag.convention.v2.TagRegistration;
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SlabBlock;
@@ -12,6 +12,7 @@ import net.minecraft.item.*;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import org.jetbrains.annotations.Nullable;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
@@ -75,10 +76,6 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 // Shears
                 this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
                         .add(item);
-            } else if (item instanceof UniversalBucketItem) {
-                // Buckets
-                this.getOrCreateTagBuilder(ModTags.Items.BUCKETS)
-                        .add(item);
             } else if (item instanceof BowItem) {
                 // Bows
                 this.getOrCreateTagBuilder(ModTags.Items.BOWS)
@@ -87,9 +84,21 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 // Nuggets
                 this.getOrCreateTagBuilder(ModTags.Items.NUGGETS)
                         .add(item);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("_nugget", "");
+
+                this.getOrCreateTagBuilder(TagRegistration.ITEM_TAG.registerC("nuggets/" + material))
+                        .add(item);
             } else if(identifier.getPath().contains("_dust")) {
                 // Dusts
                 this.getOrCreateTagBuilder(ModTags.Items.DUSTS)
+                        .add(item);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("_dust", "");
+
+                this.getOrCreateTagBuilder(TagRegistration.ITEM_TAG.registerC("dusts/" + material))
                         .add(item);
             } else if(identifier.getPath().contains("crushed_") && identifier.getPath().contains("_ore")) {
                 // Crushed Ore
@@ -99,12 +108,30 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 // Ingots
                 this.getOrCreateTagBuilder(ModTags.Items.INGOTS)
                         .add(item);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("_ingot", "");
+
+                this.getOrCreateTagBuilder(TagRegistration.ITEM_TAG.registerC("ingots/" + material))
+                        .add(item);
             } else if(identifier.getPath().contains("_gem")) {
                 // Gems
                 this.getOrCreateTagBuilder(ModTags.Items.GEMS)
                         .add(item);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("_gem", "");
+
+                this.getOrCreateTagBuilder(TagRegistration.ITEM_TAG.registerC("gems/" + material))
+                        .add(item);
             } else if(identifier.getPath().contains("raw_")) {
                 this.getOrCreateTagBuilder(ConventionalItemTags.RAW_MATERIALS)
+                        .add(item);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("raw_", "");
+
+                this.getOrCreateTagBuilder(TagRegistration.ITEM_TAG.registerC("raw_materials/" + material))
                         .add(item);
             } else if(identifier.getPath().contains("_rod")) {
                 this.getOrCreateTagBuilder(ConventionalItemTags.RODS)
@@ -144,10 +171,6 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .addTag(ModTags.Items.PICKAXES);
         this.getOrCreateTagBuilder(ConventionalItemTags.MINING_TOOL_TOOLS)
                 .addTag(ModTags.Items.PICKAXES);
-
-        // ------------------- BUCKETS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.BUCKETS)
-                .addTag(ModTags.Items.BUCKETS);
 
         // ------------------- SHEARS -------------------
         this.getOrCreateTagBuilder(ConventionalItemTags.SHEAR_TOOLS)

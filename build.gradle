@@ -1,3 +1,5 @@
+// TODO : Add Copper Bucket when BucketLib is updated
+
 import ovh.paulem.buildscript.*
 
 plugins {
@@ -58,8 +60,6 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	modImplementation("com.terraformersmc:modmenu:${mod_menu_version}")
-	modImplementation("com.github.cech12.BucketLib:fabric:${bucketlib_version}")
-	include("com.github.cech12.BucketLib:fabric:${bucketlib_version}")
 }
 
 processResources {
@@ -98,8 +98,8 @@ modrinth {
     projectId = "Boe3chj8"
     versionNumber = project.version.toString()
     versionName = "SimpleOres Refabricated ${project.mod_version}"
-    versionType = "release"
-    changelog = NewGithubChangelog.getChangelog()
+    versionType = "alpha"
+    changelog = "**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n" + NewGithubChangelog.getChangelog()
     uploadFile = tasks.remapJar.archiveFile.get().asFile
     gameVersions = VersionRangeParser.parseVersionRange(min_version_range, max_version_range)
     loaders = ["fabric", "quilt"]
@@ -109,6 +109,5 @@ modrinth {
 		required.project "cloth-config"
 		optional.project "modmenu"
 		optional.project "energized-power"
-		embedded.project "bucketlib"
 	}
 }

@@ -1,8 +1,6 @@
 package ovh.paulem.simpleores.items;
 
 import com.google.common.base.Function;
-import com.google.common.base.Suppliers;
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.RegistryKey;
 import ovh.paulem.simpleores.SimpleOres;
@@ -44,15 +42,6 @@ public class ModItems {
     // parts
     public static final Item MYTHRIL_ROD = registerItem("mythril_rod", key -> new Item(new Item.Settings().registryKey(key)));
     public static final Item ONYX_ROD = registerItem("onyx_rod", key -> new Item(new Item.Settings().registryKey(key)));
-
-    // buckets
-    public static final UniversalBucketItem COPPER_BUCKET = registerItem("copper_bucket", key ->
-            new UniversalBucketItem(key,
-                    new UniversalBucketItem.Properties()
-                            .upperCrackingTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature)
-                            .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature)
-                            .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking))
-            ));
 
 
     // TOOLS & WEAPONS

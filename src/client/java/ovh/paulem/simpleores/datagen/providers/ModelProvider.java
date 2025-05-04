@@ -1,0 +1,124 @@
+package ovh.paulem.simpleores.datagen.providers;
+
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.client.data.*;
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
+import ovh.paulem.simpleores.blocks.ModBlocks;
+import ovh.paulem.simpleores.items.ModItems;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.block.*;
+import net.minecraft.item.*;
+
+public class ModelProvider extends FabricModelProvider {
+    public ModelProvider(FabricDataOutput generator) {
+        super(generator);
+    }
+
+    @Override
+    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+
+        BlockStateModelGenerator.BlockTexturePool tinBricksPool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.TIN_BRICKS);
+        tinBricksPool.stairs(ModBlocks.tin_brick_stairs);
+        tinBricksPool.slab(ModBlocks.TIN_BRICK_SLAB);
+
+        BlockStateModelGenerator.BlockTexturePool mythrilBricksPool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.MYTHRIL_BRICKS);
+        mythrilBricksPool.stairs(ModBlocks.mythril_brick_stairs);
+        mythrilBricksPool.slab(ModBlocks.MYTHRIL_BRICK_SLAB);
+
+        BlockStateModelGenerator.BlockTexturePool adamantiumBricksPool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.ADAMANTIUM_BRICKS);
+        adamantiumBricksPool.stairs(ModBlocks.adamantium_brick_stairs);
+        adamantiumBricksPool.slab(ModBlocks.ADAMANTIUM_BRICK_SLAB);
+
+        BlockStateModelGenerator.BlockTexturePool onyxBricksPool = blockStateModelGenerator.registerCubeAllModelTexturePool(ModBlocks.ONYX_BRICKS);
+        onyxBricksPool.stairs(ModBlocks.onyx_brick_stairs);
+        onyxBricksPool.slab(ModBlocks.ONYX_BRICK_SLAB);
+
+        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK);
+        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.tin_pressure_plate, ModBlocks.TIN_BLOCK);
+        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BLOCK);
+        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BLOCK);
+        blockStateModelGenerator.registerWeightedPressurePlate(ModBlocks.onyx_pressure_plate, ModBlocks.ONYX_BLOCK);
+
+        ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
+            Block block = blockItem.getBlock();
+
+            String path = identifier.getPath();
+
+            if(block instanceof PaneBlock) {
+                registerBars(blockStateModelGenerator, block);
+            }
+            else if(block instanceof DoorBlock)
+                blockStateModelGenerator.registerDoor(block);
+            else if(path.contains("ore") || path.contains("block"))
+                blockStateModelGenerator.registerSimpleCubeAll(block);
+        });
+    }
+
+    @Override
+    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+        for (Item item : ModItems.registeredItems.values()) {
+            switch (item) {
+                case BowItem bowItem -> {
+                    itemModelGenerator.registerBow(bowItem);
+                }
+                case AdvancedArmorItem armorItem -> {
+                    RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
+                    itemModelGenerator.registerArmor(item, identifier, armorItem.getType().getName(), false);
+                }
+                case MiningToolItem toolItem -> itemModelGenerator.register(toolItem, Models.HANDHELD);
+                case SwordItem swordItem -> itemModelGenerator.register(swordItem, Models.HANDHELD);
+                case null, default -> itemModelGenerator.register(item, Models.GENERATED);
+            }
+        }
+    }
+
+    private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
+        Identifier identifier = ModelIds.getBlockSubModelId(barBlock, "_post_ends");
+        Identifier identifier2 = ModelIds.getBlockSubModelId(barBlock, "_post");
+        Identifier identifier3 = ModelIds.getBlockSubModelId(barBlock, "_cap");
+        Identifier identifier4 = ModelIds.getBlockSubModelId(barBlock, "_cap_alt");
+        Identifier identifier5 = ModelIds.getBlockSubModelId(barBlock, "_side");
+        Identifier identifier6 = ModelIds.getBlockSubModelId(barBlock, "_side_alt");
+
+        blockStateModelGenerator.blockStateCollector
+                .accept(
+                        MultipartBlockStateSupplier.create(barBlock)
+                                .with(BlockStateVariant.create().put(VariantSettings.MODEL, identifier))
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier2)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, true).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier3)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, true).set(Properties.SOUTH, false).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier3).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, true).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier4)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, true),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier4).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                                .with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, identifier5))
+                                .with(
+                                        When.create().set(Properties.EAST, true),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier5).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                                .with(When.create().set(Properties.SOUTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, identifier6))
+                                .with(
+                                        When.create().set(Properties.WEST, true),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier6).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                );
+        blockStateModelGenerator.registerItemModel(barBlock);
+    }
+}

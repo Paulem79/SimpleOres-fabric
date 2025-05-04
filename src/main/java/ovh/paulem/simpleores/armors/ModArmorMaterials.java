@@ -2,7 +2,10 @@ package ovh.paulem.simpleores.armors;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.config.SimpleOresConfig;
@@ -51,16 +54,12 @@ public final class ModArmorMaterials
      */
     private static ArmorMaterial register(String name, int durability, EnumMap<EquipmentType, Integer> typeProtections, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, TagKey<Item> repairIngredient)
     {
-        Identifier loc = Identifier.of(SimpleOres.MOD_ID, name);
+        return new ArmorMaterial(durability, typeProtections, enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
+    }
 
-        EnumMap<EquipmentType, Integer> typeMap = new EnumMap<>(EquipmentType.class);
-        for (EquipmentType type : EquipmentType.values())
-        {
-            typeMap.put(type, typeProtections.get(type));
-        }
-
-        //return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections, enchantability, equipSound, ingredient, layers, toughness, knockbackResistance));
-        return new ArmorMaterial(durability, typeProtections, enchantability, equipSound, toughness, knockbackResistance, repairIngredient, loc);
+    private static RegistryKey<EquipmentAsset> getAssetKey(String name) {
+        RegistryKey<Registry<EquipmentAsset>> equipmentAsset = RegistryKey.ofRegistry(Identifier.ofVanilla("equipment_asset"));
+        return RegistryKey.of(equipmentAsset, Identifier.of(SimpleOres.MOD_ID, name));
     }
 
 } // end class
