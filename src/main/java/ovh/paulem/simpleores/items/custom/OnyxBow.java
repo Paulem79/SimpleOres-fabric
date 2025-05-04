@@ -1,8 +1,7 @@
 package ovh.paulem.simpleores.items.custom;
 
+import ovh.paulem.simpleores.tooltip.TooltipItem;
 import ovh.paulem.simpleores.items.ModItems;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -11,26 +10,32 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Custom bow that does extra damage (intrinsic POWER 2 enchantment) and sets
  * things on fire (intrinsic FLAME enchantment).
  */
-public class OnyxBow extends BowItem
+public class OnyxBow extends BowItem implements TooltipItem
 {
     public OnyxBow(Settings builder)
     {
         super(builder
+                .enchantable(1)
                 .repairable(ModItems.ONYX_ROD)
         );
+    }
+
+    @Override
+    public void appendClientTooltip(ItemStack stack, TooltipContext context, Consumer<Text> tooltips, TooltipType type) {
+        tooltips.accept(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
+        tooltips.accept(Text.translatable("tips.flame_tooltip").formatted(Formatting.GREEN));
     }
 
     @Override
@@ -67,12 +72,4 @@ public class OnyxBow extends BowItem
         }
         return stack;
     } // end addMythrilEnchantments()
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, TooltipContext pContext, List<Text> tooltip, TooltipType flagIn) {
-        super.appendTooltip(stack, pContext, tooltip, flagIn);
-        tooltip.add(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
-        tooltip.add(Text.translatable("tips.flame_tooltip").formatted(Formatting.GREEN));
-    }
 }  // end class OnyxBow

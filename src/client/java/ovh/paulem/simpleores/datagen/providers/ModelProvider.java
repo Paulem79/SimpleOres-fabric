@@ -2,16 +2,20 @@ package ovh.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.*;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.*;
 import net.minecraft.item.*;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
+import ovh.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
+
+import static net.minecraft.client.data.BlockStateModelGenerator.*;
 
 public class ModelProvider extends FabricModelProvider {
     public ModelProvider(FabricDataOutput generator) {
@@ -67,58 +71,51 @@ public class ModelProvider extends FabricModelProvider {
                 }
                 case AdvancedArmorItem armorItem -> {
                     RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
-                    itemModelGenerator.registerArmor(item, identifier, armorItem.getType().getName(), false);
+                    itemModelGenerator.registerArmor(item, identifier, ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getType().getName()), false);
                 }
-                case MiningToolItem toolItem -> itemModelGenerator.register(toolItem, Models.HANDHELD);
-                case SwordItem swordItem -> itemModelGenerator.register(swordItem, Models.HANDHELD);
+                case AdvancedToolItem advancedToolItem -> itemModelGenerator.register(item, Models.HANDHELD);
+                case AdvancedSwordItem swordItem -> itemModelGenerator.register(swordItem, Models.HANDHELD);
                 case null, default -> itemModelGenerator.register(item, Models.GENERATED);
             }
         }
     }
 
-    private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
-        Identifier identifier = ModelIds.getBlockSubModelId(barBlock, "_post_ends");
-        Identifier identifier2 = ModelIds.getBlockSubModelId(barBlock, "_post");
-        Identifier identifier3 = ModelIds.getBlockSubModelId(barBlock, "_cap");
-        Identifier identifier4 = ModelIds.getBlockSubModelId(barBlock, "_cap_alt");
-        Identifier identifier5 = ModelIds.getBlockSubModelId(barBlock, "_side");
-        Identifier identifier6 = ModelIds.getBlockSubModelId(barBlock, "_side_alt");
-
-        blockStateModelGenerator.blockStateCollector
+    private void registerBars(BlockStateModelGenerator generator, Block barBlock) {
+        WeightedVariant weightedVariant = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post_ends"));
+        WeightedVariant weightedVariant2 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post"));
+        WeightedVariant weightedVariant3 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_cap"));
+        WeightedVariant weightedVariant4 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_cap_alt"));
+        WeightedVariant weightedVariant5 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_side"));
+        WeightedVariant weightedVariant6 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_side_alt"));
+        generator.blockStateCollector
                 .accept(
-                        MultipartBlockStateSupplier.create(barBlock)
-                                .with(BlockStateVariant.create().put(VariantSettings.MODEL, identifier))
+                        MultipartBlockModelDefinitionCreator.create(barBlock)
+                                .with(weightedVariant)
                                 .with(
-                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, false),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier2)
+                                        createMultipartConditionBuilder().put(Properties.NORTH, false).put(Properties.EAST, false).put(Properties.SOUTH, false).put(Properties.WEST, false),
+                                        weightedVariant2
                                 )
                                 .with(
-                                        When.create().set(Properties.NORTH, true).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, false),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier3)
+                                        createMultipartConditionBuilder().put(Properties.NORTH, true).put(Properties.EAST, false).put(Properties.SOUTH, false).put(Properties.WEST, false),
+                                        weightedVariant3
                                 )
                                 .with(
-                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, true).set(Properties.SOUTH, false).set(Properties.WEST, false),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier3).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                        createMultipartConditionBuilder().put(Properties.NORTH, false).put(Properties.EAST, true).put(Properties.SOUTH, false).put(Properties.WEST, false),
+                                        weightedVariant3.apply(ROTATE_Y_90)
                                 )
                                 .with(
-                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, true).set(Properties.WEST, false),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier4)
+                                        createMultipartConditionBuilder().put(Properties.NORTH, false).put(Properties.EAST, false).put(Properties.SOUTH, true).put(Properties.WEST, false),
+                                        weightedVariant4
                                 )
                                 .with(
-                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, true),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier4).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                        createMultipartConditionBuilder().put(Properties.NORTH, false).put(Properties.EAST, false).put(Properties.SOUTH, false).put(Properties.WEST, true),
+                                        weightedVariant4.apply(ROTATE_Y_90)
                                 )
-                                .with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, identifier5))
-                                .with(
-                                        When.create().set(Properties.EAST, true),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier5).put(VariantSettings.Y, VariantSettings.Rotation.R90)
-                                )
-                                .with(When.create().set(Properties.SOUTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, identifier6))
-                                .with(
-                                        When.create().set(Properties.WEST, true),
-                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier6).put(VariantSettings.Y, VariantSettings.Rotation.R90)
-                                )
+                                .with(createMultipartConditionBuilder().put(Properties.NORTH, true), weightedVariant5)
+                                .with(createMultipartConditionBuilder().put(Properties.EAST, true), weightedVariant5.apply(ROTATE_Y_90))
+                                .with(createMultipartConditionBuilder().put(Properties.SOUTH, true), weightedVariant6)
+                                .with(createMultipartConditionBuilder().put(Properties.WEST, true), weightedVariant6.apply(ROTATE_Y_90))
                 );
-        blockStateModelGenerator.registerItemModel(barBlock);
+        generator.registerItemModel(barBlock);
     }
 }

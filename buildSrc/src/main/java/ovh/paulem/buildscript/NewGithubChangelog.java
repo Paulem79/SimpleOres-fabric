@@ -22,7 +22,7 @@ public class NewGithubChangelog {
 
             List<GHCommit> commits = repository
                     .queryCommits()
-                    .from("refs/heads/alpha-1.21.4")
+                    .from("refs/heads/alpha-1.21.5")
                     .list().toList();
 
             @Nullable GHCommit lastPublish = null;

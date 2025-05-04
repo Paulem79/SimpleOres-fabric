@@ -57,6 +57,9 @@ public class ModTags {
         public static final TagKey<Item> CRUSHED_ORES =
                 createTag("crushed_ores");
 
+        public static final TagKey<Item> RODS =
+                createTag("rods");
+
         public static final TagKey<Item> REPAIRS_TIN_ITEMS =
                 createTag("repairs_tin_items");
 

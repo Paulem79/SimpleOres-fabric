@@ -1,14 +1,13 @@
 package ovh.paulem.simpleores.items.custom.advanced;
 
-import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterial;
 
-public class AdvancedPickaxeItem extends PickaxeItem {
-    public AdvancedPickaxeItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(material, attackDamage, attackSpeed, settings);
-    }
-
+/**
+ * Placeholder class just for checks and compatibility.
+ */
+public class AdvancedPickaxeItem extends Item implements AdvancedToolItem {
     public AdvancedPickaxeItem(ToolMaterial material, Settings settings) {
-        this(material, 1, -2.8F, settings);
+        super(settings.pickaxe(material, 1.0F, -2.8F));
     }
 }

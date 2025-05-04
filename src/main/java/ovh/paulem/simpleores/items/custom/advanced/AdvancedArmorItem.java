@@ -2,38 +2,19 @@ package ovh.paulem.simpleores.items.custom.advanced;
 
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.registry.RegistryKey;
 import ovh.paulem.simpleores.SimpleOres;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import ovh.paulem.simpleores.armors.ModArmorMaterials;
 
-public class AdvancedArmorItem extends ArmorItem {
+public class AdvancedArmorItem extends Item {
     private final ArmorMaterial material;
     private final EquipmentType type;
 
-    public AdvancedArmorItem(ArmorMaterial material, EquipmentType type, RegistryKey<Item> key) {
-        super(material, type,
-                new Item.Settings().registryKey(key).maxDamage(getDurability(material, type)));
+    public AdvancedArmorItem(ArmorMaterial material, EquipmentType type, Settings settings) {
+        super(settings.armor(material, type));
 
         this.material = material;
         this.type = type;
-    }
-
-    public static int getDurability(ArmorMaterial material, EquipmentType type) {
-        if (material == ModArmorMaterials.COPPER){
-            return type.getMaxDamage(SimpleOres.CONFIG.copperArmorDurability);
-        } else if(material == ModArmorMaterials.TIN) {
-            return type.getMaxDamage(SimpleOres.CONFIG.tinArmorDurability);
-        } else if(material == ModArmorMaterials.MYTHRIL) {
-            return type.getMaxDamage(SimpleOres.CONFIG.mythrilArmorDurability);
-        } else if(material == ModArmorMaterials.ADAMANTIUM) {
-            return type.getMaxDamage(SimpleOres.CONFIG.adamantiumArmorDurability);
-        } else if(material == ModArmorMaterials.ONYX) {
-            return type.getMaxDamage(SimpleOres.CONFIG.onyxArmorDurability);
-        } else {
-            return type.getMaxDamage(SimpleOres.CONFIG.copperArmorDurability);
-        }
     }
 
     public ArmorMaterial getMaterial() {

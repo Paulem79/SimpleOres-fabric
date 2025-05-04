@@ -13,6 +13,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+import ovh.paulem.simpleores.tooltip.TooltipBlockItem;
+import ovh.paulem.simpleores.tooltip.TooltipBlock;
 
 import java.util.LinkedHashMap;
 
@@ -238,9 +240,12 @@ public class ModBlocks {
 
     public static<T extends Block> BlockItem registerBlockItem(T block, Identifier identifier) {
         RegistryKey<Item> key = RegistryKey.of(Registries.ITEM.getKey(), identifier);
-        
+
+        Item.Settings settings = new Item.Settings().registryKey(key);
+        BlockItem blockItem = block instanceof TooltipBlock tooltipBlock ? new TooltipBlockItem(tooltipBlock, settings) : new BlockItem(block, settings);
+
         return Registry.register(Registries.ITEM, identifier,
-                new BlockItem(block, new Item.Settings().registryKey(key)));
+                blockItem);
     }
 
     public static void init() {

@@ -1,10 +1,7 @@
 package ovh.paulem.simpleores.blocks.custom;
 
+import net.minecraft.block.*;
 import ovh.paulem.simpleores.mixin.accessor.WeightedPressurePlateBlockAccessor;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockSetType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.WeightedPressurePlateBlock;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -19,8 +16,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import ovh.paulem.simpleores.tooltip.TooltipBlock;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Incorporate both weighted pressure plate semantics and that of stone and wood pressure plates,
@@ -29,7 +28,7 @@ import java.util.List;
  * @author Sinhika
  *
  */
-public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
+public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock implements TooltipBlock
 {
     protected final MultifunctionPressurePlateBlock.Sensitivity sensitivity;
     protected final boolean is_weighted;
@@ -131,10 +130,9 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
         }
     } // end getSignalForState()
 
-
     @Override
-    public void appendTooltip(ItemStack pStack, Item.TooltipContext pContext, List<Text> pTooltip, TooltipType pFlag) {
-        super.appendTooltip(pStack, pContext, pTooltip, pFlag);
+    public void appendClientTooltip(ItemStack stack, Item.TooltipContext context, Consumer<Text> pTooltip, TooltipType type) {
+
         // end-switch
         String tipKey = switch (this.sensitivity) {
             case EVERYTHING, EVERYTHING_WEIGHTED -> "tips.pressure_plate.everything";
@@ -143,9 +141,8 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock
             case PLAYERS, PLAYERS_WEIGHTED -> "tips.pressure_plate.players";
         };
 
-        pTooltip.add(Text.translatable(tipKey).formatted(Formatting.GREEN));
+        pTooltip.accept(Text.translatable(tipKey).formatted(Formatting.GREEN));
     }
-
 
 
     /**
