@@ -6,9 +6,9 @@ import ovh.paulem.simpleores.world.ModWorldGeneration;
 import ovh.paulem.simpleores.items.ItemGroups;
 import ovh.paulem.simpleores.items.ModItems;
 import ovh.paulem.simpleores.villagers.ModCustomTrades;
-import me.shedaniel.autoconfig.AutoConfig;
+/*import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;*/
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.registry.Registries;
@@ -26,15 +26,15 @@ public class SimpleOres implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Simple Ores has been initialized!");
 
-		AutoConfig.register(SimpleOresConfig.class, Toml4jConfigSerializer::new);
+		//AutoConfig.register(SimpleOresConfig.class, Toml4jConfigSerializer::new);
 
-		CONFIG = AutoConfig.getConfigHolder(SimpleOresConfig.class).getConfig();
+		CONFIG = new SimpleOresConfig(); //AutoConfig.getConfigHolder(SimpleOresConfig.class).getConfig();
 
-		try {
+		/*try {
 			CONFIG.validatePostLoad();
 		} catch (ConfigData.ValidationException e) {
 			LOGGER.info("Config validation failed");
-		}
+		}*/
 
 		ModBlocks.init();
 		ModItems.init();

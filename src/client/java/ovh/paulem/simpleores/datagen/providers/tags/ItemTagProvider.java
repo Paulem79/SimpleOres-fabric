@@ -8,8 +8,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
+import net.minecraft.data.tag.ProvidedTagBuilder;
 import net.minecraft.item.*;
 import net.minecraft.item.equipment.EquipmentType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
@@ -30,235 +33,196 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         ModItems.registeredItems.forEach(((identifier, item) -> {
             if (item instanceof AdvancedSwordItem) {
                 // Swords
-                this.getOrCreateTagBuilder(ModTags.Items.SWORDS)
-                        .add(item);
+                build(ModTags.Items.SWORDS, item);
             } else if (item instanceof AdvancedPickaxeItem) {
                 // Pickaxes
-                this.getOrCreateTagBuilder(ModTags.Items.PICKAXES)
-                        .add(item);
+                build(ModTags.Items.PICKAXES, item);
             } else if (item instanceof AdvancedAxeItem) {
                 // Axes
-                this.getOrCreateTagBuilder(ModTags.Items.AXES)
-                        .add(item);
+                build(ModTags.Items.AXES, item);
             } else if (item instanceof AdvancedShovelItem) {
                 // Shovels
-                this.getOrCreateTagBuilder(ModTags.Items.SHOVELS)
-                        .add(item);
+                build(ModTags.Items.SHOVELS, item);
             } else if (item instanceof AdvancedHoeItem) {
                 // Hoes
-                this.getOrCreateTagBuilder(ModTags.Items.HOES)
-                        .add(item);
+                build(ModTags.Items.HOES, item);
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 // Armors
-                this.getOrCreateTagBuilder(ModTags.Items.ARMORS)
-                        .add(item);
+                build(ModTags.Items.ARMORS, item);
 
                 if(armorItem.getType() == EquipmentType.HELMET) {
                     // Helmets
-                    this.getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
-                            .add(item);
+                    build(ItemTags.HEAD_ARMOR, item);
                 } else if(armorItem.getType() == EquipmentType.CHESTPLATE) {
                     // Chestplates
-                    this.getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
-                            .add(item);
+                    build(ItemTags.CHEST_ARMOR, item);
                 } else if(armorItem.getType() == EquipmentType.LEGGINGS) {
                     // Leggings
-                    this.getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
-                            .add(item);
+                    build(ItemTags.LEG_ARMOR, item);
                 } else if(armorItem.getType() == EquipmentType.BOOTS) {
                     // Boots
-                    this.getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
-                            .add(item);
+                    build(ItemTags.FOOT_ARMOR, item);
                 }
 
             } else if (item instanceof AdvancedShearsItem) {
                 // Shears
-                this.getOrCreateTagBuilder(ModTags.Items.SHEARS)
-                        .add(item);
+                build(ModTags.Items.SHEARS, item);
             } else if (item instanceof BowItem) {
                 // Bows
-                this.getOrCreateTagBuilder(ModTags.Items.BOWS)
-                        .add(item);
+                build(ModTags.Items.BOWS, item);
             } else if(identifier.getPath().contains("_nugget")) {
                 // Nuggets
-                this.getOrCreateTagBuilder(ModTags.Items.NUGGETS)
-                        .add(item);
+                build(ModTags.Items.NUGGETS, item);
 
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_nugget", "");
 
                 TagKey<Item> tag = TagRegistration.ITEM_TAG.registerC("nuggets/" + material);
-                this.getOrCreateTagBuilder(tag)
-                        .add(item);
+                build(tag, item);
             } else if(identifier.getPath().contains("_dust")) {
                 // Dusts
-                this.getOrCreateTagBuilder(ModTags.Items.DUSTS)
-                        .add(item);
+                build(ModTags.Items.DUSTS, item);
 
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_dust", "");
 
                 TagKey<Item> tag = TagRegistration.ITEM_TAG.registerC("dusts/" + material);
-                this.getOrCreateTagBuilder(tag)
-                        .add(item);
+                build(tag, item);
 
-                this.getOrCreateTagBuilder(ConventionalItemTags.DUSTS)
-                        .addTag(tag);
+                build(ConventionalItemTags.DUSTS, tag);
             } else if(identifier.getPath().contains("crushed_") && identifier.getPath().contains("_ore")) {
                 // Crushed Ore
-                this.getOrCreateTagBuilder(ModTags.Items.CRUSHED_ORES)
-                        .add(item);
+                build(ModTags.Items.CRUSHED_ORES, item);
             } else if(identifier.getPath().contains("_ingot")) {
                 // Ingots
-                this.getOrCreateTagBuilder(ModTags.Items.INGOTS)
-                        .add(item);
+                build(ModTags.Items.INGOTS, item);
 
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_ingot", "");
 
                 TagKey<Item> tag = TagRegistration.ITEM_TAG.registerC("ingots/" + material);
-                this.getOrCreateTagBuilder(tag)
-                        .add(item);
+                build(tag, item);
             } else if(identifier.getPath().contains("_gem")) {
                 // Gems
-                this.getOrCreateTagBuilder(ModTags.Items.GEMS)
-                        .add(item);
+                build(ModTags.Items.GEMS, item);
 
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_gem", "");
 
                 TagKey<Item> tag = TagRegistration.ITEM_TAG.registerC("gems/" + material);
-                this.getOrCreateTagBuilder(tag)
-                        .add(item);
+                build(tag, item);
 
-                this.getOrCreateTagBuilder(ConventionalItemTags.GEMS)
-                        .addTag(tag);
+                build(ConventionalItemTags.GEMS, tag);
             } else if(identifier.getPath().contains("raw_")) {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("raw_", "");
 
                 TagKey<Item> tag = TagRegistration.ITEM_TAG.registerC("raw_materials/" + material);
-                this.getOrCreateTagBuilder(tag)
-                        .add(item);
+                build(tag, item);
 
-                this.getOrCreateTagBuilder(ConventionalItemTags.RAW_MATERIALS)
-                        .addTag(tag);
+                build(ConventionalItemTags.RAW_MATERIALS, tag);
             } else if(identifier.getPath().contains("_rod")) {
                 // Rods
-                this.getOrCreateTagBuilder(ModTags.Items.RODS)
-                        .add(item);
+                build(ModTags.Items.RODS, item);
 
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_rod", "");
 
                 TagKey<Item> tag = TagRegistration.ITEM_TAG.registerC("rods/" + material);
-                this.getOrCreateTagBuilder(tag)
-                        .add(item);
+                build(tag, item);
 
-                this.getOrCreateTagBuilder(ConventionalItemTags.RODS)
-                        .addTag(tag);
+                build(ConventionalItemTags.RODS, tag);
             }
         }));
 
         // ------------------- ARMORS -------------------
-        this.getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
-                .addTag(ModTags.Items.ARMORS);
+        build(ItemTags.TRIMMABLE_ARMOR, ModTags.Items.ARMORS);
 
         // ------------------- SWORDS -------------------
-        this.getOrCreateTagBuilder(ItemTags.SWORDS)
-                .addTag(ModTags.Items.SWORDS);
+        build(ItemTags.SWORDS, ModTags.Items.SWORDS);
 
         // ------------------- AXES -------------------
-        this.getOrCreateTagBuilder(ItemTags.AXES)
-                .addTag(ModTags.Items.AXES);
+        build(ItemTags.AXES, ModTags.Items.AXES);
 
         // ------------------- MELEE -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.MELEE_WEAPON_TOOLS)
-                .addTag(ModTags.Items.SWORDS)
-                .addTag(ModTags.Items.AXES);
+        build(ConventionalItemTags.MELEE_WEAPON_TOOLS, ModTags.Items.SWORDS, ModTags.Items.AXES);
 
         // ------------------- SHOVELS -------------------
-        this.getOrCreateTagBuilder(ItemTags.SHOVELS)
-                .addTag(ModTags.Items.SHOVELS);
+        build(ItemTags.SHOVELS, ModTags.Items.SHOVELS);
 
         // ------------------- HOES -------------------
-        this.getOrCreateTagBuilder(ItemTags.HOES)
-                .addTag(ModTags.Items.HOES);
+        build(ItemTags.HOES, ModTags.Items.HOES);
 
         // ------------------- PICKAXES -------------------
-        this.getOrCreateTagBuilder(ItemTags.PICKAXES)
-                .addTag(ModTags.Items.PICKAXES);
-        this.getOrCreateTagBuilder(ItemTags.CLUSTER_MAX_HARVESTABLES)
-                .addTag(ModTags.Items.PICKAXES);
-        this.getOrCreateTagBuilder(ConventionalItemTags.MINING_TOOL_TOOLS)
-                .addTag(ModTags.Items.PICKAXES);
+        build(ItemTags.PICKAXES, ModTags.Items.PICKAXES);
+        build(ItemTags.CLUSTER_MAX_HARVESTABLES, ModTags.Items.PICKAXES);
+        build(ConventionalItemTags.MINING_TOOL_TOOLS, ModTags.Items.PICKAXES);
 
         // ------------------- SHEARS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.SHEAR_TOOLS)
-                .addTag(ModTags.Items.SHEARS);
-        this.getOrCreateTagBuilder(ItemTags.MINING_ENCHANTABLE)
-                .addTag(ModTags.Items.SHEARS);
+        build(ConventionalItemTags.SHEAR_TOOLS, ModTags.Items.SHEARS);
+        build(ItemTags.MINING_ENCHANTABLE, ModTags.Items.SHEARS);
 
         // ------------------- NUGGETS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.NUGGETS)
-                .addTag(ModTags.Items.NUGGETS);
+        build(ConventionalItemTags.NUGGETS, ModTags.Items.NUGGETS);
 
         // ------------------- DUSTS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.DUSTS)
-                .addTag(ModTags.Items.DUSTS);
+        build(ConventionalItemTags.DUSTS, ModTags.Items.DUSTS);
 
         // ------------------- DURABILITY ENCHANTABLE -------------------
-        this.getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
-                .addTag(ModTags.Items.SHEARS)
-                .addTag(ModTags.Items.BOWS);
+        build(ItemTags.DURABILITY_ENCHANTABLE, ModTags.Items.SHEARS, ModTags.Items.BOWS);
 
         // ------------------- BOWS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.BOW_TOOLS)
-                .addTag(ModTags.Items.BOWS);
-        this.getOrCreateTagBuilder(ConventionalItemTags.RANGED_WEAPON_TOOLS)
-                .addTag(ModTags.Items.BOWS);
-        this.getOrCreateTagBuilder(ItemTags.BOW_ENCHANTABLE)
-                .addTag(ModTags.Items.BOWS);
+        build(ConventionalItemTags.BOW_TOOLS, ModTags.Items.BOWS);
+        build(ConventionalItemTags.RANGED_WEAPON_TOOLS, ModTags.Items.BOWS);
+        build(ItemTags.BOW_ENCHANTABLE, ModTags.Items.BOWS);
 
         // ------------------- INGOTS/GEMS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
-                .addTag(ModTags.Items.INGOTS);
-        this.getOrCreateTagBuilder(ConventionalItemTags.GEMS)
-                .addTag(ModTags.Items.GEMS);
+        build(ConventionalItemTags.INGOTS, ModTags.Items.INGOTS);
+        build(ConventionalItemTags.GEMS, ModTags.Items.GEMS);
 
-        this.getOrCreateTagBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
-                .addTag(ModTags.Items.INGOTS)
-                .addTag(ModTags.Items.GEMS);
+        build(ItemTags.BEACON_PAYMENT_ITEMS, ModTags.Items.INGOTS, ModTags.Items.GEMS);
 
         // ------------------- RODS -------------------
-        this.getOrCreateTagBuilder(ConventionalItemTags.RODS)
-                .addTag(ModTags.Items.RODS);
+        build(ConventionalItemTags.RODS, ModTags.Items.RODS);
 
         // ------------------- REPAIR -------------------
-        this.getOrCreateTagBuilder(ModTags.Items.REPAIRS_TIN_ITEMS)
-                .add(ModItems.TIN_INGOT);
+        build(ModTags.Items.REPAIRS_TIN_ITEMS, ModItems.TIN_INGOT);
 
-        this.getOrCreateTagBuilder(ModTags.Items.REPAIRS_MYTHRIL_ITEMS)
-                .add(ModItems.MYTHRIL_INGOT);
+        build(ModTags.Items.REPAIRS_MYTHRIL_ITEMS, ModItems.MYTHRIL_INGOT);
 
-        this.getOrCreateTagBuilder(ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS)
-                .add(ModItems.ADAMANTIUM_INGOT);
+        build(ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS, ModItems.ADAMANTIUM_INGOT);
 
-        this.getOrCreateTagBuilder(ModTags.Items.REPAIRS_ONYX_ITEMS)
-                .add(ModItems.ONYX_GEM);
+        build(ModTags.Items.REPAIRS_ONYX_ITEMS, ModItems.ONYX_GEM);
 
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
             Block block = blockItem.getBlock();
 
             if(block instanceof DoorBlock)
-                getOrCreateTagBuilder(ItemTags.DOORS)
-                        .add(blockItem);
+                build(ItemTags.DOORS, blockItem);
             else if(block instanceof SlabBlock)
-                getOrCreateTagBuilder(ItemTags.SLABS)
-                        .add(blockItem);
+                build(ItemTags.SLABS, blockItem);
             else if(block instanceof StairsBlock)
-                getOrCreateTagBuilder(ItemTags.STAIRS)
-                        .add(blockItem);
+                build(ItemTags.STAIRS, blockItem);
         });
+    }
+
+    private void build(TagKey<Item> tagKey, Object... objects) {
+        ProvidedTagBuilder<RegistryKey<Item>, Item> builder = builder(tagKey);
+
+        build(builder, objects);
+    }
+
+    private void build(ProvidedTagBuilder<RegistryKey<Item>, Item> builder,
+                       Object... objects) {
+        for (Object object : objects) {
+
+            if(object instanceof Item item) {
+                builder
+                        .add(RegistryKey.of(Registries.ITEM.getKey(), Registries.ITEM.getId(item)));
+            } else if(object instanceof TagKey<?> tag && object.getClass().getGenericSuperclass() == Item.class) {
+                builder
+                        .addTag((TagKey<Item>) tag);
+            }
+        }
     }
 }
