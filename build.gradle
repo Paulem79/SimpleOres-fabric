@@ -133,7 +133,8 @@ unifiedPublishing {
 		}
 
 		var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
-		if (curseforgeToken != null) {
+		if (curseforgeToken != null && !(min_version_range.contains("pre") || min_version_range.contains("rc")) // No pre or rc on curseforge
+		) {
 			curseforge {
 				token = curseforgeToken
 				id = "1092987" // Required, must be a string, ID of CurseForge project
