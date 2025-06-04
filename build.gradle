@@ -1,11 +1,9 @@
-// TODO : Add Copper Bucket when BucketLib is updated
-
 import ovh.paulem.buildscript.*
 
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT'
 
-	id("com.modrinth.minotaur") version "2.+"
+	id "me.shedaniel.unified-publishing" version "0.1.+"
 }
 
 version = project.mod_version + "-" + project.minecraft_version
@@ -65,8 +63,8 @@ dependencies {
 processResources {
 	def expandProps = [
 			"version": version,
-			"min_version_range": min_version_range,
-			"max_version_range": max_version_range,
+			"min_version_range": preToBeta(min_version_range),
+			"max_version_range": preToBeta(max_version_range),
 	]
 
 	filesMatching(['fabric.mod.json', '*.mixins.json']) {
@@ -75,15 +73,22 @@ processResources {
 	inputs.properties(expandProps)
 }
 
-def version = JavaVersion.values()[project.java_version.toInteger()-1]
+static def preToBeta(String version) {
+	if (version == null) return null
+	return version
+			.replaceAll(/-rc(\d+)/, '-rc.$1')
+			.replaceAll(/-pre(\d+)/, '-beta.$1')
+}
+
+def javaversion = JavaVersion.values()[project.java_version.toInteger()-1]
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = version.toString().toInteger()
+	it.options.release = javaversion.toString().toInteger()
 }
 
 java {
-	sourceCompatibility = version
-	targetCompatibility = version
+	sourceCompatibility = javaversion
+	targetCompatibility = javaversion
 }
 
 jar {
@@ -92,22 +97,55 @@ jar {
 	}
 }
 
-// ------------------------ MODRINTH ------------------------
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = "Boe3chj8"
-    versionNumber = project.version.toString()
-    versionName = "SimpleOres Refabricated ${project.mod_version}"
-    versionType = "alpha"
-    changelog = "**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n" + NewGithubChangelog.getChangelog()
-    uploadFile = tasks.remapJar.archiveFile.get().asFile
-    gameVersions = VersionRangeParser.parseVersionRange(min_version_range, max_version_range)
-    loaders = ["fabric", "quilt"]
+// ------------------------ PUBLISH MODS ------------------------
+unifiedPublishing {
+	project {
+		displayName = "SimpleOres Refabricated ${project.mod_version}" // Optional, name of the file
+		version = project.version.toString() // Optional, Inferred from project by default
+		changelog = "**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n" + NewGithubChangelog.getChangelog() // Optional, in markdown format
+		releaseType = "release" // Optional, use "release", "beta" or "alpha"
+		gameVersions = VersionRangeParser.parseVersionRange(min_version_range, max_version_range)
+		gameLoaders = ["fabric", "quilt"]
 
-	dependencies {
-		required.project "fabric-api"
-		required.project "cloth-config"
-		optional.project "modmenu"
-		optional.project "energized-power"
+		mainPublication tasks.remapJar // Declares the publicated jar
+
+		relations {
+			depends {
+				modrinth = "fabric-api"
+				curseforge = "fabric-api"
+			}
+			depends {
+				modrinth = "cloth-config"
+				curseforge = "cloth-config"
+			}
+			optional {
+				modrinth = "modmenu"
+				curseforge = "modmenu"
+			}
+			optional {
+				modrinth = "energized-power"
+				curseforge = "energized-power"
+			}
+			includes {
+				modrinth = "bucketlib"
+				curseforge = "bucketlib"
+			}
+		}
+
+		var curseforgeToken = project.findProperty('CURSEFORGE_TOKEN').toString() ?: System.getenv("CURSEFORGE_TOKEN")
+		if (curseforgeToken != null) {
+			curseforge {
+				token = curseforgeToken
+				id = "1092987" // Required, must be a string, ID of CurseForge project
+			}
+		}
+
+		var modrinthToken = project.findProperty('MODRINTH_TOKEN').toString() ?: System.getenv("MODRINTH_TOKEN")
+		if (modrinthToken != null) {
+			modrinth {
+				token = modrinthToken
+				id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
+			}
+		}
 	}
 }
