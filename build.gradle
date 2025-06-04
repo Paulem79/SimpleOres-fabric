@@ -132,7 +132,7 @@ unifiedPublishing {
 			}
 		}
 
-		var curseforgeToken = project.findProperty('CURSEFORGE_TOKEN').toString() ?: System.getenv("CURSEFORGE_TOKEN")
+		var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
 		if (curseforgeToken != null) {
 			curseforge {
 				token = curseforgeToken
@@ -140,7 +140,7 @@ unifiedPublishing {
 			}
 		}
 
-		var modrinthToken = project.findProperty('MODRINTH_TOKEN').toString() ?: System.getenv("MODRINTH_TOKEN")
+		var modrinthToken = System.getenv("MODRINTH_TOKEN")
 		if (modrinthToken != null) {
 			modrinth {
 				token = modrinthToken

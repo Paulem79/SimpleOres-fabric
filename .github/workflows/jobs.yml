@@ -60,9 +60,10 @@ jobs:
       - name: build
         run: ./gradlew build
 
-      - name: ⬆️ Upload to Modrinth
-        run: ./gradlew modrinth
+      - name: ⬆️ Upload to Modrinth/CurseForge
+        run: ./gradlew publishUnified
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
           GITHUB_EVENT_RAW_PATH: ${{ github.event_path }}
         continue-on-error: true
