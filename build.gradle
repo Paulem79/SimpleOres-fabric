@@ -114,9 +114,13 @@ unifiedPublishing {
 				modrinth = "fabric-api"
 				curseforge = "fabric-api"
 			}
-			depends {
+			/*depends {
 				modrinth = "cloth-config"
 				curseforge = "cloth-config"
+			}
+			depends {
+				modrinth = "bucketlib"
+				curseforge = "bucketlib"
 			}
 			optional {
 				modrinth = "modmenu"
@@ -125,11 +129,7 @@ unifiedPublishing {
 			optional {
 				modrinth = "energized-power"
 				curseforge = "energized-power"
-			}
-			includes {
-				modrinth = "bucketlib"
-				curseforge = "bucketlib"
-			}
+			}*/
 		}
 
 		var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
