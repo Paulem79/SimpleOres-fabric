@@ -1,8 +1,13 @@
 package ovh.paulem.simpleores;
 
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+/*? if >=1.21.6 {*/
+/*import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.client.render.BlockRenderLayer;
+*//*?} else {*/
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.client.render.RenderLayer;
+/*?}*/
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.block.Block;
@@ -18,8 +23,13 @@ public class SimpleOresClient implements ClientModInitializer {
 			Block block = blockItem.getBlock();
 
 			// Make doors non opaque on rendering
-			if(block instanceof DoorBlock || block instanceof PaneBlock)
-				BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT);
+			if(block instanceof DoorBlock || block instanceof PaneBlock) {
+				/*? if >=1.21.6 {*/
+				/*BlockRenderLayerMap.putBlock(block, BlockRenderLayer.CUTOUT);
+				*//*?} else {*/
+				BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout());
+				/*?}*/
+			}
 		});
 
 		ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {

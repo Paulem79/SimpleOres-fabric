@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - "alpha-1.21.6"
+      - "stonecutter"
   pull_request:
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
 
-    if: contains(github.event.head_commit.message, 'PUBLISH') && github.repository == 'Paulem79/SimpleOres-fabric' && github.ref == 'refs/heads/alpha-1.21.6'
+    if: contains(github.event.head_commit.message, 'PUBLISH') && github.repository == 'Paulem79/SimpleOres-fabric' && github.ref == 'refs/heads/stonecutter'
 
     steps:
       - name: checkout repository

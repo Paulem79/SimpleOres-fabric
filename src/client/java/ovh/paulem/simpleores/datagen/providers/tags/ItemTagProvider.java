@@ -1,5 +1,10 @@
 package ovh.paulem.simpleores.datagen.providers.tags;
 
+/*? if >=1.21.6 {*/
+/*import net.minecraft.data.tag.ProvidedTagBuilder;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
+*//*?}*/
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -8,11 +13,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
-import net.minecraft.data.tag.ProvidedTagBuilder;
 import net.minecraft.item.*;
 import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
@@ -207,22 +209,48 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     }
 
     private void build(TagKey<Item> tagKey, Object... objects) {
-        ProvidedTagBuilder<RegistryKey<Item>, Item> builder = builder(tagKey);
+        TagBuilder builder = new TagBuilder(tagKey);
 
         build(builder, objects);
     }
 
-    private void build(ProvidedTagBuilder<RegistryKey<Item>, Item> builder,
+    private void build(TagBuilder builder,
                        Object... objects) {
-        for (Object object : objects) {
+        //? if >=1.21.6 {
+        /*for (Object object : objects) {
 
             if(object instanceof Item item) {
-                builder
+                builder.get()
                         .add(RegistryKey.of(Registries.ITEM.getKey(), Registries.ITEM.getId(item)));
             } else if(object instanceof TagKey<?> tag && object.getClass().getGenericSuperclass() == Item.class) {
-                builder
+                builder.get()
                         .addTag((TagKey<Item>) tag);
             }
+        }
+        *///?} else {
+            for (Object object : objects) {
+                if (object instanceof Item block) {
+                    builder.get().add(block);
+                } else if (object instanceof TagKey<?> tag) {
+                    builder.get().addTag((TagKey<Item>) tag);
+                }
+            }
+        //?}
+    }
+
+    class TagBuilder {
+        private final TagKey<Item> tag;
+
+        public TagBuilder(TagKey<Item> tag) {
+            this.tag = tag;
+        }
+
+        public /*? if >=1.21.6 {*//*ProvidedTagBuilder<RegistryKey<Item>, Item>*//*?} else {*/FabricTagProvider<Item>.FabricTagBuilder/*?}*/ get() {
+            /*? if >=1.21.6 {*/
+            /*return builder(tag);
+            *//*?} else {*/
+            return getOrCreateTagBuilder(tag);
+             /*?}*/
         }
     }
 }

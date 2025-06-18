@@ -1,4 +1,5 @@
-src/main/generated/.cache
+versions/*/src/main/generated
+versions/*/src/main/generated/.cache
 
 # gradle
 
@@ -33,7 +34,6 @@ bin/
 # fabric
 
 run/
-src/main/generated
 
 # java
 
