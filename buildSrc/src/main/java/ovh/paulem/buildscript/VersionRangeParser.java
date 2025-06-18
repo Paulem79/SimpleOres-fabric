@@ -29,13 +29,28 @@ public class VersionRangeParser {
     }
 
     private static List<String> commonVersionExtract(String min_version_range, String max_version_range, VersionRangeParser.CompiledVersions allVersions) {
-        int startElement = allVersions.contains(min_version_range) ? allVersions.indexOf(min_version_range) : 0;
-        int endElement = !allVersions.contains(max_version_range) ? allVersions.size() - 1 : allVersions.indexOf(max_version_range);
+        int startElement = allVersions.contains(min_version_range) ? allVersions.indexOf(min_version_range) : allVersions.indexOf(getReleaseFromSnapshot(min_version_range));
+        int endElement = allVersions.contains(max_version_range) ? allVersions.indexOf(max_version_range) : allVersions.size() - 1;
 
         return allVersions.stream()
                 .filter(element -> allVersions.indexOf(element) >= startElement && allVersions.indexOf(element) <= endElement)
                 .map(MinecraftVersion::id)
                 .collect(Collectors.toList());
+    }
+
+    private static MinecraftVersion getReleaseFromSnapshot(String snapshot) {
+        CompiledVersions allVersions = new CompiledVersions(getAllMinecraftVersions());
+
+        int snapshotIndex = allVersions.indexOf(snapshot);
+        // Parcours vers l'avant pour trouver la prochaine version RELEASE
+        for (int i = snapshotIndex + 1; i < allVersions.size(); i++) {
+            MinecraftVersion candidate = allVersions.get(i);
+            if (candidate.getType() == CompiledVersions.VersionType.RELEASE) {
+                return candidate;
+            }
+        }
+        // Si aucune version RELEASE n'est trouvée après, retourne null ou lève une exception
+        throw new RuntimeException("No release version found for snapshot " + snapshot);
     }
 
     public record CompiledVersions(List<MinecraftVersion> versions) {
@@ -64,7 +79,7 @@ public class VersionRangeParser {
         }
 
         public boolean contains(String version) {
-            return versions.stream().anyMatch(v -> v.id.equals(version));
+            return versions.stream().anyMatch(v -> v.id.equalsIgnoreCase(version));
         }
 
         public int indexOf(String version) {
@@ -72,6 +87,10 @@ public class VersionRangeParser {
                     .map(MinecraftVersion::id)
                     .toList()
                     .indexOf(version);
+        }
+
+        public MinecraftVersion get(int index) {
+            return versions.get(index);
         }
 
         public int indexOf(MinecraftVersion version) {
@@ -100,13 +119,13 @@ public class VersionRangeParser {
 
             public static VersionType from(String name) {
                 return Arrays.stream(VersionType.values())
-                        .filter(type -> type.name.equals(name))
+                        .filter(type -> type.name.equalsIgnoreCase(name))
                         .findFirst()
                         .orElseThrow(() -> new IllegalArgumentException("Unknown version type: " + name));
             }
 
             public boolean matches(MinecraftVersion version) {
-                return version.getType().name.equals(name);
+                return version.getType().name.equalsIgnoreCase(name);
             }
         }
     }
@@ -124,17 +143,11 @@ public class VersionRangeParser {
                 JsonArray versionsArray = json.getAsJsonArray("versions");
 
                 versions = gson.fromJson(versionsArray, MinecraftVersion[].class);
-
-                /*versions = revRange(0, versionsArray.size())
-                        .mapToObj(i -> versionsArray.get(i).getAsJsonObject()
-                                .get("id").getAsString()
-                        )
-                        .collect(Collectors.toList());*/
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Arrays.stream(versions).toList();
+        return Arrays.stream(versions).toList().reversed();
     }
 
     public record MinecraftVersion(

@@ -138,7 +138,10 @@ unifiedPublishing {
 			NewGithubChangelog.getChangelog()
 		} // Optional, in markdown format
 		releaseType = if(stillBeta) "beta" else "release" // Optional, use "release", "beta" or "alpha"
-		gameVersions = VersionRangeParser.parseVersionRange(project.property("min_version_range") as String, project.property("max_version_range") as String)
+		gameVersions = VersionRangeParser.parseVersionRange(
+			project.property("min_version_range") as String,
+			project.property("max_version_range") as String
+		)
 		gameLoaders = listOf("fabric", "quilt")
 
 		mainPublication.set(tasks.remapJar.get().archiveFile) // Declares the publicated jar
@@ -175,8 +178,11 @@ unifiedPublishing {
 				token = curseforgeToken
 				id = "1092987" // Required, must be a string, ID of CurseForge project
 
-				gameVersions = VersionRangeParser.parseVersionRange(project.property("min_version_range") as String, project.property("max_version_range") as String
-				, VersionRangeParser.CompiledVersions.VersionType.RELEASE)
+				gameVersions = VersionRangeParser.parseVersionRange(
+					project.property("min_version_range") as String,
+					project.property("max_version_range") as String,
+					VersionRangeParser.CompiledVersions.VersionType.RELEASE
+				)
 			}
 		}
 
