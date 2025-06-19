@@ -2,7 +2,10 @@ package ovh.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.*;
+//? if >=1.21.5
 import net.minecraft.client.render.model.json.WeightedVariant;
+//? if <1.21.5
+import net.minecraft.util.Identifier;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
@@ -71,7 +74,9 @@ public class ModelProvider extends FabricModelProvider {
                 }
                 case AdvancedArmorItem armorItem -> {
                     RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
-                    itemModelGenerator.registerArmor(item, identifier, ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getType().getName()), false);
+                    itemModelGenerator.registerArmor(item, identifier,
+                            /*? if >=1.21.5 {*/ ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getType().getName()) /*?} else {*/ /*armorItem.getType().getName()*/ /*?}*/,
+                            false);
                 }
                 case AdvancedToolItem advancedToolItem -> itemModelGenerator.register(item, Models.HANDHELD);
                 case AdvancedSwordItem swordItem -> itemModelGenerator.register(swordItem, Models.HANDHELD);
@@ -80,6 +85,7 @@ public class ModelProvider extends FabricModelProvider {
         }
     }
 
+    /*? if >=1.21.5 { */
     private void registerBars(BlockStateModelGenerator generator, Block barBlock) {
         WeightedVariant weightedVariant = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post_ends"));
         WeightedVariant weightedVariant2 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post"));
@@ -118,4 +124,51 @@ public class ModelProvider extends FabricModelProvider {
                 );
         generator.registerItemModel(barBlock);
     }
+    /*? } else { */
+    /*private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
+        Identifier identifier = ModelIds.getBlockSubModelId(barBlock, "_post_ends");
+        Identifier identifier2 = ModelIds.getBlockSubModelId(barBlock, "_post");
+        Identifier identifier3 = ModelIds.getBlockSubModelId(barBlock, "_cap");
+        Identifier identifier4 = ModelIds.getBlockSubModelId(barBlock, "_cap_alt");
+        Identifier identifier5 = ModelIds.getBlockSubModelId(barBlock, "_side");
+        Identifier identifier6 = ModelIds.getBlockSubModelId(barBlock, "_side_alt");
+
+        blockStateModelGenerator.blockStateCollector
+                .accept(
+                        MultipartBlockStateSupplier.create(barBlock)
+                                .with(BlockStateVariant.create().put(VariantSettings.MODEL, identifier))
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier2)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, true).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier3)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, true).set(Properties.SOUTH, false).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier3).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, true).set(Properties.WEST, false),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier4)
+                                )
+                                .with(
+                                        When.create().set(Properties.NORTH, false).set(Properties.EAST, false).set(Properties.SOUTH, false).set(Properties.WEST, true),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier4).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                                .with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, identifier5))
+                                .with(
+                                        When.create().set(Properties.EAST, true),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier5).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                                .with(When.create().set(Properties.SOUTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, identifier6))
+                                .with(
+                                        When.create().set(Properties.WEST, true),
+                                        BlockStateVariant.create().put(VariantSettings.MODEL, identifier6).put(VariantSettings.Y, VariantSettings.Rotation.R90)
+                                )
+                );
+        blockStateModelGenerator.registerItemModel(barBlock);
+    }*/
+    /*?} */
 }
