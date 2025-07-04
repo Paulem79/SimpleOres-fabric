@@ -92,79 +92,6 @@ tasks.register<Copy>("distJar") {
 	into("$rootDir/dist")
 }
 
-val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1")
-
-dependencies {
-	minecraft("com.mojang:minecraft:${stonecutter.current.project}")
-	if(checkSpecified("yarn_mappings"))
-		mappings("net.fabricmc:yarn:${property("deps.yarn_mappings")}:v2")
-	if(checkSpecified("fabric_loader"))
-		modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
-	if(checkSpecified("fabric_api"))
-		modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
-
-	if(checkSpecified("cloth_config"))
-		modApi("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth_config")}") {
-			exclude(group = "net.fabricmc.fabric-api")
-		}
-	if(checkSpecified("mod_menu"))
-		modImplementation("com.terraformersmc:modmenu:${property("deps.mod_menu")}")
-
-	if(checkSpecified("bucketlib")) {
-		modImplementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
-
-		if(includesBucketlib)
-			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
-	}
-}
-
-fun checkSpecified(depName: String): Boolean {
-	val property = findProperty("deps.$depName");
-	return property != null && property != "[VERSIONED]"
-}
-
-tasks.processResources {
-	val expandProps = mapOf(
-		"version" to version,
-		"min_version_range" to preToBeta("min_version_range"),
-		"max_version_range" to preToBeta("max_version_range"),
-	)
-
-	filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
-		expand(expandProps)
-	}
-	inputs.properties(expandProps)
-}
-
-fun preToBeta(versionProperty: String): String? {
-	val version = project.property(versionProperty) as String?
-
-	if (version == null) return null
-	return version
-		.replace(Regex("-rc(\\d+)"), "-rc.$1")
-		.replace(Regex("-pre(\\d+)"), "-beta.$1")
-}
-
-val javaversion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
-	JavaVersion.VERSION_21 else JavaVersion.VERSION_17
-
-tasks.withType<JavaCompile>().configureEach {
-	options.release.set(javaversion.toString().toInt())
-}
-
-java {
-	withSourcesJar()
-
-	sourceCompatibility = javaversion
-	targetCompatibility = javaversion
-}
-
-tasks.jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}" }
-	}
-}
-
 // If this version has BucketLib
 val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
 
@@ -271,6 +198,84 @@ stonecutter {
 				"com.github.cech12.BucketLib"
 			)
 		}
+	}
+}
+
+val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
+
+dependencies {
+	minecraft("com.mojang:minecraft:${stonecutter.current.project}")
+	if(checkSpecified("yarn_mappings"))
+		mappings("net.fabricmc:yarn:${property("deps.yarn_mappings")}:v2")
+	if(checkSpecified("fabric_loader"))
+		modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+	if(checkSpecified("fabric_api"))
+		modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
+
+	if(checkSpecified("cloth_config"))
+		modApi("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth_config")}") {
+			exclude(group = "net.fabricmc.fabric-api")
+		}
+	if(checkSpecified("mod_menu"))
+		modImplementation("com.terraformersmc:modmenu:${property("deps.mod_menu")}")
+
+	if(checkSpecified("bucketlib")) {
+		modImplementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
+
+		if(includesBucketlib)
+			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
+	}
+}
+
+fun checkSpecified(depName: String): Boolean {
+	val property = findProperty("deps.$depName");
+	return property != null && property != "[VERSIONED]"
+}
+
+val javaversion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
+	JavaVersion.VERSION_21 else JavaVersion.VERSION_17
+
+tasks.withType<JavaCompile>().configureEach {
+	options.release.set(javaversion.toString().toInt())
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = javaversion
+	targetCompatibility = javaversion
+}
+
+tasks.processResources {
+	val bucketlibExpansion = "\", \"bucketlib\": \"*"
+
+	val expandProps = mapOf(
+		"version" to version,
+		"min_version_range" to preToBeta("min_version_range"),
+		"max_version_range" to preToBeta("max_version_range"),
+		"bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
+
+		"compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
+	)
+
+	filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
+		expand(expandProps)
+	}
+	inputs.properties(expandProps)
+}
+
+fun preToBeta(versionProperty: String): String? {
+	val version = project.property(versionProperty) as String?
+
+	if (version == null) return null
+	return version
+		.replace(Regex("-rc(\\d+)"), "-rc.$1")
+		.replace(Regex("-pre(\\d+)"), "-beta.$1")
+}
+
+tasks.jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}" }
 	}
 }
 
