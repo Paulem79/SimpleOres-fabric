@@ -117,8 +117,53 @@ fun checkSpecified(depName: String): Boolean {
 	return property != null && property != "[VERSIONED]"
 }
 
+tasks.processResources {
+	val expandProps = mapOf(
+		"version" to version,
+		"min_version_range" to preToBeta("min_version_range"),
+		"max_version_range" to preToBeta("max_version_range"),
+	)
+
+	filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
+		expand(expandProps)
+	}
+	inputs.properties(expandProps)
+}
+
+fun preToBeta(versionProperty: String): String? {
+	val version = project.property(versionProperty) as String?
+
+	if (version == null) return null
+	return version
+		.replace(Regex("-rc(\\d+)"), "-rc.$1")
+		.replace(Regex("-pre(\\d+)"), "-beta.$1")
+}
+
+val javaversion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
+	JavaVersion.VERSION_21 else JavaVersion.VERSION_17
+
+tasks.withType<JavaCompile>().configureEach {
+	options.release.set(javaversion.toString().toInt())
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = javaversion
+	targetCompatibility = javaversion
+}
+
+tasks.jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}" }
+	}
+}
+
+// If this version has BucketLib
+val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
+
 stonecutter {
-	constants.put("hasBucketlib", !listOf(null, "[VERSIONED]").contains(findProperty("deps.bucketlib")))
+	constants.put("hasBucketlib", hasBucketlib)
 
 	swaps["armorType"] = when {
 		eval(current.version, "<=1.21") -> "net.minecraft.item.ArmorItem.Type"
@@ -223,54 +268,10 @@ stonecutter {
 	}
 }
 
-tasks.processResources {
-	val expandProps = mapOf(
-		"version" to version,
-		"min_version_range" to preToBeta("min_version_range"),
-		"max_version_range" to preToBeta("max_version_range"),
-	)
-
-	filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
-		expand(expandProps)
-	}
-	inputs.properties(expandProps)
-}
-
-fun preToBeta(versionProperty: String): String? {
-	val version = project.property(versionProperty) as String?
-
-	if (version == null) return null
-	return version
-		.replace(Regex("-rc(\\d+)"), "-rc.$1")
-		.replace(Regex("-pre(\\d+)"), "-beta.$1")
-}
-
-val javaversion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
-	JavaVersion.VERSION_21 else JavaVersion.VERSION_17
-
-tasks.withType<JavaCompile>().configureEach {
-	options.release.set(javaversion.toString().toInt())
-}
-
-java {
-	withSourcesJar()
-
-	sourceCompatibility = javaversion
-	targetCompatibility = javaversion
-}
-
-tasks.jar {
-	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}" }
-	}
-}
-
 // ------------------------ PUBLISH MODS ------------------------
-val githubChangelog = NewGithubChangelog.getChangelog()
+val githubChangelog: String = NewGithubChangelog.getChangelog()
 
 unifiedPublishing {
-	val hasBucketlib = stonecutter.eval(stonecutter.current.version, "hasBucketlib")
-
 	project {
 		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
 		version = project.version.toString() // Optional, Inferred from project by default
