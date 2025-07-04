@@ -2,7 +2,6 @@ package ovh.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.advancement.AdvancementCriterion;
-import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.*;
@@ -98,7 +97,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter);
 
         // Copper
-        createToolsAndArmorsRecipe(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
                 ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE,
                 ModItems.COPPER_HELMET, ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS, ModItems.COPPER_SHEARS,
                 ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
@@ -112,7 +111,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         ));
 
         // Tin
-        createToolsAndArmorsRecipe(ModTags.Items.Conventional.TIN_INGOTS, ModItems.TIN_INGOT, exporter, "tin", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.TIN_INGOTS, ModItems.TIN_INGOT, exporter, "tin", new MaterialRecipeContainer(
                 ModItems.TIN_SWORD, ModItems.TIN_PICKAXE, ModItems.TIN_AXE, ModItems.TIN_SHOVEL, ModItems.TIN_HOE,
                 ModItems.TIN_HELMET, ModItems.TIN_CHESTPLATE, ModItems.TIN_LEGGINGS, ModItems.TIN_BOOTS, ModItems.TIN_SHEARS,
                 ModTags.Items.Conventional.TIN_ORES, ModBlocks.TIN_BLOCK, ModBlocks.RAW_TIN_BLOCK, ModTags.Items.Conventional.RAW_TIN_ORES, ModItems.RAW_TIN, ModItems.TIN_NUGGET,
@@ -120,7 +119,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         ));
 
         // Mythril
-        createToolsAndArmorsRecipe(ModTags.Items.Conventional.MYTHRIL_INGOTS, ModItems.MYTHRIL_INGOT, exporter, "mythril", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.MYTHRIL_INGOTS, ModItems.MYTHRIL_INGOT, exporter, "mythril", new MaterialRecipeContainer(
                 ModItems.MYTHRIL_SWORD, ModItems.MYTHRIL_PICKAXE, ModItems.MYTHRIL_AXE, ModItems.MYTHRIL_SHOVEL, ModItems.MYTHRIL_HOE,
                 ModItems.MYTHRIL_HELMET, ModItems.MYTHRIL_CHESTPLATE, ModItems.MYTHRIL_LEGGINGS, ModItems.MYTHRIL_BOOTS, ModItems.MYTHRIL_SHEARS,
                 ModTags.Items.Conventional.MYTHRIL_ORES, ModBlocks.MYTHRIL_BLOCK, ModBlocks.RAW_MYTHRIL_BLOCK, ModTags.Items.Conventional.RAW_MYTHRIL_ORES, ModItems.RAW_MYTHRIL, ModItems.MYTHRIL_NUGGET,
@@ -128,7 +127,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         ));
 
         // Adamantium
-        createToolsAndArmorsRecipe(ModTags.Items.Conventional.ADAMANTIUM_INGOTS, ModItems.ADAMANTIUM_INGOT, exporter, "adamantium", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.ADAMANTIUM_INGOTS, ModItems.ADAMANTIUM_INGOT, exporter, "adamantium", new MaterialRecipeContainer(
                 ModItems.ADAMANTIUM_SWORD, ModItems.ADAMANTIUM_PICKAXE, ModItems.ADAMANTIUM_AXE, ModItems.ADAMANTIUM_SHOVEL, ModItems.ADAMANTIUM_HOE,
                 ModItems.ADAMANTIUM_HELMET, ModItems.ADAMANTIUM_CHESTPLATE, ModItems.ADAMANTIUM_LEGGINGS, ModItems.ADAMANTIUM_BOOTS, ModItems.ADAMANTIUM_SHEARS,
                 ModTags.Items.Conventional.ADAMANTIUM_ORES, ModBlocks.ADAMANTIUM_BLOCK, ModBlocks.RAW_ADAMANTIUM_BLOCK, ModTags.Items.Conventional.RAW_ADAMANTIUM_ORES, ModItems.RAW_ADAMANTIUM, ModItems.ADAMANTIUM_NUGGET,
@@ -136,7 +135,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         ));
 
         // Onyx
-        createToolsAndArmorsRecipe(ModTags.Items.Conventional.ONYX_GEMS, ModItems.ONYX_GEM, exporter, "onyx", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.ONYX_GEMS, ModItems.ONYX_GEM, exporter, "onyx", new MaterialRecipeContainer(
                 ModItems.ONYX_SWORD, ModItems.ONYX_PICKAXE, ModItems.ONYX_AXE, ModItems.ONYX_SHOVEL, ModItems.ONYX_HOE,
                 ModItems.ONYX_HELMET, ModItems.ONYX_CHESTPLATE, ModItems.ONYX_LEGGINGS, ModItems.ONYX_BOOTS, ModItems.ONYX_SHEARS,
                 ModTags.Items.Conventional.ONYX_ORES, ModBlocks.ONYX_BLOCK, null, null, null, null,
@@ -175,7 +174,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 0.7f, 100, group);
     }
 
-    public static void createToolsAndArmorsRecipe(TagKey<Item> tag, ItemConvertible baseItem, RecipeExporter exporter, String group, MaterialRecipeContainer container) {
+    public static void createMaterialSetRecipes(TagKey<Item> tag, ItemConvertible baseItem, RecipeExporter exporter, String group, MaterialRecipeContainer container) {
         List<ItemConvertible> SMELT_NUGGET_ITEMS = new ArrayList<>();
 
         // TOOLS
