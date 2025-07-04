@@ -36,7 +36,8 @@
 		"java": "*",
 		"minecraft": ">=${min_version_range} <=${max_version_range}",
 		"fabricloader": "*",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"bucketlib": "*"
 	},
 	"recommends": {
 		"modmenu": "*",

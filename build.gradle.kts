@@ -92,6 +92,8 @@ tasks.register<Copy>("distJar") {
 	into("$rootDir/dist")
 }
 
+val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1")
+
 dependencies {
 	minecraft("com.mojang:minecraft:${stonecutter.current.project}")
 	if(checkSpecified("yarn_mappings"))
@@ -108,8 +110,12 @@ dependencies {
 	if(checkSpecified("mod_menu"))
 		modImplementation("com.terraformersmc:modmenu:${property("deps.mod_menu")}")
 
-	if(checkSpecified("bucketlib"))
+	if(checkSpecified("bucketlib")) {
 		modImplementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
+
+		if(includesBucketlib)
+			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
+	}
 }
 
 fun checkSpecified(depName: String): Boolean {
@@ -308,9 +314,16 @@ unifiedPublishing {
 			}
 
 			if(hasBucketlib) {
-				depends {
-					modrinth = "bucketlib"
-					curseforge = "bucketlib"
+				if(includesBucketlib) {
+					includes {
+						modrinth = "bucketlib"
+						curseforge = "bucketlib"
+					}
+				} else {
+					depends {
+						modrinth = "bucketlib"
+						curseforge = "bucketlib"
+					}
 				}
 			}
 		}
