@@ -266,18 +266,20 @@ tasks.jar {
 }
 
 // ------------------------ PUBLISH MODS ------------------------
+val githubChangelog = NewGithubChangelog.getChangelog()
+
 unifiedPublishing {
-	val stillBeta = stonecutter.eval(stonecutter.current.version, ">1.21.3")
+	val hasBucketlib = stonecutter.eval(stonecutter.current.version, "hasBucketlib")
 
 	project {
 		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
 		version = project.version.toString() // Optional, Inferred from project by default
-		changelog = if(stillBeta) {
-			"**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n" + NewGithubChangelog.getChangelog()
+		changelog = if(!hasBucketlib) {
+            "**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n$githubChangelog"
 		} else {
-			NewGithubChangelog.getChangelog()
+			githubChangelog
 		} // Optional, in markdown format
-		releaseType = if(stillBeta) "beta" else "release" // Optional, use "release", "beta" or "alpha"
+		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
 		gameVersions = VersionRangeParser.parseVersionRange(
 			project.property("min_version_range") as String,
 			project.property("max_version_range") as String
@@ -304,7 +306,7 @@ unifiedPublishing {
 				curseforge = "energized-power"
 			}
 
-			if(stillBeta) {
+			if(hasBucketlib) {
 				depends {
 					modrinth = "bucketlib"
 					curseforge = "bucketlib"
