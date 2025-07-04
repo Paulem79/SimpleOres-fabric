@@ -1,7 +1,12 @@
 package ovh.paulem.simpleores;
 
+//? hasBucketlib {
+import de.cech12.bucketlib.api.BucketLibApi;
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
+//?}
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.config.SimpleOresConfig;
+import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 import ovh.paulem.simpleores.world.ModWorldGeneration;
 import ovh.paulem.simpleores.items.ItemGroups;
 import ovh.paulem.simpleores.items.ModItems;
@@ -13,7 +18,6 @@ import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +44,16 @@ public class SimpleOres implements ModInitializer {
 		ModBlocks.init();
 		ModItems.init();
 
-		Registry.register(Registries.ITEM_GROUP, Identifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
+		//? hasBucketlib {
+		// Register custom buckets
+		ModItems.registeredItems.forEach((identifier, item) -> {
+			if(item instanceof UniversalBucketItem) {
+				BucketLibApi.registerBucket(identifier);
+			}
+		});
+		//?}
+
+		Registry.register(Registries.ITEM_GROUP, SCIdentifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
 
 		ModWorldGeneration.generateModWorldGen();
 

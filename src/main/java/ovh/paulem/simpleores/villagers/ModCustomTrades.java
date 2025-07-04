@@ -1,5 +1,6 @@
 package ovh.paulem.simpleores.villagers;
 
+import net.minecraft.item.Item;
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
@@ -7,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
+//? if >1.20.5
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
 
@@ -15,25 +17,25 @@ public class ModCustomTrades {
         // ARMORER
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 1, factories -> {
             if(SimpleOres.CONFIG.armorerEmeraldCopperHelmet) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new SCTradedItem(Items.EMERALD, 3).get(),
                     new ItemStack(ModItems.COPPER_HELMET),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldCopperChestplate) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 7),
+                    new SCTradedItem(Items.EMERALD, 7).get(),
                     new ItemStack(ModItems.COPPER_CHESTPLATE),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldCopperLeggings) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 5),
+                    new SCTradedItem(Items.EMERALD, 5).get(),
                     new ItemStack(ModItems.COPPER_LEGGINGS),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldCopperBoots) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 2),
+                    new SCTradedItem(Items.EMERALD, 2).get(),
                     new ItemStack(ModItems.COPPER_BOOTS),
                     12, 1, 0.2F
             ));
@@ -41,25 +43,25 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 2, factories -> {
             if(SimpleOres.CONFIG.armorerCopperToEmeralds) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.COPPER_INGOT, 4),
+                    new SCTradedItem(Items.COPPER_INGOT, 4).get(),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             if(SimpleOres.CONFIG.armorerTinToEmeralds) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.TIN_INGOT, 4),
+                    new SCTradedItem(ModItems.TIN_INGOT, 4).get(),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldTinLeggings) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new SCTradedItem(Items.EMERALD, 3).get(),
                     new ItemStack(ModItems.TIN_LEGGINGS),
                     12, 5, 0.2F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldTinBoots) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.TIN_BOOTS),
                     12, 5, 0.2F
             ));
@@ -67,19 +69,19 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 3, factories -> {
             if(SimpleOres.CONFIG.armorerMythrilToEmeralds) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.MYTHRIL_INGOT),
+                    new SCTradedItem(ModItems.MYTHRIL_INGOT).get(),
                     new ItemStack(Items.EMERALD),
                     12, 20, 0.05F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldTinHelmet) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.TIN_HELMET),
                     12, 10, 0.2F
             ));
 
             if(SimpleOres.CONFIG.armorerEmeraldTinChestplate) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new SCTradedItem(Items.EMERALD, 3).get(),
                     new ItemStack(ModItems.TIN_CHESTPLATE),
                     12, 10, 0.2F
             ));
@@ -112,61 +114,61 @@ public class ModCustomTrades {
         // TOOLSMITH
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 2, factories -> {
             if(SimpleOres.CONFIG.toolsmithCopperToEmeralds) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.COPPER_INGOT, 4),
+                    new SCTradedItem(Items.COPPER_INGOT, 4).get(),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             if(SimpleOres.CONFIG.toolsmithTinToEmeralds) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.TIN_INGOT, 4),
+                    new SCTradedItem(ModItems.TIN_INGOT, 4).get(),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldCopperAxe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_AXE),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldCopperShovel) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_SHOVEL),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldCopperHoe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_HOE),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldCopperPickaxe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_PICKAXE),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldTinAxe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.TIN_AXE),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldTinShovel) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.TIN_SHOVEL),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldTinHoe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.TIN_HOE),
                     12, 1, 0.2F
             ));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldTinPickaxe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.TIN_PICKAXE),
                     12, 1, 0.2F
             ));
@@ -174,7 +176,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 3, factories -> {
             if(SimpleOres.CONFIG.toolsmithMythrilToEmerald) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.MYTHRIL_INGOT),
+                    new SCTradedItem(ModItems.MYTHRIL_INGOT).get(),
                     new ItemStack(Items.EMERALD),
                     12, 20, 0.05F
             ));
@@ -195,7 +197,7 @@ public class ModCustomTrades {
             ).create(entity, random));
 
             if(SimpleOres.CONFIG.toolsmithEmeraldMythrilHoe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD),
+                    new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.MYTHRIL_HOE),
                     3, 10, 0.2F
             ));
@@ -203,7 +205,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.TOOLSMITH, 4, factories -> {
             if(SimpleOres.CONFIG.toolsmithAdamantiumToEmerald) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.ADAMANTIUM_INGOT),
+                    new SCTradedItem(ModItems.ADAMANTIUM_INGOT).get(),
                     new ItemStack(Items.EMERALD, 2),
                     12, 30, 0.05F
             ));
@@ -229,7 +231,7 @@ public class ModCustomTrades {
         // WEAPONSMITH
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 1, factories -> {
             if(SimpleOres.CONFIG.weaponsmithEmeraldMythrilAxe) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 3),
+                    new SCTradedItem(Items.EMERALD, 3).get(),
                     new ItemStack(ModItems.MYTHRIL_AXE),
                     12, 1, 0.2F
             ));
@@ -242,13 +244,13 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 2, factories -> {
             if(SimpleOres.CONFIG.weaponsmithCopperToEmerald) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(Items.COPPER_INGOT, 4),
+                    new SCTradedItem(Items.COPPER_INGOT, 4).get(),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
 
             if(SimpleOres.CONFIG.weaponsmithTinToEmerald) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.TIN_INGOT, 4),
+                    new SCTradedItem(ModItems.TIN_INGOT, 4).get(),
                     new ItemStack(Items.EMERALD),
                     12, 10, 0.05F
             ));
@@ -256,7 +258,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 3, factories -> {
             if(SimpleOres.CONFIG.weaponsmithMythrilToEmerald) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.MYTHRIL_INGOT),
+                    new SCTradedItem(ModItems.MYTHRIL_INGOT).get(),
                     new ItemStack(Items.EMERALD),
                     12, 20, 0.05F
             ));
@@ -264,7 +266,7 @@ public class ModCustomTrades {
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.WEAPONSMITH, 4, factories -> {
             if(SimpleOres.CONFIG.weaponsmithAdamantiumToEmerald) factories.add((entity, random) -> new TradeOffer(
-                    new TradedItem(ModItems.ADAMANTIUM_INGOT),
+                    new SCTradedItem(ModItems.ADAMANTIUM_INGOT).get(),
                     new ItemStack(Items.EMERALD),
                     12, 30, 0.05F
             ));
@@ -281,5 +283,28 @@ public class ModCustomTrades {
                     8, 3, 30, 0.2F
             ).create(entity, random));
         });
+    }
+
+    private record SCTradedItem(
+            Item item,
+            int count
+    ) {
+        public SCTradedItem(Item item) {
+            this(item, 1);
+        }
+
+        public
+        //? if >1.20.5 {
+            TradedItem
+        //?} else {
+         /*ItemStack
+        *///?}
+        get() {
+            //? if >1.20.5 {
+            return new TradedItem(item, count);
+            //?} else {
+             /*return new ItemStack(item, count);
+            *///?}
+        }
     }
 }

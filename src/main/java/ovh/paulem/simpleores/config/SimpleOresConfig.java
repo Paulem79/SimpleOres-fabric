@@ -1,14 +1,12 @@
 package ovh.paulem.simpleores.config;
 
 import me.shedaniel.autoconfig.annotation.Config;
-import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.util.Util;
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.items.ModToolMaterials;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-
-import java.util.EnumMap;
+import ovh.paulem.simpleores.stonecutter.SCArmor;
 
 @Config(name = SimpleOres.MOD_ID)
 public class SimpleOresConfig implements ConfigData
@@ -90,15 +88,23 @@ public class SimpleOresConfig implements ConfigData
             this.enchantability = enchantability;
         }
 
-        public EnumMap<EquipmentType, Integer> setProtectionAmount() {
-            return Util.make(new EnumMap<>(EquipmentType.class), attribute -> {
-                attribute.put(EquipmentType.BOOTS, boots());
-                attribute.put(EquipmentType.LEGGINGS, leggings());
-                attribute.put(EquipmentType.CHESTPLATE, chestplate());
-                attribute.put(EquipmentType.HELMET, helmet());
-                attribute.put(EquipmentType.BODY, body());
+        //? if >1.20.4 {
+        public SCArmor.EnumProtection setProtectionAmount() {
+            return Util.make(new SCArmor.EnumProtection(SCArmor.ArmorEquipmentType.class), attribute -> {
+                attribute.put(SCArmor.ArmorEquipmentType.BOOTS, boots());
+                attribute.put(SCArmor.ArmorEquipmentType.LEGGINGS, leggings());
+                attribute.put(SCArmor.ArmorEquipmentType.CHESTPLATE, chestplate());
+                attribute.put(SCArmor.ArmorEquipmentType.HELMET, helmet());
+                attribute.put(SCArmor.ArmorEquipmentType.BODY, body());
             });
         }
+        //?} else {
+        
+        /*public int[] getProtectionAmount() {
+            return new int[]{helmet(), chestplate(), leggings(), boots()};
+        }
+         
+        *///?}
 
         public int helmet() {
             return helmet;

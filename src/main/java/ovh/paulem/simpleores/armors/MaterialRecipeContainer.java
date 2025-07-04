@@ -1,5 +1,8 @@
 package ovh.paulem.simpleores.armors;
 
+//? hasBucketlib
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedPickaxeItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedShearsItem;
@@ -10,11 +13,17 @@ import org.jetbrains.annotations.Nullable;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 
 public record MaterialRecipeContainer(@Nullable AdvancedSwordItem sword, @Nullable AdvancedPickaxeItem pickaxe, @Nullable AxeItem axe, @Nullable ShovelItem shovel,
-                                      @Nullable HoeItem hoe, @Nullable AdvancedArmorItem helmet, @Nullable AdvancedArmorItem chesplate, @Nullable AdvancedArmorItem leggings, @Nullable AdvancedArmorItem boots,
-                                      @Nullable AdvancedShearsItem shears,
-                                      @Nullable Block ore, @Nullable Block deepslateOre, @Nullable Block block, @Nullable Block rawBlock,
-                                      @Nullable Item raw, @Nullable Item nugget,
+                                      @Nullable HoeItem hoe, @Nullable AdvancedArmorItem helmet, @Nullable AdvancedArmorItem chesplate, @Nullable AdvancedArmorItem leggings,
+                                      @Nullable AdvancedArmorItem boots, @Nullable AdvancedShearsItem shears,
+                                      @Nullable TagKey<Item> ores, @Nullable Block block, @Nullable Block rawBlock,
+                                      @Nullable TagKey<Item> raw, @Nullable ItemConvertible baseRawItem, @Nullable ItemConvertible nugget,
                                       @Nullable DoorBlock door, @Nullable PaneBlock bars, @Nullable MultifunctionPressurePlateBlock pressurePlate, @Nullable Block cut, @Nullable
                                       SlabBlock cutSlab, @Nullable StairsBlock stairs,
+                                      @Nullable //? hasBucketlib {
+                                      UniversalBucketItem
+                                      //?} else {
+                                      //Item
+                                      //?}
+                                      bucket,
                                       @Nullable Float smeltXp, boolean excludeSmeltCreation) {
 }

@@ -14,7 +14,13 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin({BeehiveBlock.class, PumpkinBlock.class})
 public abstract class BlockInteractShearsMixin {
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z"), method = "onUseWithItem")
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z"), method =
+			//? if >1.20.4 {
+			"onUseWithItem"
+			//?} else {
+			/*"onUse"
+			*///?}
+	)
 	private boolean isShears(ItemStack stack, Item item, Operation<Boolean> original) {
 		return original.call(stack, item) || (item == Items.SHEARS && stack.getItem() instanceof AdvancedShearsItem);
 	}

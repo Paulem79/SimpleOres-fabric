@@ -1,0 +1,12 @@
+{
+  "type": "energizedpower:pulverizer",
+  "ingredient": {
+    "item": "simpleores:raw_tin"
+  },
+  "output": {
+    "output": {
+      "item": "simpleores:tin_dust"
+    },
+    "percentages": [ 1.0, 0.25 ]
+  }
+}

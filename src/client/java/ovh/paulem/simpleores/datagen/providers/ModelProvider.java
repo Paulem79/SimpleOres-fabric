@@ -1,14 +1,19 @@
 package ovh.paulem.simpleores.datagen.providers;
 
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.client.data.*;
+//? hasBucketlib
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.data.client.*;
 //? if >=1.21.5
-import net.minecraft.client.render.model.json.WeightedVariant;
+/*import net.minecraft.client.render.model.json.WeightedVariant;*/
 //? if <1.21.5
 import net.minecraft.util.Identifier;
-import net.minecraft.item.equipment.EquipmentAsset;
+//? if >1.21.3
+//import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
+//? if 1.21.3
+import ovh.paulem.simpleores.armors.ModEquipmentModels;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
@@ -18,7 +23,7 @@ import net.minecraft.item.*;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 
-import static net.minecraft.client.data.BlockStateModelGenerator.*;
+import static net.minecraft.data.client.BlockStateModelGenerator.*;
 
 public class ModelProvider extends FabricModelProvider {
     public ModelProvider(FabricDataOutput generator) {
@@ -68,25 +73,40 @@ public class ModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
-            switch (item) {
-                case BowItem bowItem -> {
-                    itemModelGenerator.registerBow(bowItem);
-                }
-                case AdvancedArmorItem armorItem -> {
-                    RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
-                    itemModelGenerator.registerArmor(item, identifier,
-                            /*? if >=1.21.5 {*/ ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getType().getName()) /*?} else {*/ /*armorItem.getType().getName()*/ /*?}*/,
-                            false);
-                }
-                case AdvancedToolItem advancedToolItem -> itemModelGenerator.register(item, Models.HANDHELD);
-                case AdvancedSwordItem swordItem -> itemModelGenerator.register(swordItem, Models.HANDHELD);
-                case null, default -> itemModelGenerator.register(item, Models.GENERATED);
+            //? hasBucketlib
+            if(item instanceof UniversalBucketItem) continue;
+
+            if (item instanceof BowItem bowItem) {
+                //? if >1.21.3
+                //itemModelGenerator.registerBow(bowItem);
+            } else if (item instanceof AdvancedArmorItem armorItem) {
+                //? if >1.21.3 {
+                /*RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
+                itemModelGenerator.registerArmor(item, identifier,
+                        //? if >=1.21.5 {
+                        /^ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getSCType().getType().getName())
+                        ^///?} else if >1.21.3 && <1.21.5 {
+                        //armorItem.getType().getName()
+                        //?}
+                        , false);
+                *///?} else if >1.21 {
+                Identifier identifier = armorItem.getMaterial().modelId();
+                itemModelGenerator.registerArmor(item, identifier, ModEquipmentModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getEquipmentSlot());
+                //?} else {
+                 /*itemModelGenerator.registerArmor(armorItem);
+                *///?}
+            } else if (item instanceof AdvancedToolItem) {
+                itemModelGenerator.register(item, Models.HANDHELD);
+            } else if (item instanceof AdvancedSwordItem swordItem) {
+                itemModelGenerator.register(swordItem, Models.HANDHELD);
+            } else {
+                itemModelGenerator.register(item, Models.GENERATED);
             }
         }
     }
 
-    /*? if >=1.21.5 { */
-    private void registerBars(BlockStateModelGenerator generator, Block barBlock) {
+    /*? if >=1.21.5 {*/
+    /*private void registerBars(BlockStateModelGenerator generator, Block barBlock) {
         WeightedVariant weightedVariant = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post_ends"));
         WeightedVariant weightedVariant2 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post"));
         WeightedVariant weightedVariant3 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_cap"));
@@ -124,8 +144,8 @@ public class ModelProvider extends FabricModelProvider {
                 );
         generator.registerItemModel(barBlock);
     }
-    /*? } else { */
-    /*private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
+    *//*?} else {*/
+    private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
         Identifier identifier = ModelIds.getBlockSubModelId(barBlock, "_post_ends");
         Identifier identifier2 = ModelIds.getBlockSubModelId(barBlock, "_post");
         Identifier identifier3 = ModelIds.getBlockSubModelId(barBlock, "_cap");
@@ -169,6 +189,6 @@ public class ModelProvider extends FabricModelProvider {
                                 )
                 );
         blockStateModelGenerator.registerItemModel(barBlock);
-    }*/
-    /*?} */
+    }
+    /*?}*/
 }

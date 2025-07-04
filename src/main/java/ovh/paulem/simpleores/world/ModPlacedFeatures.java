@@ -13,6 +13,7 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.PlacedFeatures;
 import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier;
+import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 
 // TODO : More affiliated to base gen
 public class ModPlacedFeatures {
@@ -78,6 +79,6 @@ public class ModPlacedFeatures {
     }
 
     public static RegistryKey<PlacedFeature> registerKey(String name) {
-        return RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(SimpleOres.MOD_ID, name));
+        return RegistryKey.of(RegistryKeys.PLACED_FEATURE, SCIdentifier.of(SimpleOres.MOD_ID, name));
     }
 }

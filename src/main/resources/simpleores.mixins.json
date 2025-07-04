@@ -5,9 +5,10 @@
   "mixins": [
     "BlockInteractShearsMixin",
     "EntityInteractShearsMixin",
-    "MatchToolMixin",
+    "MatchToolConditionMixin",
     "TripwireBlockMixin",
     "accessor.HolderSetDirectAccessor",
+    "accessor.ItemPredicateAccessor",
     "accessor.WeightedPressurePlateBlockAccessor"
   ],
   "injectors": {

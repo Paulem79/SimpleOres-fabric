@@ -1,17 +1,14 @@
 package ovh.paulem.simpleores.tooltip;
 
-import net.minecraft.block.Block;
+//? if >=1.20.5
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Consumer;
 
 /**
  * Represents a block item that has a tooltip.<br>
@@ -23,13 +20,17 @@ public class TooltipBlockItem extends BlockItem implements TooltipItem {
     }
 
     @Override
-    public void appendClientTooltip(ItemStack stack, TooltipContext context, Consumer<Text> tooltips, TooltipType type) {
+    public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
         // TODO : Maybe item model isn't the best way to get the block?
+        //? if >1.21 {
         Identifier value = stack.getItem().getComponents().get(DataComponentTypes.ITEM_MODEL);
+        //?} else {
+        /*Identifier value = Registries.ITEM.getId(stack.getItem());
+        *///?}
         @Nullable Block block = Registries.BLOCK.get(RegistryKey.of(Registries.BLOCK.getKey(), value));
 
         if(block instanceof TooltipItem tooltipItem) {
-            tooltipItem.appendClientTooltip(stack, context, tooltips, type);
+            tooltipItem.appendClientTooltip(stack, tooltips);
         }
     }
 }

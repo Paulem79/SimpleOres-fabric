@@ -2,13 +2,11 @@ package ovh.paulem.simpleores.blocks.custom;
 
 import net.minecraft.block.*;
 import ovh.paulem.simpleores.mixin.accessor.WeightedPressurePlateBlockAccessor;
-import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -19,7 +17,6 @@ import net.minecraft.world.World;
 import ovh.paulem.simpleores.tooltip.TooltipBlock;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Incorporate both weighted pressure plate semantics and that of stone and wood pressure plates,
@@ -45,7 +42,13 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
                                            int pPressedTime, AbstractBlock.Settings pProperties,
                                            BlockSetType pSetType)
     {
-        super(pMaxWeight, pSetType, pProperties);
+        super(pMaxWeight,
+                //? if >1.20.1 {
+                pSetType, pProperties
+                //?} else {
+                /*pProperties, pSetType
+                *///?}
+        );
         this.sensitivity = pSensitify;
         this.pressTime = pPressedTime;
         this.is_weighted = List.of(Sensitivity.EVERYTHING_WEIGHTED, Sensitivity.MOBS_WEIGHTED, Sensitivity.PLAYERS_WEIGHTED,
@@ -131,7 +134,7 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
     } // end getSignalForState()
 
     @Override
-    public void appendClientTooltip(ItemStack stack, Item.TooltipContext context, Consumer<Text> pTooltip, TooltipType type) {
+    public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
 
         // end-switch
         String tipKey = switch (this.sensitivity) {
@@ -141,7 +144,7 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
             case PLAYERS, PLAYERS_WEIGHTED -> "tips.pressure_plate.players";
         };
 
-        pTooltip.accept(Text.translatable(tipKey).formatted(Formatting.GREEN));
+        tooltips.accept(Text.translatable(tipKey).formatted(Formatting.GREEN));
     }
 
 

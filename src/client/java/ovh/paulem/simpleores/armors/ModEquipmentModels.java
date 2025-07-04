@@ -1,6 +1,11 @@
 package ovh.paulem.simpleores.armors;
 
-import net.minecraft.client.render.entity.equipment.EquipmentModel;
+//? if >=1.21.3 {
+
+//? if >1.21.3
+/*import net.minecraft.client.render.entity.equipment.EquipmentModel;*/
+//? if =1.21.3
+import net.minecraft.item.equipment.EquipmentModel;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.util.Identifier;
 
@@ -27,7 +32,12 @@ public final class ModEquipmentModels
 
     private static EquipmentModel humanoidModel(ArmorMaterial armorMaterial)
     {
-        Identifier location = armorMaterial.assetId().getValue();
+        Identifier location = armorMaterial
+                //? if >1.21.3
+                /*.assetId().getValue()*/
+                //? if <=1.21.3
+                .modelId()
+        ;
 
         EquipmentModel model = EquipmentModel.builder().addHumanoidLayers(location).build();
 
@@ -36,3 +46,6 @@ public final class ModEquipmentModels
         return model;
     }
 }
+//?} else {
+ /*public final class ModEquipmentModels {}
+*///?}

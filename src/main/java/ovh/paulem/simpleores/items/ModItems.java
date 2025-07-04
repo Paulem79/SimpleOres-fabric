@@ -1,10 +1,12 @@
 package ovh.paulem.simpleores.items;
 
-import net.minecraft.item.equipment.EquipmentType;
+import com.google.common.base.Suppliers;
+//? hasBucketlib
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import net.minecraft.registry.RegistryKey;
 import ovh.paulem.simpleores.SimpleOres;
+import ovh.paulem.simpleores.stonecutter.SCArmor;
 import ovh.paulem.simpleores.items.custom.advanced.*;
-import ovh.paulem.simpleores.armors.ModArmorMaterials;
 import ovh.paulem.simpleores.items.custom.MythrilBow;
 import ovh.paulem.simpleores.items.custom.OnyxBow;
 import net.minecraft.block.DispenserBlock;
@@ -13,6 +15,7 @@ import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 
 import java.util.LinkedHashMap;
 
@@ -41,6 +44,18 @@ public class ModItems {
     // parts
     public static final Item MYTHRIL_ROD = register("mythril_rod", Item::new);
     public static final Item ONYX_ROD = register("onyx_rod", Item::new);
+
+    //? hasBucketlib {
+    // buckets
+    public static final UniversalBucketItem COPPER_BUCKET = registerByKey("copper_bucket",
+            key -> new UniversalBucketItem(//?if >1.21
+                    key,
+                    new UniversalBucketItem.Properties()
+                            .upperCrackingTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature)
+                            .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature)
+                            .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking))
+            ));
+    //?}
 
 
     // TOOLS & WEAPONS
@@ -113,34 +128,34 @@ public class ModItems {
 
     // ARMOR
     // copper
-    public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER, EquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem COPPER_CHESTPLATE = register("copper_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER, EquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem COPPER_LEGGINGS = register("copper_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER, EquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem COPPER_BOOTS = register("copper_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER, EquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.HELMET, settings));
+    public static final AdvancedArmorItem COPPER_CHESTPLATE = register("copper_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
+    public static final AdvancedArmorItem COPPER_LEGGINGS = register("copper_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
+    public static final AdvancedArmorItem COPPER_BOOTS = register("copper_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.BOOTS, settings));
 
     // tin
-    public static final AdvancedArmorItem TIN_HELMET = register("tin_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN, EquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem TIN_CHESTPLATE = register("tin_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN, EquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem TIN_LEGGINGS = register("tin_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN, EquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem TIN_BOOTS = register("tin_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN, EquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem TIN_HELMET = register("tin_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.HELMET, settings));
+    public static final AdvancedArmorItem TIN_CHESTPLATE = register("tin_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
+    public static final AdvancedArmorItem TIN_LEGGINGS = register("tin_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
+    public static final AdvancedArmorItem TIN_BOOTS = register("tin_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.BOOTS, settings));
 
     // mythril
-    public static final AdvancedArmorItem MYTHRIL_HELMET = register("mythril_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, EquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem MYTHRIL_CHESTPLATE = register("mythril_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, EquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem MYTHRIL_LEGGINGS = register("mythril_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, EquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem MYTHRIL_BOOTS = register("mythril_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL, EquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem MYTHRIL_HELMET = register("mythril_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.HELMET, settings));
+    public static final AdvancedArmorItem MYTHRIL_CHESTPLATE = register("mythril_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
+    public static final AdvancedArmorItem MYTHRIL_LEGGINGS = register("mythril_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
+    public static final AdvancedArmorItem MYTHRIL_BOOTS = register("mythril_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.BOOTS, settings));
 
     // adamantium
-    public static final AdvancedArmorItem ADAMANTIUM_HELMET = register("adamantium_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, EquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem ADAMANTIUM_CHESTPLATE = register("adamantium_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, EquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem ADAMANTIUM_LEGGINGS = register("adamantium_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, EquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem ADAMANTIUM_BOOTS = register("adamantium_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM, EquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_HELMET = register("adamantium_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.HELMET, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_CHESTPLATE = register("adamantium_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_LEGGINGS = register("adamantium_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_BOOTS = register("adamantium_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.BOOTS, settings));
 
     // onyx
-    public static final AdvancedArmorItem ONYX_HELMET = register("onyx_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX, EquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem ONYX_CHESTPLATE = register("onyx_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX, EquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem ONYX_LEGGINGS = register("onyx_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX, EquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem ONYX_BOOTS = register("onyx_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX, EquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem ONYX_HELMET = register("onyx_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.HELMET, settings));
+    public static final AdvancedArmorItem ONYX_CHESTPLATE = register("onyx_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
+    public static final AdvancedArmorItem ONYX_LEGGINGS = register("onyx_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
+    public static final AdvancedArmorItem ONYX_BOOTS = register("onyx_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.BOOTS, settings));
 
 
     public static Item register(String id, Item.Settings settings) {
@@ -156,10 +171,28 @@ public class ModItems {
     }
 
     public static<T extends Item> T register(RegistryKey<Item> key, java.util.function.Function<Item.Settings, T> factory, Item.Settings settings) {
-        T item = factory.apply(settings.registryKey(key));
-        
+        T item = factory.apply(settings
+                //? if >1.21
+                .registryKey(key)
+        );
+
         registeredItems.put(key.getValue(), item);
-        
+
+        if (item instanceof BlockItem blockItem) {
+            blockItem.appendBlocks(Item.BLOCK_ITEMS, item);
+        } else if(item instanceof AdvancedShearsItem) {
+            DispenserBlock.registerBehavior(item, new ShearsDispenserBehavior());
+        }
+
+        return Registry.register(Registries.ITEM, key, item);
+    }
+
+    public static<T extends Item> T registerByKey(String id, java.util.function.Function<RegistryKey<Item>, T> factory) {
+        RegistryKey<Item> key = keyOf(id);
+        T item = factory.apply(key);
+
+        registeredItems.put(key.getValue(), item);
+
         if (item instanceof BlockItem blockItem) {
             blockItem.appendBlocks(Item.BLOCK_ITEMS, item);
         } else if(item instanceof AdvancedShearsItem) {
@@ -170,7 +203,7 @@ public class ModItems {
     }
 
     private static RegistryKey<Item> keyOf(String id) {
-        return RegistryKey.of(Registries.ITEM.getKey(), Identifier.of(SimpleOres.MOD_ID, id));
+        return RegistryKey.of(Registries.ITEM.getKey(), SCIdentifier.of(SimpleOres.MOD_ID, id));
     }
 
     public static void init() {

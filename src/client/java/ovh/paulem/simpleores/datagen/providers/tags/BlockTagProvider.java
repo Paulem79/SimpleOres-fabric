@@ -5,8 +5,10 @@ package ovh.paulem.simpleores.datagen.providers.tags;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 *//*?}*/
+import net.minecraft.item.Item;
 import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.blocks.ModBlocks;
+import ovh.paulem.simpleores.stonecutter.SCTag;
 import ovh.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -18,25 +20,17 @@ import net.minecraft.registry.tag.BlockTags;
 import java.util.concurrent.CompletableFuture;
 
 public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public BlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-        super(output, registriesFuture);
+    public BlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        super(output, registryLookup);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        build(ModTags.Blocks.SIMPLEORES_ORES,
-                ModBlocks.TIN_ORE,
-                ModBlocks.DEEPSLATE_TIN_ORE,
-                ModBlocks.MYTHRIL_ORE,
-                ModBlocks.DEEPSLATE_MYTHRIL_ORE,
-                ModBlocks.ADAMANTIUM_ORE,
-                ModBlocks.DEEPSLATE_ADAMANTIUM_ORE,
-                ModBlocks.ONYX_ORE
-        );
-
         build(ConventionalBlockTags.ORES, ModTags.Blocks.SIMPLEORES_ORES);
 
+        //? if >1.20.4
         TagBuilder storageBlocksTag = new TagBuilder(ConventionalBlockTags.STORAGE_BLOCKS);
+        TagBuilder carverReplaceables = new TagBuilder(BlockTags.OVERWORLD_CARVER_REPLACEABLES);
 
         // ------------------- BLOCKS BREAK -------------------
 
@@ -71,8 +65,41 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
             build(pickaxeMineable, block);
 
+            if(path.contains("deepslate_") && path.contains("_ore")) {
+                build(ModTags.Blocks.SIMPLEORES_ORES, block);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("deepslate_", "").replace("_ore", "");
+
+                TagKey<Block> tag = SCTag.forOres(material);
+                build(tag, block);
+
+                //? if >1.20.4 {
+                build(carverReplaceables, block);
+                //?}
+            } else if(path.contains("_ore")) {
+                build(ModTags.Blocks.SIMPLEORES_ORES, block);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("_ore", "");
+
+                TagKey<Block> tag = SCTag.forOres(material);
+                build(tag, block);
+
+                //? if >1.20.4 {
+                build(carverReplaceables, block);
+                //?}
+            }
+
             if(path.contains("block")) {
+                //? if >1.20.4
                 build(storageBlocksTag, block);
+
+                // MOD COMPAT
+                String material = identifier.getPath().replace("_block", "");
+
+                TagKey<Block> tag = SCTag.forBlocks(material);
+                build(tag, block);
             }
 
             if(path.contains("tin") || path.contains("copper")) {

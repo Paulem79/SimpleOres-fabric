@@ -9,15 +9,25 @@ import net.minecraft.registry.RegistryWrapper;
 import java.util.concurrent.CompletableFuture;
 
 public class WorldGenProvider extends FabricDynamicRegistryProvider {
-    public WorldGenProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-        super(output, registriesFuture);
+    public WorldGenProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        super(output, registryLookup);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
         // HERE GOES FUTURE WORLD GEN!
-        entries.addAll(registries.getOrThrow(RegistryKeys.CONFIGURED_FEATURE));
-        entries.addAll(registries.getOrThrow(RegistryKeys.PLACED_FEATURE));
+        entries.addAll(//? if >1.21 {
+                registries.getOrThrow
+                        //?} else {
+                        /*registries.getWrapperOrThrow
+                        *///?}
+                        (RegistryKeys.CONFIGURED_FEATURE));
+        entries.addAll(//? if >1.21 {
+                registries.getOrThrow
+                //?} else {
+                /*registries.getWrapperOrThrow
+                *///?}
+                        (RegistryKeys.PLACED_FEATURE));
     }
 
     @Override

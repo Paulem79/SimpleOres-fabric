@@ -1,0 +1,6 @@
+{
+    "parent": "item/bow",
+    "textures": {
+        "layer0": "simpleores:item/onyx_bow_pulling_2"
+    }
+}

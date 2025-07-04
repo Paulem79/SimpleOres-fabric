@@ -1,14 +1,14 @@
 package ovh.paulem.simpleores.datagen.providers;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancement.Advancement;
+//? if >1.20.1
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.AdvancementFrame;
-import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -19,24 +19,33 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class AdvancementsProvider extends FabricAdvancementProvider {
     public AdvancementsProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(output, registryLookup);
+        super(output //? if >1.20.4
+                , registryLookup
+        );
     }
 
     @Override
-    public void generateAdvancement(RegistryWrapper.WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
-        AdvancementEntry rootAdvancement = buildAdvancement(
+    public void generateAdvancement(//? if >1.20.4
+            RegistryWrapper.WrapperLookup registryLookup,
+                                    Consumer<//$ advancementEntry
+                                            net.minecraft.advancement.AdvancementEntry
+                                            > consumer) {
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+                rootAdvancement = buildAdvancement(
                 null,
                 consumer,
                 ModItems.COPPER_PICKAXE,
                 Text.translatable("advancements.welcome"),
                 Text.translatable("advancements.welcome"),
-                Identifier.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
+                SCIdentifier.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
                 AdvancementFrame.TASK,
                 false,
                 false,
@@ -45,7 +54,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 "root"
         );
 
-        AdvancementEntry neitherOrNeitherIron = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+        neitherOrNeitherIron = buildAdvancement(
                 rootAdvancement,
                 consumer,
                 Blocks.COPPER_ORE,
@@ -54,7 +65,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Items.RAW_COPPER
         );
 
-        AdvancementEntry pickaxeCopper = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         pickaxeCopper = buildAdvancement(
                 neitherOrNeitherIron,
                 consumer,
                 ModItems.COPPER_PICKAXE,
@@ -62,7 +75,21 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.copper_pick_ach.desc")
         );
 
-        AdvancementEntry tinAdvancement = buildAdvancement(
+        //? hasBucketlib {
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+        copperBucket = buildAdvancement(
+                neitherOrNeitherIron,
+                consumer,
+                ModItems.COPPER_BUCKET,
+                Text.translatable("advancements.copper_bucket_ach"),
+                Text.translatable("advancements.copper_bucket_ach.desc")
+        );
+        //?}
+
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         tinAdvancement = buildAdvancement(
                 neitherOrNeitherIron,
                 consumer,
                 ModBlocks.TIN_ORE,
@@ -71,7 +98,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 ModItems.RAW_TIN
         );
 
-        AdvancementEntry tinShearsAdvancement = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         tinShearsAdvancement = buildAdvancement(
                 tinAdvancement,
                 consumer,
                 ModItems.TIN_SHEARS,
@@ -79,7 +108,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.tin_shears_ach.desc")
         );
 
-        AdvancementEntry mythrilAdvancement = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         mythrilAdvancement = buildAdvancement(
                 tinAdvancement,
                 consumer,
                 ModBlocks.MYTHRIL_ORE,
@@ -88,7 +119,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 ModItems.RAW_MYTHRIL
         );
 
-        AdvancementEntry tinChestplate = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         tinChestplate = buildAdvancement(
                 tinAdvancement,
                 consumer,
                 ModItems.TIN_CHESTPLATE,
@@ -96,7 +129,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.tin_chestplate_ach.desc")
         );
 
-        AdvancementEntry adamantiumAdvancement = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         adamantiumAdvancement = buildAdvancement(
                 mythrilAdvancement,
                 consumer,
                 ModBlocks.ADAMANTIUM_ORE,
@@ -105,7 +140,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 ModItems.RAW_ADAMANTIUM
         );
 
-        AdvancementEntry bowMythril = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         bowMythril = buildAdvancement(
                 mythrilAdvancement,
                 consumer,
                 ModItems.MYTHRIL_BOW,
@@ -113,7 +150,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.mythril_bow_ach.desc")
         );
 
-        AdvancementEntry axeMythril = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         axeMythril = buildAdvancement(
                 mythrilAdvancement,
                 consumer,
                 ModItems.MYTHRIL_AXE,
@@ -121,7 +160,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.mythril_axe_ach.desc")
         );
 
-        AdvancementEntry shearsAdamantium = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         shearsAdamantium = buildAdvancement(
                 adamantiumAdvancement,
                 consumer,
                 ModItems.ADAMANTIUM_SHEARS,
@@ -129,7 +170,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.adamantium_shears_ach.desc")
         );
 
-        AdvancementEntry leggingsAdamantium = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         leggingsAdamantium = buildAdvancement(
                 adamantiumAdvancement,
                 consumer,
                 ModItems.ADAMANTIUM_LEGGINGS,
@@ -137,7 +180,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.adamantium_legs_ach.desc")
         );
 
-        AdvancementEntry onyxAdvancement = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         onyxAdvancement = buildAdvancement(
                 adamantiumAdvancement,
                 consumer,
                 ModBlocks.ONYX_ORE,
@@ -146,7 +191,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 ModItems.ONYX_GEM
         );
 
-        AdvancementEntry onyxBow = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         onyxBow = buildAdvancement(
                 onyxAdvancement,
                 consumer,
                 ModItems.ONYX_BOW,
@@ -154,7 +201,9 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Text.translatable("advancements.onyx_bow_ach.desc")
         );
 
-        AdvancementEntry onyxSword = buildAdvancement(
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         onyxSword = buildAdvancement(
                 onyxAdvancement,
                 consumer,
                 ModItems.ONYX_SWORD,
@@ -164,20 +213,38 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
     }
 
 
-    public static AdvancementEntry buildAdvancement(@Nullable AdvancementEntry parent, Consumer<AdvancementEntry> consumer, @Nullable Item requiredItem,
+    public static //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         buildAdvancement(@Nullable //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         parent, Consumer<//$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+        > consumer, @Nullable Item requiredItem,
                                                     Text title,
                                                     Text description) {
         return buildAdvancement(parent, consumer, requiredItem, title, description, null, AdvancementFrame.TASK, true, true, false, requiredItem, Registries.ITEM.getId(requiredItem).getPath());
     }
 
-    public static AdvancementEntry buildAdvancement(@Nullable AdvancementEntry parent, Consumer<AdvancementEntry> consumer, ItemConvertible icon,
+    public static //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         buildAdvancement(@Nullable //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         parent, Consumer<//$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+        > consumer, ItemConvertible icon,
                                                     Text title,
                                                     Text description,
                                                     @Nullable Item requiredItem) {
         return buildAdvancement(parent, consumer, icon, title, description, null, AdvancementFrame.TASK, true, true, false, requiredItem, Registries.ITEM.getId(requiredItem).getPath());
     }
 
-    public static AdvancementEntry buildAdvancement(@Nullable AdvancementEntry parent, Consumer<AdvancementEntry> consumer, ItemConvertible icon,
+    public static //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         buildAdvancement(@Nullable //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+         parent, Consumer<//$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+        > consumer, ItemConvertible icon,
                                                     Text title,
                                                     Text description,
                                                     @Nullable Identifier background,
