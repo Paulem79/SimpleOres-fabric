@@ -5,9 +5,6 @@ buildscript {
 	repositories {
 		maven { url = uri("https://maven.paulem.ovh/releases") }
 	}
-	dependencies {
-		classpath("ovh.paulem:simpleores-buildscript:1.0.0")
-	}
 }
 
 plugins {
