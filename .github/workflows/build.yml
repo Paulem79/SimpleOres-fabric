@@ -1,0 +1,33 @@
+name: 🔨 Build
+on:
+  push:
+    branches:
+      - "stonecutter"
+  pull_request:
+
+jobs:
+  build:
+    name: 🔨 Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup jdk 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'zulu'
+
+      - name: Make gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: runDatagen
+        run: ./gradlew runDatagen
+
+      - name: Gradle Build
+        run: ./gradlew build
