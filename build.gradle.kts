@@ -10,6 +10,7 @@ buildscript {
 plugins {
 	id("fabric-loom") version "1.11-SNAPSHOT"
 
+	`maven-publish`
 	id("me.shedaniel.unified-publishing") version "0.1.+"
 
 	id("dev.kikugie.stonecutter")
@@ -277,6 +278,27 @@ tasks.jar {
 }
 
 // ------------------------ PUBLISH MODS ------------------------
+publishing {
+	repositories {
+		maven {
+			name = "paulem"
+			url = uri("https://maven.paulem.ovh/releases")
+			credentials(PasswordCredentials::class)
+			authentication {
+				create<BasicAuthentication>("basic")
+			}
+		}
+	}
+	publications {
+		create<MavenPublication>("maven") {
+			groupId = project.group.toString()
+			artifactId = base.archivesName.get()
+			version = project.version.toString()
+			from(components["java"])
+		}
+	}
+}
+
 val githubChangelog: String = NewGithubChangelog.getChangelog()
 
 unifiedPublishing {

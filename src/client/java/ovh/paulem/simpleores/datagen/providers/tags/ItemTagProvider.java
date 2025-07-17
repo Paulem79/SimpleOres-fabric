@@ -236,6 +236,16 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
             Block block = blockItem.getBlock();
 
+            if(identifier.getPath().contains("_ore")) {
+                // MOD COMPAT
+                String material = identifier.getPath().replace("deepslate_", "").replace("_ore", "");
+
+                TagKey<Item> tag = SCTag.forOre(material);
+                build(tag, blockItem);
+
+                build(ConventionalItemTags.ORES, tag);
+            }
+
             if(block instanceof DoorBlock)
                 build(ItemTags.DOORS, blockItem);
             else if(block instanceof SlabBlock)

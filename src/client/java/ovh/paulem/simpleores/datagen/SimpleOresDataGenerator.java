@@ -1,6 +1,5 @@
 package ovh.paulem.simpleores.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import ovh.paulem.simpleores.datagen.providers.*;
 import ovh.paulem.simpleores.datagen.providers.RecipeProvider;
 import ovh.paulem.simpleores.datagen.providers.langs.*;
