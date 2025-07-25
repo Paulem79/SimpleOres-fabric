@@ -41,8 +41,6 @@ jobs:
         run: |
           mkdir -p ~/.gradle
           echo "org.gradle.caching=true" >> ~/.gradle/gradle.properties
-          echo "org.gradle.configuration-cache=true" >> ~/.gradle/gradle.properties
-          echo "org.gradle.configuration-cache.problems=warn" >> ~/.gradle/gradle.properties
           echo "org.gradle.jvmargs=-Xmx2048M -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
           echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
           echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
