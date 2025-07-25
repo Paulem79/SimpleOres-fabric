@@ -10,23 +10,83 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: ✅ Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Validate gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
+      - name: 🪄 Cache gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/transforms-*
+            ~/.gradle/wrapper
+            ~/.gradle/build-cache-*
+            ~/.gradle/configuration-cache-*
+            .gradle/patchCache
+            .gradle/patched
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'patches/**/*.patch') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Setup jdk 21
+      - name: 🪄 Gradle Cache Cleanup
+        run: |
+          mkdir -p ~/.gradle/caches/modules-2
+          [ -f ~/.gradle/caches/modules-2/modules-2.lock ] && rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          find ~/.gradle/caches -name "*.lock" -type f -delete || echo "No lock files found"
+
+      - name: Configure Gradle Properties
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.caching=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.configuration-cache=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.configuration-cache.problems=warn" >> ~/.gradle/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048M -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
+          echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
+
+      - name: 🛠️ Setup jdk 21
         uses: actions/setup-java@v4
         with:
+          distribution: 'jetbrains'
           java-version: 21
-          distribution: 'zulu'
+          java-package: jdk
+        # To prevent rate limiting on GitHub Actions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make gradle wrapper executable
+      - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
       - name: runDatagen
-        run: ./gradlew runDatagen
+        run: |
+          PARALLELISM=$(($(nproc) * 2))
+          ./gradlew runDatagen --stacktrace --parallel \
+          --max-workers=$PARALLELISM \
+          --build-cache \
+          --no-daemon
 
-      - name: Gradle Build
-        run: ./gradlew build
+      - name: 🔨 Build project
+        run: |
+          PARALLELISM=$(($(nproc) * 2))
+          ./gradlew build --stacktrace --parallel \
+          --max-workers=$PARALLELISM \
+          --build-cache \
+          --no-daemon
+
+      - name: 🔨 Dist Jar Build
+        run: |
+          PARALLELISM=$(($(nproc) * 2))
+          ./gradlew distJar --stacktrace --parallel \
+          --max-workers=$PARALLELISM \
+          --build-cache \
+          --no-daemon
+
+      - name: 📦 Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-artifacts
+          if-no-files-found: error
+          path: dist/

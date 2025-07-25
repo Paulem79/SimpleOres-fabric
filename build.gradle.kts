@@ -1,5 +1,6 @@
 import ovh.paulem.buildscript.NewGithubChangelog
 import ovh.paulem.buildscript.VersionRangeParser
+import java.util.function.Function
 
 buildscript {
 	repositories {
@@ -72,22 +73,6 @@ fabricApi {
 	configureDataGeneration {
 		client = true
 	}
-}
-
-tasks.register<Copy>("distJar") {
-	group = "build"
-	dependsOn(tasks.build)
-	val projectName = project.base.archivesName.get()
-	val versionName = project.version.toString()
-	val jarFile = file("build/libs/${projectName}-${versionName}.jar")
-	if (!jarFile.exists()) {
-		throw GradleException("Jar file $jarFile does not exist. Please build the project first.")
-	}
-	from(jarFile)
-	doFirst {
-		file("$rootDir/dist").mkdirs()
-	}
-	into("$rootDir/dist")
 }
 
 // If this version has BucketLib
@@ -302,6 +287,30 @@ publishing {
 val githubTokenName = "GITHUB_COMMIT_TOKEN"
 val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), System.getenv(githubTokenName) ?: (project.findProperty(githubTokenName) as String?))
 
+val distFileName: Function<Project, String> = Function { proj ->
+	val projectName = proj.base.archivesName.get()
+	val versionName = proj.version.toString()
+	"${projectName}-${versionName}.jar"
+}
+
+tasks.register<Copy>("distJar") {
+	group = "build"
+	dependsOn(tasks.build)
+	val jarFile = file("build/libs/${distFileName.apply(project)}")
+	if (!jarFile.exists()) {
+		throw GradleException("Jar file $jarFile does not exist. Please build the project first.")
+	}
+	from(jarFile)
+	doFirst {
+		file("$rootDir/dist").mkdirs()
+	}
+	into("$rootDir/dist")
+}
+
+tasks.publishUnified {
+	dependsOn(tasks.getByName("distJar")) // Ensure the jar is built before publishing
+}
+
 unifiedPublishing {
 	project {
 		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
@@ -318,7 +327,7 @@ unifiedPublishing {
 		)
 		gameLoaders = listOf("fabric", "quilt")
 
-		mainPublication.set(tasks.remapJar.get().archiveFile) // Declares the publicated jar
+		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName.apply(project)).toFile()) // Declares the publicated jar
 
 		relations {
 			depends {
