@@ -298,7 +298,7 @@ tasks.register<Copy>("distJar") {
 	dependsOn(tasks.build)
 	val jarFile = file("build/libs/${distFileName.apply(project)}")
 	if (!jarFile.exists()) {
-		throw GradleException("Jar file $jarFile does not exist. Please build the project first.")
+		println("Jar file $jarFile does not exist. Please build the project first.")
 	}
 	from(jarFile)
 	doFirst {
