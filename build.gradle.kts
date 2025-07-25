@@ -287,16 +287,14 @@ publishing {
 val githubTokenName = "GITHUB_COMMIT_TOKEN"
 val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), System.getenv(githubTokenName) ?: (project.findProperty(githubTokenName) as String?))
 
-val distFileName: Function<Project, String> = Function { proj ->
-	val projectName = proj.base.archivesName.get()
-	val versionName = proj.version.toString()
-	"${projectName}-${versionName}.jar"
-}
+val projectName = project.base.archivesName.get()
+val versionName = project.version.toString()
+val distFileName = "${projectName}-${versionName}.jar"
 
 tasks.register<Copy>("distJar") {
 	group = "build"
 	dependsOn(tasks.build)
-	val jarFile = file("build/libs/${distFileName.apply(project)}")
+	val jarFile = file("build/libs/${distFileName}")
 	if (!jarFile.exists()) {
 		println("Jar file $jarFile does not exist. Please build the project first.")
 	}
@@ -327,7 +325,7 @@ unifiedPublishing {
 		)
 		gameLoaders = listOf("fabric", "quilt")
 
-		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName.apply(project)).toFile()) // Declares the publicated jar
+		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName).toFile()) // Declares the publicated jar
 
 		relations {
 			depends {
