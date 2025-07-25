@@ -1,15 +1,11 @@
 name: 🚀 Publish
 on:
-  push:
-    branches:
-      - "stonecutter"
+  workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions: write-all
-
-    if: contains(github.event.head_commit.message, 'PUBLISH')
 
     steps:
       - name: Checkout repository
@@ -39,4 +35,5 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
           GITHUB_EVENT_RAW_PATH: ${{ github.event_path }}
+          GITHUB_COMMIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true

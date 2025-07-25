@@ -299,7 +299,8 @@ publishing {
 	}
 }
 
-val githubChangelog: String = NewGithubChangelog.getChangelog()
+val githubTokenName = "GITHUB_COMMIT_TOKEN"
+val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), System.getenv(githubTokenName) ?: (project.findProperty(githubTokenName) as String?))
 
 unifiedPublishing {
 	project {
