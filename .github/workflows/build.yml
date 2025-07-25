@@ -63,24 +63,21 @@ jobs:
           PARALLELISM=$(($(nproc) * 2))
           ./gradlew runDatagen --stacktrace --parallel \
           --max-workers=$PARALLELISM \
-          --build-cache \
-          --no-daemon
+          --build-cache
 
       - name: 🔨 Build project
         run: |
           PARALLELISM=$(($(nproc) * 2))
           ./gradlew build --stacktrace --parallel \
           --max-workers=$PARALLELISM \
-          --build-cache \
-          --no-daemon
+          --build-cache
 
       - name: 🔨 Dist Jar Build
         run: |
           PARALLELISM=$(($(nproc) * 2))
           ./gradlew distJar --stacktrace --parallel \
           --max-workers=$PARALLELISM \
-          --build-cache \
-          --no-daemon
+          --build-cache
 
       - name: 📦 Upload build artifacts
         uses: actions/upload-artifact@v4
