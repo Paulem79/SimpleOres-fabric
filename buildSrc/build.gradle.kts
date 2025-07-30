@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.kohsuke:github-api:1.327")
+    implementation("org.kohsuke:github-api:1.329")
     implementation("com.google.code.gson:gson:2.13.1")
 }
 
