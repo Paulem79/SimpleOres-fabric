@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-	id("fabric-loom") version "1.11.4"
+	id("fabric-loom") version "1.11.5"
 
 	`maven-publish`
 	id("me.shedaniel.unified-publishing") version "0.1.+"
