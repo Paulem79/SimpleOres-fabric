@@ -67,7 +67,7 @@ jobs:
         # To prevent rate limiting on GitHub Actions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 

@@ -378,7 +378,7 @@ unifiedPublishing {
 		}
 
 		val curseforgeToken = (project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")) as String?
-		if (curseforgeToken != null) { // No pre or rc on curseforge
+		if (curseforgeToken != null && !isSnapshot) { // No pre or rc on curseforge
 			curseforge {
 				token = curseforgeToken
 				id = "1092987" // Required, must be a string, ID of CurseForge project
