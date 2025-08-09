@@ -9,7 +9,13 @@ import net.minecraft.text.Text;
 
 public class ItemGroups {
     public static final ItemGroup SIMPLEORES = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModItems.COPPER_PICKAXE))
+            .icon(() ->
+                    //? if !hasCopperTools {
+                    new ItemStack(ModItems.COPPER_PICKAXE)
+                    //?} else {
+                     /*new ItemStack(ModItems.MYTHRIL_PICKAXE)
+                    *///?}
+            )
             .displayName(Text.translatable("item_group." + SimpleOres.MOD_ID + ".simpleores_tab"))
             .entries((displayContext, entries) -> {
                 entries.addAll(ModBlocks.registeredBlockItems.values()

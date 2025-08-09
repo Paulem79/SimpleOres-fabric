@@ -22,8 +22,8 @@ public record MaterialRecipeContainer(@Nullable AdvancedSwordItem sword, @Nullab
                                       @Nullable //? hasBucketlib {
                                       UniversalBucketItem
                                       //?} else {
-                                      //Item
-                                      //?}
+                                      /*Item
+                                      *///?}
                                       bucket,
                                       @Nullable Float smeltXp, boolean excludeSmeltCreation) {
 }

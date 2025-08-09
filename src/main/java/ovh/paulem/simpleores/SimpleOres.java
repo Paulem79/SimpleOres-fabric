@@ -6,6 +6,8 @@ import de.cech12.bucketlib.api.item.UniversalBucketItem;
 //?}
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.config.SimpleOresConfig;
+//? hasCopperTools
+//import ovh.paulem.simpleores.migration.CopperMigration;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 import ovh.paulem.simpleores.world.ModWorldGeneration;
 import ovh.paulem.simpleores.items.ItemGroups;
@@ -44,14 +46,17 @@ public class SimpleOres implements ModInitializer {
 		ModBlocks.init();
 		ModItems.init();
 
-		//? hasBucketlib {
 		// Register custom buckets
+        //? hasBucketlib {
 		ModItems.registeredItems.forEach((identifier, item) -> {
 			if(item instanceof UniversalBucketItem) {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-		//?}
+        //?}
+
+        //? hasCopperTools
+        /*CopperMigration.migrate();*/
 
 		Registry.register(Registries.ITEM_GROUP, SCIdentifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
 

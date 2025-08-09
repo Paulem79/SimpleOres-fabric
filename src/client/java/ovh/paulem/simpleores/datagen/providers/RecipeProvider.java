@@ -100,15 +100,26 @@ public class RecipeProvider extends FabricRecipeProvider {
 
         // Copper
         createMaterialSetRecipes(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
-                ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE,
-                ModItems.COPPER_HELMET, ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS, ModItems.COPPER_SHEARS,
+                //? if !hasCopperTools {
+                ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE, ModItems.COPPER_HELMET,
+                ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS,
+                //?} else {
+                /*null, null, null, null, null, null, null, null, null,
+                *///?}
+                ModItems.COPPER_SHEARS,
                 ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
-                null, ModBlocks.copper_bars, ModBlocks.copper_pressure_plate, null, null, null,
+                null,
+                //? !hasCopperTools {
+                ModBlocks.copper_bars,
+                //?} else {
+                /*null,
+                *///?}
+                ModBlocks.copper_pressure_plate, null, null, null,
                 //? hasBucketlib {
                 ModItems.COPPER_BUCKET,
                 //?} else {
-                //null,
-                //?}
+                /*null,
+                *///?}
                 null, true
         ));
 
@@ -484,7 +495,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         }
 
         public ShapedRecipeJsonBuilder createShaped(RecipeCategory category, ItemConvertible output, int count) {
-            //? >1.21.3 {
+            //? >=1.21.3 {
             return generator().createShaped(category, output, count);
             //?} else {
             /*return ShapedRecipeJsonBuilder.create(category, output, count);

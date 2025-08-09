@@ -196,9 +196,11 @@ public class ModBlocks {
                     .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY))));
 
     // Blocks - bars - simpleores
+    //? if !hasCopperTools {
     public static PaneBlock copper_bars = registerBlock("copper_bars", key ->
             new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
                     .strength(3.0F).requiresTool().sounds(BlockSoundGroup.METAL).nonOpaque())));
+    //?}
     public static PaneBlock tin_bars = registerBlock("tin_bars", key ->
             new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
                     .strength(4.0F).requiresTool().sounds(BlockSoundGroup.METAL).nonOpaque())));

@@ -48,7 +48,7 @@ public class ModItems {
     //? hasBucketlib {
     // buckets
     public static final UniversalBucketItem COPPER_BUCKET = registerByKey("copper_bucket",
-            key -> new UniversalBucketItem(//?if >1.21
+            key -> new UniversalBucketItem(//? if >1.21
                     key,
                     new UniversalBucketItem.Properties()
                             .upperCrackingTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature)
@@ -66,6 +66,7 @@ public class ModItems {
             new OnyxBow(settings.maxDamage(SimpleOres.CONFIG.onyxBowDurability)));
 
     // swords: constant dmg 3, eff -2.4
+    //? if !hasCopperTools
     public static final AdvancedSwordItem COPPER_SWORD = register("copper_sword", settings -> new AdvancedSwordItem(ModToolMaterials.COPPER, settings));
 
     public static final AdvancedSwordItem TIN_SWORD = register("tin_sword", settings -> new AdvancedSwordItem(ModToolMaterials.TIN, settings));
@@ -77,6 +78,7 @@ public class ModItems {
     public static final AdvancedSwordItem ONYX_SWORD = register("onyx_sword", settings -> new AdvancedSwordItem(ModToolMaterials.ONYX, settings));
 
     // pickaxes: constant dmg 1, eff: -2.8
+    //? if !hasCopperTools
     public static final AdvancedPickaxeItem COPPER_PICKAXE = register("copper_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.COPPER, settings));
     public static final AdvancedPickaxeItem TIN_PICKAXE = register("tin_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.TIN, settings));
     public static final AdvancedPickaxeItem MYTHRIL_PICKAXE = register("mythril_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.MYTHRIL, settings));
@@ -84,6 +86,7 @@ public class ModItems {
     public static final AdvancedPickaxeItem ONYX_PICKAXE = register("onyx_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.ONYX, settings));
 
     // axes: axe dmg + tier dmg == ~8.0  (9.0 for uber-materials); constant eff: -3.2 (3.1 to 3.0 for uberliness)
+    //? if !hasCopperTools
     public static final AdvancedAxeItem COPPER_AXE = register("copper_axe", settings -> new AdvancedAxeItem(ModToolMaterials.COPPER, 7.0F, -3.2F, settings));
     public static final AdvancedAxeItem TIN_AXE = register("tin_axe", settings -> new AdvancedAxeItem(ModToolMaterials.TIN, 7.0F, -3.2F, settings));
     public static final AdvancedAxeItem MYTHRIL_AXE = register("mythril_axe", settings -> new AdvancedAxeItem(ModToolMaterials.MYTHRIL, 5.0F, -3.2F, settings));
@@ -91,6 +94,7 @@ public class ModItems {
     public static final AdvancedAxeItem ONYX_AXE = register("onyx_axe", settings -> new AdvancedAxeItem(ModToolMaterials.ONYX, 4.0F, -3.0F, settings));
 
     // shovels: constant dmg: 1.5, eff: -3.0
+    //? if !hasCopperTools
     public static final AdvancedShovelItem COPPER_SHOVEL = register("copper_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.COPPER, settings));
     public static final AdvancedShovelItem TIN_SHOVEL = register("tin_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.TIN, settings));
     public static final AdvancedShovelItem MYTHRIL_SHOVEL = register("mythril_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.MYTHRIL, settings));
@@ -98,11 +102,13 @@ public class ModItems {
     public static final AdvancedShovelItem ONYX_SHOVEL = register("onyx_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.ONYX, settings));
 
     // hoes: hoe dmg + tier dmg == 0; Eff: -3 for bad hoe materials, 0 for uber materials, rest in-between.
+    //? if !hasCopperTools
     public static final AdvancedHoeItem COPPER_HOE = register("copper_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.COPPER, -1, -2.0F, settings));
     public static final AdvancedHoeItem TIN_HOE = register("tin_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.TIN, -1, -2.0F, settings));
     public static final AdvancedHoeItem MYTHRIL_HOE = register("mythril_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.MYTHRIL, -3, -1.0F, settings));
     public static final AdvancedHoeItem ADAMANTIUM_HOE = register("adamantium_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.ADAMANTIUM, -3, -1.0F, settings));
     public static final AdvancedHoeItem ONYX_HOE = register("onyx_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.ONYX, -5, 0.0F, settings));
+
 
     // shears
     public static final AdvancedShearsItem COPPER_SHEARS = register(
@@ -128,10 +134,12 @@ public class ModItems {
 
     // ARMOR
     // copper
+    //? if !hasCopperTools {
     public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.HELMET, settings));
     public static final AdvancedArmorItem COPPER_CHESTPLATE = register("copper_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
     public static final AdvancedArmorItem COPPER_LEGGINGS = register("copper_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
     public static final AdvancedArmorItem COPPER_BOOTS = register("copper_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.BOOTS, settings));
+    //?}
 
     // tin
     public static final AdvancedArmorItem TIN_HELMET = register("tin_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.HELMET, settings));

@@ -15,6 +15,7 @@ import net.minecraft.village.VillagerProfession;
 public class ModCustomTrades {
     public static void registerCustomTrades() {
         // ARMORER
+        //? if !hasCopperTools {
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 1, factories -> {
             if(SimpleOres.CONFIG.armorerEmeraldCopperHelmet) factories.add((entity, random) -> new TradeOffer(
                     new SCTradedItem(Items.EMERALD, 3).get(),
@@ -40,6 +41,7 @@ public class ModCustomTrades {
                     12, 1, 0.2F
             ));
         });
+        //?}
 
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 2, factories -> {
             if(SimpleOres.CONFIG.armorerCopperToEmeralds) factories.add((entity, random) -> new TradeOffer(
@@ -125,6 +127,7 @@ public class ModCustomTrades {
                     12, 10, 0.05F
             ));
 
+            //? if !hasCopperTools {
             if(SimpleOres.CONFIG.toolsmithEmeraldCopperAxe) factories.add((entity, random) -> new TradeOffer(
                     new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_AXE),
@@ -148,6 +151,7 @@ public class ModCustomTrades {
                     new ItemStack(ModItems.COPPER_PICKAXE),
                     12, 1, 0.2F
             ));
+            //?}
 
             if(SimpleOres.CONFIG.toolsmithEmeraldTinAxe) factories.add((entity, random) -> new TradeOffer(
                     new SCTradedItem(Items.EMERALD).get(),

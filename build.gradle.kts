@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.stonecutter
 import ovh.paulem.buildscript.NewGithubChangelog
 import ovh.paulem.buildscript.VersionRangeParser
 import java.util.function.Function
@@ -79,7 +80,9 @@ fabricApi {
 val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
 
 stonecutter {
-	constants.put("hasBucketlib", hasBucketlib)
+    constants.put("hasBucketlib", hasBucketlib)
+    dependencies.put("maxVersionRange", property("max_version_range") as String)
+    constants.put("hasCopperTools", stonecutter.eval(property("max_version_range") as String, ">1.21.8"))
 
 	swaps["armorType"] = when {
 		eval(current.version, "<=1.21") -> "net.minecraft.item.ArmorItem.Type"
@@ -97,7 +100,8 @@ stonecutter {
 	}
 
 	swaps["generatorOrExporter"] = when {
-		eval(current.version, ">=1.21.3") -> "net.minecraft.data.recipe.RecipeGenerator"
+        eval(current.version, ">1.21.3") -> "net.minecraft.data.recipe.RecipeGenerator"
+        eval(current.version, "=1.21.3") -> "net.minecraft.data.server.recipe.RecipeGenerator"
 		eval(current.version, ">1.20.1") -> "net.minecraft.data.server.recipe.RecipeExporter"
 		else -> "java.util.function.Consumer<net.minecraft.data.server.recipe.RecipeJsonProvider>"
 	}
@@ -186,8 +190,13 @@ stonecutter {
 
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
 
+val isSnapshot = stonecutter.current.project.contains("snapshot", true)
+val minecraftVersion = if(isSnapshot) property("deps.minecraft")
+else stonecutter.current.project
+
 dependencies {
-	minecraft("com.mojang:minecraft:${stonecutter.current.project}")
+	minecraft("com.mojang:minecraft:${minecraftVersion}")
+
 	if(checkSpecified("yarn_mappings"))
 		mappings("net.fabricmc:yarn:${property("deps.yarn_mappings")}:v2")
 	if(checkSpecified("fabric_loader"))
@@ -248,12 +257,20 @@ tasks.processResources {
 }
 
 fun preToBeta(versionProperty: String): String? {
-	val version = project.property(versionProperty) as String?
+    val version = project.property(versionProperty) as String? ?: return null
 
-	if (version == null) return null
-	return version
-		.replace(Regex("-rc(\\d+)"), "-rc.$1")
-		.replace(Regex("-pre(\\d+)"), "-beta.$1")
+    return version
+        .replace(Regex("-rc(\\d+)"), "-rc.$1")
+        .replace(Regex("-pre(\\d+)"), "-beta.$1")
+}
+
+fun runtimeVersionToSnapshot(versionProperty: String): String? {
+    val version = project.property(versionProperty) as String? ?: return null
+
+    // 1.21.9-alpha.25.31.a -> 25w31a
+    return version.replace(Regex("""(\d+\.\d+\.\d+)-alpha\.(\d+)\.(\d+)\.a""")) {
+        "${it.groupValues[2]}w${it.groupValues[3]}a"
+    }
 }
 
 tasks.jar {
@@ -320,8 +337,8 @@ unifiedPublishing {
 		} // Optional, in markdown format
 		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
 		gameVersions = VersionRangeParser.parseVersionRange(
-			project.property("min_version_range") as String,
-			project.property("max_version_range") as String
+            runtimeVersionToSnapshot("min_version_range") as String,
+            runtimeVersionToSnapshot("max_version_range") as String
 		)
 		gameLoaders = listOf("fabric", "quilt")
 
@@ -369,7 +386,7 @@ unifiedPublishing {
 				gameVersions = VersionRangeParser.parseVersionRange(
 					project.property("min_version_range") as String,
 					project.property("max_version_range") as String,
-					VersionRangeParser.CompiledVersions.VersionType.RELEASE
+                    VersionRangeParser.CompiledVersions.VersionType.RELEASE
 				)
 			}
 		}

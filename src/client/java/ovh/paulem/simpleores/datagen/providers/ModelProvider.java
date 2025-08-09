@@ -9,7 +9,7 @@ import net.minecraft.data.client.*;
 //? if <1.21.5
 import net.minecraft.util.Identifier;
 //? if >1.21.3
-//import net.minecraft.item.equipment.EquipmentAsset;
+/*import net.minecraft.item.equipment.EquipmentAsset;*/
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
 //? if 1.21.3
@@ -78,7 +78,7 @@ public class ModelProvider extends FabricModelProvider {
 
             if (item instanceof BowItem bowItem) {
                 //? if >1.21.3
-                //itemModelGenerator.registerBow(bowItem);
+                /*itemModelGenerator.registerBow(bowItem);*/
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 //? if >1.21.3 {
                 /*RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();

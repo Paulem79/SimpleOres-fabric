@@ -42,10 +42,18 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 rootAdvancement = buildAdvancement(
                 null,
                 consumer,
+                //? if !hasCopperTools {
                 ModItems.COPPER_PICKAXE,
+                //?} else {
+                /*ModItems.MYTHRIL_PICKAXE,
+                *///?}
                 Text.translatable("advancements.welcome"),
                 Text.translatable("advancements.welcome"),
+                //? if !hasCopperTools {
                 SCIdentifier.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
+                //?} else {
+                 /*SCIdentifier.ofVanilla("gui/advancements/backgrounds/stone"),
+                *///?}
                 AdvancementFrame.TASK,
                 false,
                 false,
@@ -65,26 +73,28 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Items.RAW_COPPER
         );
 
-        //$ advancementEntry
-        net.minecraft.advancement.AdvancementEntry
-         pickaxeCopper = buildAdvancement(
-                neitherOrNeitherIron,
-                consumer,
-                ModItems.COPPER_PICKAXE,
-                Text.translatable("advancements.copper_pick_ach"),
-                Text.translatable("advancements.copper_pick_ach.desc")
-        );
+        //? if !hasCopperTools {
+            //$ advancementEntry
+            net.minecraft.advancement.AdvancementEntry
+             pickaxeCopper = buildAdvancement(
+                    neitherOrNeitherIron,
+                    consumer,
+                    ModItems.COPPER_PICKAXE,
+                    Text.translatable("advancements.copper_pick_ach"),
+                    Text.translatable("advancements.copper_pick_ach.desc")
+            );
 
-        //? hasBucketlib {
-        //$ advancementEntry
-        net.minecraft.advancement.AdvancementEntry
-        copperBucket = buildAdvancement(
-                neitherOrNeitherIron,
-                consumer,
-                ModItems.COPPER_BUCKET,
-                Text.translatable("advancements.copper_bucket_ach"),
-                Text.translatable("advancements.copper_bucket_ach.desc")
-        );
+            //? hasBucketlib {
+            //$ advancementEntry
+            net.minecraft.advancement.AdvancementEntry
+            copperBucket = buildAdvancement(
+                    neitherOrNeitherIron,
+                    consumer,
+                    ModItems.COPPER_BUCKET,
+                    Text.translatable("advancements.copper_bucket_ach"),
+                    Text.translatable("advancements.copper_bucket_ach.desc")
+            );
+            //?}
         //?}
 
         //$ advancementEntry

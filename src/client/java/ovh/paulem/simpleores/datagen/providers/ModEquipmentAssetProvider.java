@@ -35,8 +35,8 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider
         });
         return DataProvider.writeAllToPath(output, EquipmentModel.CODEC, this.pathProvider, map);
     }
-}*/
-//?} else if 1.21.3 {
+}
+*///?} else if 1.21.3 {
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataProvider;
