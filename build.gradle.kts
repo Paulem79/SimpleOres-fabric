@@ -1,7 +1,5 @@
-import org.gradle.kotlin.dsl.stonecutter
 import ovh.paulem.buildscript.NewGithubChangelog
 import ovh.paulem.buildscript.VersionRangeParser
-import java.util.function.Function
 
 buildscript {
 	repositories {
@@ -47,10 +45,10 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		create("simpleores") {
-			sourceSet(sourceSets.main.get())
-			sourceSet(sourceSets["client"])
-		}
+        create("simpleores") {
+            sourceSet(sourceSets.main.get())
+            sourceSet(sourceSets["client"])
+        }
 	}
 
 	runConfigs.all {
@@ -378,16 +376,20 @@ unifiedPublishing {
 		}
 
 		val curseforgeToken = (project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")) as String?
-		if (curseforgeToken != null && !isSnapshot) { // No pre or rc on curseforge
+		if (curseforgeToken != null) { // No pre or rc on curseforge
 			curseforge {
 				token = curseforgeToken
 				id = "1092987" // Required, must be a string, ID of CurseForge project
 
-				gameVersions = VersionRangeParser.parseVersionRange(
-					project.property("min_version_range") as String,
-					project.property("max_version_range") as String,
-                    VersionRangeParser.CompiledVersions.VersionType.RELEASE
-				)
+                gameVersions = if(isSnapshot) {
+                    listOf(stonecutter.current.project)
+                } else {
+                    VersionRangeParser.parseVersionRange(
+                        project.property("min_version_range") as String,
+                        project.property("max_version_range") as String,
+                        VersionRangeParser.CompiledVersions.VersionType.RELEASE
+                    )
+                }
 			}
 		}
 
