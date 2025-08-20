@@ -1,12 +1,12 @@
 package ovh.paulem.simpleores.datagen.providers.tags;
 
 /*? if >=1.21.6 {*/
-/*import net.minecraft.data.tag.ProvidedTagBuilder;
+import net.minecraft.data.tag.ProvidedTagBuilder;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
-*//*?}*/
+/*?}*/
 //? hasBucketlib
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -74,11 +74,11 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 // Shears
                 build(ModTags.Items.SHEARS, item);
             } //? hasBucketlib {
-            else if (item instanceof UniversalBucketItem) {
+            /*else if (item instanceof UniversalBucketItem) {
                 // Buckets
                 this.getOrCreateTagBuilder(ModTags.Items.BUCKETS)
                         .add(item);
-            } //?}
+            } *///?}
             else if (item instanceof BowItem) {
                 // Bows
                 build(ModTags.Items.BOWS, item);
@@ -190,7 +190,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         // ------------------- BUCKETS -------------------
         //? if hasBucketlib && >=1.21
-        build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);
+        /*build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);*/
 
         // ------------------- NUGGETS -------------------
         build(ConventionalItemTags.NUGGETS, ModTags.Items.NUGGETS);
@@ -264,7 +264,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     private void build(TagBuilder builder,
                        Object... objects) {
         //? if >=1.21.6 {
-        /*for (Object object : objects) {
+        for (Object object : objects) {
 
             if(object instanceof Item item) {
                 builder.get()
@@ -274,15 +274,15 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         .addTag((TagKey<Item>) tag);
             }
         }
-        *///?} else {
-            for (Object object : objects) {
+        //?} else {
+            /*for (Object object : objects) {
                 if (object instanceof Item block) {
                     builder.get().add(block);
                 } else if (object instanceof TagKey<?> tag) {
                     builder.get().addTag((TagKey<Item>) tag);
                 }
             }
-        //?}
+        *///?}
     }
 
     class TagBuilder {
@@ -292,12 +292,12 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*//*ProvidedTagBuilder<RegistryKey<Item>, Item>*//*?} else {*/FabricTagProvider<Item>.FabricTagBuilder/*?}*/ get() {
+        public /*? if >=1.21.6 {*/ProvidedTagBuilder<RegistryKey<Item>, Item>/*?} else {*//*FabricTagProvider<Item>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
-            /*return builder(tag);
-            *//*?} else {*/
-            return getOrCreateTagBuilder(tag);
-             /*?}*/
+            return builder(tag);
+            /*?} else {*/
+            /*return getOrCreateTagBuilder(tag);
+             *//*?}*/
         }
     }
 }

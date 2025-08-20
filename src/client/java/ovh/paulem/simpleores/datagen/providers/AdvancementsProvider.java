@@ -85,7 +85,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
             );
 
             //? hasBucketlib {
-            //$ advancementEntry
+            /*//$ advancementEntry
             net.minecraft.advancement.AdvancementEntry
             copperBucket = buildAdvancement(
                     neitherOrNeitherIron,
@@ -94,7 +94,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                     Text.translatable("advancements.copper_bucket_ach"),
                     Text.translatable("advancements.copper_bucket_ach.desc")
             );
-            //?}
+            *///?}
         //?}
 
         //$ advancementEntry

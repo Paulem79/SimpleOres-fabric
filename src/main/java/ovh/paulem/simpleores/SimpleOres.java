@@ -1,13 +1,17 @@
 package ovh.paulem.simpleores;
 
 //? hasBucketlib {
-import de.cech12.bucketlib.api.BucketLibApi;
+/*import de.cech12.bucketlib.api.BucketLibApi;
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
-//?}
+*///?}
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.config.SimpleOresConfig;
 //? hasCopperTools
 //import ovh.paulem.simpleores.migration.CopperMigration;
+import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 import ovh.paulem.simpleores.world.ModWorldGeneration;
 import ovh.paulem.simpleores.items.ItemGroups;
@@ -46,14 +50,25 @@ public class SimpleOres implements ModInitializer {
 		ModBlocks.init();
 		ModItems.init();
 
+        RegistryEntryAddedCallback.allEntries(Registries.FLUID, fluidReference -> {
+            Identifier identifier = fluidReference.registryKey().getValue();
+            Fluid modFluid = fluidReference.value();
+
+            ModItems.registeredItems.values().forEach(item -> {
+                if(item instanceof CustomParentBucketItem bucketItem) {
+                    bucketItem.registerFluid(identifier, modFluid);
+                }
+            });
+        });
+
 		// Register custom buckets
         //? hasBucketlib {
-		ModItems.registeredItems.forEach((identifier, item) -> {
+		/*ModItems.registeredItems.forEach((identifier, item) -> {
 			if(item instanceof UniversalBucketItem) {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-        //?}
+        *///?}
 
         //? hasCopperTools
         /*CopperMigration.migrate();*/

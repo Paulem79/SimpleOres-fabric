@@ -55,6 +55,8 @@ loom {
 		ideConfigGenerated(true) // Run configurations are not created for subprojects by default
 		runDir = "run" // Use a shared run folder and create separate worlds
 	}
+
+    accessWidenerPath = project.rootProject.file("src/main/resources/simpleores.accesswidener")
 }
 
 sourceSets {

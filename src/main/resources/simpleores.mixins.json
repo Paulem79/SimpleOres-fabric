@@ -9,7 +9,9 @@
     "TripwireBlockMixin",
     "accessor.HolderSetDirectAccessor",
     "accessor.ItemPredicateAccessor",
-    "accessor.WeightedPressurePlateBlockAccessor"
+    "accessor.WeightedPressurePlateBlockAccessor",
+    "buckets.BucketItemMixin",
+    "buckets.FluidMixin"
   ],
   "injectors": {
     "defaultRequire": 1

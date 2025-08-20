@@ -3,7 +3,7 @@ package ovh.paulem.simpleores.items.custom.advanced;
 import ovh.paulem.simpleores.SimpleOres;
 import net.minecraft.item.Item;
 //? if <1.21.5
-import net.minecraft.item.ArmorItem;
+/*import net.minecraft.item.ArmorItem;*/
 
 //? if 1.21 {
 /*import net.minecraft.registry.entry.RegistryEntry;
@@ -17,10 +17,10 @@ import ovh.paulem.simpleores.armors.ModArmorMaterials;
 
 public class AdvancedArmorItem extends
         //? if >=1.21.5 {
-        /*Item
-        *///?} else {
-        ArmorItem
-        //?}
+        Item
+        //?} else {
+        /*ArmorItem
+        *///?}
     {
 
     //? if >1.20.4 {
@@ -36,11 +36,11 @@ public class AdvancedArmorItem extends
     /*public AdvancedArmorItem(ModArmorMaterials material, SCArmor.ArmorEquipmentType type, Settings settings) {
     *///?}
         /*? if >=1.21.5 {*/
-        /*super(settings.armor(material, type.getType()));
-        *//*?} else {*/
-        super(material, type.getType(),
+        super(settings.armor(material, type.getType()));
+        /*?} else {*/
+        /*super(material, type.getType(),
                 settings.maxDamage(getDurability(material, type)));
-         /*?}*/
+         *//*?}*/
 
         this.scType = type;
 

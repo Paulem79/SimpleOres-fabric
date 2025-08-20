@@ -7,7 +7,7 @@ import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.armors.ModArmorMaterials;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 //? if <1.21.5
-import net.minecraft.item.ArmorItem;
+/*import net.minecraft.item.ArmorItem;*/
 //? if 1.21 {
 /*import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.item.equipment.ArmorMaterial;

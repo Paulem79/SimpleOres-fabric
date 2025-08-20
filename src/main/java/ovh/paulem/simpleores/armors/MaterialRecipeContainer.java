@@ -1,7 +1,7 @@
 package ovh.paulem.simpleores.armors;
 
 //? hasBucketlib
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
 import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedPickaxeItem;
@@ -20,10 +20,10 @@ public record MaterialRecipeContainer(@Nullable AdvancedSwordItem sword, @Nullab
                                       @Nullable DoorBlock door, @Nullable PaneBlock bars, @Nullable MultifunctionPressurePlateBlock pressurePlate, @Nullable Block cut, @Nullable
                                       SlabBlock cutSlab, @Nullable StairsBlock stairs,
                                       @Nullable //? hasBucketlib {
-                                      UniversalBucketItem
-                                      //?} else {
-                                      /*Item
-                                      *///?}
+                                      /*UniversalBucketItem
+                                      *///?} else {
+                                      Item
+                                      //?}
                                       bucket,
                                       @Nullable Float smeltXp, boolean excludeSmeltCreation) {
 }
