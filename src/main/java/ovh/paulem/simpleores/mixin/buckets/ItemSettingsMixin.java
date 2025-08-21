@@ -1,17 +1,21 @@
 package ovh.paulem.simpleores.mixin.buckets;
 
+import net.minecraft.item.Item;
+import org.spongepowered.asm.mixin.Mixin;
+
+//? if !hasBucketlib {
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//?}
 
 @Mixin(Item.Settings.class)
 public class ItemSettingsMixin {
+    //? if !hasBucketlib {
     @Inject(
             method = "getValidatedComponents",
             at = @At(
@@ -33,4 +37,5 @@ public class ItemSettingsMixin {
             cir.setReturnValue(componentMap);
         }
     }
+    //?}
 }

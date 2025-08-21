@@ -21,6 +21,7 @@ import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.items.custom.advanced.*;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
+import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import ovh.paulem.simpleores.stonecutter.SCArmor;
 import ovh.paulem.simpleores.stonecutter.SCTag;
 import ovh.paulem.simpleores.tags.ModTags;
@@ -73,12 +74,14 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             } else if (item instanceof AdvancedShearsItem) {
                 // Shears
                 build(ModTags.Items.SHEARS, item);
-            } //? hasBucketlib {
-            /*else if (item instanceof UniversalBucketItem) {
+            } //? if hasBucketlib {
+            /*else if (item instanceof UniversalBucketItem) {*/
+            //?} else {
+            else if (item instanceof CustomBucketFluidable) {
+            //?}
                 // Buckets
-                this.getOrCreateTagBuilder(ModTags.Items.BUCKETS)
-                        .add(item);
-            } *///?}
+                build(ModTags.Items.BUCKETS, item);
+            }
             else if (item instanceof BowItem) {
                 // Bows
                 build(ModTags.Items.BOWS, item);
@@ -189,8 +192,8 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         build(ItemTags.MINING_ENCHANTABLE, ModTags.Items.SHEARS);
 
         // ------------------- BUCKETS -------------------
-        //? if hasBucketlib && >=1.21
-        /*build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);*/
+        //? if >=1.21
+        build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);
 
         // ------------------- NUGGETS -------------------
         build(ConventionalItemTags.NUGGETS, ModTags.Items.NUGGETS);

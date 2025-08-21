@@ -1,5 +1,9 @@
 package ovh.paulem.simpleores.items.custom.bucket;
 
+//? if hasBucketlib {
+/*public class CustomChildrenBucketItem {}*/
+//?} else {
+
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.fluid.Fluid;
@@ -14,7 +18,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     private final Fluid fluid;
 
     public CustomChildrenBucketItem(Fluid fluid, Settings settings, CustomParentBucketItem parent) {
-        super(fluid, settings.component(DataComponentTypes.ITEM_MODEL, parent.getOverlayModelId()));
+        super(fluid, settings.component(DataComponentTypes.ITEM_MODEL, parent.getModelWithOverlay(fluid)));
 
         this.parent = parent;
         this.fluid = fluid;
@@ -61,13 +65,5 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     public Fluid getFluid() {
         return fluid;
     }
-
-    @Override
-    public String toString() {
-        return "CustomChildrenBucketItem{" +
-                "parent=" + parent +
-                ", fluid=" + fluid +
-                ", translationKey='" + translationKey + '\'' +
-                "} " + super.toString();
-    }
 }
+//?}

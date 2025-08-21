@@ -47,13 +47,6 @@ public class ModItems {
     public static final Item MYTHRIL_ROD = register("mythril_rod", Item::new);
     public static final Item ONYX_ROD = register("onyx_rod", Item::new);
 
-    public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
-            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Settings().maxCount(16),
-                    (bucketItem, name, fluid) ->
-                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.recipeRemainder(bucketItem).maxCount(1), bucketItem))
-            )
-    );
-
     //? hasBucketlib {
     /*// buckets
     public static final UniversalBucketItem COPPER_BUCKET = registerByKey("copper_bucket",
@@ -64,7 +57,14 @@ public class ModItems {
                             .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature)
                             .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking))
             ));
-    *///?}
+    *///?} else {
+    public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
+            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Settings().maxCount(16),
+                    (bucketItem, name, fluid) ->
+                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.recipeRemainder(bucketItem).maxCount(1), bucketItem))
+            )
+    );
+    //?}
 
 
     // TOOLS & WEAPONS

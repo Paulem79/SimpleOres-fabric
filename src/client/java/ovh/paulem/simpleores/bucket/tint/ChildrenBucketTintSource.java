@@ -1,5 +1,9 @@
 package ovh.paulem.simpleores.bucket.tint;
 
+//? if hasBucketlib {
+/*public class ChildrenBucketTintSource {}*/
+//?} else {
+
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.api.EnvType;
@@ -29,3 +33,4 @@ public record ChildrenBucketTintSource(int defaultColor) implements TintSource {
         return CODEC;
     }
 }
+//?}

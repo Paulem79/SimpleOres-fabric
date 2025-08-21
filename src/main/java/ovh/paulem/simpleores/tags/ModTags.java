@@ -55,8 +55,7 @@ public class ModTags {
         public static final TagKey<Item> SHEARS =
                 createTag("shears");
 
-        //? if hasBucketlib
-        /*public static final TagKey<Item> BUCKETS = createTag("buckets");*/
+        public static final TagKey<Item> BUCKETS = createTag("buckets");
 
         public static final TagKey<Item> INGOTS =
                 createTag("ingots");

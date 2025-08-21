@@ -5,19 +5,15 @@ package ovh.paulem.simpleores.datagen.providers;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.*;
 //? if >=1.21.5
-import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.client.render.model.json.WeightedVariant;
-//? if <1.21.5
-/*import net.minecraft.util.Identifier;*/
+//? if <1.21.5 || !hasBucketlib
+import net.minecraft.util.Identifier;
 //? if >1.21.3
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
 //? if 1.21.3
 /*import ovh.paulem.simpleores.armors.ModEquipmentModels;*/
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
@@ -26,10 +22,16 @@ import net.minecraft.block.*;
 import net.minecraft.item.*;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
+
+//? if !hasBucketlib {
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.client.render.item.tint.TintSource;
 import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 import ovh.paulem.simpleores.bucket.tint.ChildrenBucketTintSource;
+//?}
 
 import static net.minecraft.client.data.BlockStateModelGenerator.*;
 
@@ -81,8 +83,24 @@ public class ModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
-            //? hasBucketlib
+            //? if hasBucketlib {
             /*if(item instanceof UniversalBucketItem) continue;*/
+            //?} else {
+            if(item instanceof CustomParentBucketItem parentBucketItem) {
+                itemModelGenerator.register(item, Models.GENERATED);
+                for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
+                    if(child.getFluid() == Fluids.WATER) {
+                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new ChildrenBucketTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
+                    } else if(child.getFluid() == Fluids.LAVA) {
+                        registerLavaBucket(itemModelGenerator, child, parentBucketItem);
+                    }
+                }
+                continue;
+            }
+
+            // Exclude childs registration because it's handled in the loop
+            if(item instanceof CustomBucketFluidable) continue;
+            //?}
 
             if (item instanceof BowItem bowItem) {
                 //? if >1.21.3
@@ -107,23 +125,23 @@ public class ModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(item, Models.HANDHELD);
             } else if (item instanceof AdvancedSwordItem swordItem) {
                 itemModelGenerator.register(swordItem, Models.HANDHELD);
-            } else if(item instanceof CustomParentBucketItem parentBucketItem) {
-                itemModelGenerator.register(item, Models.GENERATED);
-                for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
-                    if(child.getFluid() != Fluids.WATER) continue;
-
-                    registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new ChildrenBucketTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
-                }
-            } else if(!(item instanceof CustomBucketFluidable)) {
+            } else {
                 itemModelGenerator.register(item, Models.GENERATED);
             }
         }
     }
 
+    //? if !hasBucketlib {
     public final void registerCustomBucketWithOverlay(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket, TintSource tint) {
         Identifier identifier = itemModelGenerator.uploadTwoLayers(item, TextureMap.getId(parentBucket), TextureMap.getSubId(parentBucket, "_overlay"));
         itemModelGenerator.output.accept(item, ItemModels.tinted(identifier, ItemModels.constantTintSource(-1), tint));
     }
+
+    public final void registerLavaBucket(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket) {
+        Identifier identifier = itemModelGenerator.uploadTwoLayers(item, TextureMap.getId(parentBucket), TextureMap.getSubId(parentBucket, "_lava_overlay"));
+        itemModelGenerator.output.accept(item, ItemModels.basic(identifier));
+    }
+    //?}
 
     /*? if >=1.21.5 {*/
     private void registerBars(BlockStateModelGenerator generator, Block barBlock) {

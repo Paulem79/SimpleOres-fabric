@@ -41,6 +41,14 @@ repositories {
 	mavenLocal()
 }
 
+// If this version has BucketLib
+val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
+
+val accesswidener = when {
+    hasBucketlib -> "hasbucketlib.accesswidener"
+    else -> "nobucketlib.accesswidener"
+}
+
 loom {
 	splitEnvironmentSourceSets()
 
@@ -56,7 +64,26 @@ loom {
 		runDir = "run" // Use a shared run folder and create separate worlds
 	}
 
-    accessWidenerPath = project.rootProject.file("src/main/resources/simpleores.accesswidener")
+    accessWidenerPath = project.rootProject.file("src/main/resources/accesswideners/$accesswidener")
+}
+
+tasks.processResources {
+    val bucketlibExpansion = "\", \"bucketlib\": \"*"
+
+    val expandProps = mapOf(
+        "version" to version,
+        "min_version_range" to preToBeta("min_version_range"),
+        "max_version_range" to preToBeta("max_version_range"),
+        "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
+        "aw_file" to accesswidener,
+
+        "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
+    )
+
+    filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
+        expand(expandProps)
+    }
+    inputs.properties(expandProps)
 }
 
 sourceSets {
@@ -64,8 +91,16 @@ sourceSets {
 		resources {
 			srcDirs(
 				project.file("versions/${stonecutter.current.project}/src/main/generated"),
-				project.file("versions/${stonecutter.current.project}/src/main/resources")
-			)
+				project.file("versions/${stonecutter.current.project}/src/main/resources"),
+                when {
+                    hasBucketlib -> {
+                        rootProject.file("sc-resources/hasbucketlib")
+                    }
+                    else -> {
+                        rootProject.file("sc-resources/nobucketlib")
+                    }
+                }
+            )
 		}
 	}
 }
@@ -75,9 +110,6 @@ fabricApi {
 		client = true
 	}
 }
-
-// If this version has BucketLib
-val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
 
 stonecutter {
     constants.put("hasBucketlib", hasBucketlib)
@@ -238,24 +270,6 @@ java {
 
 	sourceCompatibility = javaversion
 	targetCompatibility = javaversion
-}
-
-tasks.processResources {
-	val bucketlibExpansion = "\", \"bucketlib\": \"*"
-
-	val expandProps = mapOf(
-		"version" to version,
-		"min_version_range" to preToBeta("min_version_range"),
-		"max_version_range" to preToBeta("max_version_range"),
-		"bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
-
-		"compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
-	)
-
-	filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
-		expand(expandProps)
-	}
-	inputs.properties(expandProps)
 }
 
 fun preToBeta(versionProperty: String): String? {

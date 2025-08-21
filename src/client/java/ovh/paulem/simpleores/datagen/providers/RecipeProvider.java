@@ -32,11 +32,6 @@ import java.util.concurrent.CompletableFuture;
 //? if >1.21
 import static net.minecraft.data.recipe.RecipeGenerator.*;
 
-//? if >1.21.3 {
-import static net.minecraft.data.recipe.RecipeGenerator.getRecipeName;
-import static net.minecraft.data.recipe.RecipeGenerator.hasItem;
-//?}
-
 
 public class RecipeProvider extends FabricRecipeProvider {
     public RecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
@@ -115,11 +110,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 /*null,
                 *///?}
                 ModBlocks.copper_pressure_plate, null, null, null,
-                //? hasBucketlib {
-                /*ModItems.COPPER_BUCKET,
-                *///?} else {
-                null,
-                //?}
+                ModItems.COPPER_BUCKET,
                 null, true
         ));
 

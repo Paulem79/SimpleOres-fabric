@@ -1,5 +1,9 @@
 package ovh.paulem.simpleores.bucket.tint;
 
+//? if hasBucketlib {
+/*public class ClientBucketUtil {}*/
+//?} else {
+
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.texture.SpriteContents;
@@ -12,10 +16,6 @@ import org.jetbrains.annotations.Nullable;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.minecraft.client.texture.Sprite;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -126,4 +126,4 @@ public class ClientBucketUtil {
                 );
     }
 }
-
+//?}

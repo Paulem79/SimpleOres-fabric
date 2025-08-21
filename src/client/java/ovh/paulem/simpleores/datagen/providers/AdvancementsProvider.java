@@ -83,19 +83,17 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                     Text.translatable("advancements.copper_pick_ach"),
                     Text.translatable("advancements.copper_pick_ach.desc")
             );
-
-            //? hasBucketlib {
-            /*//$ advancementEntry
-            net.minecraft.advancement.AdvancementEntry
-            copperBucket = buildAdvancement(
-                    neitherOrNeitherIron,
-                    consumer,
-                    ModItems.COPPER_BUCKET,
-                    Text.translatable("advancements.copper_bucket_ach"),
-                    Text.translatable("advancements.copper_bucket_ach.desc")
-            );
-            *///?}
         //?}
+
+        //$ advancementEntry
+        net.minecraft.advancement.AdvancementEntry
+                copperBucket = buildAdvancement(
+                neitherOrNeitherIron,
+                consumer,
+                ModItems.COPPER_BUCKET,
+                Text.translatable("advancements.copper_bucket_ach"),
+                Text.translatable("advancements.copper_bucket_ach.desc")
+        );
 
         //$ advancementEntry
         net.minecraft.advancement.AdvancementEntry

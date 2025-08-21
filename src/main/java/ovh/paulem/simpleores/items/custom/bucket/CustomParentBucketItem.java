@@ -1,5 +1,9 @@
 package ovh.paulem.simpleores.items.custom.bucket;
 
+//? if hasBucketlib {
+/*public class CustomParentBucketItem {}*/
+//?} else {
+
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.fluid.Fluid;
@@ -93,7 +97,12 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
         return FluidVariantAttributes.getName(FluidVariant.of(fluid));
     }
 
-    public Identifier getOverlayModelId() {
+    public Identifier getModelWithOverlay(Fluid fluid) {
+        if(fluid == Fluids.LAVA) {
+            return SCIdentifier.of(modelId.getNamespace(), baseName + "_lava_bucket");
+        }
+
         return SCIdentifier.of(modelId.getNamespace(), baseName + "_water_bucket");
     }
 }
+//?}

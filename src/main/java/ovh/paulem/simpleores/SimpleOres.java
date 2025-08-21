@@ -50,6 +50,14 @@ public class SimpleOres implements ModInitializer {
 		ModBlocks.init();
 		ModItems.init();
 
+		// Register custom buckets
+        //? hasBucketlib {
+		/*ModItems.registeredItems.forEach((identifier, item) -> {
+			if(item instanceof UniversalBucketItem) {
+				BucketLibApi.registerBucket(identifier);
+			}
+		});
+        *///?} else {
         RegistryEntryAddedCallback.allEntries(Registries.FLUID, fluidReference -> {
             Identifier identifier = fluidReference.registryKey().getValue();
             Fluid modFluid = fluidReference.value();
@@ -60,15 +68,8 @@ public class SimpleOres implements ModInitializer {
                 }
             });
         });
+        //?}
 
-		// Register custom buckets
-        //? hasBucketlib {
-		/*ModItems.registeredItems.forEach((identifier, item) -> {
-			if(item instanceof UniversalBucketItem) {
-				BucketLibApi.registerBucket(identifier);
-			}
-		});
-        *///?}
 
         //? hasCopperTools
         /*CopperMigration.migrate();*/

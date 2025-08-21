@@ -8,6 +8,7 @@ import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.client.render.RenderLayer;
 *///?}
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+//? if !hasBucketlib
 import net.minecraft.client.render.item.tint.TintSourceTypes;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import net.fabricmc.api.ClientModInitializer;
@@ -50,6 +51,7 @@ public class SimpleOresClient implements ClientModInitializer {
 			}
 		});
 
+        //? if !hasBucketlib
         TintSourceTypes.ID_MAPPER.put(SCIdentifier.of(SimpleOres.MOD_ID, "customblock"), ChildrenBucketTintSource.CODEC);
 	}
 }
