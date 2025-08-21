@@ -19,11 +19,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
-
-        import java.util.concurrent.ConcurrentHashMap;
+import ovh.paulem.simpleores.util.ConcurrentFifoMap;
 
 public class ModItems {
-    public static final ConcurrentHashMap<Identifier, Item> registeredItems = new ConcurrentHashMap<>();
+    public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();
 
     // ingots and nuggets
     public static final Item TIN_INGOT = register("tin_ingot", Item::new);

@@ -15,7 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.PaneBlock;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
-import ovh.paulem.simpleores.tint.ChildrenBucketTintSource;
+import ovh.paulem.simpleores.bucket.tint.ChildrenBucketTintSource;
 import ovh.paulem.simpleores.tooltip.TooltipItem;
 
 public class SimpleOresClient implements ClientModInitializer {

@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.function.TriFunction;
 import ovh.paulem.simpleores.SimpleOres;
+import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,11 +22,13 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     private final Map<Fluid, CustomChildrenBucketItem> buckets = new HashMap<>();
     private final TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar;
     private final RegistryKey<Item> key;
+    private final Identifier modelId;
 
     public CustomParentBucketItem(RegistryKey<Item> key, String baseName, Fluid fluid, Settings settings, TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar) {
         super(fluid, settings.registryKey(key));
 
         this.key = key;
+        this.modelId = settings.getModelId();
         this.baseName = baseName;
         this.registrar = registrar;
     }
@@ -51,7 +54,7 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
 
     @Override
     public CustomChildrenBucketItem fromFluid(Fluid fluid) {
-        CustomChildrenBucketItem gotBucket = buckets.get(fluid);
+        CustomChildrenBucketItem gotBucket = buckets.get(FluidVariant.of(fluid).getFluid());
         return gotBucket == null ? getParent() : gotBucket;
     }
 
@@ -88,5 +91,9 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
 
     public Text getFluidDescription(Fluid fluid) {
         return FluidVariantAttributes.getName(FluidVariant.of(fluid));
+    }
+
+    public Identifier getOverlayModelId() {
+        return SCIdentifier.of(modelId.getNamespace(), baseName + "_water_bucket");
     }
 }

@@ -11,7 +11,8 @@
     "accessor.ItemPredicateAccessor",
     "accessor.WeightedPressurePlateBlockAccessor",
     "buckets.BucketItemMixin",
-    "buckets.FluidMixin"
+    "buckets.FluidMixin",
+    "buckets.ItemSettingsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -14,7 +14,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     private final Fluid fluid;
 
     public CustomChildrenBucketItem(Fluid fluid, Settings settings, CustomParentBucketItem parent) {
-        super(fluid, settings.component(DataComponentTypes.ITEM_MODEL, parent.getKey().getValue()));
+        super(fluid, settings.component(DataComponentTypes.ITEM_MODEL, parent.getOverlayModelId()));
 
         this.parent = parent;
         this.fluid = fluid;

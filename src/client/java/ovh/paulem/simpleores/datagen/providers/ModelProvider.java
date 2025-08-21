@@ -10,12 +10,14 @@ import net.minecraft.client.render.model.json.WeightedVariant;
 //? if <1.21.5
 /*import net.minecraft.util.Identifier;*/
 //? if >1.21.3
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
 //? if 1.21.3
 /*import ovh.paulem.simpleores.armors.ModEquipmentModels;*/
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
@@ -27,7 +29,7 @@ import ovh.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
-import ovh.paulem.simpleores.tint.ChildrenBucketTintSourceAdapter;
+import ovh.paulem.simpleores.bucket.tint.ChildrenBucketTintSource;
 
 import static net.minecraft.client.data.BlockStateModelGenerator.*;
 
@@ -108,7 +110,9 @@ public class ModelProvider extends FabricModelProvider {
             } else if(item instanceof CustomParentBucketItem parentBucketItem) {
                 itemModelGenerator.register(item, Models.GENERATED);
                 for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
-                    registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new ChildrenBucketTintSourceAdapter(child).getTintSource());
+                    if(child.getFluid() != Fluids.WATER) continue;
+
+                    registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new ChildrenBucketTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
                 }
             } else if(!(item instanceof CustomBucketFluidable)) {
                 itemModelGenerator.register(item, Models.GENERATED);

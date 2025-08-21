@@ -1,4 +1,4 @@
-package ovh.paulem.simpleores.tint;
+package ovh.paulem.simpleores.bucket.tint;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.dynamic.Codecs;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +20,8 @@ public record ChildrenBucketTintSource(int defaultColor) implements TintSource {
 
     @Override
     public int getTint(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user) {
-        return defaultColor;
+        Fluid fluid = ClientBucketUtil.getContainedFluid(stack);
+        return ClientBucketUtil.getColorFromFluid(fluid, defaultColor);
     }
 
     @Override

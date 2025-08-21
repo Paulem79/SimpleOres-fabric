@@ -7,14 +7,16 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
+import java.util.Comparator;
+
 public class ItemGroups {
     public static final ItemGroup SIMPLEORES = FabricItemGroup.builder()
             .icon(() ->
-                    //? if !hasCopperTools {
-                    new ItemStack(ModItems.COPPER_PICKAXE)
+                            //? if !hasCopperTools {
+                            new ItemStack(ModItems.COPPER_PICKAXE)
                     //?} else {
-                     /*new ItemStack(ModItems.MYTHRIL_PICKAXE)
-                    *///?}
+                    /*new ItemStack(ModItems.MYTHRIL_PICKAXE)
+                     *///?}
             )
             .displayName(Text.translatable("item_group." + SimpleOres.MOD_ID + ".simpleores_tab"))
             .entries((displayContext, entries) -> {
@@ -25,6 +27,7 @@ public class ItemGroups {
                 entries.addAll(ModItems.registeredItems.values()
                         .stream()
                         .map(ItemStack::new)
+                        //.sorted(Comparator.comparing(itemStack -> itemStack.getItem().getClass().getName()))
                         .toList());
             })
             .build();
