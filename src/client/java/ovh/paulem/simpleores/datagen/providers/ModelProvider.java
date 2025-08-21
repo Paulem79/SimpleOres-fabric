@@ -14,6 +14,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.state.property.Properties;
 //? if 1.21.3
 /*import ovh.paulem.simpleores.armors.ModEquipmentModels;*/
+import ovh.paulem.simpleores.bucket.tint.ClientBucketUtil;
+import ovh.paulem.simpleores.bucket.tint.handler.LayersUploader;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
@@ -91,8 +93,8 @@ public class ModelProvider extends FabricModelProvider {
                 for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
                     if(child.getFluid() == Fluids.WATER) {
                         registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new ChildrenBucketTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
-                    } else if(child.getFluid() == Fluids.LAVA) {
-                        registerLavaBucket(itemModelGenerator, child, parentBucketItem);
+                    } else {
+                        registerNonWaterBucket(itemModelGenerator, child, parentBucketItem, ClientBucketUtil.getDefaultTints(child));
                     }
                 }
                 continue;
@@ -137,9 +139,8 @@ public class ModelProvider extends FabricModelProvider {
         itemModelGenerator.output.accept(item, ItemModels.tinted(identifier, ItemModels.constantTintSource(-1), tint));
     }
 
-    public final void registerLavaBucket(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket) {
-        Identifier identifier = itemModelGenerator.uploadTwoLayers(item, TextureMap.getId(parentBucket), TextureMap.getSubId(parentBucket, "_lava_overlay"));
-        itemModelGenerator.output.accept(item, ItemModels.basic(identifier));
+    public final void registerNonWaterBucket(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket, TintSource... tints) {
+        LayersUploader.registerOverlayBucket(itemModelGenerator, item, parentBucket, tints);
     }
     //?}
 

@@ -98,11 +98,11 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     }
 
     public Identifier getModelWithOverlay(Fluid fluid) {
-        if(fluid == Fluids.LAVA) {
-            return SCIdentifier.of(modelId.getNamespace(), baseName + "_lava_bucket");
+        if(fluid == Fluids.WATER) {
+            return SCIdentifier.of(modelId.getNamespace(), baseName + "_water_bucket");
         }
 
-        return SCIdentifier.of(modelId.getNamespace(), baseName + "_water_bucket");
+        return SCIdentifier.of(modelId.getNamespace(), baseName + "_lava_bucket");
     }
 }
 //?}

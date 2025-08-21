@@ -15,6 +15,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.PaneBlock;
+import ovh.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 import ovh.paulem.simpleores.bucket.tint.ChildrenBucketTintSource;
 import ovh.paulem.simpleores.tooltip.TooltipItem;
@@ -51,7 +52,9 @@ public class SimpleOresClient implements ClientModInitializer {
 			}
 		});
 
-        //? if !hasBucketlib
-        TintSourceTypes.ID_MAPPER.put(SCIdentifier.of(SimpleOres.MOD_ID, "customblock"), ChildrenBucketTintSource.CODEC);
+        //? if !hasBucketlib {
+        TintSourceTypes.ID_MAPPER.put(SCIdentifier.of(SimpleOres.MOD_ID, "bucketsource"), ChildrenBucketTintSource.CODEC);
+        TintSourceTypes.ID_MAPPER.put(SCIdentifier.of(SimpleOres.MOD_ID, "bucketlayersource"), BucketLayerTintSource.CODEC);
+        //?}
 	}
 }
