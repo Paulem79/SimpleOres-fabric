@@ -138,7 +138,6 @@ public class ClientBucketUtil {
         return color;
     }
 
-    private static int printStep = 0;
     // Calcule la couleur opaque la plus fréquente dans le premier frame du sprite.
     private static Integer getColorAt(Sprite sprite, int x, int y) {
         try {
@@ -148,9 +147,6 @@ public class ClientBucketUtil {
             if (width <= 0 || height <= 0) return null;
 
             SpriteContents contents = sprite.getContents();
-
-            if(printStep % 50 == 0) System.out.println("x: " + x + " y: " + y);
-            printStep++;
 
             int argb = getPixelColor(contents, frame, 0, x, y);
             int a = (argb >>> 24) & 0xFF;

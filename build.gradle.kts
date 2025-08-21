@@ -69,6 +69,7 @@ loom {
 
 tasks.processResources {
     val bucketlibExpansion = "\", \"bucketlib\": \"*"
+    val clientMixinExpansion = "\", \"simpleores_client.mixins.json"
 
     val expandProps = mapOf(
         "version" to version,
@@ -76,6 +77,7 @@ tasks.processResources {
         "max_version_range" to preToBeta("max_version_range"),
         "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
         "aw_file" to accesswidener,
+        "client_mixin_expansion" to if (hasBucketlib) "" else clientMixinExpansion,
 
         "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
     )
@@ -87,22 +89,35 @@ tasks.processResources {
 }
 
 sourceSets {
-	main {
-		resources {
-			srcDirs(
-				project.file("versions/${stonecutter.current.project}/src/main/generated"),
-				project.file("versions/${stonecutter.current.project}/src/main/resources"),
+    main {
+        resources {
+            srcDirs(
+                project.file("versions/${stonecutter.current.project}/src/main/generated"),
+                project.file("versions/${stonecutter.current.project}/src/main/resources"),
                 when {
                     hasBucketlib -> {
-                        rootProject.file("sc-resources/hasbucketlib")
+                        rootProject.file("sc-resources/main/hasbucketlib")
                     }
                     else -> {
-                        rootProject.file("sc-resources/nobucketlib")
+                        rootProject.file("sc-resources/main/nobucketlib")
                     }
                 }
             )
-		}
-	}
+        }
+    }
+
+    get("client").resources {
+        srcDirs(
+            when {
+                hasBucketlib -> {
+                    rootProject.file("sc-resources/client/hasbucketlib")
+                }
+                else -> {
+                    rootProject.file("sc-resources/client/nobucketlib")
+                }
+            }
+        )
+    }
 }
 
 fabricApi {

@@ -30,7 +30,7 @@
 		]
 	},
 	"mixins": [
-		"simpleores.mixins.json"
+      "simpleores.mixins.json${client_mixin_expansion}"
 	],
     "accessWidener" : "accesswideners/${aw_file}",
 	"depends": {

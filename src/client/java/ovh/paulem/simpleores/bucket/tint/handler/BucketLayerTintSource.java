@@ -1,7 +1,7 @@
 package ovh.paulem.simpleores.bucket.tint.handler;
 
 //? if hasBucketlib {
-/*public class ChildrenBucketTintSource {}*/
+/*public class BucketLayerTintSource {}*/
 //?} else {
 
 import com.mojang.serialization.MapCodec;

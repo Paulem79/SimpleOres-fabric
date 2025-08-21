@@ -1,5 +1,9 @@
 package ovh.paulem.simpleores.bucket.tint.handler;
 
+//? if hasBucketlib {
+/*public class LayersUploader {}*/
+//?} else {
+
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.item.Item;
@@ -58,3 +62,4 @@ public class LayersUploader {
         return new Model(Optional.of(Identifier.ofVanilla("item/" + parent)), Optional.empty(), requiredTextureKeys);
     }
 }
+//?}
