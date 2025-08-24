@@ -6,6 +6,7 @@ package ovh.paulem.simpleores.bucket.tint;
 
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.data.ItemModels;
 import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.client.texture.SpriteContents;
@@ -15,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
+import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.minecraft.client.texture.Sprite;
@@ -25,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClientBucketUtil {
     // Cache pour éviter de recalculer la couleur dominante des mêmes fluides
     private static final Map<Fluid, Integer> DOMINANT_COLOR_CACHE = new ConcurrentHashMap<>();
-    //private static final Map<Fluid, Integer> OVERLAY_COLOR_CACHE = new ConcurrentHashMap<>();
+    private static final Map<String, Integer> COLOR_AT_CACHE = new ConcurrentHashMap<>();
 
     public static Fluid getContainedFluid(ItemStack stack) {
         Item item = stack.getItem();
@@ -109,36 +111,36 @@ public class ClientBucketUtil {
     public static int getColorAt(Fluid fluid, int defaultColor, int x, int y) {
         int color = ColorHelper.withAlpha(255, defaultColor);
 
+        String cacheKey = fluid.toString() + ":" + x + ":" + y;
+
+        Integer cached = COLOR_AT_CACHE.get(cacheKey);
+        if (cached != null) {
+            return ColorHelper.withAlpha(255, cached);
+        }
+
         FluidRenderHandler fluidRenderHandler;
+        // If the fluid is empty or the render handler is null, return the default color
         if (fluid == Fluids.EMPTY || (fluidRenderHandler = FluidRenderHandlerRegistry.INSTANCE.get(fluid)) == null) {
             return color;
         }
 
-        int handlerColor = fluidRenderHandler.getFluidColor(null, null, fluid.getDefaultState());
-        color = ColorHelper.withAlpha(255, handlerColor);
-
-        if(color == -1){
-            // Si déjà calculé -> utiliser le cache
-            /*Integer cached = OVERLAY_COLOR_CACHE.get(fluid);
-            if (cached != null) {
-                return ColorHelper.withAlpha(255, cached);
-            }*/
-
-            // Récupération des sprites du fluide
-            Sprite[] sprites = fluidRenderHandler.getFluidSprites(null, null, fluid.getDefaultState());
-            if (sprites != null && sprites.length > 0 && sprites[0] != null) {
-                Integer at = getColorAt(sprites[0], x, y);
-                if (at != null) {
-                    //OVERLAY_COLOR_CACHE.put(fluid, at);
-                    return ColorHelper.withAlpha(255, at);
-                }
+        // If the color is -1, try to get the color from the sprites
+        Sprite[] sprites = fluidRenderHandler.getFluidSprites(null, null, fluid.getDefaultState());
+        if (sprites != null && sprites.length > 0 && sprites[0] != null) {
+            Integer at = getColorAt(sprites[0], x, y);
+            if (at != null) {
+                COLOR_AT_CACHE.put(cacheKey, at);
+                return ColorHelper.withAlpha(255, at);
             }
         }
 
+        COLOR_AT_CACHE.put(cacheKey, color);
         return color;
     }
 
-    // Calcule la couleur opaque la plus fréquente dans le premier frame du sprite.
+    /**
+     * Get the color at the given coordinates in the sprite.
+     */
     private static Integer getColorAt(Sprite sprite, int x, int y) {
         try {
             int frame = 0; // premier frame
@@ -183,6 +185,9 @@ public class ClientBucketUtil {
                 );
     }
 
+    // The offset of the y-layer from the start of the texture. (optional)
+    private static final int OVERLAY_COORDS_Y_OFFSET = 4;
+    // The coordinates of the overlay pixels from the start of this y-layer.
     private static final List<List<Integer>> OVERLAY_COORDS = Arrays.asList(
             // First y
             Arrays.asList(4, 5, 6, 7, 8, 9, 10, 11),
@@ -196,7 +201,7 @@ public class ClientBucketUtil {
         tintSources.add(ItemModels.constantTintSource(-1));
         for (List<Integer> row : OVERLAY_COORDS) {
             for (Integer x : row) {
-                int y = OVERLAY_COORDS.indexOf(row) + 4;
+                int y = OVERLAY_COORDS.indexOf(row) + OVERLAY_COORDS_Y_OFFSET;
                 TintSource tintSource = new BucketLayerTintSource(ColorHelper.withAlpha(255, 0xFFFFFF), x, y);
                 tintSources.add(tintSource);
             }

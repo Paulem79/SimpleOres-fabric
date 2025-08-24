@@ -11,6 +11,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.Text;
 
 public class CustomChildrenBucketItem extends BucketItem implements CustomBucketFluidable {
@@ -64,6 +65,14 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
 
     public Fluid getFluid() {
         return fluid;
+    }
+
+    public boolean isWaterLike() {
+        return isWaterLike(fluid);
+    }
+
+    public boolean isWaterLike(Fluid fluid) {
+        return FluidVariant.of(fluid).isOf(Fluids.WATER);
     }
 }
 //?}

@@ -98,10 +98,11 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     }
 
     public Identifier getModelWithOverlay(Fluid fluid) {
-        if(fluid == Fluids.WATER) {
+        if(isWaterLike(fluid)) {
             return SCIdentifier.of(modelId.getNamespace(), baseName + "_water_bucket");
         }
 
+        // Every non-tintable fluids uses lava model, because it's always generated and tint computation is done at runtime.
         return SCIdentifier.of(modelId.getNamespace(), baseName + "_lava_bucket");
     }
 }

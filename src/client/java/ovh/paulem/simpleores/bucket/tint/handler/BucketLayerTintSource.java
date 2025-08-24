@@ -17,6 +17,9 @@ import net.minecraft.util.dynamic.Codecs;
 import org.jetbrains.annotations.Nullable;
 import ovh.paulem.simpleores.bucket.tint.ClientBucketUtil;
 
+/**
+ * Represents a tint for a bucket layer, corresponding to one pixel in the texture.
+ */
 @Environment(EnvType.CLIENT)
 public record BucketLayerTintSource(int defaultColor, int x, int y) implements TintSource {
     public static final MapCodec<BucketLayerTintSource> CODEC = RecordCodecBuilder.mapCodec(

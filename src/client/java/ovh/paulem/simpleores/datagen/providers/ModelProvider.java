@@ -32,7 +32,7 @@ import net.minecraft.client.render.item.tint.TintSource;
 import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
-import ovh.paulem.simpleores.bucket.tint.ChildrenBucketTintSource;
+import ovh.paulem.simpleores.bucket.tint.BucketNeedTintSource;
 //?}
 
 import static net.minecraft.client.data.BlockStateModelGenerator.*;
@@ -91,8 +91,8 @@ public class ModelProvider extends FabricModelProvider {
             if(item instanceof CustomParentBucketItem parentBucketItem) {
                 itemModelGenerator.register(item, Models.GENERATED);
                 for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
-                    if(child.getFluid() == Fluids.WATER) {
-                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new ChildrenBucketTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
+                    if(child.isWaterLike()) {
+                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new BucketNeedTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
                     } else {
                         registerNonWaterBucket(itemModelGenerator, child, parentBucketItem, ClientBucketUtil.getDefaultTints(child));
                     }

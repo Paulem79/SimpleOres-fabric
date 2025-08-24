@@ -16,10 +16,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.dynamic.Codecs;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents a tint source for fluids needing a tint, like water.
+ */
 @Environment(EnvType.CLIENT)
-public record ChildrenBucketTintSource(int defaultColor) implements TintSource {
-    public static final MapCodec<ChildrenBucketTintSource> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(Codecs.RGB.fieldOf("default").forGetter(ChildrenBucketTintSource::defaultColor)).apply(instance, ChildrenBucketTintSource::new)
+public record BucketNeedTintSource(int defaultColor) implements TintSource {
+    public static final MapCodec<BucketNeedTintSource> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance.group(Codecs.RGB.fieldOf("default").forGetter(BucketNeedTintSource::defaultColor)).apply(instance, BucketNeedTintSource::new)
     );
 
     @Override
