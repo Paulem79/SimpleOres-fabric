@@ -1,20 +1,9 @@
 package ovh.paulem.simpleores.datagen.providers;
 
-//? hasBucketlib
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.*;
-//? if >=1.21.5
-import net.minecraft.client.render.model.json.WeightedVariant;
-//? if <1.21.5 || !hasBucketlib
-import net.minecraft.util.Identifier;
-//? if >1.21.3
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.state.property.Properties;
-//? if 1.21.3
-/*import ovh.paulem.simpleores.armors.ModEquipmentModels;*/
 import ovh.paulem.simpleores.bucket.tint.ClientBucketUtil;
+import ovh.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import ovh.paulem.simpleores.bucket.tint.handler.LayersUploader;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
@@ -26,14 +15,27 @@ import ovh.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 
 //? if !hasBucketlib {
-import net.minecraft.util.math.ColorHelper;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.client.render.item.tint.TintSource;
 import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
-import ovh.paulem.simpleores.bucket.tint.BucketNeedTintSource;
 //?}
+
+//? if >=1.21.5
+import net.minecraft.client.render.model.json.WeightedVariant;
+//? if <1.21.5 || !hasBucketlib
+import net.minecraft.util.Identifier;
+//? if >1.21.3
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.state.property.Properties;
+//? if 1.21.3
+/*import ovh.paulem.simpleores.armors.ModEquipmentModels;*/
+
+//? hasBucketlib
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
 
 import static net.minecraft.client.data.BlockStateModelGenerator.*;
 
@@ -86,13 +88,13 @@ public class ModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
             //? if hasBucketlib {
-            /*if(item instanceof UniversalBucketItem) continue;*/
-            //?} else {
+            /*if(item instanceof UniversalBucketItem) continue;
+            *///?} else {
             if(item instanceof CustomParentBucketItem parentBucketItem) {
                 itemModelGenerator.register(item, Models.GENERATED);
                 for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
-                    if(child.isWaterLike()) {
-                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new BucketNeedTintSource(ColorHelper.withAlpha(255, 0xFFFFFF)));
+                    if(child.getFluid() == Fluids.WATER) {
+                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new BucketLayerTintSource(ColorHelper.withAlpha(255, 0xFFFFFF), Integer.MAX_VALUE, Integer.MAX_VALUE));
                     } else {
                         registerNonWaterBucket(itemModelGenerator, child, parentBucketItem, ClientBucketUtil.getDefaultTints(child));
                     }

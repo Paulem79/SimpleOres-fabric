@@ -1,8 +1,5 @@
 package ovh.paulem.simpleores.items;
 
-//? hasBucketlib
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;
-import com.google.common.base.Suppliers;*/
 import net.minecraft.fluid.Fluids;
 import net.minecraft.registry.RegistryKey;
 import ovh.paulem.simpleores.SimpleOres;
@@ -20,6 +17,11 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 import ovh.paulem.simpleores.util.ConcurrentFifoMap;
+
+//? hasBucketlib {
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import com.google.common.base.Suppliers;*/
+//?}
 
 public class ModItems {
     public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();

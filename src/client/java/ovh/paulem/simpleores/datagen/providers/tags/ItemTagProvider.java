@@ -75,8 +75,8 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 // Shears
                 build(ModTags.Items.SHEARS, item);
             } //? if hasBucketlib {
-            /*else if (item instanceof UniversalBucketItem) {*/
-            //?} else {
+            /*else if (item instanceof UniversalBucketItem) {
+            *///?} else {
             else if (item instanceof CustomBucketFluidable) {
             //?}
                 // Buckets

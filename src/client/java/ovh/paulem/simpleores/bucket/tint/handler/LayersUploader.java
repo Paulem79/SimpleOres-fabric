@@ -1,8 +1,8 @@
 package ovh.paulem.simpleores.bucket.tint.handler;
 
 //? if hasBucketlib {
-/*public class LayersUploader {}*/
-//?} else {
+/*public class LayersUploader {}
+*///?} else {
 
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.tint.TintSource;

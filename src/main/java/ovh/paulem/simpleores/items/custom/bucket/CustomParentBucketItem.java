@@ -1,8 +1,8 @@
 package ovh.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib {
-/*public class CustomParentBucketItem {}*/
-//?} else {
+/*public class CustomParentBucketItem {}
+*///?} else {
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;

@@ -1,8 +1,8 @@
 package ovh.paulem.simpleores.mixin;
 
 //? if hasBucketlib {
-/*public class GeneratedItemModelMixin {}*/
-//?} else {
+/*public class GeneratedItemModelMixin {}
+*///?} else {
 
 import net.minecraft.client.data.TextureKey;
 import net.minecraft.client.render.model.json.GeneratedItemModel;

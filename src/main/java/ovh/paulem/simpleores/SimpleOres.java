@@ -1,17 +1,10 @@
 package ovh.paulem.simpleores;
 
-//? hasBucketlib {
-/*import de.cech12.bucketlib.api.BucketLibApi;
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
-*///?}
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.config.SimpleOresConfig;
-//? hasCopperTools
-//import ovh.paulem.simpleores.migration.CopperMigration;
-import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
+import net.minecraft.fluid.Fluid;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
 import ovh.paulem.simpleores.world.ModWorldGeneration;
 import ovh.paulem.simpleores.items.ItemGroups;
@@ -26,6 +19,19 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+//? hasCopperTools
+//import ovh.paulem.simpleores.migration.CopperMigration;
+//? !hasBucketlib
+import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+
+//? hasBucketlib && >=1.21.3
+/*import ovh.paulem.simpleores.migration.CopperBucketMigration;*/
+
+//? hasBucketlib {
+/*import de.cech12.bucketlib.api.BucketLibApi;
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
+*///?}
 
 public class SimpleOres implements ModInitializer {
 	public static final String MOD_ID = "simpleores";
@@ -73,6 +79,9 @@ public class SimpleOres implements ModInitializer {
 
         //? hasCopperTools
         /*CopperMigration.migrate();*/
+
+        //? hasBucketlib && >=1.21.3
+        /*CopperBucketMigration.migrate();*/
 
 		Registry.register(Registries.ITEM_GROUP, SCIdentifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
 

@@ -1,12 +1,11 @@
 package ovh.paulem.simpleores.bucket.tint;
 
 //? if hasBucketlib {
-/*public class ClientBucketUtil {}*/
-//?} else {
+/*public class ClientBucketUtil {}
+*///?} else {
 
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.data.ItemModels;
 import net.minecraft.client.render.item.tint.TintSource;
 import net.minecraft.client.texture.SpriteContents;
@@ -16,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
-import ovh.paulem.simpleores.SimpleOres;
 import ovh.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.minecraft.client.texture.Sprite;
@@ -39,7 +37,7 @@ public class ClientBucketUtil {
         return Fluids.EMPTY;
     }
 
-    public static int getColorFromFluid(Fluid fluid, int defaultColor) {
+    public static int getWaterLikeColor(Fluid fluid, int defaultColor) {
         int color = ColorHelper.withAlpha(255, defaultColor);
 
         FluidRenderHandler fluidRenderHandler;
