@@ -1,7 +1,7 @@
 package ovh.paulem.simpleores;
 
 //? if <=1.21.3 {
-import ovh.paulem.simpleores.items.ModItems;
+/*import ovh.paulem.simpleores.items.ModItems;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
@@ -27,11 +27,11 @@ public class ModModelPredicateProvider {
                 && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);
     }
 }
-//?} else {
-/*public class ModModelPredicateProvider {
+*///?} else {
+public class ModModelPredicateProvider {
 
     public static void registerModModels() {
         // No model predicates to register for versions >= 1.21.4
     }
 }
-*///?}
+//?}

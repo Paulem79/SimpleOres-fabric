@@ -1,0 +1,9 @@
+accessWidener v2 named
+
+accessible field net/minecraft/block/FluidBlock fluid Lnet/minecraft/fluid/FlowableFluid;
+accessible field net/minecraft/item/Item$Settings components Lnet/minecraft/component/ComponentMap$Builder;
+accessible field net/minecraft/client/texture/SpriteContents mipmapLevelsImages [Lnet/minecraft/client/texture/NativeImage;
+accessible field net/minecraft/client/texture/SpriteContents animation Lnet/minecraft/client/texture/SpriteContents$Animation;
+accessible class net/minecraft/client/texture/SpriteContents$Animation
+accessible method net/minecraft/client/texture/SpriteContents$Animation getFrameX (I)I
+accessible method net/minecraft/client/texture/SpriteContents$Animation getFrameY (I)I

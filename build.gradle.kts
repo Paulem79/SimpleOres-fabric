@@ -41,6 +41,14 @@ repositories {
 	mavenLocal()
 }
 
+// If this version has BucketLib
+val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
+
+val accesswidener = when {
+    hasBucketlib -> "hasbucketlib.accesswidener"
+    else -> "nobucketlib.accesswidener"
+}
+
 loom {
 	splitEnvironmentSourceSets()
 
@@ -55,17 +63,61 @@ loom {
 		ideConfigGenerated(true) // Run configurations are not created for subprojects by default
 		runDir = "run" // Use a shared run folder and create separate worlds
 	}
+
+    accessWidenerPath = project.rootProject.file("src/main/resources/accesswideners/$accesswidener")
+}
+
+tasks.processResources {
+    val bucketlibExpansion = "\", \"bucketlib\": \"*"
+    val clientMixinExpansion = "\", \"simpleores_client.mixins.json"
+
+    val expandProps = mapOf(
+        "version" to version,
+        "min_version_range" to preToBeta("min_version_range"),
+        "max_version_range" to preToBeta("max_version_range"),
+        "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
+        "aw_file" to accesswidener,
+        "client_mixin_expansion" to if (hasBucketlib) "" else clientMixinExpansion,
+
+        "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
+    )
+
+    filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
+        expand(expandProps)
+    }
+    inputs.properties(expandProps)
 }
 
 sourceSets {
-	main {
-		resources {
-			srcDirs(
-				project.file("versions/${stonecutter.current.project}/src/main/generated"),
-				project.file("versions/${stonecutter.current.project}/src/main/resources")
-			)
-		}
-	}
+    main {
+        resources {
+            srcDirs(
+                project.file("versions/${stonecutter.current.project}/src/main/generated"),
+                project.file("versions/${stonecutter.current.project}/src/main/resources"),
+                when {
+                    hasBucketlib -> {
+                        rootProject.file("sc-resources/main/hasbucketlib")
+                    }
+                    else -> {
+                        rootProject.file("sc-resources/main/nobucketlib")
+                    }
+                }
+            )
+        }
+    }
+
+    get("client").resources {
+        srcDirs(
+            when {
+                hasBucketlib -> {
+                    rootProject.file("sc-resources/client/hasbucketlib")
+                }
+                else -> {
+                    rootProject.file("sc-resources/client/nobucketlib")
+                }
+            }
+        )
+    }
 }
 
 fabricApi {
@@ -73,9 +125,6 @@ fabricApi {
 		client = true
 	}
 }
-
-// If this version has BucketLib
-val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
 
 stonecutter {
     constants.put("hasBucketlib", hasBucketlib)
@@ -236,24 +285,6 @@ java {
 	targetCompatibility = javaversion
 }
 
-tasks.processResources {
-	val bucketlibExpansion = "\", \"bucketlib\": \"*"
-
-	val expandProps = mapOf(
-		"version" to version,
-		"min_version_range" to preToBeta("min_version_range"),
-		"max_version_range" to preToBeta("max_version_range"),
-		"bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
-
-		"compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
-	)
-
-	filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
-		expand(expandProps)
-	}
-	inputs.properties(expandProps)
-}
-
 fun preToBeta(versionProperty: String): String? {
     val version = project.property(versionProperty) as String? ?: return null
 
@@ -328,11 +359,7 @@ unifiedPublishing {
 	project {
 		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
 		version = project.version.toString() // Optional, Inferred from project by default
-		changelog = if(!hasBucketlib) {
-            "**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n$githubChangelog"
-		} else {
-			githubChangelog
-		} // Optional, in markdown format
+		changelog = githubChangelog // Optional, in markdown format
 		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
 		gameVersions = VersionRangeParser.parseVersionRange(
             runtimeVersionToSnapshot("min_version_range") as String,

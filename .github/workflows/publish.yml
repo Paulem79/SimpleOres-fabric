@@ -79,3 +79,13 @@ jobs:
           GITHUB_EVENT_RAW_PATH: ${{ github.event_path }}
           GITHUB_COMMIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
+
+      - name: 📦 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ github.ref_name }}
+          tag_name: release-${{ github.ref_name }}
+          generate_release_notes: true
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

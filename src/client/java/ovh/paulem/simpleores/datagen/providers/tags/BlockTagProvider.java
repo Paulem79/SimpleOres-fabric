@@ -1,10 +1,10 @@
 package ovh.paulem.simpleores.datagen.providers.tags;
 
 /*? if >=1.21.6 {*/
-/*import net.minecraft.data.tag.ProvidedTagBuilder;
+import net.minecraft.data.tag.ProvidedTagBuilder;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
-*//*?}*/
+/*?}*/
 import net.minecraft.item.Item;
 import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.blocks.ModBlocks;
@@ -141,7 +141,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     private void build(TagBuilder builder,
                        Object... objects) {
         //? if >=1.21.6 {
-        /*for (Object object : objects) {
+        for (Object object : objects) {
 
             if(object instanceof Block block) {
                 builder.get()
@@ -151,15 +151,15 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         .addTag((TagKey<Block>) tag);
             }
         }
-        *///?} else {
-            for (Object object : objects) {
+        //?} else {
+            /*for (Object object : objects) {
                 if (object instanceof Block block) {
                     builder.get().add(block);
                 } else if (object instanceof TagKey<?> tag) {
                     builder.get().addTag((TagKey<Block>) tag);
                 }
             }
-        //?}
+        *///?}
     }
 
     class TagBuilder {
@@ -169,12 +169,12 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*//*ProvidedTagBuilder<RegistryKey<Block>, Block>*//*?} else {*/FabricTagProvider<Block>.FabricTagBuilder/*?}*/ get() {
+        public /*? if >=1.21.6 {*/ProvidedTagBuilder<RegistryKey<Block>, Block>/*?} else {*//*FabricTagProvider<Block>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
-            /*return builder(tag);
-            *//*?} else {*/
-            return getOrCreateTagBuilder(tag);
-            /*?}*/
+            return builder(tag);
+            /*?} else {*/
+            /*return getOrCreateTagBuilder(tag);
+            *//*?}*/
         }
     }
 }

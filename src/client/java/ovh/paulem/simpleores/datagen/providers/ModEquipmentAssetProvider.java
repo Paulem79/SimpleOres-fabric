@@ -1,8 +1,8 @@
 package ovh.paulem.simpleores.datagen.providers;
 
 //? if >1.21.3 {
-/*import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.data.client.EquipmentAssetProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.client.data.EquipmentAssetProvider;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataProvider;
@@ -36,12 +36,12 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider
         return DataProvider.writeAllToPath(output, EquipmentModel.CODEC, this.pathProvider, map);
     }
 }
-*///?} else if 1.21.3 {
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+//?} else if 1.21.3 {
+/*import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
-import net.minecraft.data.client.EquipmentModelProvider;
+import net.minecraft.client.data.EquipmentModelProvider;
 import net.minecraft.item.equipment.EquipmentModel;
 import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.armors.ModEquipmentModels;
@@ -72,6 +72,6 @@ public class ModEquipmentAssetProvider extends EquipmentModelProvider
         return DataProvider.writeAllToPath(output, EquipmentModel.CODEC, this.pathProvider, map);
     }
 }
-//?} else {
+*///?} else {
 /*public class ModEquipmentAssetProvider {}
 *///?}

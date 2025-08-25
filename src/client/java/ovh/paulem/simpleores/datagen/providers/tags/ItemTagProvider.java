@@ -1,12 +1,12 @@
 package ovh.paulem.simpleores.datagen.providers.tags;
 
 /*? if >=1.21.6 {*/
-/*import net.minecraft.data.tag.ProvidedTagBuilder;
+import net.minecraft.data.tag.ProvidedTagBuilder;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
-*//*?}*/
+/*?}*/
 //? hasBucketlib
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -21,6 +21,7 @@ import net.minecraft.registry.tag.TagKey;
 import ovh.paulem.simpleores.items.custom.advanced.*;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
+import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import ovh.paulem.simpleores.stonecutter.SCArmor;
 import ovh.paulem.simpleores.stonecutter.SCTag;
 import ovh.paulem.simpleores.tags.ModTags;
@@ -73,12 +74,14 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             } else if (item instanceof AdvancedShearsItem) {
                 // Shears
                 build(ModTags.Items.SHEARS, item);
-            } //? hasBucketlib {
-            else if (item instanceof UniversalBucketItem) {
+            } //? if hasBucketlib {
+            /*else if (item instanceof UniversalBucketItem) {
+            *///?} else {
+            else if (item instanceof CustomBucketFluidable) {
+            //?}
                 // Buckets
-                this.getOrCreateTagBuilder(ModTags.Items.BUCKETS)
-                        .add(item);
-            } //?}
+                build(ModTags.Items.BUCKETS, item);
+            }
             else if (item instanceof BowItem) {
                 // Bows
                 build(ModTags.Items.BOWS, item);
@@ -189,7 +192,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         build(ItemTags.MINING_ENCHANTABLE, ModTags.Items.SHEARS);
 
         // ------------------- BUCKETS -------------------
-        //? if hasBucketlib && >=1.21
+        //? if >=1.21
         build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);
 
         // ------------------- NUGGETS -------------------
@@ -264,7 +267,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     private void build(TagBuilder builder,
                        Object... objects) {
         //? if >=1.21.6 {
-        /*for (Object object : objects) {
+        for (Object object : objects) {
 
             if(object instanceof Item item) {
                 builder.get()
@@ -274,15 +277,15 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         .addTag((TagKey<Item>) tag);
             }
         }
-        *///?} else {
-            for (Object object : objects) {
+        //?} else {
+            /*for (Object object : objects) {
                 if (object instanceof Item block) {
                     builder.get().add(block);
                 } else if (object instanceof TagKey<?> tag) {
                     builder.get().addTag((TagKey<Item>) tag);
                 }
             }
-        //?}
+        *///?}
     }
 
     class TagBuilder {
@@ -292,12 +295,12 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*//*ProvidedTagBuilder<RegistryKey<Item>, Item>*//*?} else {*/FabricTagProvider<Item>.FabricTagBuilder/*?}*/ get() {
+        public /*? if >=1.21.6 {*/ProvidedTagBuilder<RegistryKey<Item>, Item>/*?} else {*//*FabricTagProvider<Item>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
-            /*return builder(tag);
-            *//*?} else {*/
-            return getOrCreateTagBuilder(tag);
-             /*?}*/
+            return builder(tag);
+            /*?} else {*/
+            /*return getOrCreateTagBuilder(tag);
+             *//*?}*/
         }
     }
 }

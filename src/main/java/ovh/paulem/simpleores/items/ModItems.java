@@ -1,10 +1,10 @@
 package ovh.paulem.simpleores.items;
 
-import com.google.common.base.Suppliers;
-//? hasBucketlib
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.registry.RegistryKey;
 import ovh.paulem.simpleores.SimpleOres;
+import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import ovh.paulem.simpleores.stonecutter.SCArmor;
 import ovh.paulem.simpleores.items.custom.advanced.*;
 import ovh.paulem.simpleores.items.custom.MythrilBow;
@@ -16,11 +16,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.stonecutter.SCIdentifier;
+import ovh.paulem.simpleores.util.ConcurrentFifoMap;
 
-import java.util.LinkedHashMap;
+//? hasBucketlib {
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import com.google.common.base.Suppliers;*/
+//?}
 
 public class ModItems {
-    public static final LinkedHashMap<Identifier, Item> registeredItems = new LinkedHashMap<>();
+    public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();
 
     // ingots and nuggets
     public static final Item TIN_INGOT = register("tin_ingot", Item::new);
@@ -46,7 +50,7 @@ public class ModItems {
     public static final Item ONYX_ROD = register("onyx_rod", Item::new);
 
     //? hasBucketlib {
-    // buckets
+    /*// buckets
     public static final UniversalBucketItem COPPER_BUCKET = registerByKey("copper_bucket",
             key -> new UniversalBucketItem(//? if >1.21
                     key,
@@ -55,6 +59,13 @@ public class ModItems {
                             .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature)
                             .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking))
             ));
+    *///?} else {
+    public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
+            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Settings().maxCount(16),
+                    (bucketItem, name, fluid) ->
+                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.recipeRemainder(bucketItem).maxCount(1), bucketItem))
+            )
+    );
     //?}
 
 

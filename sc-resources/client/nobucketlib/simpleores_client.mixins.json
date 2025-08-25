@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "ovh.paulem.simpleores.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "GeneratedItemModelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

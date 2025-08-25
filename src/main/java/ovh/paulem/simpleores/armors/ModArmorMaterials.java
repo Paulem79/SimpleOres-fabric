@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.equipment.ArmorMaterial;
 //?}
 //? if >1.21.3 {
-/*import net.minecraft.item.equipment.EquipmentAsset;
-*///?}
+import net.minecraft.item.equipment.EquipmentAsset;
+//?}
 //? if 1.20.4 {
 /*import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.ArmorItem;
@@ -91,8 +91,8 @@ public final class ModArmorMaterials
         Identifier loc = SCIdentifier.of(SimpleOres.MOD_ID, name);
 
         //? if >1.21.3 {
-        /*return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
-        *///?} else if 1.21 {
+        return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
+        //?} else if 1.21 {
         
         /*List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
 
@@ -100,16 +100,16 @@ public final class ModArmorMaterials
          
         *///?} else if <=1.21.3 {
         
-        return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, loc);
-         //?}
+        /*return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, loc);
+         *///?}
     }
 
     //? if >1.21.3 {
-    /*private static RegistryKey<EquipmentAsset> getAssetKey(String name) {
+    private static RegistryKey<EquipmentAsset> getAssetKey(String name) {
         RegistryKey<Registry<EquipmentAsset>> equipmentAsset = RegistryKey.ofRegistry(SCIdentifier.ofVanilla("equipment_asset"));
         return RegistryKey.of(equipmentAsset, SCIdentifier.of(SimpleOres.MOD_ID, name));
     }
-    *///?}
+    //?}
 
 }
 //?} else if 1.20.4 {

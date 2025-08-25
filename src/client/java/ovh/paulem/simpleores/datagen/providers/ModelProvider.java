@@ -1,19 +1,10 @@
 package ovh.paulem.simpleores.datagen.providers;
 
-//? hasBucketlib
-import de.cech12.bucketlib.api.item.UniversalBucketItem;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.data.client.*;
-//? if >=1.21.5
-/*import net.minecraft.client.render.model.json.WeightedVariant;*/
-//? if <1.21.5
-import net.minecraft.util.Identifier;
-//? if >1.21.3
-/*import net.minecraft.item.equipment.EquipmentAsset;*/
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.state.property.Properties;
-//? if 1.21.3
-import ovh.paulem.simpleores.armors.ModEquipmentModels;
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.client.data.*;
+import ovh.paulem.simpleores.bucket.tint.ClientBucketUtil;
+import ovh.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
+import ovh.paulem.simpleores.bucket.tint.handler.LayersUploader;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import ovh.paulem.simpleores.blocks.ModBlocks;
 import ovh.paulem.simpleores.items.ModItems;
@@ -23,7 +14,30 @@ import net.minecraft.item.*;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import ovh.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 
-import static net.minecraft.data.client.BlockStateModelGenerator.*;
+//? if !hasBucketlib {
+import net.minecraft.fluid.Fluids;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.client.render.item.tint.TintSource;
+import ovh.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
+import ovh.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
+import ovh.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+//?}
+
+//? if >=1.21.5
+import net.minecraft.client.render.model.json.WeightedVariant;
+//? if <1.21.5 || !hasBucketlib
+import net.minecraft.util.Identifier;
+//? if >1.21.3
+import net.minecraft.item.equipment.EquipmentAsset;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.state.property.Properties;
+//? if 1.21.3
+/*import ovh.paulem.simpleores.armors.ModEquipmentModels;*/
+
+//? hasBucketlib
+/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
+
+import static net.minecraft.client.data.BlockStateModelGenerator.*;
 
 public class ModelProvider extends FabricModelProvider {
     public ModelProvider(FabricDataOutput generator) {
@@ -73,26 +87,42 @@ public class ModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
-            //? hasBucketlib
-            if(item instanceof UniversalBucketItem) continue;
+            //? if hasBucketlib {
+            /*if(item instanceof UniversalBucketItem) continue;
+            *///?} else {
+            if(item instanceof CustomParentBucketItem parentBucketItem) {
+                itemModelGenerator.register(item, Models.GENERATED);
+                for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
+                    if(child.getFluid() == Fluids.WATER) {
+                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new BucketLayerTintSource(ColorHelper.withAlpha(255, 0xFFFFFF), Integer.MAX_VALUE, Integer.MAX_VALUE));
+                    } else {
+                        registerNonWaterBucket(itemModelGenerator, child, parentBucketItem, ClientBucketUtil.getDefaultTints(child));
+                    }
+                }
+                continue;
+            }
+
+            // Exclude childs registration because it's handled in the loop
+            if(item instanceof CustomBucketFluidable) continue;
+            //?}
 
             if (item instanceof BowItem bowItem) {
                 //? if >1.21.3
-                /*itemModelGenerator.registerBow(bowItem);*/
+                itemModelGenerator.registerBow(bowItem);
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 //? if >1.21.3 {
-                /*RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
+                RegistryKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
                 itemModelGenerator.registerArmor(item, identifier,
                         //? if >=1.21.5 {
-                        /^ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getSCType().getType().getName())
-                        ^///?} else if >1.21.3 && <1.21.5 {
+                        ItemModelGenerator.getTrimAssetIdPrefix(armorItem.getSCType().getType().getName())
+                        //?} else if >1.21.3 && <1.21.5 {
                         //armorItem.getType().getName()
                         //?}
                         , false);
-                *///?} else if >1.21 {
-                Identifier identifier = armorItem.getMaterial().modelId();
+                //?} else if >1.21 {
+                /*Identifier identifier = armorItem.getMaterial().modelId();
                 itemModelGenerator.registerArmor(item, identifier, ModEquipmentModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getEquipmentSlot());
-                //?} else {
+                *///?} else {
                  /*itemModelGenerator.registerArmor(armorItem);
                 *///?}
             } else if (item instanceof AdvancedToolItem) {
@@ -105,8 +135,19 @@ public class ModelProvider extends FabricModelProvider {
         }
     }
 
+    //? if !hasBucketlib {
+    public final void registerCustomBucketWithOverlay(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket, TintSource tint) {
+        Identifier identifier = itemModelGenerator.uploadTwoLayers(item, TextureMap.getId(parentBucket), TextureMap.getSubId(parentBucket, "_overlay"));
+        itemModelGenerator.output.accept(item, ItemModels.tinted(identifier, ItemModels.constantTintSource(-1), tint));
+    }
+
+    public final void registerNonWaterBucket(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket, TintSource... tints) {
+        LayersUploader.registerOverlayBucket(itemModelGenerator, item, parentBucket, tints);
+    }
+    //?}
+
     /*? if >=1.21.5 {*/
-    /*private void registerBars(BlockStateModelGenerator generator, Block barBlock) {
+    private void registerBars(BlockStateModelGenerator generator, Block barBlock) {
         WeightedVariant weightedVariant = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post_ends"));
         WeightedVariant weightedVariant2 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_post"));
         WeightedVariant weightedVariant3 = createWeightedVariant(ModelIds.getBlockSubModelId(barBlock, "_cap"));
@@ -144,8 +185,8 @@ public class ModelProvider extends FabricModelProvider {
                 );
         generator.registerItemModel(barBlock);
     }
-    *//*?} else {*/
-    private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
+    /*?} else {*/
+    /*private void registerBars(BlockStateModelGenerator blockStateModelGenerator, Block barBlock) {
         Identifier identifier = ModelIds.getBlockSubModelId(barBlock, "_post_ends");
         Identifier identifier2 = ModelIds.getBlockSubModelId(barBlock, "_post");
         Identifier identifier3 = ModelIds.getBlockSubModelId(barBlock, "_cap");
@@ -190,5 +231,5 @@ public class ModelProvider extends FabricModelProvider {
                 );
         blockStateModelGenerator.registerItemModel(barBlock);
     }
-    /*?}*/
+    *//*?}*/
 }

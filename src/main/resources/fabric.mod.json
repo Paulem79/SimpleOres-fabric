@@ -30,8 +30,9 @@
 		]
 	},
 	"mixins": [
-		"simpleores.mixins.json"
+      "simpleores.mixins.json${client_mixin_expansion}"
 	],
+    "accessWidener" : "accesswideners/${aw_file}",
 	"depends": {
 		"java": "*",
 		"minecraft": ">=${min_version_range} <=${max_version_range}",

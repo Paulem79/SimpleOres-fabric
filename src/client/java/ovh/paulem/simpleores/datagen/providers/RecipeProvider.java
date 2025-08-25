@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.advancement.AdvancementCriterion;
 //? if <=1.20.1
 //import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.server.recipe.*;
+import net.minecraft.data.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.recipe.*;
 import net.minecraft.registry.Registries;
@@ -30,12 +30,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 //? if >1.21
-import static net.minecraft.data.server.recipe.RecipeGenerator.*;
-
-//? if >1.21.3 {
-/*import static net.minecraft.data.server.recipe.RecipeGenerator.getRecipeName;
-import static net.minecraft.data.server.recipe.RecipeGenerator.hasItem;
-*///?}
+import static net.minecraft.data.recipe.RecipeGenerator.*;
 
 
 public class RecipeProvider extends FabricRecipeProvider {
@@ -48,7 +43,7 @@ public class RecipeProvider extends FabricRecipeProvider {
     private static SCRecipe scRecipe;
 
     public void extracted(//$ generatorOrExporter
-                                 net.minecraft.data.server.recipe.RecipeGenerator
+                                 net.minecraft.data.recipe.RecipeGenerator
                                          generator, RecipeExporter exporter) {
         scRecipe = new SCRecipe(this, generator, exporter);
 
@@ -115,11 +110,7 @@ public class RecipeProvider extends FabricRecipeProvider {
                 /*null,
                 *///?}
                 ModBlocks.copper_pressure_plate, null, null, null,
-                //? hasBucketlib {
                 ModItems.COPPER_BUCKET,
-                //?} else {
-                /*null,
-                *///?}
                 null, true
         ));
 
@@ -487,7 +478,7 @@ public class RecipeProvider extends FabricRecipeProvider {
     }
 
     public record SCRecipe(FabricRecipeProvider provider, //$ generatorOrExporter
-            net.minecraft.data.server.recipe.RecipeGenerator
+            net.minecraft.data.recipe.RecipeGenerator
             generator, RecipeExporter exporter) {
 
         public ShapedRecipeJsonBuilder createShaped(RecipeCategory category, ItemConvertible output) {
