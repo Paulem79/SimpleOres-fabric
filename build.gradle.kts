@@ -361,11 +361,7 @@ unifiedPublishing {
 	project {
 		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
 		version = project.version.toString() // Optional, Inferred from project by default
-		changelog = if(!hasBucketlib) {
-            "**This version does not include the copper bucket, as BucketLib has not yet been updated!**\n\n$githubChangelog"
-		} else {
-			githubChangelog
-		} // Optional, in markdown format
+		changelog = githubChangelog // Optional, in markdown format
 		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
 		gameVersions = VersionRangeParser.parseVersionRange(
             runtimeVersionToSnapshot("min_version_range") as String,
