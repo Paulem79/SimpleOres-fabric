@@ -80,7 +80,7 @@ jobs:
           GITHUB_COMMIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      - name: 📦 Créer une release GitHub pour le tag
+      - name: 📦 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ github.ref_name }}
