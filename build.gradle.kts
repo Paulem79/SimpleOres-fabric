@@ -264,8 +264,6 @@ dependencies {
 		if(includesBucketlib)
 			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
 	}
-
-    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
 fun checkSpecified(depName: String): Boolean {
