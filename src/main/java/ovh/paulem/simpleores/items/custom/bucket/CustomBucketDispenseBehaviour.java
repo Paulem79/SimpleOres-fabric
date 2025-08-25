@@ -1,5 +1,9 @@
 package ovh.paulem.simpleores.items.custom.bucket;
 
+//? if hasBucketlib {
+// public class CustomBucketDispenseBehaviour {}
+//?} else {
+
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -142,3 +146,4 @@ public class CustomBucketDispenseBehaviour extends ItemDispenserBehavior {
     }
 
 }
+//?}

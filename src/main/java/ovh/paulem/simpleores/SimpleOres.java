@@ -80,7 +80,7 @@ public class SimpleOres implements ModInitializer {
         //? hasCopperTools
         /*CopperMigration.migrate();*/
 
-        //? hasBucketlib && >=1.21.3
+        //? hasBucketlib && >1.21.3
         /*CopperBucketMigration.migrate();*/
 
 		Registry.register(Registries.ITEM_GROUP, SCIdentifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
