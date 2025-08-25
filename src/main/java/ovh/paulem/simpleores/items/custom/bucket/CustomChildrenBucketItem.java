@@ -5,10 +5,13 @@ package ovh.paulem.simpleores.items.custom.bucket;
 *///?} else {
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
@@ -16,6 +19,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -30,6 +36,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
 
         this.parent = parent;
         this.fluid = fluid;
+        DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
     public CustomChildrenBucketItem(Fluid fluid, Settings settings) {
@@ -37,6 +44,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
 
         this.parent = null;
         this.fluid = fluid;
+        DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
     @Override
@@ -52,6 +60,15 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
                     .build();
 
             stack.applyComponentsFrom(newComponents);
+        }
+    }
+
+    @Override
+    public void onEmptied(@Nullable LivingEntity user, World world, ItemStack stack, BlockPos pos) {
+        super.onEmptied(user, world, stack, pos);
+
+        if(FluidVariant.of(fluid).getFluid() == Fluids.LAVA) {
+            stack.decrementUnlessCreative(1, user);
         }
     }
 
