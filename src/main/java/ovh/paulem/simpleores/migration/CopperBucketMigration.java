@@ -1,6 +1,6 @@
 package ovh.paulem.simpleores.migration;
 
-//? hasBucketlib && >=1.21.3 {
+//? hasBucketlib && >1.21.3 {
 /*import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import ovh.paulem.simpleores.SimpleOres;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 *///?}
 
 public class CopperBucketMigration {
-    //? hasBucketlib && >=1.21.3 {
+    //? hasBucketlib && >1.21.3 {
     /*private static final Set<Identifier> MIGRATE_ITEMS = Set.of(
             "copper_water_bucket",
             "copper_lava_bucket",
