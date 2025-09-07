@@ -47,7 +47,7 @@ jobs:
           echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
 
       - name: Download dist-artifacts from last build.yml run
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           WORKFLOW_FILENAME: build.yml
           ARTIFACT_NAME: dist-artifacts
