@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "ovh.paulem.simpleores.mixin",
+  "package": "net.paulem.simpleores.mixin",
   "compatibilityLevel": "${compatibility_level}",
   "mixins": [
     "BlockInteractShearsMixin",

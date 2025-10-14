@@ -1,5 +1,5 @@
-import ovh.paulem.buildscript.NewGithubChangelog
-import ovh.paulem.buildscript.VersionRangeParser
+import net.paulem.buildscript.NewGithubChangelog
+import net.paulem.buildscript.VersionRangeParser
 
 buildscript {
 	repositories {
