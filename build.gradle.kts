@@ -35,7 +35,7 @@ repositories {
 	maven { url = uri("https://maven.architectury.dev/") }
 	maven {
 		name = "paulemReleases"
-		url = uri("https://maven.paulem.ovh/releases")
+		url = uri("https://maven.paulem.net/releases")
 	}
 	maven("https://maven.nucleoid.xyz/") { name = "Nucleoid" }
 	mavenLocal()
