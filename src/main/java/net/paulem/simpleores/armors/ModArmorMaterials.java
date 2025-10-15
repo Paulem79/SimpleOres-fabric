@@ -1,7 +1,11 @@
 package net.paulem.simpleores.armors;
 
 //? if 1.21
-/*import net.minecraft.item.equipment.ArmorMaterial;*/
+/*
+import net.minecraft.registry.Registries;
+import net.minecraft.item.equipment.ArmorMaterial;
+import java.util.List;
+*/
 //? if >1.20.4 {
 import net.minecraft.item.equipment.ArmorMaterial;
 //?}
@@ -10,8 +14,12 @@ import net.minecraft.item.equipment.EquipmentAsset;
 //?}
 //? if 1.20.4 {
 /*import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.util.Util;
+import net.paulem.simpleores.items.ModToolMaterials;
 import net.minecraft.item.ArmorItem;
-
+import net.minecraft.recipe.Ingredient;
+import java.util.function.Supplier;
+import java.util.EnumMap;
 *///?}
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;

@@ -6,7 +6,6 @@ import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
 import net.minecraft.advancement.Advancement;
-//? if >1.20.1
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.block.Blocks;

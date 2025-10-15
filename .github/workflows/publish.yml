@@ -1,9 +1,6 @@
 name: 🚀 Publish
 on:
   workflow_dispatch:
-  push:
-      tags:
-        - '*'
 
 jobs:
   publish:
@@ -83,8 +80,8 @@ jobs:
       - name: 📦 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: Release ${{ github.ref_name }}
-          tag_name: release-${{ github.ref_name }}
+          name: Release ${{ github.sha }}
+          tag_name: release-${{ github.sha }}
           generate_release_notes: true
           files: dist/**
         env:

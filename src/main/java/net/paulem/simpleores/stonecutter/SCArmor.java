@@ -6,6 +6,8 @@ import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 //? if <1.21.5
 /*import net.minecraft.item.ArmorItem;*/
+//? if <=1.21
+//import net.minecraft.recipe.Ingredient;
 //? if 1.21 {
 /*import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.item.equipment.ArmorMaterial;

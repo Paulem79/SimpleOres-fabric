@@ -17,16 +17,16 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-          "ovh.paulem.simpleores.SimpleOres"
+          "net.paulem.simpleores.SimpleOres"
 		],
 		"modmenu": [
-          "ovh.paulem.simpleores.config.ModMenuCompat"
+          "net.paulem.simpleores.config.ModMenuCompat"
 		],
 		"client": [
-          "ovh.paulem.simpleores.SimpleOresClient"
+          "net.paulem.simpleores.SimpleOresClient"
 		],
 		"fabric-datagen": [
-			"ovh.paulem.simpleores.datagen.SimpleOresDataGenerator"
+			"net.paulem.simpleores.datagen.SimpleOresDataGenerator"
 		]
 	},
 	"mixins": [
