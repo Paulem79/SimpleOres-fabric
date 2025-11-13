@@ -244,8 +244,7 @@ else stonecutter.current.project
 dependencies {
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
 
-	if(checkSpecified("yarn_mappings"))
-		mappings("net.fabricmc:yarn:${property("deps.yarn_mappings")}:v2")
+	mappings(loom.officialMojangMappings())
 	if(checkSpecified("fabric_loader"))
 		modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
 	if(checkSpecified("fabric_api"))
