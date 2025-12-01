@@ -8,7 +8,7 @@ buildscript {
 }
 
 plugins {
-	id("fabric-loom") version "1.11.8"
+	id("fabric-loom") version "1.13-SNAPSHOT"
 
 	`maven-publish`
 	id("me.shedaniel.unified-publishing") version "0.1.+"
@@ -53,9 +53,9 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-        create("simpleores") {
+        register("simpleores") {
             sourceSet(sourceSets.main.get())
-            sourceSet(sourceSets["client"])
+            sourceSet(sourceSets.getByName("client"))
         }
 	}
 
@@ -132,51 +132,132 @@ stonecutter {
     constants.put("hasCopperTools", stonecutter.eval(property("max_version_range") as String, ">1.21.8"))
 
 	swaps["armorType"] = when {
-		eval(current.version, "<=1.21") -> "net.minecraft.item.ArmorItem.Type"
-		else -> "net.minecraft.item.equipment.EquipmentType"
+		eval(current.version, "<=1.21") -> "net.minecraft.world.item.ArmorItem.Type"
+		else -> "net.minecraft.world.item.equipment.ArmorType"
 	}
 
 	swaps["armorRegistry"] = when {
-		eval(current.version, "=1.21") -> "net.minecraft.registry.entry.RegistryEntry<net.minecraft.item.ArmorMaterial>"
-		else -> "net.minecraft.item.equipment.ArmorMaterial"
+		eval(current.version, "=1.21") -> "net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>"
+		else -> "net.minecraft.world.item.equipment.ArmorMaterial"
 	}
 
 	swaps["tagOrIngredient"] = when {
-		eval(current.version, "<=1.21") -> "java.util.function.Supplier<net.minecraft.recipe.Ingredient>"
-		else -> "net.minecraft.registry.tag.TagKey<net.minecraft.item.Item>"
+		eval(current.version, "<=1.21") -> "java.util.function.Supplier<net.minecraft.world.item.crafting.Ingredient>"
+		else -> "net.minecraft.tags.TagKey<net.minecraft.world.item.Item>"
 	}
 
 	swaps["generatorOrExporter"] = when {
-        eval(current.version, ">1.21.3") -> "net.minecraft.data.recipe.RecipeGenerator"
-        eval(current.version, "=1.21.3") -> "net.minecraft.data.server.recipe.RecipeGenerator"
-		eval(current.version, ">1.20.1") -> "net.minecraft.data.server.recipe.RecipeExporter"
-		else -> "java.util.function.Consumer<net.minecraft.data.server.recipe.RecipeJsonProvider>"
+        eval(current.version, ">=1.21.3") -> "net.minecraft.data.recipes.RecipeProvider"
+		eval(current.version, ">1.20.1") -> "net.minecraft.data.recipes.RecipeOutput"
+		else -> "java.util.function.Consumer<net.minecraft.data.recipes.FinishedRecipe>"
 	}
 
 	swaps["advancementEntry"] = when {
-		eval(current.version, "=1.20.1") -> "net.minecraft.advancement.Advancement"
-		else -> "net.minecraft.advancement.AdvancementEntry"
+		eval(current.version, "=1.20.1") -> "net.minecraft.advancements.Advancement"
+		else -> "net.minecraft.advancements.AdvancementHolder"
 	}
 
+    swaps["location"] = when {
+        eval(current.version, ">1.21.10") -> ".identifier("
+        else -> ".location("
+    }
+
 	replacements {
-		string {
-			direction = eval(current.version, "<=1.21.3")
-			replace("net.minecraft.client.data", "net.minecraft.data.client")
+        string {
+            direction = eval(current.version, "<=1.20.1")
+            replace("AdvancementType", "FrameType")
+        }
 
-			phase = "FIRST"
-		}
+        string {
+            direction = eval(current.version, ">1.21.10")
+            replace("ResourceLocation", "Identifier")
+        }
 
-		string {
-			direction = eval(current.version, "<=1.21.3")
-			replace("net.minecraft.data.recipe", "net.minecraft.data.server.recipe")
+        string {
+            direction = eval(current.version, ">1.21.10")
+            replace("net.minecraft.Util", "net.minecraft.util.Util")
+        }
 
-			phase = "FIRST"
-		}
+        string {
+            direction = eval(current.version, ">1.21.10")
+            replace("critereon", "criterion")
+        }
+
+        string {
+            direction = eval(current.version, ">1.21.10")
+            replace("entity, random", "level, entity, random")
+        }
+
+        string {
+            direction = eval(current.version, ">1.21.10")
+            replace("net.minecraft.world.entity.npc", "net.minecraft.world.entity.npc.villager")
+        }
+
+        string {
+            direction = eval(current.version, ">=1.21.9")
+            replace(".noCollission()", ".noCollision()")
+        }
+
+        string {
+            direction = eval(current.version, "=1.21.3")
+            replace("net.minecraft.client.resources.model.EquipmentClientInfo", "net.minecraft.world.item.equipment.EquipmentModel")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.21.3")
+            replace("net.minecraft.client.data.models", "net.minecraft.data.models")
+        }
+
+        for (cls in listOf(Pair("EquipmentClientInfo", Pair("EquipmentModel", "=1.21.3")))) {
+            string {
+                direction = eval(node.metadata.version, cls.second.second)
+                replace("${cls.first};", "${cls.second.first};")
+            }
+
+            string {
+                direction = eval(node.metadata.version, cls.second.second)
+                replace("${cls.first} ", "${cls.second.first} ")
+            }
+
+            string {
+                direction = eval(node.metadata.version, cls.second.second)
+                replace("${cls.first}>", "${cls.second.first}>")
+            }
+
+            string {
+                direction = eval(node.metadata.version, cls.second.second)
+                replace("${cls.first}.", "${cls.second.first}.")
+            }
+        }
+
+        string {
+            direction = eval(current.version, "<=1.20.4")
+            replace("BootstrapContext", "BootstapContext")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.21")
+            replace("ToolMaterial ", "Tier ")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.21")
+            replace("net.minecraft.world.item.equipment.ArmorMaterial", "net.minecraft.world.item.ArmorMaterial")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.21")
+            replace("ToolMaterial;", "Tier;")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.21.3")
+            replace("net.minecraft.client.data.models.MultiVariant", "net.minecraft.client.renderer.block.model.MultiVariant")
+        }
 
 		for (cls in listOf("TagRegistration")) {
 			string {
 				direction = eval(node.metadata.version, "<=1.20.4")
-				phase = "FIRST"
 				replace(
 					"net.fabricmc.fabric.impl.tag.convention.v2.$cls;",
 					"net.fabricmc.fabric.impl.tag.convention.$cls;"
@@ -187,7 +268,6 @@ stonecutter {
 		for (cls in listOf("ConventionalItemTags", "ConventionalBlockTags")) {
 			string {
 				direction = eval(node.metadata.version, "<=1.20.4")
-				phase = "FIRST"
 				replace(
 					"net.fabricmc.fabric.api.tag.convention.v2.$cls;",
 					"net.fabricmc.fabric.api.tag.convention.v1.$cls;"
@@ -198,7 +278,6 @@ stonecutter {
 		for (cls in listOf("FabricModelProvider")) {
 			string {
 				direction = eval(node.metadata.version, ">=1.21.5")
-				phase = "FIRST"
 				replace(
 					"import net.fabricmc.fabric.api.datagen.v1.provider.$cls;",
 					"import net.fabricmc.fabric.api.client.datagen.v1.provider.$cls;"
@@ -208,7 +287,6 @@ stonecutter {
 
 		string {
 			direction = eval(node.metadata.version, "<=1.21")
-			phase = "FIRST"
 			replace(
 				"import net.minecraft.item.equipment.ArmorMaterial;",
 				"import net.minecraft.item.ArmorMaterial;"
@@ -217,16 +295,14 @@ stonecutter {
 
 		string {
 			direction = eval(node.metadata.version, "=1.20.1")
-			phase = "FIRST"
 			replace(
-				"RecipeExporter ",
-				"java.util.function.Consumer<net.minecraft.data.server.recipe.RecipeJsonProvider> "
+				"RecipeOutput ",
+				"java.util.function.Consumer<net.minecraft.data.recipes.FinishedRecipe> "
 			)
 		}
 
 		string {
 			direction = eval(node.metadata.version, "<=1.20.1")
-			phase = "FIRST"
 			replace(
 				"de.cech12.bucketlib",
 				"com.github.cech12.BucketLib"
@@ -238,14 +314,14 @@ stonecutter {
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
 
 val isSnapshot = stonecutter.current.project.contains("snapshot", true)
-val minecraftVersion = if(isSnapshot) property("deps.minecraft")
+val minecraftVersion = if(isSnapshot ||
+    (findProperty("deps.minecraft") != null && findProperty("deps.minecraft") != "[VERSIONED]")) property("deps.minecraft")
 else stonecutter.current.project
 
 dependencies {
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
 
-	if(checkSpecified("yarn_mappings"))
-		mappings("net.fabricmc:yarn:${property("deps.yarn_mappings")}:v2")
+    mappings(loom.officialMojangMappings())
 	if(checkSpecified("fabric_loader"))
 		modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
 	if(checkSpecified("fabric_api"))
@@ -267,7 +343,7 @@ dependencies {
 }
 
 fun checkSpecified(depName: String): Boolean {
-	val property = findProperty("deps.$depName");
+	val property = findProperty("deps.$depName")
 	return property != null && property != "[VERSIONED]"
 }
 

@@ -2,7 +2,7 @@ package net.paulem.simpleores.datagen.providers.langs;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
 import net.paulem.simpleores.SimpleOres;
 
 import java.nio.file.Path;
@@ -18,7 +18,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         translationPrefix = "item.simpleores.";
     }
 
-    public GlobalLangProvider(FabricDataOutput dataOutput, String languageCode, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public GlobalLangProvider(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, languageCode //? if >1.20.4
                 , registryLookup
         );
@@ -26,7 +26,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         this.languageCode = languageCode;
     }
 
-    public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         generateTranslations(translationBuilder);
     }
 

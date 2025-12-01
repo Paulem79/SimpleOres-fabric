@@ -1,25 +1,19 @@
 package net.paulem.simpleores.stonecutter;
 
+//? if <=1.21 {
+/*import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.Holder;*/
+//?}
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
-//? if <1.21.5
-/*import net.minecraft.item.ArmorItem;*/
-//? if <=1.21
-//import net.minecraft.recipe.Ingredient;
-//? if 1.21 {
-/*import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.item.equipment.ArmorMaterial;
-*///?}
-//? if >1.20.4 && != 1.21 {
-import net.minecraft.item.equipment.ArmorMaterial;
-//?}
 import net.paulem.simpleores.tags.ModTags;
 import java.util.EnumMap;
 
 public class SCArmor {
-    public static AdvancedArmorItem get(SOArmorMaterial material, ArmorEquipmentType equipmentType, Item.Settings settings) {
+    public static AdvancedArmorItem get(SOArmorMaterial material, ArmorEquipmentType equipmentType, Item.Properties settings) {
         return new AdvancedArmorItem(material.getMaterial(), equipmentType, settings);
     }
 
@@ -29,12 +23,12 @@ public class SCArmor {
         }
 
         public EnumMap<//$ armorType
-                net.minecraft.item.equipment.EquipmentType
+                net.minecraft.world.item.equipment.ArmorType
                 , Integer> convert() {
             EnumMap<//$ armorType
-                    net.minecraft.item.equipment.EquipmentType
+                    net.minecraft.world.item.equipment.ArmorType
                     , Integer> map = new EnumMap<>(//$ armorType
-                    net.minecraft.item.equipment.EquipmentType
+                    net.minecraft.world.item.equipment.ArmorType
                             .class);
             for (Entry<ArmorEquipmentType, Integer> entry : this.entrySet()) {
                 map.put(entry.getKey().getType(), entry.getValue());
@@ -44,12 +38,12 @@ public class SCArmor {
     }
 
     public static //$ tagOrIngredient
-    net.minecraft.registry.tag.TagKey<net.minecraft.item.Item>
+    net.minecraft.tags.TagKey<net.minecraft.world.item.Item>
     repairTagOrIngredient(String name) {
         switch (name) {
             case "copper" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.fromTag(*/
+                        /*() -> Ingredient.of(*/
                         ConventionalItemTags.COPPER_INGOTS
                         //? if <=1.21
                         /*)*/
@@ -57,7 +51,7 @@ public class SCArmor {
             }
             case "tin" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.fromTag(*/
+                        /*() -> Ingredient.of(*/
                         ModTags.Items.REPAIRS_TIN_ITEMS
                         //? if <=1.21
                         /*)*/
@@ -65,7 +59,7 @@ public class SCArmor {
             }
             case "mythril" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.fromTag(*/
+                        /*() -> Ingredient.of(*/
                         ModTags.Items.REPAIRS_MYTHRIL_ITEMS
                         //? if <=1.21
                         /*)*/
@@ -73,7 +67,7 @@ public class SCArmor {
             }
             case "adamantium" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.fromTag(*/
+                        /*() -> Ingredient.of(*/
                         ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS
                         //? if <=1.21
                         /*)*/
@@ -81,7 +75,7 @@ public class SCArmor {
             }
             case "onyx" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.fromTag(*/
+                        /*() -> Ingredient.of(*/
                         ModTags.Items.REPAIRS_ONYX_ITEMS
                         //? if <=1.21
                         /*)*/
@@ -100,7 +94,7 @@ public class SCArmor {
 
         private final
         //? if 1.21 {
-        /*RegistryEntry<ArmorMaterial>
+        /*Holder<ArmorMaterial>
         *///?} else if >1.20.4 {
         ArmorMaterial
         //?} else if <=1.20.4 {
@@ -110,7 +104,7 @@ public class SCArmor {
 
         SOArmorMaterial(
                 //? if 1.21 {
-                /*RegistryEntry<ArmorMaterial>
+                /*Holder<ArmorMaterial>
                 *///?} else if >1.20.4 {
                 ArmorMaterial
                         //?} else if <=1.20.4 {
@@ -122,7 +116,7 @@ public class SCArmor {
 
         public
             //? if 1.21 {
-            /*RegistryEntry<ArmorMaterial>
+            /*Holder<ArmorMaterial>
             *///?} else if >1.20.4 {
         ArmorMaterial
         //?} else if <=1.20.4 {
@@ -135,42 +129,42 @@ public class SCArmor {
 
     public enum ArmorEquipmentType {
         HELMET(//$ armorType
-                net.minecraft.item.equipment.EquipmentType
+                net.minecraft.world.item.equipment.ArmorType
                         .HELMET),
 
         CHESTPLATE(//$ armorType
-                net.minecraft.item.equipment.EquipmentType
+                net.minecraft.world.item.equipment.ArmorType
                         .CHESTPLATE),
 
         LEGGINGS(//$ armorType
-                net.minecraft.item.equipment.EquipmentType
+                net.minecraft.world.item.equipment.ArmorType
                         .LEGGINGS),
 
         BOOTS(//$ armorType
-                net.minecraft.item.equipment.EquipmentType
+                net.minecraft.world.item.equipment.ArmorType
                         .BOOTS)
 
         //? if >1.20.4 {
         ,
 
         BODY(//$ armorType
-                net.minecraft.item.equipment.EquipmentType
+                net.minecraft.world.item.equipment.ArmorType
                         .BODY)
         //?}
         ;
 
         private final //$ armorType
-        net.minecraft.item.equipment.EquipmentType
+        net.minecraft.world.item.equipment.ArmorType
         type;
 
         ArmorEquipmentType(//$ armorType
-                           net.minecraft.item.equipment.EquipmentType
+                           net.minecraft.world.item.equipment.ArmorType
                 type) {
             this.type = type;
         }
 
         public //$ armorType
-        net.minecraft.item.equipment.EquipmentType
+        net.minecraft.world.item.equipment.ArmorType
         getType() {
             return type;
         }

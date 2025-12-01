@@ -5,22 +5,23 @@ package net.paulem.simpleores.items.custom.bucket;
 *///?} else {
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.Objects;
 
@@ -29,15 +30,15 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     private final CustomParentBucketItem parent;
     private final Fluid fluid;
 
-    public CustomChildrenBucketItem(Fluid fluid, Settings settings, CustomParentBucketItem parent) {
-        super(fluid, settings.component(DataComponentTypes.ITEM_MODEL, parent.getModelWithOverlay(fluid)));
+    public CustomChildrenBucketItem(Fluid fluid, Item.Properties settings, CustomParentBucketItem parent) {
+        super(fluid, settings.component(DataComponents.ITEM_MODEL, parent.getModelWithOverlay(fluid)));
 
         this.parent = parent;
         this.fluid = fluid;
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
-    public CustomChildrenBucketItem(Fluid fluid, Settings settings) {
+    public CustomChildrenBucketItem(Fluid fluid, Item.Properties settings) {
         super(fluid, settings);
 
         this.parent = null;
@@ -46,27 +47,18 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, world, entity, slot);
 
-        ComponentMap components;
+        DataComponentMap components;
 
-        if(parent != null && Objects.equals((components = stack.getComponents()).get(DataComponentTypes.ITEM_MODEL), parent.getModelWithOverlay(fluid))) {
-            ComponentMap newComponents = ComponentMap.builder()
+        if(parent != null && Objects.equals((components = stack.getComponents()).get(DataComponents.ITEM_MODEL), parent.getModelWithOverlay(fluid))) {
+            DataComponentMap newComponents = DataComponentMap.builder()
                     .addAll(components)
-                    .add(DataComponentTypes.ITEM_MODEL, parent.getModelWithOverlay(fluid))
+                    .set(DataComponents.ITEM_MODEL, parent.getModelWithOverlay(fluid))
                     .build();
 
-            stack.applyComponentsFrom(newComponents);
-        }
-    }
-
-    @Override
-    public void onEmptied(@Nullable LivingEntity user, World world, ItemStack stack, BlockPos pos) {
-        super.onEmptied(user, world, stack, pos);
-
-        if(FluidVariant.of(fluid).getFluid() == Fluids.LAVA) {
-            stack.decrementUnlessCreative(1, user);
+            stack.applyComponents(newComponents);
         }
     }
 
@@ -80,7 +72,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
 
     @Override
     public String getFluidName() {
-        return Registries.FLUID.getId(fluid).getPath();
+        return BuiltInRegistries.FLUID.getKey(fluid).getPath();
     }
 
     @Override
@@ -94,7 +86,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     }
 
     @Override
-    public Text getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         if(fluid == null || fluid == Fluids.EMPTY) {
             return getParent().getName(stack);
         }
@@ -111,7 +103,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
 
     public static boolean isWaterLike(Fluid fluid) {
         return FluidVariant.of(fluid).isOf(Fluids.WATER) ||
-                Registries.FLUID.getId(fluid).getPath().contains("water");
+                BuiltInRegistries.FLUID.getKey(fluid).getPath().contains("water");
     }
 }
 //?}

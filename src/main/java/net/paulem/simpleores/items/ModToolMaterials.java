@@ -1,15 +1,14 @@
 package net.paulem.simpleores.items;
 
-import net.minecraft.registry.tag.BlockTags;
-
+import net.minecraft.tags.BlockTags;
 //? if >1.21 {
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.item.Item;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.level.block.Block;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.SimpleOresConfig;
-import net.minecraft.block.Block;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.tag.TagKey;
 import net.paulem.simpleores.tags.ModTags;
 
 public final class ModToolMaterials {
@@ -49,21 +48,21 @@ public final class ModToolMaterials {
 /*import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.SimpleOresConfig;
-import net.minecraft.item.Items;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.block.Block;
-import net.minecraft.recipe.Ingredient;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.paulem.simpleores.tags.ModTags;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tags.TagKey;
 
 import java.util.function.Supplier;
 
-public enum ModToolMaterials implements ToolMaterial {
-	COPPER(SimpleOres.CONFIG.copperTools, () -> Ingredient.fromTag(ConventionalItemTags.COPPER_INGOTS)),
-	TIN(SimpleOres.CONFIG.tinTools, () -> Ingredient.fromTag(ModTags.Items.Conventional.TIN_INGOTS)),
-	MYTHRIL(SimpleOres.CONFIG.mythrilTools, () -> Ingredient.fromTag(ModTags.Items.Conventional.MYTHRIL_INGOTS)),
-	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools, () -> Ingredient.fromTag(ModTags.Items.Conventional.ADAMANTIUM_INGOTS)),
-	ONYX(SimpleOres.CONFIG.onyxTools, () -> Ingredient.fromTag(ModTags.Items.Conventional.ONYX_GEMS));
+public enum ModToolMaterials implements Tier {
+	COPPER(SimpleOres.CONFIG.copperTools, () -> Ingredient.of(ConventionalItemTags.COPPER_INGOTS)),
+	TIN(SimpleOres.CONFIG.tinTools, () -> Ingredient.of(ModTags.Items.Conventional.TIN_INGOTS)),
+	MYTHRIL(SimpleOres.CONFIG.mythrilTools, () -> Ingredient.of(ModTags.Items.Conventional.MYTHRIL_INGOTS)),
+	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools, () -> Ingredient.of(ModTags.Items.Conventional.ADAMANTIUM_INGOTS)),
+	ONYX(SimpleOres.CONFIG.onyxTools, () -> Ingredient.of(ModTags.Items.Conventional.ONYX_GEMS));
 
 	//? if 1.21 {
 	/^private final TagKey<Block> inverseTag;
@@ -116,34 +115,34 @@ public enum ModToolMaterials implements ToolMaterial {
 	}
 
 	@Override
-	public int getDurability() {
+	public int getUses() {
 		return this.itemDurability;
 	}
 
 	@Override
-	public float getMiningSpeedMultiplier() {
+	public float getSpeed() {
 		return this.miningSpeed;
 	}
 
 	@Override
-	public float getAttackDamage() {
+	public float getAttackDamageBonus() {
 		return this.attackDamage;
 	}
 
 	//? if 1.21 {
 	/^@Override
-	public TagKey<Block> getInverseTag() {
+	public TagKey<Block> getIncorrectBlocksForDrops() {
 		return this.inverseTag;
 	}
 	^///?} else {
 	@Override
-	public int getMiningLevel() {
+	public int getLevel() {
 		return this.miningLevel;
 	}
 	//?}
 
 	@Override
-	public int getEnchantability() {
+	public int getEnchantmentValue() {
 		return this.enchantability;
 	}
 

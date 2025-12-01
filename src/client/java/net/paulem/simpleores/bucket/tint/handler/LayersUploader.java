@@ -4,10 +4,15 @@ package net.paulem.simpleores.bucket.tint.handler;
 /*public class LayersUploader {}
 *///?} else {
 
+import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.*;
-import net.minecraft.client.render.item.tint.TintSource;
-import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.paulem.simpleores.SimpleOres;
 
 import java.util.LinkedList;
@@ -15,44 +20,44 @@ import java.util.Optional;
 
 public class LayersUploader {
     // I want 24 layers, because the base overlay texture has 24 layers.
-    public static final TextureKey[] LAYERS = new TextureKey[25];
+    public static final TextureSlot[] LAYERS = new TextureSlot[25];
 
     static {
         for (int i = 0; i < LAYERS.length; i++) {
             SimpleOres.LOGGER.info("Registering layer " + i);
             // Compute the texture key for this layer.
-            LAYERS[i] = TextureKey.of("layer" + i);
+            LAYERS[i] = TextureSlot.create("layer" + i);
         }
     }
 
     // The model for the x layers
-    public static final Model GENERATED_TWENTY_FOUR_LAYERS = item("generated", LAYERS);
+    public static final ModelTemplate GENERATED_TWENTY_FOUR_LAYERS = item("generated", LAYERS);
 
-    public static void registerOverlayBucket(ItemModelGenerator itemModelGenerator, Item item, Item parentBucket, TintSource... tints) {
-        LinkedList<Identifier> layers = new LinkedList<>();
+    public static void registerOverlayBucket(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource... tints) {
+        LinkedList<ResourceLocation > layers = new LinkedList<>();
 
-        layers.add(TextureMap.getId(parentBucket));
+        layers.add(TextureMapping.getItemTexture(parentBucket));
         for (int i = 1; i < LAYERS.length; i++) {
             // Get the corresponding texture for this layer. Starts with 0.
-            Identifier subId = TextureMap.getSubId(parentBucket, "_overlay" + (i-1));
+            ResourceLocation subId = TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1));
             SimpleOres.LOGGER.info("Adding overlay layer " + i + " : " + subId);
             layers.add(subId);
         }
 
-        Identifier identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new Identifier[0]));
-        itemModelGenerator.output.accept(item, ItemModels.tinted(identifier, tints));
+        ResourceLocation identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new ResourceLocation[0]));
+        itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, tints));
     }
 
-    public static Identifier uploadLayers(ItemModelGenerator itemModelGenerator, Item item, Identifier... layers) {
-        TextureMap layered = layered(layers);
-        return GENERATED_TWENTY_FOUR_LAYERS.upload(item, layered, itemModelGenerator.modelCollector);
+    public static ResourceLocation uploadLayers(ItemModelGenerators itemModelGenerator, Item item, ResourceLocation... layers) {
+        TextureMapping layered = layered(layers);
+        return GENERATED_TWENTY_FOUR_LAYERS.create(item, layered, itemModelGenerator.modelOutput);
     }
 
     /**
      * Get the texture map for the given layers.
      */
-    public static TextureMap layered(Identifier... layers) {
-        TextureMap textureMap = new TextureMap();
+    public static TextureMapping layered(ResourceLocation ... layers) {
+        TextureMapping textureMap = new TextureMapping();
 
         for (int i = 0; i < layers.length; i++) {
             SimpleOres.LOGGER.info("layering " + i + " : " + layers[i]);
@@ -63,10 +68,10 @@ public class LayersUploader {
     }
 
     /**
-     * @see net.minecraft.client.data.Models#item(String, TextureKey...)
+     * @see net.minecraft.client.data.models.model.ModelTemplate#create(String, TextureSlot...)
      */
-    private static Model item(String parent, TextureKey... requiredTextureKeys) {
-        return new Model(Optional.of(Identifier.ofVanilla("item/" + parent)), Optional.empty(), requiredTextureKeys);
+    private static ModelTemplate item(String parent, TextureSlot... requiredTextureSlots) {
+        return new ModelTemplate(Optional.of(ResourceLocation.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureSlots);
     }
 }
 //?}

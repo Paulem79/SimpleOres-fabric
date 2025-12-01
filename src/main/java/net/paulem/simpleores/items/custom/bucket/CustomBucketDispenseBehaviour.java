@@ -10,29 +10,34 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.mixin.transfer.BucketItemAccessor;
-import net.minecraft.block.*;
-import net.minecraft.block.dispenser.ItemDispenserBehavior;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BucketPickup;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Adapted from cech12's BucketLib
  */
-public class CustomBucketDispenseBehaviour extends ItemDispenserBehavior {
+public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 
     private static final CustomBucketDispenseBehaviour INSTANCE = new CustomBucketDispenseBehaviour();
 
@@ -44,104 +49,110 @@ public class CustomBucketDispenseBehaviour extends ItemDispenserBehavior {
     private CustomBucketDispenseBehaviour() {}
 
     @Override
-    protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+    protected ItemStack execute(BlockSource pointer, ItemStack stack) {
         return dispenseFluidContainer(pointer, stack);
     }
 
-    public ItemStack dispenseFluidContainer(BlockPointer source, ItemStack stack) {
-        World level = source.world();
-        Direction dispenserFacing = source.state().get(DispenserBlock.FACING);
-        BlockPos pos = source.pos().offset(dispenserFacing);
+    public ItemStack dispenseFluidContainer(BlockSource source, ItemStack stack) {
+        Level level = source.level();
+        Direction dispenserFacing = source.state().getValue(DispenserBlock.FACING);
+        BlockPos pos = source.pos().relative(dispenserFacing);
         if (stack.getItem() instanceof CustomParentBucketItem) {
-            Pair<Boolean, ItemStack> result = tryPickUpFluid(stack, null, level, null, pos, dispenserFacing);
-            if (result.getLeft()) {
+            Tuple<Boolean, ItemStack> result = tryPickUpFluid(stack, null, level, null, pos, dispenserFacing);
+            if (result.getA()) {
                 if (stack.getCount() == 1) {
-                    return result.getRight();
+                    return result.getB();
                 }
-                if (!(source.blockEntity()).addToFirstFreeSlot(result.getRight()).isEmpty()) {
-                    new ItemDispenserBehavior().dispense(source, result.getRight());
+                if (!(source.blockEntity()).insertItem(result.getB()).isEmpty()) {
+                    new DefaultDispenseItemBehavior().dispense(source, result.getB());
                 }
                 ItemStack stackCopy = stack.copy();
-                stackCopy.decrement(1);
+                stackCopy.shrink(1);
                 return stackCopy;
             }
         } else {
-            Pair<Boolean, ItemStack> result = tryPlaceFluid(stack, null, level, null, pos);
-            if (result.getLeft()) {
-                return result.getRight();
+            Tuple<Boolean, ItemStack> result = tryPlaceFluid(stack, null, level, null, pos);
+            if (result.getA()) {
+                return result.getB();
             }
         }
         return stack;
     }
 
-    public Pair<Boolean, ItemStack> tryPickUpFluid(ItemStack stack, @Nullable PlayerEntity player, World level, Hand interactionHand, BlockPos pos, Direction direction) {
+    public Tuple<Boolean, ItemStack> tryPickUpFluid(ItemStack stack, @Nullable Player player, Level level, InteractionHand interactionHand, BlockPos pos, Direction direction) {
         //Fluid Storage interaction
         Storage<FluidVariant> storage = FluidStorage.SIDED.find(level, pos, direction.getOpposite());
         if (storage != null && player != null && FluidStorageUtil.interactWithFluidStorage(storage, player, interactionHand)) {
-            return new Pair<>(true, player.getStackInHand(interactionHand).copy());
+            return new Tuple<>(true, player.getItemInHand(interactionHand).copy());
         }
         //Fluid Source / Waterlogged Block interaction
         BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
-        if (block instanceof FluidDrainable bucketPickup) {
-            ItemStack fullVanillaBucket = bucketPickup.tryDrainFluid(player, level, pos, state);
+        if (block instanceof BucketPickup bucketPickup) {
+            ItemStack fullVanillaBucket = bucketPickup.pickupBlock(player, level, pos, state);
             if (fullVanillaBucket.getItem() instanceof BucketItem vanillaBucketItem) {
                 Fluid fluid = ((BucketItemAccessor) vanillaBucketItem).fabric_getFluid();
                 if (stack.getItem() instanceof CustomChildrenBucketItem bucketItem) {
-                    SoundEvent sound = bucketPickup.getBucketFillSound().orElse(FluidVariantAttributes.getFillSound(FluidVariant.of(fluid)));
-                    level.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    ItemStack usedStack = bucketItem.fromFluid(fluid).getDefaultStack();
-                    return new Pair<>(true, usedStack);
+                    SoundEvent sound = bucketPickup.getPickupSound().orElse(FluidVariantAttributes.getFillSound(FluidVariant.of(fluid)));
+                    level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    ItemStack usedStack = bucketItem.fromFluid(fluid).getDefaultInstance();
+                    return new Tuple<>(true, usedStack);
                 }
-                level.setBlockState(pos, state, 3);
-                return new Pair<>(false, stack);
+                level.setBlock(pos, state, 3);
+                return new Tuple<>(false, stack);
             }
             //show incompatibility message and reset the block state
             if (!fullVanillaBucket.isEmpty()) {
-                level.setBlockState(pos, state, 3);
-                return new Pair<>(false, stack);
+                level.setBlock(pos, state, 3);
+                return new Tuple<>(false, stack);
             }
         }
-        return new Pair<>(false, stack);
+        return new Tuple<>(false, stack);
     }
 
-    public Pair<Boolean, ItemStack> tryPlaceFluid(ItemStack stack, @Nullable PlayerEntity player, World level, Hand interactionHand, BlockPos pos) {
+    public Tuple<Boolean, ItemStack> tryPlaceFluid(ItemStack stack, @Nullable Player player, Level level, InteractionHand interactionHand, BlockPos pos) {
         //Fluid Storage interaction
         Storage<FluidVariant> storage = FluidStorage.SIDED.find(level, pos, null);
         if (storage != null && player != null && FluidStorageUtil.interactWithFluidStorage(storage, player, interactionHand)) {
-            return new Pair<>(true, player.getStackInHand(interactionHand).copy());
+            return new Tuple<>(true, player.getItemInHand(interactionHand).copy());
         }
 
-        if(!(stack.getItem() instanceof CustomChildrenBucketItem bucketItem)) return new Pair<>(false, stack);
+        if(!(stack.getItem() instanceof CustomChildrenBucketItem bucketItem)) return new Tuple<>(false, stack);
 
         Fluid fluid = bucketItem.getFluid();
         //vaporize
-        if (level.getDimension().ultrawarm() && fluid.getDefaultState().isIn(FluidTags.WATER)) {
+        boolean vaporize = //? if >1.21.10 {
+        // level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
+        //?} else {
+        level.dimensionType().ultraWarm();
+        //?}
+
+        if (vaporize && fluid.defaultFluidState().is(FluidTags.WATER)) {
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
-            level.playSound(player, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
+            level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
             for (int i = 0; i < 8; ++i) {
-                level.addParticleClient(ParticleTypes.LARGE_SMOKE, (double) x + Math.random(), (double) y + Math.random(), (double) z + Math.random(), 0.0, 0.0, 0.0);
+                level.addParticle(ParticleTypes.LARGE_SMOKE, (double) x + Math.random(), (double) y + Math.random(), (double) z + Math.random(), 0.0, 0.0, 0.0);
             }
-            return new Pair<>(true, bucketItem.getParent().getDefaultStack());
+            return new Tuple<>(true, bucketItem.getParent().getDefaultInstance());
         }
         //waterlogged Block interaction
         BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
-        if (block instanceof FluidFillable liquidBlockContainer && liquidBlockContainer.canFillWithFluid(player, level, pos, state, fluid)) {
-            liquidBlockContainer.tryFillWithFluid(level, pos, state, fluid.getDefaultState());
-            level.playSound(player, pos, FluidVariantAttributes.getEmptySound(FluidVariant.of(fluid)), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            return new Pair<>(true, bucketItem.getParent().getDefaultStack());
+        if (block instanceof LiquidBlockContainer liquidBlockContainer && liquidBlockContainer.canPlaceLiquid(player, level, pos, state, fluid)) {
+            liquidBlockContainer.placeLiquid(level, pos, state, fluid.defaultFluidState());
+            level.playSound(player, pos, FluidVariantAttributes.getEmptySound(FluidVariant.of(fluid)), SoundSource.BLOCKS, 1.0F, 1.0F);
+            return new Tuple<>(true, bucketItem.getParent().getDefaultInstance());
         }
         //air / replaceable block interaction
-        if (state.isAir() || state.canBucketPlace(fluid) || (!state.getFluidState().isEmpty() && !(block instanceof FluidFillable))) {
-            if (level.setBlockState(pos, fluid.getDefaultState().getBlockState(), 11) || state.getFluidState().isStill()) {
-                level.playSound(player, pos, FluidVariantAttributes.getEmptySound(FluidVariant.of(fluid)), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return new Pair<>(true, bucketItem.getParent().getDefaultStack());
+        if (state.isAir() || state.canBeReplaced(fluid) || (!state.getFluidState().isEmpty() && !(block instanceof LiquidBlockContainer))) {
+            if (level.setBlock(pos, fluid.defaultFluidState().createLegacyBlock(), 11) || state.getFluidState().isSource()) {
+                level.playSound(player, pos, FluidVariantAttributes.getEmptySound(FluidVariant.of(fluid)), SoundSource.BLOCKS, 1.0F, 1.0F);
+                return new Tuple<>(true, bucketItem.getParent().getDefaultInstance());
             }
         }
-        return new Pair<>(false, stack);
+        return new Tuple<>(false, stack);
     }
 
 }

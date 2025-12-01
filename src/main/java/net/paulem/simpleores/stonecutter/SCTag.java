@@ -1,8 +1,8 @@
 package net.paulem.simpleores.stonecutter;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.paulem.simpleores.tags.ModTags;
 
 public class SCTag {

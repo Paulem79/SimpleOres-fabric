@@ -1,18 +1,17 @@
 package net.paulem.simpleores.datagen.providers;
 
+import net.minecraft.world.level.block.DoorBlock;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.block.Block;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryWrapper;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTableProvider extends FabricBlockLootTableProvider {
-    public LootTableProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public LootTableProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output //? if >1.20.4
                 , registryLookup
         );
@@ -33,14 +32,14 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
 
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
             if(blockItem.getBlock() instanceof DoorBlock doorBlock) {
-                addDrop(doorBlock, block -> doorDrops(doorBlock));
+                add(doorBlock, block -> createDoorTable(doorBlock));
             } else if(!identifier.getPath().contains("ore")) {
-                addDrop(blockItem.getBlock());
+                dropSelf(blockItem.getBlock());
             }
         });
     }
 
     public void sameDropWithSilkTouch(Block block, Item drop) {
-        addDrop(block, oreDrops(block, drop));
+        add(block, createOreDrop(block, drop));
     }
 }

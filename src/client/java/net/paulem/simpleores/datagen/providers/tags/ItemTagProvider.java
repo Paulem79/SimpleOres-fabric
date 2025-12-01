@@ -1,23 +1,23 @@
 package net.paulem.simpleores.datagen.providers.tags;
 
-/*? if >=1.21.6 {*/
-import net.minecraft.data.tag.ProvidedTagBuilder;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-/*?}*/
 //? hasBucketlib
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.item.*;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+//? if >=1.21.6
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.world.item.*;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
@@ -29,12 +29,12 @@ import net.paulem.simpleores.tags.ModTags;
 import java.util.concurrent.CompletableFuture;
 
 public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public ItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public ItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.Provider wrapperLookup) {
         ModItems.registeredItems.forEach(((identifier, item) -> {
             if (item instanceof AdvancedSwordItem) {
                 // Swords
@@ -253,7 +253,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 build(ItemTags.DOORS, blockItem);
             else if(block instanceof SlabBlock)
                 build(ItemTags.SLABS, blockItem);
-            else if(block instanceof StairsBlock)
+            else if(block instanceof StairBlock)
                 build(ItemTags.STAIRS, blockItem);
         });
     }
@@ -271,7 +271,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
             if(object instanceof Item item) {
                 builder.get()
-                        .add(RegistryKey.of(Registries.ITEM.getKey(), Registries.ITEM.getId(item)));
+                        .add(ResourceKey.create(BuiltInRegistries.ITEM.key(), BuiltInRegistries.ITEM.getKey(item)));
             } else if(object instanceof TagKey<?> tag && object.getClass().getGenericSuperclass() == Item.class) {
                 builder.get()
                         .addTag((TagKey<Item>) tag);
@@ -295,7 +295,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/ProvidedTagBuilder<RegistryKey<Item>, Item>/*?} else {*//*FabricTagProvider<Item>.FabricTagBuilder*//*?}*/ get() {
+        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Item>, Item>/*?} else {*//*FabricTagProvider<Item>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
             return builder(tag);
             /*?} else {*/

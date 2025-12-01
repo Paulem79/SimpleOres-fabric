@@ -1,30 +1,30 @@
 package net.paulem.simpleores.datagen.providers.tags;
 
-/*? if >=1.21.6 {*/
-import net.minecraft.data.tag.ProvidedTagBuilder;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-/*?}*/
-import net.minecraft.registry.tag.TagKey;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.stonecutter.SCTag;
 import net.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-import net.minecraft.block.*;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
-
+import net.minecraft.world.level.block.*;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+//? if >=1.21.6
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import java.util.concurrent.CompletableFuture;
 
 public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public BlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public BlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.Provider wrapperLookup) {
         build(ConventionalBlockTags.ORES, ModTags.Blocks.SIMPLEORES_ORES);
 
         //? if >1.20.4
@@ -33,7 +33,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
         // ------------------- BLOCKS BREAK -------------------
 
-        TagBuilder pickaxeMineable = new TagBuilder(BlockTags.PICKAXE_MINEABLE);
+        TagBuilder pickaxeMineable = new TagBuilder(BlockTags.MINEABLE_WITH_PICKAXE);
 
         TagBuilder needsStoneTool = new TagBuilder(BlockTags.NEEDS_STONE_TOOL);
 
@@ -122,10 +122,10 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
             else if(block instanceof SlabBlock) {
                 build(slabsTagBuilder, block);
             }
-            else if(block instanceof StairsBlock) {
+            else if(block instanceof StairBlock) {
                 build(stairsTagBuilder, block);
             }
-            else if(block instanceof PaneBlock) {
+            else if(block instanceof IronBarsBlock) {
                 build(BlockTags.DRAGON_IMMUNE, block);
             }
         });
@@ -144,7 +144,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
             if(object instanceof Block block) {
                 builder.get()
-                        .add(RegistryKey.of(Registries.BLOCK.getKey(), Registries.BLOCK.getId(block)));
+                        .add(ResourceKey.create(BuiltInRegistries.BLOCK.key(), BuiltInRegistries.BLOCK.getKey(block)));
             } else if(object instanceof TagKey<?> tag && object.getClass().getGenericSuperclass() == Block.class) {
                 builder.get()
                         .addTag((TagKey<Block>) tag);
@@ -168,7 +168,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/ProvidedTagBuilder<RegistryKey<Block>, Block>/*?} else {*//*FabricTagProvider<Block>.FabricTagBuilder*//*?}*/ get() {
+        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Block>, Block>/*?} else {*//*FabricTagProvider<Block>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
             return builder(tag);
             /*?} else {*/

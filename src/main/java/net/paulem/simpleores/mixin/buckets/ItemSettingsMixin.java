@@ -1,37 +1,36 @@
 package net.paulem.simpleores.mixin.buckets;
 
-import net.minecraft.item.Item;
-import org.spongepowered.asm.mixin.Mixin;
-
 //? if !hasBucketlib {
-import net.minecraft.component.ComponentMap;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+//? }
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//?}
 
-@Mixin(Item.Settings.class)
+@Mixin(Item.Properties.class)
 public class ItemSettingsMixin {
     //? if !hasBucketlib {
     @Inject(
-            method = "getValidatedComponents",
+            method = "buildAndValidateComponents",
             at = @At(
                     value = "HEAD"
             ),
             cancellable = true
     )
     private void redirectGetValidatedComponents(
-            Text name, Identifier modelId, CallbackInfoReturnable<ComponentMap> cir
+            Component name, ResourceLocation modelId, CallbackInfoReturnable<DataComponentMap> cir
     ) {
-        Item.Settings settings = (Item.Settings) (Object) this;
+        Item.Properties settings = (Item.Properties) (Object) this;
 
-        Identifier newModelId = settings.components.getOrDefault(DataComponentTypes.ITEM_MODEL, modelId);
+        ResourceLocation newModelId = settings.components.getOrDefault(DataComponents.ITEM_MODEL, modelId);
 
-        ComponentMap componentMap = settings.components.add(DataComponentTypes.ITEM_NAME, name).add(DataComponentTypes.ITEM_MODEL, newModelId).build();
-        if (componentMap.contains(DataComponentTypes.DAMAGE) && componentMap.getOrDefault(DataComponentTypes.MAX_STACK_SIZE, 1) > 1) {
+        DataComponentMap componentMap = settings.components.set(DataComponents.ITEM_NAME, name).set(DataComponents.ITEM_MODEL, newModelId).build();
+        if (componentMap.has(DataComponents.DAMAGE) && componentMap.getOrDefault(DataComponents.MAX_STACK_SIZE, 1) > 1) {
             throw new IllegalStateException("Item cannot have both durability and be stackable");
         } else {
             cir.setReturnValue(componentMap);

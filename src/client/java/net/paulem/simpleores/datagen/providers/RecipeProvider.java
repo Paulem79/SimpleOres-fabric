@@ -1,28 +1,38 @@
 package net.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.advancement.AdvancementCriterion;
+import net.minecraft.advancements.Criterion;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 //? if <=1.20.1
-//import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.recipe.*;
-import net.minecraft.item.Item;
-import net.minecraft.recipe.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+//import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeCategory;
+//? if >1.20.1
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.BlastingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.armors.MaterialRecipeContainer;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tags.ModTags;
 
 import java.util.ArrayList;
@@ -30,11 +40,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 //? if >1.21
-import static net.minecraft.data.recipe.RecipeGenerator.*;
+import static net.minecraft.data.recipes.RecipeProvider.*;
 
 
 public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public RecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output //? if >1.20.4
                 , registryLookup
         );
@@ -43,8 +53,8 @@ public class RecipeProvider extends FabricRecipeProvider {
     private static SCRecipe scRecipe;
 
     public void extracted(//$ generatorOrExporter
-                                 net.minecraft.data.recipe.RecipeGenerator
-                                         generator, RecipeExporter exporter) {
+                                 net.minecraft.data.recipes.RecipeProvider
+                                         generator, RecipeOutput exporter) {
         scRecipe = new SCRecipe(this, generator, exporter);
 
         offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT, "tin");
@@ -55,43 +65,43 @@ public class RecipeProvider extends FabricRecipeProvider {
                 .pattern(" RS")
                 .pattern("F S")
                 .pattern(" RS")
-                .input('S', Items.STRING)
-                .input('F', Items.IRON_INGOT)
-                .input('R', ModItems.MYTHRIL_ROD)
-                .criterion(hasItem(Items.STRING), scRecipe.conditionsFromItem(Items.STRING))
-                .criterion(hasItem(Items.IRON_INGOT), scRecipe.conditionsFromItem(Items.IRON_INGOT))
-                .criterion(hasItem(ModItems.MYTHRIL_ROD), scRecipe.conditionsFromItem(ModItems.MYTHRIL_ROD))
+                .define('S', Items.STRING)
+                .define('F', Items.IRON_INGOT)
+                .define('R', ModItems.MYTHRIL_ROD)
+                .unlockedBy(getHasName(Items.STRING), scRecipe.has(Items.STRING))
+                .unlockedBy(getHasName(Items.IRON_INGOT), scRecipe.has(Items.IRON_INGOT))
+                .unlockedBy(getHasName(ModItems.MYTHRIL_ROD), scRecipe.has(ModItems.MYTHRIL_ROD))
                 .group("mythril")
-                .offerTo(exporter);
+                .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.MYTHRIL_ROD)
                 .pattern("R")
                 .pattern("R")
-                .input('R', ModItems.MYTHRIL_INGOT)
-                .criterion(hasItem(ModItems.MYTHRIL_INGOT), scRecipe.conditionsFromItem(ModItems.MYTHRIL_INGOT))
+                .define('R', ModItems.MYTHRIL_INGOT)
+                .unlockedBy(getHasName(ModItems.MYTHRIL_INGOT), scRecipe.has(ModItems.MYTHRIL_INGOT))
                 .group("mythril")
-                .offerTo(exporter);
+                .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.ONYX_BOW)
                 .pattern(" RS")
                 .pattern("F S")
                 .pattern(" RS")
-                .input('S', Items.STRING)
-                .input('F', Items.IRON_INGOT)
-                .input('R', ModItems.ONYX_ROD)
-                .criterion(hasItem(Items.STRING), scRecipe.conditionsFromItem(Items.STRING))
-                .criterion(hasItem(Items.IRON_INGOT), scRecipe.conditionsFromItem(Items.IRON_INGOT))
-                .criterion(hasItem(ModItems.ONYX_ROD), scRecipe.conditionsFromItem(ModItems.ONYX_ROD))
+                .define('S', Items.STRING)
+                .define('F', Items.IRON_INGOT)
+                .define('R', ModItems.ONYX_ROD)
+                .unlockedBy(getHasName(Items.STRING), scRecipe.has(Items.STRING))
+                .unlockedBy(getHasName(Items.IRON_INGOT), scRecipe.has(Items.IRON_INGOT))
+                .unlockedBy(getHasName(ModItems.ONYX_ROD), scRecipe.has(ModItems.ONYX_ROD))
                 .group("onyx")
-                .offerTo(exporter);
+                .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.ONYX_ROD)
                 .pattern("R")
                 .pattern("R")
-                .input('R', ModItems.ONYX_GEM)
-                .criterion(hasItem(ModItems.ONYX_GEM), scRecipe.conditionsFromItem(ModItems.ONYX_GEM))
+                .define('R', ModItems.ONYX_GEM)
+                .unlockedBy(getHasName(ModItems.ONYX_GEM), scRecipe.has(ModItems.ONYX_GEM))
                 .group("onyx")
-                .offerTo(exporter);
+                .save(exporter);
 
         // Copper
         createMaterialSetRecipes(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
@@ -150,17 +160,17 @@ public class RecipeProvider extends FabricRecipeProvider {
     //? if <1.21.3 {
     
     /*@Override
-    public void generate(RecipeExporter recipeExporter) {
+    public void buildRecipes(RecipeOutput recipeExporter) {
         extracted(recipeExporter, recipeExporter);
     }*/
      
     //?} else {
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup wrapperLookup, RecipeExporter recipeExporter) {
-        return new RecipeGenerator(wrapperLookup, recipeExporter) {
+    protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
+        return new net.minecraft.data.recipes.RecipeProvider(wrapperLookup, recipeExporter) {
             @Override
-            public void generate() {
-                extracted(this, exporter);
+            public void buildRecipes() {
+                extracted(this, output);
             }
         };
     }
@@ -171,15 +181,15 @@ public class RecipeProvider extends FabricRecipeProvider {
         return "Simple Ores Recipes";
     }
 
-    private static void offerDustFurnace(TagKey<Item> dustTag, ItemConvertible output, String group) {
-        scRecipe.offerSmelting(dustTag, RecipeCategory.MISC, output,
+    private static void offerDustFurnace(TagKey<Item> dustTag, ItemLike output, String group) {
+        scRecipe.oreSmelting(dustTag, RecipeCategory.MISC, output,
                 0.7f, 200, group);
-        scRecipe.offerBlasting(dustTag, RecipeCategory.MISC, output,
+        scRecipe.oreBlasting(dustTag, RecipeCategory.MISC, output,
                 0.7f, 100, group);
     }
 
-    public static void createMaterialSetRecipes(TagKey<Item> tag, ItemConvertible baseItem, RecipeExporter exporter, String group, MaterialRecipeContainer container) {
-        List<ItemConvertible> SMELT_NUGGET_ITEMS = new ArrayList<>();
+    public static void createMaterialSetRecipes(TagKey<Item> tag, ItemLike baseItem, RecipeOutput exporter, String group, MaterialRecipeContainer container) {
+        List<ItemLike> SMELT_NUGGET_ITEMS = new ArrayList<>();
 
         // TOOLS
         if(container.sword() != null) {
@@ -210,10 +220,10 @@ public class RecipeProvider extends FabricRecipeProvider {
             scRecipe.createShaped(RecipeCategory.MISC, container.bucket())
                     .pattern("R R")
                     .pattern(" R ")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
 
         if(container.block() != null) scRecipe.offerReversibleCompactingRecipes(RecipeCategory.BUILDING_BLOCKS, container.block(), baseItem, tag,
@@ -223,20 +233,20 @@ public class RecipeProvider extends FabricRecipeProvider {
         if(container.pressurePlate() != null) {
             scRecipe.createShaped(RecipeCategory.REDSTONE, container.pressurePlate())
                     .pattern("RR")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
 
         if(container.cut() != null) {
             scRecipe.createShaped(RecipeCategory.BUILDING_BLOCKS, container.cut(), 4)
                     .pattern("RR")
                     .pattern("RR")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
 
             scRecipe.offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, container.cut(), tag);
             // END ingot to cut block
@@ -244,10 +254,10 @@ public class RecipeProvider extends FabricRecipeProvider {
             if(container.cutSlab() != null) {
                 scRecipe.createShaped(RecipeCategory.BUILDING_BLOCKS, container.cutSlab(), 6)
                         .pattern("RRR")
-                        .input('R', container.cut())
-                        .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                        .define('R', container.cut())
+                        .unlockedBy(hasTag(tag), scRecipe.has(tag))
                         .group(group)
-                        .offerTo(exporter);
+                        .save(exporter);
 
                 scRecipe.offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, container.cutSlab(), container.cut(), 2);
                 // END cut block to cut slabs
@@ -258,10 +268,10 @@ public class RecipeProvider extends FabricRecipeProvider {
                         .pattern("R  ")
                         .pattern("RR ")
                         .pattern("RRR")
-                        .input('R', container.cut())
-                        .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                        .define('R', container.cut())
+                        .unlockedBy(hasTag(tag), scRecipe.has(tag))
                         .group(group)
-                        .offerTo(exporter);
+                        .save(exporter);
 
                 scRecipe.offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, container.stairs(), container.cut());
                 // END cut block to cut stairs
@@ -270,17 +280,17 @@ public class RecipeProvider extends FabricRecipeProvider {
 
         if(container.door() != null) {
             scRecipe.createDoorRecipe(container.door(), scRecipe.ingredientFromTag(tag))
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
         if(container.bars() != null) scRecipe.createShaped(RecipeCategory.BUILDING_BLOCKS, container.bars(), 16)
                 .pattern("RRR")
                 .pattern("RRR")
-                .input('R', tag)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                .define('R', tag)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
 
         // ARMORS
         if(container.helmet() != null) {
@@ -288,10 +298,10 @@ public class RecipeProvider extends FabricRecipeProvider {
             scRecipe.createShaped(RecipeCategory.COMBAT, container.helmet())
                     .pattern("RRR")
                     .pattern("R R")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
         if(container.chesplate() != null) {
             SMELT_NUGGET_ITEMS.add(container.chesplate());
@@ -299,10 +309,10 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .pattern("R R")
                     .pattern("RRR")
                     .pattern("RRR")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
         if(container.leggings() != null) {
             SMELT_NUGGET_ITEMS.add(container.leggings());
@@ -310,56 +320,56 @@ public class RecipeProvider extends FabricRecipeProvider {
                     .pattern("RRR")
                     .pattern("R R")
                     .pattern("R R")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
         if(container.boots() != null) {
             SMELT_NUGGET_ITEMS.add(container.boots());
             scRecipe.createShaped(RecipeCategory.COMBAT, container.boots())
                     .pattern("R R")
                     .pattern("R R")
-                    .input('R', tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
                     .group(group)
-                    .offerTo(exporter);
+                    .save(exporter);
         }
 
         if(container.nugget() != null) {
             scRecipe.createShapeless(RecipeCategory.MISC, container.nugget(), 9)
-                    .input(tag)
-                    .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                    .offerTo(exporter, SimpleOres.MOD_ID + ":" + getTagName(tag) + "_to_nugget");
+                    .requires(tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                    .save(exporter, SimpleOres.MOD_ID + ":" + getTagName(tag) + "_to_nugget");
 
             scRecipe.createShaped(RecipeCategory.MISC, baseItem)
                     .pattern("RRR")
                     .pattern("RRR")
                     .pattern("RRR")
-                    .input('R', container.nugget())
-                    .criterion(hasItem(container.nugget()), scRecipe.conditionsFromItem(container.nugget()))
-                    .offerTo(exporter, SimpleOres.MOD_ID + ":" + getRecipeName(container.nugget()) + "_to_ingot");
+                    .define('R', container.nugget())
+                    .unlockedBy(getHasName(container.nugget()), scRecipe.has(container.nugget()))
+                    .save(exporter, SimpleOres.MOD_ID + ":" + getSimpleRecipeName(container.nugget()) + "_to_ingot");
         }
 
         if(container.nugget() != null && !SMELT_NUGGET_ITEMS.isEmpty()) {
             // Add equipment to nugget smelting recipe
-            scRecipe.offerSmelting(
+            scRecipe.oreSmelting(
                     SMELT_NUGGET_ITEMS,
                     RecipeCategory.MISC,
                     container.nugget(),
                     0.1F,
                     200,
-                    "smelting_nugget_" + container.nugget().asItem().getTranslationKey()
+                    "smelting_nugget_" + container.nugget().asItem().getDescriptionId()
             );
 
             // Add equipment to nugget blasting recipe
-            scRecipe.offerBlasting(
+            scRecipe.oreBlasting(
                     SMELT_NUGGET_ITEMS,
                     RecipeCategory.MISC,
                     container.nugget(),
                     0.1F,
                     200,
-                    "blasting_nugget_" + container.nugget().asItem().getTranslationKey()
+                    "blasting_nugget_" + container.nugget().asItem().getDescriptionId()
             );
         }
 
@@ -371,267 +381,267 @@ public class RecipeProvider extends FabricRecipeProvider {
 
             if(!SMELTABLES.isEmpty()) {
                 for (TagKey<Item> smeltable : SMELTABLES) {
-                    scRecipe.offerSmelting(smeltable, RecipeCategory.MISC, baseItem,
+                    scRecipe.oreSmelting(smeltable, RecipeCategory.MISC, baseItem,
                             container.smeltXp(), 200, group);
-                    scRecipe.offerBlasting(smeltable, RecipeCategory.MISC, baseItem,
+                    scRecipe.oreBlasting(smeltable, RecipeCategory.MISC, baseItem,
                             container.smeltXp(), 100, group);
                 }
             }
         }
     }
 
-    private static void createShearsRecipe(ItemConvertible output, TagKey<Item> tag, RecipeExporter exporter, String group) {
+    private static void createShearsRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group) {
         scRecipe.createShaped(RecipeCategory.TOOLS, output)
                 .pattern(" R")
                 .pattern("R ")
-                .input('R', tag)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
+                .define('R', tag)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
     }
 
-    public static void createHoeRecipe(ItemConvertible output, TagKey<Item> tag, RecipeExporter exporter, String group){
+    public static void createHoeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("RR")
                 .pattern("S ")
                 .pattern("S ")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("RR")
                 .pattern(" S")
                 .pattern(" S")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter, SimpleOres.MOD_ID + ":" + getRecipeName(output) + "_inverted");
+                .save(exporter, SimpleOres.MOD_ID + ":" + getSimpleRecipeName(output) + "_inverted");
     }
 
-    public static void createShovelRecipe(ItemConvertible output, TagKey<Item> tag, RecipeExporter exporter, String group){
+    public static void createShovelRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("R")
                 .pattern("S")
                 .pattern("S")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
     }
 
-    public static void createPickaxeRecipe(ItemConvertible output, TagKey<Item> tag, RecipeExporter exporter, String group){
+    public static void createPickaxeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("RRR")
                 .pattern(" S ")
                 .pattern(" S ")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
     }
 
-    public static void createAxeRecipe(ItemConvertible output, TagKey<Item> tag, RecipeExporter exporter, String group){
+    public static void createAxeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("RR")
                 .pattern("SR")
                 .pattern("S ")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("RR")
                 .pattern("RS")
                 .pattern(" S")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter, SimpleOres.MOD_ID + ":" + getRecipeName(output) + "_inverted");
+                .save(exporter, SimpleOres.MOD_ID + ":" + getSimpleRecipeName(output) + "_inverted");
     }
 
-    public static void createSwordRecipe(ItemConvertible output, TagKey<Item> tag, RecipeExporter exporter, String group){
+    public static void createSwordRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("R")
                 .pattern("R")
                 .pattern("S")
-                .input('R', tag)
-                .input('S', Items.STICK)
-                .criterion(hasTag(tag), scRecipe.conditionsFromTag(tag))
-                .criterion(hasItem(Items.STICK), scRecipe.conditionsFromItem(Items.STICK))
+                .define('R', tag)
+                .define('S', Items.STICK)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
                 .group(group)
-                .offerTo(exporter);
+                .save(exporter);
     }
 
     public record SCRecipe(FabricRecipeProvider provider, //$ generatorOrExporter
-            net.minecraft.data.recipe.RecipeGenerator
-            generator, RecipeExporter exporter) {
+            net.minecraft.data.recipes.RecipeProvider
+            generator, RecipeOutput exporter) {
 
-        public ShapedRecipeJsonBuilder createShaped(RecipeCategory category, ItemConvertible output) {
+        public ShapedRecipeBuilder createShaped(RecipeCategory category, ItemLike output) {
             return createShaped(category, output, 1);
         }
 
-        public ShapedRecipeJsonBuilder createShaped(RecipeCategory category, ItemConvertible output, int count) {
+        public ShapedRecipeBuilder createShaped(RecipeCategory category, ItemLike output, int count) {
             //? >=1.21.3 {
-            return generator().createShaped(category, output, count);
+            return generator().shaped(category, output, count);
             //?} else {
-            /*return ShapedRecipeJsonBuilder.create(category, output, count);
+            /*return ShapedRecipeBuilder.shaped(category, output, count);
             *///?}
         }
 
 
         public
         //? >1.20.1 {
-        AdvancementCriterion<?>
+        Criterion<?>
         //?} else {
-        /*InventoryChangedCriterion.Conditions
+        /*InventoryChangeTrigger.TriggerInstance
         *///?}
-        conditionsFromItem(ItemConvertible item) {
+        has(ItemLike item) {
             //? >=1.21.3 {
-            return generator().conditionsFromItem(item);
+            return generator().has(item);
             //?} else {
-            /*return provider().conditionsFromItem(item);
+            /*return provider().has(item);
             *///?}
         }
 
         public
             //? >1.20.1 {
-        AdvancementCriterion<?>
+        Criterion<?>
         //?} else {
-        /*InventoryChangedCriterion.Conditions
+        /*InventoryChangeTrigger.TriggerInstance
         *///?}
-        conditionsFromTag(TagKey<Item> tag) {
+        has(TagKey<Item> tag) {
             //? >=1.21.3 {
-            return generator().conditionsFromTag(tag);
+            return generator().has(tag);
             //?} else {
-            /*return provider().conditionsFromTag(tag);
+            /*return provider().has(tag);
             *///?}
         }
 
-        public void offerSmelting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+        public void oreSmelting(List<ItemLike> inputs, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group) {
             //? >=1.21.3 {
-            generator().offerSmelting(inputs, category, output, experience, cookingTime, group);
+            generator().oreSmelting(inputs, category, output, experience, cookingTime, group);
             //?} else {
-            /*provider().offerSmelting(exporter(), inputs, category, output, experience, cookingTime, group);
+            /*provider().oreSmelting(exporter(), inputs, category, output, experience, cookingTime, group);
             *///?}
         }
 
-        public void offerBlasting(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+        public void oreBlasting(List<ItemLike> inputs, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group) {
             //? >=1.21.3 {
-            generator().offerBlasting(inputs, category, output, experience, cookingTime, group);
+            generator().oreBlasting(inputs, category, output, experience, cookingTime, group);
             //?} else {
-            /*provider().offerBlasting(exporter(), inputs, category, output, experience, cookingTime, group);
+            /*provider().oreBlasting(exporter(), inputs, category, output, experience, cookingTime, group);
             *///?}
         }
 
         public void offerReversibleCompactingRecipes(
-                RecipeCategory reverseCategory, ItemConvertible packedItem, ItemConvertible unpackedItem,
+                RecipeCategory reverseCategory, ItemLike packedItem, ItemLike unpackedItem,
                 TagKey<Item> unpackedInput, RecipeCategory compactingCategory
         ) {
             createShaped(compactingCategory, packedItem)
                 .pattern("RRR")
                 .pattern("RRR")
                 .pattern("RRR")
-                .input('R', unpackedInput)
-                .criterion(hasTag(unpackedInput), conditionsFromTag(unpackedInput))
-                .offerTo(exporter(), //? if >1.21
-                        RegistryKey.of(RegistryKeys.RECIPE,
-                                SCIdentifier.of(getTagName(unpackedInput) + "_to_" + getItemPath(packedItem))
+                .define('R', unpackedInput)
+                .unlockedBy(hasTag(unpackedInput), has(unpackedInput))
+                .save(exporter(), //? if >1.21
+                        ResourceKey.create(Registries.RECIPE,
+                                SCId.of(getTagName(unpackedInput) + "_to_" + getItemPath(packedItem))
                         //? if >1.21
                         )
                 );
 
             createShapeless(reverseCategory, unpackedItem, 9)
-                    .input(packedItem)
-                    .criterion(hasItem(packedItem), conditionsFromItem(packedItem))
-                    .offerTo(exporter(), //? if >1.21
-                            RegistryKey.of(RegistryKeys.RECIPE,
-                                    SCIdentifier.of(getItemPath(packedItem) + "_to_" + getItemPath(unpackedItem))
+                    .requires(packedItem)
+                    .unlockedBy(getHasName(packedItem), has(packedItem))
+                    .save(exporter(), //? if >1.21
+                            ResourceKey.create(Registries.RECIPE,
+                                    SCId.of(getItemPath(packedItem) + "_to_" + getItemPath(unpackedItem))
                             //? if >1.21
                             )
                     );
         }
 
-        public ShapelessRecipeJsonBuilder createShapeless(RecipeCategory category, ItemConvertible output) {
+        public ShapelessRecipeBuilder createShapeless(RecipeCategory category, ItemLike output) {
             return createShapeless(category, output, 1);
         }
 
-        public ShapelessRecipeJsonBuilder createShapeless(RecipeCategory category, ItemConvertible output, int count) {
+        public ShapelessRecipeBuilder createShapeless(RecipeCategory category, ItemLike output, int count) {
             //? >=1.21.3 {
-            return generator().createShapeless(category, output, count);
+            return generator().shapeless(category, output, count);
             //?} else {
-            /*return ShapelessRecipeJsonBuilder.create(category, output, count);
+            /*return ShapelessRecipeBuilder.shapeless(category, output, count);
             *///?}
         }
 
-        public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, TagKey<Item> input) {
+        public void offerStonecuttingRecipe(RecipeCategory category, ItemLike output, TagKey<Item> input) {
             offerStonecuttingRecipe(category, output, input, 1);
         }
 
-        public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, TagKey<Item> input, int count) {
+        public void offerStonecuttingRecipe(RecipeCategory category, ItemLike output, TagKey<Item> input, int count) {
             //? >=1.21 {
-            StonecuttingRecipeJsonBuilder.createStonecutting(ingredientFromTag(input), category, output, count)
-                    .criterion(hasTag(input), conditionsFromTag(input))
-                    .offerTo(this.exporter, getItemPath(output) + "_from_" + getTagName(input) + "_stonecutting");
+            SingleItemRecipeBuilder.stonecutting(ingredientFromTag(input), category, output, count)
+                    .unlockedBy(hasTag(input), has(input))
+                    .save(this.exporter, getItemPath(output) + "_from_" + getTagName(input) + "_stonecutting");
             //?} else {
             
-            /*SingleItemRecipeJsonBuilder.createStonecutting(Ingredient.fromTag(input), category, output, count)
-                .criterion(hasTag(input), conditionsFromTag(input))
-                .offerTo(generator(), getItemPath(output) + "_from_" + getTagName(input) + "_stonecutting");
+            /*SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), category, output, count)
+                .unlockedBy(hasTag(input), has(input))
+                .save(generator(), getItemPath(output) + "_from_" + getTagName(input) + "_stonecutting");
              
             *///?}
         }
 
-        public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input) {
+        public void offerStonecuttingRecipe(RecipeCategory category, ItemLike output, ItemLike input) {
             offerStonecuttingRecipe(category, output, input, 1);
         }
 
-        public void offerStonecuttingRecipe(RecipeCategory category, ItemConvertible output, ItemConvertible input, int count) {
+        public void offerStonecuttingRecipe(RecipeCategory category, ItemLike output, ItemLike input, int count) {
             //? >=1.21 {
-            StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(input), category, output, count)
-                    .criterion(hasItem(input), conditionsFromItem(input))
-                    .offerTo(this.exporter, getItemPath(output) + "_from_" + getItemPath(input) + "_stonecutting");
+            SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), category, output, count)
+                    .unlockedBy(getHasName(input), has(input))
+                    .save(this.exporter, getItemPath(output) + "_from_" + getItemPath(input) + "_stonecutting");
             //?} else {
             
-            /*SingleItemRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(input), category, output, count)
-                .criterion(hasItem(input), conditionsFromItem(input))
-                .offerTo(generator(), getItemPath(output) + "_from_" + getItemPath(input) + "_stonecutting");
+            /*SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), category, output, count)
+                .unlockedBy(getHasName(input), has(input))
+                .save(generator(), getItemPath(output) + "_from_" + getItemPath(input) + "_stonecutting");
              
             *///?}
         }
 
-        public CraftingRecipeJsonBuilder createDoorRecipe(ItemConvertible output, Ingredient input) {
+        public RecipeBuilder createDoorRecipe(ItemLike output, Ingredient input) {
             return createShaped(RecipeCategory.REDSTONE, output, 3)
-                    .input('#', input)
+                    .define('#', input)
                     .pattern("##")
                     .pattern("##")
                     .pattern("##");
         }
 
-        public void offerSmelting(TagKey<Item> tag, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group
+        public void oreSmelting(TagKey<Item> tag, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group
         ) {
-            offerMultipleOptions(RecipeSerializer.SMELTING, //? if >1.20.1
+            offerMultipleOptions(RecipeSerializer.SMELTING_RECIPE, //? if >1.20.1
                     SmeltingRecipe::new,
                     tag, category, output, experience, cookingTime, group, "_from_smelting");
         }
 
-        public void offerBlasting(TagKey<Item> tag, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group
+        public void oreBlasting(TagKey<Item> tag, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group
         ) {
-            offerMultipleOptions(RecipeSerializer.BLASTING, //? if >1.20.1
+            offerMultipleOptions(RecipeSerializer.BLASTING_RECIPE, //? if >1.20.1
                     BlastingRecipe::new,
                     tag, category, output, experience, cookingTime, group, "_from_blasting");
         }
@@ -639,28 +649,28 @@ public class RecipeProvider extends FabricRecipeProvider {
         public<T extends AbstractCookingRecipe> void offerMultipleOptions(
                 RecipeSerializer<T> serializer,
                 //? if >1.20.1
-                AbstractCookingRecipe.RecipeFactory<T> recipeFactory,
+                AbstractCookingRecipe.Factory<T> recipeFactory,
                 TagKey<Item> tag,
                 RecipeCategory category,
-                ItemConvertible output,
+                ItemLike output,
                 float experience,
                 int cookingTime,
                 String group,
                 String suffix
         ) {
-            CookingRecipeJsonBuilder.create(ingredientFromTag(tag), category, output, experience, cookingTime, serializer //? if >1.20.1
+            SimpleCookingRecipeBuilder.generic(ingredientFromTag(tag), category, output, experience, cookingTime, serializer //? if >1.20.1
                     , recipeFactory
             )
                     .group(group)
-                    .criterion(hasTag(tag), conditionsFromTag(tag))
-                    .offerTo(exporter, getItemPath(output) + suffix + "_" + getTagName(tag));
+                    .unlockedBy(hasTag(tag), has(tag))
+                    .save(exporter, getItemPath(output) + suffix + "_" + getTagName(tag));
         }
 
         public Ingredient ingredientFromTag(TagKey<Item> tag) {
             //? >=1.21.3 {
-            return generator().ingredientFromTag(tag);
+            return generator().tag(tag);
             //?} else {
-            /*return Ingredient.fromTag(tag);
+            /*return Ingredient.of(tag);
             *///?}
         }
     }
@@ -669,11 +679,11 @@ public class RecipeProvider extends FabricRecipeProvider {
         return "has_" + getTagName(tag);
     }
 
-    public static String getItemPath(ItemConvertible item) {
-        return Registries.ITEM.getId(item.asItem()).getPath();
+    public static String getItemPath(ItemLike item) {
+        return BuiltInRegistries.ITEM.getKey(item.asItem()).getPath();
     }
 
     public static String getTagName(TagKey<Item> tag) {
-        return tag.id().getPath();
+        return tag.location().getPath();
     }
 }

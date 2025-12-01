@@ -1,10 +1,10 @@
 package net.paulem.simpleores.migration;
 
 //? hasCopperTools {
-/*import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+/*import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.paulem.simpleores.stonecutter.SCId;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class CopperMigration {
     //? hasCopperTools {
-    /*private static final Set<Identifier> MIGRATE_ITEMS = Set.of(
+    /*private static final Set<ResourceLocation> MIGRATE_ITEMS = Set.of(
             "copper_sword",
             "copper_pickaxe",
             "copper_axe",
@@ -22,20 +22,20 @@ public class CopperMigration {
             "copper_chestplate",
             "copper_leggings",
             "copper_boots"
-    ).stream().map(s -> SCIdentifier.of(SimpleOres.MOD_ID, s)).collect(Collectors.toUnmodifiableSet());
+    ).stream().map(s -> SCId.of(SimpleOres.MOD_ID, s)).collect(Collectors.toUnmodifiableSet());
 
-    private static final Set<Identifier> MIGRATE_BLOCKS = Set.of(
+    private static final Set<ResourceLocation> MIGRATE_BLOCKS = Set.of(
             "copper_bars"
-    ).stream().map(s -> SCIdentifier.of(SimpleOres.MOD_ID, s)).collect(Collectors.toUnmodifiableSet());
+    ).stream().map(s -> SCId.of(SimpleOres.MOD_ID, s)).collect(Collectors.toUnmodifiableSet());
 
     public static void migrate() {
         MIGRATE_ITEMS.forEach(identifier -> {
-            Registries.ITEM.addAlias(identifier, SCIdentifier.ofVanilla(identifier.getPath()));
+            BuiltInRegistries.ITEM.addAlias(identifier, SCId.ofVanilla(identifier.getPath()));
         });
 
         MIGRATE_BLOCKS.forEach(identifier -> {
-            Registries.BLOCK.addAlias(identifier, SCIdentifier.ofVanilla(identifier.getPath()));
-            Registries.ITEM.addAlias(identifier, SCIdentifier.ofVanilla(identifier.getPath()));
+            BuiltInRegistries.BLOCK.addAlias(identifier, SCId.ofVanilla(identifier.getPath()));
+            BuiltInRegistries.ITEM.addAlias(identifier, SCId.ofVanilla(identifier.getPath()));
         });
     }
     *///?}

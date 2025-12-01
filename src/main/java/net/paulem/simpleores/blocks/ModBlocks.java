@@ -1,176 +1,186 @@
 package net.paulem.simpleores.blocks;
 
 import com.google.common.base.Function;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.math.intprovider.IntProvider;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.custom.MultifunctionPressurePlateBlock;
-import net.minecraft.block.*;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.intprovider.UniformIntProvider;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.paulem.simpleores.stonecutter.SCAccess;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipBlockItem;
 import net.paulem.simpleores.tooltip.TooltipBlock;
 
 import java.util.LinkedHashMap;
 
 public class ModBlocks {
-    public static final LinkedHashMap<Identifier, BlockItem> registeredBlockItems = new LinkedHashMap<>();
+    public static final LinkedHashMap<ResourceLocation, BlockItem> registeredBlockItems = new LinkedHashMap<>();
 
-    private static AbstractBlock.Settings SCBlockSettings(RegistryKey<Block> key, AbstractBlock.Settings settings) {
+    private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<Block> key, BlockBehaviour.Properties settings) {
         return settings
                 //? if >1.21
-                .registryKey(key)
+                .setId(key)
         ;
     }
 
     // RAW METAL BLOCKS
     public static final Block RAW_TIN_BLOCK = registerBlock("raw_tin_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.IRON_GRAY)
-                    .sounds(BlockSoundGroup.STONE)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .sound(SoundType.STONE)
                     .strength(4.0F, 6.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
     public static final Block RAW_MYTHRIL_BLOCK = registerBlock("raw_mythril_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BLUE)
-                    .sounds(BlockSoundGroup.STONE)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .sound(SoundType.STONE)
                     .strength(7.0F, 6.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
     public static final Block RAW_ADAMANTIUM_BLOCK = registerBlock("raw_adamantium_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GREEN)
-                    .sounds(BlockSoundGroup.STONE)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .sound(SoundType.STONE)
                     .strength(7.0F, 12.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
 
     // METAL BLOCKS
     public static final Block TIN_BLOCK = registerBlock("tin_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.IRON_GRAY)
-                    .sounds(BlockSoundGroup.METAL)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .sound(SoundType.METAL)
                     .strength(4.0F, 6.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
     public static final Block MYTHRIL_BLOCK = registerBlock("mythril_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BLUE)
-                    .sounds(BlockSoundGroup.METAL)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLUE)
+                    .sound(SoundType.METAL)
                     .strength(7.0F, 6.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
     public static final Block ADAMANTIUM_BLOCK = registerBlock("adamantium_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.GREEN)
-                    .sounds(BlockSoundGroup.METAL)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .sound(SoundType.METAL)
                     .strength(7.0F, 12.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
     public static final Block ONYX_BLOCK = registerBlock("onyx_block", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BLACK)
-                    .sounds(BlockSoundGroup.METAL)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .sound(SoundType.METAL)
                     .strength(20.0F, 100.0F)
-                    .requiresTool())));
+                    .requiresCorrectToolForDrops())));
 
-    public static ExperienceDroppingBlock makeExperienceDroppingBlock(IntProvider intProvider, AbstractBlock.Settings settings) {
+    public static DropExperienceBlock makeExperienceDroppingBlock(IntProvider intProvider, BlockBehaviour.Properties settings) {
         //? if >1.20.1 {
-        return new ExperienceDroppingBlock(intProvider, settings);
+        return new DropExperienceBlock(intProvider, settings);
         //?} else {
-        /*return new ExperienceDroppingBlock(settings, intProvider);
+        /*return new DropExperienceBlock(settings, intProvider);
         *///?}
     }
 
     // ORE BLOCKS
-    public static final ExperienceDroppingBlock TIN_ORE = registerBlock("tin_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(2, 5), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.STONE_GRAY)
-                    .requiresTool()
+    public static final DropExperienceBlock TIN_ORE = registerBlock("tin_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
                     .strength(3.0F)
             )));
-    public static final ExperienceDroppingBlock DEEPSLATE_TIN_ORE = registerBlock("deepslate_tin_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(2, 5), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.STONE_GRAY)
-                    .sounds(BlockSoundGroup.DEEPSLATE)
-                    .requiresTool()
+    public static final DropExperienceBlock DEEPSLATE_TIN_ORE = registerBlock("deepslate_tin_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .sound(SoundType.DEEPSLATE)
+                    .requiresCorrectToolForDrops()
                     .strength(3.0F)
             )));
-    public static final ExperienceDroppingBlock MYTHRIL_ORE = registerBlock("mythril_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(2, 5), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.STONE_GRAY)
-                    .requiresTool()
+    public static final DropExperienceBlock MYTHRIL_ORE = registerBlock("mythril_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
                     .strength(4.0F, 3.0F)
             )));
-    public static final ExperienceDroppingBlock DEEPSLATE_MYTHRIL_ORE = registerBlock("deepslate_mythril_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(2, 5), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.STONE_GRAY)
-                    .sounds(BlockSoundGroup.DEEPSLATE)
-                    .requiresTool()
+    public static final DropExperienceBlock DEEPSLATE_MYTHRIL_ORE = registerBlock("deepslate_mythril_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .sound(SoundType.DEEPSLATE)
+                    .requiresCorrectToolForDrops()
                     .strength(4.0F, 3.0F)
             )));
-    public static final ExperienceDroppingBlock ADAMANTIUM_ORE = registerBlock("adamantium_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(2, 5), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.STONE_GRAY)
-                    .requiresTool()
+    public static final DropExperienceBlock ADAMANTIUM_ORE = registerBlock("adamantium_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
                     .strength(5.0F, 3.0F)
             )));
-    public static final ExperienceDroppingBlock DEEPSLATE_ADAMANTIUM_ORE = registerBlock("deepslate_adamantium_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(2, 5), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.STONE_GRAY)
-                    .sounds(BlockSoundGroup.DEEPSLATE)
-                    .requiresTool()
+    public static final DropExperienceBlock DEEPSLATE_ADAMANTIUM_ORE = registerBlock("deepslate_adamantium_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .sound(SoundType.DEEPSLATE)
+                    .requiresCorrectToolForDrops()
                     .strength(5.0F, 3.0F)
             )));
-    public static final ExperienceDroppingBlock ONYX_ORE = registerBlock("onyx_ore", key ->
-            makeExperienceDroppingBlock(UniformIntProvider.create(9, 14), SCBlockSettings(key, AbstractBlock.Settings.create()
-                    .mapColor(MapColor.BLACK)
-                    .requiresTool()
+    public static final DropExperienceBlock ONYX_ORE = registerBlock("onyx_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(9, 14), SCBlockSettings(key, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .requiresCorrectToolForDrops()
                     .strength(7.0F, 3.0F)
             )));
+    
+    private static final SCAccess<Block, BlockBehaviour.Properties> copyAccess = new SCAccess<>(//? if >1.20.1 {
+            BlockBehaviour.Properties::ofFullCopy
+    //?} else {
+            //BlockBehaviour.Properties::copy
+    //?}
+    );
 
     // Blocks - bricks - Simple Ores
 //    public static Block copper_bricks = registerBlock("copper_bricks",
-//            new Block(BlockBehaviour.Properties.copy(Blocks.COPPER_BLOCK)));
+//            new Block(copyAccess.get(Blocks.COPPER_BLOCK)));
     public static Block TIN_BRICKS = registerBlock("tin_bricks", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.copy(TIN_BLOCK))));
+            new Block(SCBlockSettings(key, copyAccess.get(TIN_BLOCK))));
     public static Block ONYX_BRICKS = registerBlock("onyx_bricks", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.copy(ONYX_BLOCK))));
+            new Block(SCBlockSettings(key, copyAccess.get(ONYX_BLOCK))));
     public static Block ADAMANTIUM_BRICKS = registerBlock("adamantium_bricks", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.copy(ADAMANTIUM_BLOCK))));
+            new Block(SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BLOCK))));
     public static Block MYTHRIL_BRICKS = registerBlock("mythril_bricks", key ->
-            new Block(SCBlockSettings(key, AbstractBlock.Settings.copy(MYTHRIL_BLOCK))));
+            new Block(SCBlockSettings(key, copyAccess.get(MYTHRIL_BLOCK))));
 
     // blocks - slabs
     public static SlabBlock TIN_BRICK_SLAB = registerBlock("tin_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, AbstractBlock.Settings.copy(TIN_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, copyAccess.get(TIN_BRICKS))));
     public static SlabBlock ONYX_BRICK_SLAB = registerBlock("onyx_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, AbstractBlock.Settings.copy(ONYX_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, copyAccess.get(ONYX_BRICKS))));
     public static SlabBlock MYTHRIL_BRICK_SLAB = registerBlock("mythril_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, AbstractBlock.Settings.copy(MYTHRIL_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, copyAccess.get(MYTHRIL_BRICKS))));
     public static SlabBlock ADAMANTIUM_BRICK_SLAB = registerBlock("adamantium_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, AbstractBlock.Settings.copy(ADAMANTIUM_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BRICKS))));
 
     // Blocks - stairs - simpleores
-//    public static StairsBlock copper_brick_stairs = registerBlock("copper_brick_stairs",
-//            new StairsBlock( copper_bricks.getDefaultState(),
-//                                   BlockBehaviour.Properties.copy(copper_bricks)));
-    public static StairsBlock tin_brick_stairs = registerBlock("tin_brick_stairs", key ->
-            new StairsBlock(TIN_BRICKS.getDefaultState(),
-                    SCBlockSettings(key, AbstractBlock.Settings.copy(TIN_BRICKS))));
-    public static StairsBlock onyx_brick_stairs = registerBlock("onyx_brick_stairs", key ->
-            new StairsBlock(ONYX_BRICKS.getDefaultState(),
-                    SCBlockSettings(key, AbstractBlock.Settings.copy(ONYX_BRICKS))));
-    public static StairsBlock adamantium_brick_stairs = registerBlock("adamantium_brick_stairs", key ->
-            new StairsBlock(ADAMANTIUM_BRICKS.getDefaultState(),
-                    SCBlockSettings(key, AbstractBlock.Settings.copy(ADAMANTIUM_BRICKS))));
-    public static StairsBlock mythril_brick_stairs = registerBlock("mythril_brick_stairs", key ->
-            new StairsBlock(MYTHRIL_BRICKS.getDefaultState(),
-                    SCBlockSettings(key, AbstractBlock.Settings.copy(MYTHRIL_BRICKS))));
+//    public static StairBlock copper_brick_stairs = registerBlock("copper_brick_stairs",
+//            new StairBlock( copper_bricks.defaultBlockState(),
+//                                   copyAccess.get(copper_bricks)));
+    public static StairBlock tin_brick_stairs = registerBlock("tin_brick_stairs", key ->
+            new StairBlock(TIN_BRICKS.defaultBlockState(),
+                    SCBlockSettings(key, copyAccess.get(TIN_BRICKS))));
+    public static StairBlock onyx_brick_stairs = registerBlock("onyx_brick_stairs", key ->
+            new StairBlock(ONYX_BRICKS.defaultBlockState(),
+                    SCBlockSettings(key, copyAccess.get(ONYX_BRICKS))));
+    public static StairBlock adamantium_brick_stairs = registerBlock("adamantium_brick_stairs", key ->
+            new StairBlock(ADAMANTIUM_BRICKS.defaultBlockState(),
+                    SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BRICKS))));
+    public static StairBlock mythril_brick_stairs = registerBlock("mythril_brick_stairs", key ->
+            new StairBlock(MYTHRIL_BRICKS.defaultBlockState(),
+                    SCBlockSettings(key, copyAccess.get(MYTHRIL_BRICKS))));
 
-    public static DoorBlock makeDoor(BlockSetType blockSetType, AbstractBlock.Settings settings) {
+    public static DoorBlock makeDoor(BlockSetType blockSetType, BlockBehaviour.Properties settings) {
         //? if >1.20.1 {
         return new DoorBlock(blockSetType, settings);
         //?} else {
@@ -180,87 +190,87 @@ public class ModBlocks {
 
     // Blocks - doors - simpleores
     /*public static DoorBlock copper_door = registerBlock("copper_door", key ->
-            makeDoor(BlockSetType.COPPER, AbstractBlock.Settings.create().mapColor(MapColor.ORANGE)
-                    .requiresTool().strength(3.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY)));*/ // Already present on 1.21+
+            makeDoor(BlockSetType.COPPER, BlockBehaviour.Properties.of().mapColor(MapColor.ORANGE)
+                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)));*/ // Already present on 1.21+
     public static DoorBlock tin_door = registerBlock("tin_door", key ->
-            makeDoor(BlockSetType.IRON, SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY)
-                    .requiresTool().strength(4.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY))));
+            makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops().strength(4.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
     public static DoorBlock adamantium_door = registerBlock("adamantium_door", key ->
-            makeDoor(BlockSetType.IRON, SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.GREEN)
-                    .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY))));
+            makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .requiresCorrectToolForDrops().strength(7.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
     public static DoorBlock onyx_door = registerBlock("onyx_door", key ->
-            makeDoor(BlockSetType.STONE, SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.SPRUCE_BROWN)
-                    .requiresTool().strength(20.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY))));
+            makeDoor(BlockSetType.STONE, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL)
+                    .requiresCorrectToolForDrops().strength(20.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
     public static DoorBlock mythril_door = registerBlock("mythril_door", key ->
-            makeDoor(BlockSetType.IRON, SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.BLUE)
-                    .requiresTool().strength(7.0F).nonOpaque().pistonBehavior(PistonBehavior.DESTROY))));
+            makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
+                    .requiresCorrectToolForDrops().strength(7.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
 
     // Blocks - bars - simpleores
     //? if !hasCopperTools {
-    public static PaneBlock copper_bars = registerBlock("copper_bars", key ->
-            new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
-                    .strength(3.0F).requiresTool().sounds(BlockSoundGroup.METAL).nonOpaque())));
+    public static IronBarsBlock copper_bars = registerBlock("copper_bars", key ->
+            new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
+                    .strength(3.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())));
     //?}
-    public static PaneBlock tin_bars = registerBlock("tin_bars", key ->
-            new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
-                    .strength(4.0F).requiresTool().sounds(BlockSoundGroup.METAL).nonOpaque())));
-    public static PaneBlock onyx_bars = registerBlock("onyx_bars", key ->
-            new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
-                    .strength(20.0F).requiresTool().sounds(BlockSoundGroup.STONE).nonOpaque())));
-    public static PaneBlock adamantium_bars = registerBlock("adamantium_bars", key ->
-            new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
-                    .strength(7.0F).requiresTool().sounds(BlockSoundGroup.METAL).nonOpaque())));
-    public static PaneBlock mythril_bars = registerBlock("mythril_bars", key ->
-            new PaneBlock(SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.CLEAR)
-                    .strength(7.0F).requiresTool().sounds(BlockSoundGroup.METAL).nonOpaque())));
+    public static IronBarsBlock tin_bars = registerBlock("tin_bars", key ->
+            new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
+                    .strength(4.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())));
+    public static IronBarsBlock onyx_bars = registerBlock("onyx_bars", key ->
+            new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
+                    .strength(20.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).noOcclusion())));
+    public static IronBarsBlock adamantium_bars = registerBlock("adamantium_bars", key ->
+            new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
+                    .strength(7.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())));
+    public static IronBarsBlock mythril_bars = registerBlock("mythril_bars", key ->
+            new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
+                    .strength(7.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())));
 
     // Blocks - pressure plates
     public static final MultifunctionPressurePlateBlock copper_pressure_plate = registerBlock("copper_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(15, MultifunctionPressurePlateBlock.Sensitivity.LIVING_WEIGHTED, 10,
-                    SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.ORANGE)
-                            .noCollision().strength(0.5F).sounds(BlockSoundGroup.COPPER)), BlockSetType.IRON));
+                    SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
+                            .noCollission().strength(0.5F).sound(SoundType.COPPER)), BlockSetType.IRON));
 
     public static final MultifunctionPressurePlateBlock tin_pressure_plate = registerBlock("tin_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(15, MultifunctionPressurePlateBlock.Sensitivity.EVERYTHING_WEIGHTED, 10,
-                    SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY)
-                            .noCollision().strength(0.5F).sounds(BlockSoundGroup.METAL)), BlockSetType.IRON));
+                    SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                            .noCollission().strength(0.5F).sound(SoundType.METAL)), BlockSetType.IRON));
 
     public static final MultifunctionPressurePlateBlock mythril_pressure_plate = registerBlock("mythril_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(75, MultifunctionPressurePlateBlock.Sensitivity.MOBS_WEIGHTED, 10,
-                    SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.BLUE)
-                            .noCollision().strength(0.5F).sounds(BlockSoundGroup.METAL)),BlockSetType.GOLD));
+                    SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
+                            .noCollission().strength(0.5F).sound(SoundType.METAL)),BlockSetType.GOLD));
 
     public static final MultifunctionPressurePlateBlock adamantium_pressure_plate = registerBlock("adamantium_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(75, MultifunctionPressurePlateBlock.Sensitivity.EVERYTHING_WEIGHTED, 10,
-                    SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.GREEN)
-                            .noCollision().strength(0.5F).sounds(BlockSoundGroup.METAL)),BlockSetType.GOLD));
+                    SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                            .noCollission().strength(0.5F).sound(SoundType.METAL)),BlockSetType.GOLD));
 
     public static final MultifunctionPressurePlateBlock onyx_pressure_plate = registerBlock("onyx_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(15, MultifunctionPressurePlateBlock.Sensitivity.PLAYERS, 20,
-                    SCBlockSettings(key, AbstractBlock.Settings.create().mapColor(MapColor.BLACK)
-                            .noCollision().strength(0.5F).sounds(BlockSoundGroup.STONE)), BlockSetType.STONE));
+                    SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                            .noCollission().strength(0.5F).sound(SoundType.STONE)), BlockSetType.STONE));
 
-    public static<T extends Block> T registerBlock(String name, Function<RegistryKey<Block>, T> func) {
-        Identifier identifier = SCIdentifier.of(SimpleOres.MOD_ID, name);
+    public static<T extends Block> T registerBlock(String name, Function<ResourceKey<Block>, T> func) {
+        ResourceLocation identifier = SCId.of(SimpleOres.MOD_ID, name);
 
-        RegistryKey<Block> key = RegistryKey.of(Registries.BLOCK.getKey(), SCIdentifier.of(SimpleOres.MOD_ID, name));
+        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(), SCId.of(SimpleOres.MOD_ID, name));
         T block = func.apply(key);
         
         BlockItem blockItem = registerBlockItem(block, identifier);
         registeredBlockItems.put(identifier, blockItem);
-        return Registry.register(Registries.BLOCK, identifier, block);
+        return Registry.register(BuiltInRegistries.BLOCK, identifier, block);
     }
 
-    public static<T extends Block> BlockItem registerBlockItem(T block, Identifier identifier) {
-        RegistryKey<Item> key = RegistryKey.of(Registries.ITEM.getKey(), identifier);
+    public static<T extends Block> BlockItem registerBlockItem(T block, ResourceLocation identifier) {
+        ResourceKey<Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), identifier);
 
-        Item.Settings settings = new Item.Settings()
+        Item.Properties properties = new Item.Properties()
                 //? if >1.21
-                .registryKey(key)
+                .setId(key)
         ;
-        BlockItem blockItem = block instanceof TooltipBlock tooltipBlock ? new TooltipBlockItem(tooltipBlock, settings) : new BlockItem(block, settings);
+        BlockItem blockItem = block instanceof TooltipBlock tooltipBlock ? new TooltipBlockItem(tooltipBlock, properties) : new BlockItem(block, properties);
 
-        return Registry.register(Registries.ITEM, identifier,
+        return Registry.register(BuiltInRegistries.ITEM, identifier,
                 blockItem);
     }
 

@@ -1,30 +1,28 @@
 package net.paulem.simpleores.items.custom;
 
 import net.paulem.simpleores.tooltip.TooltipItem;
-
 //? if >1.21 {
 import net.paulem.simpleores.items.ModItems;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
-
 import java.util.Random;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.Level;
 
 public class MythrilBow extends BowItem implements TooltipItem
 {
     private static final int EFFICIENCY = 50;
     private final Random rng;
 
-    public MythrilBow(Settings builder)
+    public MythrilBow(Properties builder)
     {
         super(builder
                 .enchantable(1)
@@ -35,42 +33,42 @@ public class MythrilBow extends BowItem implements TooltipItem
 
     @Override
     public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
-        tooltips.accept(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
-        tooltips.accept(Text.translatable("tips.efficiency_tooltip").formatted(Formatting.GREEN));
+        tooltips.accept(Component.translatable("tips.damage_tooltip").withStyle(ChatFormatting.GREEN));
+        tooltips.accept(Component.translatable("tips.efficiency_tooltip").withStyle(ChatFormatting.GREEN));
     }
 
     @Override
-    public boolean onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+    public boolean releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
         // add the default enchantments for Mythril bow.
-        ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
+        ItemEnchantments oldEnchants = EnchantmentHelper.getEnchantmentsForCrafting(stack);
         stack = this.addMythrilEnchantments(oldEnchants, stack, worldIn);
 
-        boolean stopped = super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        boolean stopped = super.releaseUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
-        EnchantmentHelper.set(stack, oldEnchants);
+        EnchantmentHelper.setEnchantments(stack, oldEnchants);
         return stopped;
     }// end onPlayerStoppedUsing()
 
-    private ItemStack addMythrilEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
+    private ItemStack addMythrilEnchantments(ItemEnchantments oldEnch, ItemStack stack, Level worldIn)
     {
         if (stack.isEmpty()) return stack;
 
-        ItemEnchantmentsComponent.Builder enchMap = new ItemEnchantmentsComponent.Builder(oldEnch);
+        ItemEnchantments.Mutable enchMap = new ItemEnchantments.Mutable(oldEnch);
 
-        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+        HolderLookup.RegistryLookup<Enchantment> enchantmentImpl = worldIn.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        enchMap.add(enchantmentImpl.getOrThrow(Enchantments.POWER), 2);
+        enchMap.upgrade(enchantmentImpl.getOrThrow(Enchantments.POWER), 2);
 
         // add intrinsic INFINITY enchantment if RNG <= EFFICIENCY.
-        if (rng.nextInt(100) < EFFICIENCY) enchMap.add(enchantmentImpl.getOrThrow(Enchantments.INFINITY), 1);
+        if (rng.nextInt(100) < EFFICIENCY) enchMap.upgrade(enchantmentImpl.getOrThrow(Enchantments.INFINITY), 1);
 
         // add intrinsic enchantments, if any.
-        ItemEnchantmentsComponent tmpEnchMap = enchMap.build();
+        ItemEnchantments tmpEnchMap = enchMap.toImmutable();
         if (!tmpEnchMap.isEmpty()) {
-            EnchantmentHelper.set(stack, tmpEnchMap);
+            EnchantmentHelper.setEnchantments(stack, tmpEnchMap);
         }
         return stack;
     } // end addMythrilEnchantments()
@@ -78,19 +76,19 @@ public class MythrilBow extends BowItem implements TooltipItem
 //?} else if 1.21 {
 
 /*import net.paulem.simpleores.items.ModItems;
-import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
@@ -99,7 +97,7 @@ public class MythrilBow extends BowItem implements TooltipItem
     private static final int EFFICIENCY = 50;
     private final Random rng;
 
-    public MythrilBow(Settings builder)
+    public MythrilBow(Properties builder)
     {
         super(builder);
         rng = new Random();
@@ -107,54 +105,54 @@ public class MythrilBow extends BowItem implements TooltipItem
 
     @Override
     public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
-        tooltips.accept(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
-        tooltips.accept(Text.translatable("tips.efficiency_tooltip").formatted(Formatting.GREEN));
+        tooltips.accept(Component.translatable("tips.damage_tooltip").withStyle(ChatFormatting.GREEN));
+        tooltips.accept(Component.translatable("tips.efficiency_tooltip").withStyle(ChatFormatting.GREEN));
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+    public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
         // add the default enchantments for Mythril bow.
-        ItemEnchantmentsComponent oldEnchants = EnchantmentHelper.getEnchantments(stack);
+        ItemEnchantments oldEnchants = EnchantmentHelper.getEnchantmentsForCrafting(stack);
         stack = this.addMythrilEnchantments(oldEnchants, stack, worldIn);
 
-        super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        super.releaseUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
-        EnchantmentHelper.set(stack, oldEnchants);
+        EnchantmentHelper.setEnchantments(stack, oldEnchants);
     }// end onPlayerStoppedUsing()
 
-    private ItemStack addMythrilEnchantments(ItemEnchantmentsComponent oldEnch, ItemStack stack, World worldIn)
+    private ItemStack addMythrilEnchantments(ItemEnchantments oldEnch, ItemStack stack, Level worldIn)
     {
         if (stack.isEmpty()) return stack;
 
-        ItemEnchantmentsComponent.Builder enchMap = new ItemEnchantmentsComponent.Builder(oldEnch);
+        ItemEnchantments.Mutable enchMap = new ItemEnchantments.Mutable(oldEnch);
 
-        RegistryWrapper.Impl<Enchantment> enchantmentImpl = worldIn.getRegistryManager().getWrapperOrThrow(RegistryKeys.ENCHANTMENT);
+        HolderLookup.RegistryLookup<Enchantment> enchantmentImpl = worldIn.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        enchMap.add(enchantmentImpl.getOrThrow(Enchantments.POWER), 2);
+        enchMap.set(enchantmentImpl.getOrThrow(Enchantments.POWER), 2);
 
         // add intrinsic INFINITY enchantment if RNG <= EFFICIENCY.
-        if (rng.nextInt(100) < EFFICIENCY) enchMap.add(enchantmentImpl.getOrThrow(Enchantments.INFINITY), 1);
+        if (rng.nextInt(100) < EFFICIENCY) enchMap.set(enchantmentImpl.getOrThrow(Enchantments.INFINITY), 1);
 
         // add intrinsic enchantments, if any.
-        ItemEnchantmentsComponent tmpEnchMap = enchMap.build();
+        ItemEnchantments tmpEnchMap = enchMap.toImmutable();
         if (!tmpEnchMap.isEmpty()) {
-            EnchantmentHelper.set(stack, tmpEnchMap);
+            EnchantmentHelper.setEnchantments(stack, tmpEnchMap);
         }
         return stack;
     } // end addMythrilEnchantments()
 
     @Override
-    public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate)
+    public boolean isValidRepairItem(ItemStack pStack, ItemStack pRepairCandidate)
     {
-        return this.getRepairIngredient().test(pRepairCandidate) || super.canRepair(pStack, pRepairCandidate);
+        return this.getRepairIngredient().test(pRepairCandidate) || super.isValidRepairItem(pStack, pRepairCandidate);
     }
 
     public Ingredient getRepairIngredient()
     {
-        return Ingredient.ofItems(ModItems.MYTHRIL_ROD);
+        return Ingredient.of(ModItems.MYTHRIL_ROD);
     }
 }  // end class MythrilBow
  
@@ -162,16 +160,16 @@ public class MythrilBow extends BowItem implements TooltipItem
 
 /*import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import net.paulem.simpleores.tags.ModTags;
 
@@ -185,7 +183,7 @@ public class MythrilBow extends BowItem implements TooltipItem
     private static final int EFFICIENCY = 50;
     private final Random rng;
 
-    public MythrilBow(Settings builder)
+    public MythrilBow(Properties builder)
     {
         super(builder);
         rng = new Random();
@@ -193,21 +191,21 @@ public class MythrilBow extends BowItem implements TooltipItem
 
     @Override
     public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
-        tooltips.accept(Text.translatable("tips.damage_tooltip").formatted(Formatting.GREEN));
-        tooltips.accept(Text.translatable("tips.efficiency_tooltip").formatted(Formatting.GREEN));
+        tooltips.accept(Component.translatable("tips.damage_tooltip").withStyle(ChatFormatting.GREEN));
+        tooltips.accept(Component.translatable("tips.efficiency_tooltip").withStyle(ChatFormatting.GREEN));
     }
 
     @Override
-    public void onStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft)
+    public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft)
     {
         // add the default enchantments for Mythril bow.
-        Map<Enchantment, Integer> enchMap = EnchantmentHelper.get(stack);
+        Map<Enchantment, Integer> enchMap = EnchantmentHelper.getEnchantments(stack);
         stack = this.addMythrilEnchantments(enchMap, stack);
 
-        super.onStoppedUsing(stack, worldIn, entityLiving, timeLeft);
+        super.releaseUsing(stack, worldIn, entityLiving, timeLeft);
 
         // remove temporary intrinsic enchantments.
-        EnchantmentHelper.set(enchMap, stack);
+        EnchantmentHelper.setEnchantments(enchMap, stack);
     }
 
     private ItemStack addMythrilEnchantments(Map<Enchantment,Integer> oldEnch, ItemStack stack)
@@ -218,33 +216,33 @@ public class MythrilBow extends BowItem implements TooltipItem
 
         // add intrinsic POWER enchantment only if bow does not already have
         // one >= 2.
-        if (!(enchMap.containsKey(Enchantments.POWER) && enchMap.get(Enchantments.POWER) > 1) )
+        if (!(enchMap.containsKey(Enchantments.POWER_ARROWS) && enchMap.get(Enchantments.POWER_ARROWS) > 1) )
         {
-            enchMap.put(Enchantments.POWER, 2);
+            enchMap.put(Enchantments.POWER_ARROWS, 2);
         }
 
         // add intrinsic INFINITY enchantment if RNG <= EFFICIENCY.
-        if (!enchMap.containsKey(Enchantments.INFINITY))
+        if (!enchMap.containsKey(Enchantments.INFINITY_ARROWS))
         {
-            if (rng.nextInt(100) < EFFICIENCY) enchMap.put(Enchantments.INFINITY, 1);
+            if (rng.nextInt(100) < EFFICIENCY) enchMap.put(Enchantments.INFINITY_ARROWS, 1);
         }
 
         // add intrinsic enchantments, if any.
         if (!enchMap.isEmpty()) {
-            EnchantmentHelper.set(enchMap, stack);
+            EnchantmentHelper.setEnchantments(enchMap, stack);
         }
         return stack;
     } // end addMythrilEnchantments()
 
     @Override
-    public boolean canRepair(ItemStack pStack, ItemStack pRepairCandidate)
+    public boolean isValidRepairItem(ItemStack pStack, ItemStack pRepairCandidate)
     {
-        return this.getRepairIngredient().test(pRepairCandidate) || super.canRepair(pStack, pRepairCandidate);
+        return this.getRepairIngredient().test(pRepairCandidate) || super.isValidRepairItem(pStack, pRepairCandidate);
     }
 
     public Ingredient getRepairIngredient()
     {
-        return Ingredient.fromTag(ModTags.Items.Conventional.MYTHRIL_RODS);
+        return Ingredient.of(ModTags.Items.Conventional.MYTHRIL_RODS);
     }
 }  // end class MythrilBow
  

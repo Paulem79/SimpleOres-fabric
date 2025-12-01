@@ -1,7 +1,7 @@
 package net.paulem.simpleores.config;
 
 import me.shedaniel.autoconfig.annotation.Config;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.items.ModToolMaterials;
 import me.shedaniel.autoconfig.ConfigData;

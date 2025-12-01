@@ -3,10 +3,8 @@
   "package": "net.paulem.simpleores.mixin",
   "compatibilityLevel": "${compatibility_level}",
   "mixins": [
-    "BlockInteractShearsMixin",
-    "EntityInteractShearsMixin",
+    "ItemStackMixin",
     "MatchToolConditionMixin",
-    "TripwireBlockMixin",
     "accessor.HolderSetDirectAccessor",
     "accessor.ItemPredicateAccessor",
     "accessor.WeightedPressurePlateBlockAccessor",

@@ -1,7 +1,8 @@
 package net.paulem.simpleores.tooltip;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
 import java.util.List;
 
 /**
@@ -14,16 +15,16 @@ public interface TooltipItem {
     record TooltipAccept(
             // TODO: Why
             // if >1.21.6
-            //Consumer<Text> tooltips
+            //Consumer<Component> tooltips
             // if <=1.21.5
-            List<Text> tooltips
+            List<Component> tooltips
     ) {
-        public void accept(Text text) {
+        public void accept(Component component) {
             // TODO: Why
             // if >1.21.6
-            //tooltips.accept(text);
+            //tooltips.accept(component);
             // if <=1.21.5
-            tooltips.add(text);
+            tooltips.add(component);
         }
     }
 }

@@ -6,31 +6,35 @@ package net.paulem.simpleores.bucket.tint;
 
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
-import net.minecraft.client.data.ItemModels;
-import net.minecraft.client.render.item.tint.TintSource;
-import net.minecraft.client.texture.SpriteContents;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.ColorHelper;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
-import net.minecraft.client.texture.Sprite;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientBucketUtil {
-    // Cache pour éviter de recalculer la couleur dominante des mêmes fluides
+    // Cache to avoid recomputing dominant colors for the same fluids
     private static final Map<Fluid, Integer> DOMINANT_COLOR_CACHE = new ConcurrentHashMap<>();
     private static final Map<String, Integer> COLOR_AT_CACHE = new ConcurrentHashMap<>();
 
     public static Fluid getContainedFluid(ItemStack stack) {
         Item item = stack.getItem();
 
-        if(item instanceof CustomChildrenBucketItem bucketItem) {
+        if (item instanceof CustomChildrenBucketItem bucketItem) {
             return bucketItem.getFluid();
         }
 
@@ -38,30 +42,30 @@ public class ClientBucketUtil {
     }
 
     public static int getWaterLikeColor(Fluid fluid, int defaultColor) {
-        int color = ColorHelper.withAlpha(255, defaultColor);
+        int color = ARGB.color(255, defaultColor);
 
         FluidRenderHandler fluidRenderHandler;
         if (fluid == Fluids.EMPTY || (fluidRenderHandler = FluidRenderHandlerRegistry.INSTANCE.get(fluid)) == null) {
             return color;
         }
 
-        int handlerColor = fluidRenderHandler.getFluidColor(null, null, fluid.getDefaultState());
-        color = ColorHelper.withAlpha(255, handlerColor);
+        int handlerColor = fluidRenderHandler.getFluidColor(null, null, fluid.defaultFluidState());
+        color = ARGB.color(255, handlerColor);
 
-        if(color == -1){
-            // Si déjà calculé -> utiliser le cache
+        if (color == -1) {
+            // If already computed, use the cache
             Integer cached = DOMINANT_COLOR_CACHE.get(fluid);
             if (cached != null) {
-                return ColorHelper.withAlpha(255, cached);
+                return ARGB.color(255, cached);
             }
 
-            // Récupération des sprites du fluide
-            Sprite[] sprites = fluidRenderHandler.getFluidSprites(null, null, fluid.getDefaultState());
+            // Retrieve fluid sprites
+            TextureAtlasSprite[] sprites = fluidRenderHandler.getFluidSprites(null, null, fluid.defaultFluidState());
             if (sprites != null && sprites.length > 0 && sprites[0] != null) {
                 Integer dominant = computeDominantOpaqueColor(sprites[0]);
                 if (dominant != null) {
                     DOMINANT_COLOR_CACHE.put(fluid, dominant);
-                    return ColorHelper.withAlpha(255, dominant);
+                    return ARGB.color(255, dominant);
                 }
             }
         }
@@ -69,28 +73,27 @@ public class ClientBucketUtil {
         return color;
     }
 
-    // Calcule la couleur opaque la plus fréquente dans le premier frame du sprite.
-    private static Integer computeDominantOpaqueColor(Sprite sprite) {
+    // Compute the most frequent opaque color in the first sprite frame.
+    private static Integer computeDominantOpaqueColor(TextureAtlasSprite sprite) {
         try {
-            int frame = 0; // premier frame suffisant pour une couleur dominante
-            int width = sprite.getContents().getWidth();
-            int height = sprite.getContents().getHeight();
+            int frame = 0; // first frame is enough for a dominant color
+            int width = sprite.contents().width();
+            int height = sprite.contents().height();
             if (width <= 0 || height <= 0) return null;
 
-            SpriteContents contents = sprite.getContents();
+            SpriteContents contents = sprite.contents();
 
             Map<Integer, Integer> colorCount = new HashMap<>();
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     int argb = getPixelColor(contents, frame, 0, x, y);
                     int a = (argb >>> 24) & 0xFF;
-                    if (a <= 16) continue; // ignore (nearly) transparent pixels to avoid background influence
+                    if (a <= 16) continue; // ignore nearly transparent pixels to avoid background influence
                     int rgb = argb & 0xFFFFFF;
                     colorCount.put(rgb, colorCount.getOrDefault(rgb, 0) + 1);
                 }
             }
 
-            // Find most frequent color
             int dominantColor = 0;
             int maxCount = 0;
             for (Map.Entry<Integer, Integer> entry : colorCount.entrySet()) {
@@ -102,33 +105,31 @@ public class ClientBucketUtil {
 
             return maxCount > 0 ? dominantColor : null;
         } catch (Throwable t) {
-            return null; // En cas d'incompatibilité de méthode (mappings) ou autre
+            return null; // Bail out on mapping differences or other issues
         }
     }
 
     public static int getColorAt(Fluid fluid, int defaultColor, int x, int y) {
-        int color = ColorHelper.withAlpha(255, defaultColor);
+        int color = ARGB.color(255, defaultColor);
 
         String cacheKey = fluid.toString() + ":" + x + ":" + y;
 
         Integer cached = COLOR_AT_CACHE.get(cacheKey);
         if (cached != null) {
-            return ColorHelper.withAlpha(255, cached);
+            return ARGB.color(255, cached);
         }
 
         FluidRenderHandler fluidRenderHandler;
-        // If the fluid is empty or the render handler is null, return the default color
         if (fluid == Fluids.EMPTY || (fluidRenderHandler = FluidRenderHandlerRegistry.INSTANCE.get(fluid)) == null) {
             return color;
         }
 
-        // If the color is -1, try to get the color from the sprites
-        Sprite[] sprites = fluidRenderHandler.getFluidSprites(null, null, fluid.getDefaultState());
+        TextureAtlasSprite[] sprites = fluidRenderHandler.getFluidSprites(null, null, fluid.defaultFluidState());
         if (sprites != null && sprites.length > 0 && sprites[0] != null) {
             Integer at = getColorAt(sprites[0], x, y);
             if (at != null) {
                 COLOR_AT_CACHE.put(cacheKey, at);
-                return ColorHelper.withAlpha(255, at);
+                return ARGB.color(255, at);
             }
         }
 
@@ -139,24 +140,24 @@ public class ClientBucketUtil {
     /**
      * Get the color at the given coordinates in the sprite.
      */
-    private static Integer getColorAt(Sprite sprite, int x, int y) {
+    private static Integer getColorAt(TextureAtlasSprite sprite, int x, int y) {
         try {
-            int frame = 0; // premier frame
-            int width = sprite.getContents().getWidth();
-            int height = sprite.getContents().getHeight();
+            int frame = 0; // first frame
+            int width = sprite.contents().width();
+            int height = sprite.contents().height();
             if (width <= 0 || height <= 0) return null;
 
-            SpriteContents contents = sprite.getContents();
+            SpriteContents contents = sprite.contents();
 
             int argb = getPixelColor(contents, frame, 0, x, y);
             int a = (argb >>> 24) & 0xFF;
-            if (a <= 16) return 0x00FF00; // ignore (nearly) transparent pixels to avoid background influence
+            if (a <= 16) return 0x00FF00; // ignore nearly transparent pixels to avoid background influence
 
             int rgb = argb & 0xFFFFFF;
 
             return rgb;
         } catch (Throwable t) {
-            return null; // En cas d'incompatibilité de méthode (mappings) ou autre
+            return null; // Bail out on mapping differences or other issues
         }
     }
     
@@ -164,22 +165,22 @@ public class ClientBucketUtil {
      * {@return the pixel color at frame {@code frameIndex} within mipmap {@code layer} at sprite relative coordinates}
      */
     private static int getPixelColor(SpriteContents contents, int frameIndex, int layer, int x, int y) {
-        @Nullable SpriteContents.Animation animation = contents.animation;
-        if(animation == null) return getNotAnimatedPixelColor(contents, layer, x, y);
+        @Nullable SpriteContents.AnimatedTexture animation = contents.animatedTexture;
+        if (animation == null) return getNotAnimatedPixelColor(contents, layer, x, y);
         else return getAnimatedPixelColor(contents, animation, frameIndex, layer, x, y);
     }
 
     private static int getNotAnimatedPixelColor(SpriteContents contents, int layer, int x, int y) {
-        return contents.mipmapLevelsImages[layer]
-                .getColorArgb(
+        return contents.byMipLevel[layer]
+                .getPixel(
                         x, y
                 );
     }
 
-    private static int getAnimatedPixelColor(SpriteContents contents, SpriteContents.Animation animation, int frameIndex, int layer, int x, int y) {
-        return contents.mipmapLevelsImages[layer]
-                .getColorArgb(
-                        x + (animation.getFrameX(frameIndex) * contents.getWidth() >> layer), y + (animation.getFrameY(frameIndex) * contents.getHeight() >> layer)
+    private static int getAnimatedPixelColor(SpriteContents contents, SpriteContents.AnimatedTexture animation, int frameIndex, int layer, int x, int y) {
+        return contents.byMipLevel[layer]
+                .getPixel(
+                        x + (animation.getFrameX(frameIndex) * contents.width() >> layer), y + (animation.getFrameY(frameIndex) * contents.height() >> layer)
                 );
     }
 
@@ -193,19 +194,19 @@ public class ClientBucketUtil {
             Arrays.asList(5, 6, 7, 8, 9, 10)
     );
 
-    public static TintSource[] getDefaultTints(CustomChildrenBucketItem child) {
-        List<TintSource> tintSources = new ArrayList<>();
+    public static ItemTintSource[] getDefaultTints(CustomChildrenBucketItem child) {
+        List<ItemTintSource> tintSources = new ArrayList<>();
 
-        tintSources.add(ItemModels.constantTintSource(-1));
+        tintSources.add(ItemModelUtils.constantTint(-1));
         for (List<Integer> row : OVERLAY_COORDS) {
             for (Integer x : row) {
                 int y = OVERLAY_COORDS.indexOf(row) + OVERLAY_COORDS_Y_OFFSET;
-                TintSource tintSource = new BucketLayerTintSource(ColorHelper.withAlpha(255, 0xFFFFFF), x, y);
+                ItemTintSource tintSource = new BucketLayerTintSource(ARGB.color(255, 0xFFFFFF), x, y);
                 tintSources.add(tintSource);
             }
         }
 
-        return tintSources.toArray(new TintSource[0]);
+        return tintSources.toArray(new ItemTintSource[0]);
     }
 }
 //?}

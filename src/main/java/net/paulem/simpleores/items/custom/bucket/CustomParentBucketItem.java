@@ -6,16 +6,16 @@ package net.paulem.simpleores.items.custom.bucket;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import org.apache.commons.lang3.function.TriFunction;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.paulem.simpleores.stonecutter.SCId;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,24 +25,24 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     private final String baseName;
     private final Map<Fluid, CustomChildrenBucketItem> buckets = new HashMap<>();
     private final TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar;
-    private final RegistryKey<Item> key;
-    private final Identifier modelId;
+    private final ResourceKey<Item> key;
+    private final ResourceLocation modelId;
 
-    public CustomParentBucketItem(RegistryKey<Item> key, String baseName, Fluid fluid, Settings settings, TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar) {
-        super(fluid, settings.registryKey(key));
+    public CustomParentBucketItem(ResourceKey<Item> key, String baseName, Fluid fluid, Item.Properties settings, TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar) {
+        super(fluid, settings.setId(key));
 
         this.key = key;
-        this.modelId = settings.getModelId();
+        this.modelId = settings.effectiveModel();
         this.baseName = baseName;
         this.registrar = registrar;
     }
 
-    public void registerFluid(Identifier identifier, Fluid modFluid) {
+    public void registerFluid(ResourceLocation identifier, Fluid modFluid) {
         if(modFluid == null || modFluid == Fluids.EMPTY) return;
 
         String fluidName = identifier.getPath();
         // If it's not the still fluid
-        if(!modFluid.isStill(modFluid.getDefaultState())) {
+        if(!modFluid.isSource(modFluid.defaultFluidState())) {
             return;
         }
 
@@ -73,37 +73,37 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     }
 
     // Compat with Bucket Lib
-    public Text getName(ItemStack stack, Fluid fluid) {
-        if(fluid == Fluids.EMPTY) return Text.translatable(this.getTranslationKey(), "");
+    public Component getName(ItemStack stack, Fluid fluid) {
+        if(fluid == Fluids.EMPTY) return Component.translatable(this.getDescriptionId(), "");
 
-        String descriptionId = this.getTranslationKey();
-        Text argument;
+        String descriptionId = this.getDescriptionId();
+        Component argument;
         descriptionId += ".filled";
         argument = getFluidDescription(fluid);
 
-        return Text.translatable(descriptionId, argument);
+        return Component.translatable(descriptionId, argument);
     }
 
     @Override
-    public Text getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         return getName(stack, Fluids.EMPTY);
     }
 
-    public RegistryKey<Item> getKey() {
+    public ResourceKey<Item> getKey() {
         return key;
     }
 
-    public Text getFluidDescription(Fluid fluid) {
+    public Component getFluidDescription(Fluid fluid) {
         return FluidVariantAttributes.getName(FluidVariant.of(fluid));
     }
 
-    public Identifier getModelWithOverlay(Fluid fluid) {
+    public ResourceLocation getModelWithOverlay(Fluid fluid) {
         if(isWaterLike(fluid)) {
-            return SCIdentifier.of(modelId.getNamespace(), baseName + "_water_bucket");
+            return SCId.of(modelId.getNamespace(), baseName + "_water_bucket");
         }
 
         // Every non-tintable fluids uses lava model, because it's always generated and tint computation is done at runtime.
-        return SCIdentifier.of(modelId.getNamespace(), baseName + "_lava_bucket");
+        return SCId.of(modelId.getNamespace(), baseName + "_lava_bucket");
     }
 }
 //?}

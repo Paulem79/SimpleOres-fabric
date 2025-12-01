@@ -1,12 +1,12 @@
 package net.paulem.simpleores.tags;
 
 import net.fabricmc.fabric.impl.tag.convention.v2.TagRegistration;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.paulem.simpleores.SimpleOres;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.stonecutter.SCTag;
 
 public class ModTags {
@@ -15,7 +15,7 @@ public class ModTags {
                 createTag("ores");
 
         public static TagKey<Block> createTag(String name) {
-            return TagKey.of(RegistryKeys.BLOCK, SCIdentifier.of(SimpleOres.MOD_ID, name));
+            return TagKey.create(Registries.BLOCK, SCId.of(SimpleOres.MOD_ID, name));
         }
 
         public static class Conventional {
@@ -88,7 +88,7 @@ public class ModTags {
                 createTag("repairs_onyx_items");
 
         private static TagKey<Item> createTag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, SCIdentifier.of(SimpleOres.MOD_ID, name));
+            return TagKey.create(Registries.ITEM, SCId.of(SimpleOres.MOD_ID, name));
         }
 
         public static class Conventional {

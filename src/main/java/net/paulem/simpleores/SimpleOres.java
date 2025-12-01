@@ -2,10 +2,13 @@ package net.paulem.simpleores;
 
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.config.SimpleOresConfig;
-import net.minecraft.util.Identifier;
+//? !hasBucketlib
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
-import net.minecraft.fluid.Fluid;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
 import net.paulem.simpleores.items.ItemGroups;
 import net.paulem.simpleores.items.ModItems;
@@ -14,9 +17,6 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,8 +64,10 @@ public class SimpleOres implements ModInitializer {
 			}
 		});
         *///?} else {
-        RegistryEntryAddedCallback.allEntries(Registries.FLUID, fluidReference -> {
-            Identifier identifier = fluidReference.registryKey().getValue();
+        RegistryEntryAddedCallback.allEntries(BuiltInRegistries.FLUID, fluidReference -> {
+            ResourceLocation identifier = fluidReference.key() //$location
+                    .location(
+            );
             Fluid modFluid = fluidReference.value();
 
             ModItems.registeredItems.values().forEach(item -> {
@@ -83,7 +85,7 @@ public class SimpleOres implements ModInitializer {
         //? hasBucketlib && >1.21.3
         /*CopperBucketMigration.migrate();*/
 
-		Registry.register(Registries.ITEM_GROUP, SCIdentifier.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
+		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, SCId.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
 
 		ModWorldGeneration.generateModWorldGen();
 

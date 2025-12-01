@@ -4,14 +4,14 @@ import com.google.common.collect.ImmutableList;
 import net.paulem.simpleores.mixin.accessor.HolderSetDirectAccessor;
 import net.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.condition.MatchToolLootCondition;
-import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,8 +27,8 @@ import org.spongepowered.asm.mixin.Shadow;*/
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(MatchToolLootCondition.class)
-public abstract class MatchToolConditionMixin implements LootCondition {
+@Mixin(MatchTool.class)
+public abstract class MatchToolConditionMixin implements LootItemCondition {
     //? if 1.20.1 {
     
     /*@SuppressWarnings("ShadowModifiers")
@@ -44,7 +44,7 @@ public abstract class MatchToolConditionMixin implements LootCondition {
         //? if 1.20.1 {
         /*if (((ItemPredicateAccessor) predicate).getItems() != null) ITEM_PREDICATES.add(predicate);
         *///?} else {
-        ((MatchToolLootCondition)(Object)this).predicate().ifPresent(ITEM_PREDICATES::add);
+        ((MatchTool)(Object)this).predicate().ifPresent(ITEM_PREDICATES::add);
         //?}
     }
 
@@ -54,8 +54,8 @@ public abstract class MatchToolConditionMixin implements LootCondition {
             
             /*if (!client) {
                 List<Item> shears = new ArrayList<>();
-                for (RegistryEntry<Item> entry :
-                        Registries.ITEM.getOrCreateEntryList(ModTags.Items.SHEARS))
+                for (Holder<Item> entry :
+                        BuiltInRegistries.ITEM.getOrCreateTag(ModTags.Items.SHEARS))
                     shears.add(entry.value());
 
                 for (ItemPredicate p : ITEM_PREDICATES) {
@@ -73,21 +73,21 @@ public abstract class MatchToolConditionMixin implements LootCondition {
              
              *///?} else {
                 //? if <=1.21 {
-                /*RegistryEntryList.Named<Item> modShears = Registries.ITEM.getEntryList(ModTags.Items.SHEARS).get();
+                /*HolderSet.Named<Item> modShears = BuiltInRegistries.ITEM.getTag(ModTags.Items.SHEARS).get();
                 *///?} else {
-                RegistryEntryList.Named<Item> modShears = Registries.ITEM.getOrThrow(ModTags.Items.SHEARS);
+                HolderSet.Named<Item> modShears = BuiltInRegistries.ITEM.getOrThrow(ModTags.Items.SHEARS);
                 //?}
-                RegistryEntry<Item> shearsHolder = Registries.ITEM.getEntry(Items.SHEARS);
+                Holder<Item> shearsHolder = BuiltInRegistries.ITEM.wrapAsHolder(Items.SHEARS);
                 //add mod shears to all MatchTool predicates that contains vanilla shears
-                for (RegistryEntry<Item> modShear : modShears) {
+                for (Holder<Item> modShear : modShears) {
                     for (ItemPredicate itemPredicate : ITEM_PREDICATES) {
                         itemPredicate.items().ifPresent(holders -> {
-                            if (holders instanceof RegistryEntryList.Direct && holders.contains(shearsHolder) && !holders.contains(modShear)) {
+                            if (holders instanceof HolderSet.Direct && holders.contains(shearsHolder) && !holders.contains(modShear)) {
                                 HolderSetDirectAccessor<Item> accessor = ((HolderSetDirectAccessor<Item>) holders);
-                                ArrayList<RegistryEntry<Item>> newList = new ArrayList<>(accessor.getEntries());
+                                ArrayList<Holder<Item>> newList = new ArrayList<>(accessor.getContents());
                                 newList.add(modShear);
-                                accessor.setEntries(ImmutableList.copyOf(newList));
-                                accessor.setEntrySet(null); //reset contents set
+                                accessor.setContents(ImmutableList.copyOf(newList));
+                                accessor.setContentsSet(null); //reset contents set
                             }
                         });
                     }

@@ -1,19 +1,22 @@
 package net.paulem.simpleores.blocks.custom;
 
-import net.minecraft.block.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.WeightedPressurePlateBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.phys.AABB;
 import net.paulem.simpleores.mixin.accessor.WeightedPressurePlateBlockAccessor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import net.paulem.simpleores.tooltip.TooltipBlock;
 
 import java.util.List;
@@ -39,7 +42,7 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
      * @param pProperties - usually @code{Block.Properties.of(Material.STONE).noCollission().strength(0.5F).sound(SoundType.STONE)}
      */
     public MultifunctionPressurePlateBlock(int pMaxWeight, MultifunctionPressurePlateBlock.Sensitivity pSensitify,
-                                           int pPressedTime, AbstractBlock.Settings pProperties,
+                                           int pPressedTime, BlockBehaviour.Properties pProperties,
                                            BlockSetType pSetType)
     {
         super(pMaxWeight,
@@ -58,35 +61,35 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
 
 
     @Override
-    protected int getTickRate()
+    protected int getPressedTime()
     {
         return this.pressTime;
     }
 
 
     @Override
-    protected int getRedstoneOutput(World pWorld, BlockPos pPos)
+    protected int getSignalStrength(Level pWorld, BlockPos pPos)
     {
         List<? extends Entity> list;
-        Box aabb = BOX.offset(pPos);
+        AABB aabb = TOUCH_AABB.move(pPos);
 
         switch(this.sensitivity)
         {
             case EVERYTHING:
             case EVERYTHING_WEIGHTED:
-                list = pWorld.getOtherEntities(null, aabb);
+                list = pWorld.getEntities(null, aabb);
                 break;
             case LIVING:
             case LIVING_WEIGHTED:
-                list = pWorld.getEntitiesByClass(LivingEntity.class, aabb, arg0 -> ! (arg0 instanceof ArmorStandEntity));
+                list = pWorld.getEntitiesOfClass(LivingEntity.class, aabb, arg0 -> ! (arg0 instanceof ArmorStand));
                 break;
             case MOBS:
             case MOBS_WEIGHTED:
-                list = pWorld.getNonSpectatingEntities(MobEntity.class, aabb);
+                list = pWorld.getEntitiesOfClass(Mob.class, aabb);
                 break;
             case PLAYERS:
             case PLAYERS_WEIGHTED:
-                list = pWorld.getNonSpectatingEntities(PlayerEntity.class, aabb);
+                list = pWorld.getEntitiesOfClass(Player.class, aabb);
                 break;
             default:
                 return 0;
@@ -94,11 +97,11 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
 
         if (is_weighted)
         {
-            int i = Math.min(list.size(), ((WeightedPressurePlateBlockAccessor) this).getWeight());
+            int i = Math.min(list.size(), ((WeightedPressurePlateBlockAccessor) this).getMaxWeight());
             if (i > 0)
             {
-                float f = (float) i / (float) ((WeightedPressurePlateBlockAccessor) this).getWeight();
-                return MathHelper.ceil(f * 15.0F);
+                float f = (float) i / (float) ((WeightedPressurePlateBlockAccessor) this).getMaxWeight();
+                return Mth.ceil(f * 15.0F);
             }
             else
             {
@@ -111,7 +114,7 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
             {
                 for (Entity entity : list)
                 {
-                    if (!entity.canAvoidTraps())
+                    if (!entity.isIgnoringBlockTriggers())
                     {
                         return 15;
                     }
@@ -122,14 +125,14 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
     } // end getSignalStrenth()
 
     @Override
-    protected int getRedstoneOutput(BlockState pState)
+    protected int getSignalForState(BlockState pState)
     {
         if (is_weighted)
         {
-            return pState.get(POWER);
+            return pState.getValue(POWER);
         }
         else {
-            return pState.get(POWER) > 0 ? 15 : 0;
+            return pState.getValue(POWER) > 0 ? 15 : 0;
         }
     } // end getSignalForState()
 
@@ -144,7 +147,7 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
             case PLAYERS, PLAYERS_WEIGHTED -> "tips.pressure_plate.players";
         };
 
-        tooltips.accept(Text.translatable(tipKey).formatted(Formatting.GREEN));
+        tooltips.accept(Component.translatable(tipKey).withStyle(ChatFormatting.GREEN));
     }
 
 

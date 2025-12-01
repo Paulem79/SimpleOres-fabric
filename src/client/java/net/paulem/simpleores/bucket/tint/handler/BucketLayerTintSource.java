@@ -8,12 +8,12 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.item.tint.TintSource;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.dynamic.Codecs;
+import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 import net.paulem.simpleores.bucket.tint.ClientBucketUtil;
 import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
@@ -22,22 +22,22 @@ import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
  * Represents a tint for a bucket layer, corresponding to one pixel in the texture.
  */
 @Environment(EnvType.CLIENT)
-public record BucketLayerTintSource(int defaultColor, int x, int y) implements TintSource {
+public record BucketLayerTintSource(int defaultColor, int x, int y) implements ItemTintSource {
     public static final MapCodec<BucketLayerTintSource> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance
                     .group(
-                            Codecs.RGB.fieldOf("default")
+                            ExtraCodecs.RGB_COLOR_CODEC.fieldOf("default")
                                     .forGetter(BucketLayerTintSource::defaultColor),
-                            Codecs.NON_NEGATIVE_INT.fieldOf("x")
+                            ExtraCodecs.NON_NEGATIVE_INT.fieldOf("x")
                                     .forGetter(BucketLayerTintSource::x),
-                            Codecs.NON_NEGATIVE_INT.fieldOf("y")
+                            ExtraCodecs.NON_NEGATIVE_INT.fieldOf("y")
                                     .forGetter(BucketLayerTintSource::y)
                     )
                     .apply(instance, BucketLayerTintSource::new)
     );
 
     @Override
-    public int getTint(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity user) {
+    public int calculate(ItemStack stack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity) {
         Fluid fluid = ClientBucketUtil.getContainedFluid(stack);
         if(CustomChildrenBucketItem.isWaterLike(fluid) || (x == Integer.MAX_VALUE && y == Integer.MAX_VALUE)) {
             return ClientBucketUtil.getWaterLikeColor(fluid, defaultColor);
@@ -47,7 +47,7 @@ public record BucketLayerTintSource(int defaultColor, int x, int y) implements T
     }
 
     @Override
-    public MapCodec<? extends TintSource> getCodec() {
+    public MapCodec<? extends ItemTintSource> type() {
         return CODEC;
     }
 }

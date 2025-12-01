@@ -1,7 +1,5 @@
 package net.paulem.simpleores.items;
 
-import net.minecraft.fluid.Fluids;
-import net.minecraft.registry.RegistryKey;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
@@ -9,13 +7,16 @@ import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.items.custom.MythrilBow;
 import net.paulem.simpleores.items.custom.OnyxBow;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.dispenser.ShearsDispenserBehavior;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
-import net.paulem.simpleores.stonecutter.SCIdentifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.material.Fluids;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.util.ConcurrentFifoMap;
 
 //? hasBucketlib {
@@ -24,7 +25,7 @@ import com.google.common.base.Suppliers;*/
 //?}
 
 public class ModItems {
-    public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();
+    public static final ConcurrentFifoMap<ResourceLocation, Item> registeredItems = new ConcurrentFifoMap<>();
 
     // ingots and nuggets
     public static final Item TIN_INGOT = register("tin_ingot", Item::new);
@@ -61,9 +62,9 @@ public class ModItems {
             ));
     *///?} else {
     public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
-            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Settings().maxCount(16),
+            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Properties().stacksTo(16),
                     (bucketItem, name, fluid) ->
-                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.recipeRemainder(bucketItem).maxCount(1), bucketItem))
+                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.craftRemainder(bucketItem).stacksTo(1), bucketItem))
             )
     );
     //?}
@@ -72,9 +73,9 @@ public class ModItems {
     // TOOLS & WEAPONS
     // bows
     public static final MythrilBow MYTHRIL_BOW = register("mythril_bow", settings ->
-            new MythrilBow(settings.maxDamage(SimpleOres.CONFIG.mythrilBowDurability)));
+            new MythrilBow(settings.durability(SimpleOres.CONFIG.mythrilBowDurability)));
     public static final OnyxBow ONYX_BOW = register("onyx_bow", settings ->
-            new OnyxBow(settings.maxDamage(SimpleOres.CONFIG.onyxBowDurability)));
+            new OnyxBow(settings.durability(SimpleOres.CONFIG.onyxBowDurability)));
 
     // swords: constant dmg 3, eff -2.4
     //? if !hasCopperTools
@@ -177,52 +178,55 @@ public class ModItems {
     public static final AdvancedArmorItem ONYX_BOOTS = register("onyx_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.BOOTS, settings));
 
 
-    public static Item register(String id, Item.Settings settings) {
+    public static Item register(String id, Item.Properties settings) {
         return register(keyOf(id), Item::new, settings);
     }
 
-    public static<T extends Item> T register(String id, java.util.function.Function<Item.Settings, T> factory) {
-        return register(keyOf(id), factory, new Item.Settings());
+    public static<T extends Item> T register(String id, java.util.function.Function<Item.Properties, T> factory) {
+        return register(keyOf(id), factory, new Item.Properties());
     }
 
-    public static<T extends Item> T register(String id, java.util.function.Function<Item.Settings, T> factory, Item.Settings settings) {
+    public static<T extends Item> T register(String id, java.util.function.Function<Item.Properties, T> factory, Item.Properties settings) {
         return register(keyOf(id), factory, settings);
     }
 
-    public static<T extends Item> T register(RegistryKey<Item> key, java.util.function.Function<Item.Settings, T> factory, Item.Settings settings) {
+    public static<T extends Item> T register(ResourceKey<Item> key, java.util.function.Function<Item.Properties, T> factory, Item.Properties settings) {
         T item = factory.apply(settings
                 //? if >1.21
-                .registryKey(key)
+                .setId(key)
         );
-
-        registeredItems.put(key.getValue(), item);
+        registeredItems.put(key //$location
+                .location(
+                ), item);
 
         if (item instanceof BlockItem blockItem) {
-            blockItem.appendBlocks(Item.BLOCK_ITEMS, item);
+            blockItem.registerBlocks(Item.BY_BLOCK, item);
         } else if(item instanceof AdvancedShearsItem) {
-            DispenserBlock.registerBehavior(item, new ShearsDispenserBehavior());
+            DispenserBlock.registerBehavior(item, new ShearsDispenseItemBehavior());
         }
 
-        return Registry.register(Registries.ITEM, key, item);
+        return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 
-    public static<T extends Item> T registerByKey(String id, java.util.function.Function<RegistryKey<Item>, T> factory) {
-        RegistryKey<Item> key = keyOf(id);
+    public static<T extends Item> T registerByKey(String id, java.util.function.Function<ResourceKey<Item>, T> factory) {
+        ResourceKey<Item> key = keyOf(id);
         T item = factory.apply(key);
 
-        registeredItems.put(key.getValue(), item);
+        registeredItems.put(key //$location
+                .location(
+                ), item);
 
         if (item instanceof BlockItem blockItem) {
-            blockItem.appendBlocks(Item.BLOCK_ITEMS, item);
+            blockItem.registerBlocks(Item.BY_BLOCK, item);
         } else if(item instanceof AdvancedShearsItem) {
-            DispenserBlock.registerBehavior(item, new ShearsDispenserBehavior());
+            DispenserBlock.registerBehavior(item, new ShearsDispenseItemBehavior());
         }
 
-        return Registry.register(Registries.ITEM, key, item);
+        return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 
-    private static RegistryKey<Item> keyOf(String id) {
-        return RegistryKey.of(Registries.ITEM.getKey(), SCIdentifier.of(SimpleOres.MOD_ID, id));
+    private static ResourceKey<Item> keyOf(String id) {
+        return ResourceKey.create(BuiltInRegistries.ITEM.key(), SCId.of(SimpleOres.MOD_ID, id));
     }
 
     public static void init() {
