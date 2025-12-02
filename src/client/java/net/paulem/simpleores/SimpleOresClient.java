@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.RenderType;
 *///?}
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-//? if !hasBucketlib
+//? if containsBucket && !hasBucketlib
 import net.minecraft.client.color.item.ItemTintSources;
 
 public class SimpleOresClient implements ClientModInitializer {
@@ -52,7 +52,7 @@ public class SimpleOresClient implements ClientModInitializer {
 			}
 		});
 
-        //? if !hasBucketlib {
+        //? if containsBucket && !hasBucketlib {
         ItemTintSources.ID_MAPPER.put(SCId.of(SimpleOres.MOD_ID, "bucketlayersource"), BucketLayerTintSource.CODEC);
         //?}
 	}

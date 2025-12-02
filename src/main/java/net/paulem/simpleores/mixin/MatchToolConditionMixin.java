@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-//? if 1.20.1 {
+//? if <=1.20.1 {
 /*import com.google.common.collect.ImmutableSet;
 import net.paulem.simpleores.mixin.accessor.ItemPredicateAccessor;
 import org.spongepowered.asm.mixin.Final;
@@ -29,7 +29,7 @@ import java.util.List;
 
 @Mixin(MatchTool.class)
 public abstract class MatchToolConditionMixin implements LootItemCondition {
-    //? if 1.20.1 {
+    //? if <=1.20.1 {
     
     /*@SuppressWarnings("ShadowModifiers")
     @Shadow @Final private ItemPredicate predicate;
@@ -41,7 +41,7 @@ public abstract class MatchToolConditionMixin implements LootItemCondition {
 
     @Inject(at = @At("RETURN"), method = "<init>")
     private void initProxy(CallbackInfo ci) {
-        //? if 1.20.1 {
+        //? if <=1.20.1 {
         /*if (((ItemPredicateAccessor) predicate).getItems() != null) ITEM_PREDICATES.add(predicate);
         *///?} else {
         ((MatchTool)(Object)this).predicate().ifPresent(ITEM_PREDICATES::add);
@@ -50,7 +50,7 @@ public abstract class MatchToolConditionMixin implements LootItemCondition {
 
     static {
         CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
-            //? if 1.20.1 {
+            //? if <=1.20.1 {
             
             /*if (!client) {
                 List<Item> shears = new ArrayList<>();

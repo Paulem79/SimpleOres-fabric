@@ -43,10 +43,13 @@ repositories {
 
 // If this version has BucketLib
 val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
+// If this version has the buckets
+val containsBucket = stonecutter.eval(stonecutter.current.project, ">1.19.4")
 
 val accesswidener = when {
     hasBucketlib -> "hasbucketlib.accesswidener"
-    else -> "nobucketlib.accesswidener"
+    containsBucket -> "nobucketlib.accesswidener"
+    else -> "nobucket.accesswidener"
 }
 
 loom {
@@ -98,8 +101,11 @@ sourceSets {
                     hasBucketlib -> {
                         rootProject.file("sc-resources/main/hasbucketlib")
                     }
-                    else -> {
+                    containsBucket -> {
                         rootProject.file("sc-resources/main/nobucketlib")
+                    }
+                    else -> {
+                        rootProject.file("sc-resources/main/nobucket")
                     }
                 }
             )
@@ -112,8 +118,11 @@ sourceSets {
                 hasBucketlib -> {
                     rootProject.file("sc-resources/client/hasbucketlib")
                 }
-                else -> {
+                containsBucket -> {
                     rootProject.file("sc-resources/client/nobucketlib")
+                }
+                else -> {
+                    rootProject.file("sc-resources/client/nobucket")
                 }
             }
         )
@@ -130,6 +139,7 @@ stonecutter {
     constants.put("hasBucketlib", hasBucketlib)
     dependencies.put("maxVersionRange", property("max_version_range") as String)
     constants.put("hasCopperTools", stonecutter.eval(property("max_version_range") as String, ">1.21.8"))
+    constants.put("containsBucket", containsBucket)
 
 	swaps["armorType"] = when {
 		eval(current.version, "<=1.21") -> "net.minecraft.world.item.ArmorItem.Type"
@@ -153,7 +163,7 @@ stonecutter {
 	}
 
 	swaps["advancementEntry"] = when {
-		eval(current.version, "=1.20.1") -> "net.minecraft.advancements.Advancement"
+		eval(current.version, "<=1.20.1") -> "net.minecraft.advancements.Advancement"
 		else -> "net.minecraft.advancements.AdvancementHolder"
 	}
 
@@ -164,8 +174,28 @@ stonecutter {
 
 	replacements {
         string {
+            direction = eval(current.version, "<=1.19.4")
+            replace("MapColor", "MaterialColor")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.19.4")
+            replace(".pushReaction(PushReaction.DESTROY)", "/*Removed push reaction*/")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.19.4")
+            replace(").mapColor(", "net.minecraft.world.level.material.Material.STONE, ")
+        }
+
+        string {
             direction = eval(current.version, "<=1.20.1")
             replace("AdvancementType", "FrameType")
+        }
+
+        string {
+            direction = eval(current.version, "<=1.20.1")
+            replace("net.minecraft.advancements.AdvancementType", "net.minecraft.advancements.FrameType")
         }
 
         string {
@@ -294,7 +324,7 @@ stonecutter {
 		}
 
 		string {
-			direction = eval(node.metadata.version, "=1.20.1")
+			direction = eval(node.metadata.version, "<=1.20.1")
 			replace(
 				"RecipeOutput ",
 				"java.util.function.Consumer<net.minecraft.data.recipes.FinishedRecipe> "

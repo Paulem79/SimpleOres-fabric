@@ -8,7 +8,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemGroups {
-    public static final CreativeModeTab SIMPLEORES = FabricItemGroup.builder()
+    public static final CreativeModeTab SIMPLEORES = FabricItemGroup.builder(//? if <=1.19.4
+            //net.paulem.simpleores.stonecutter.SCId.of("itemgroup.global")
+            )
             .icon(() ->
                             //? if !hasCopperTools {
                             new ItemStack(ModItems.COPPER_PICKAXE)

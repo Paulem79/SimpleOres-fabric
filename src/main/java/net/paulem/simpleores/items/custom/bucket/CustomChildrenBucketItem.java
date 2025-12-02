@@ -1,6 +1,6 @@
 package net.paulem.simpleores.items.custom.bucket;
 
-//? if hasBucketlib {
+//? if hasBucketlib || !containsBucket {
 /*public class CustomChildrenBucketItem {}
 *///?} else {
 

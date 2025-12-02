@@ -1,6 +1,6 @@
 package net.paulem.simpleores.bucket.tint;
 
-//? if hasBucketlib {
+//? if hasBucketlib || !containsBucket {
 /*public class ClientBucketUtil {}
 *///?} else {
 

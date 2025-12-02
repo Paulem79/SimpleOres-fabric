@@ -1,6 +1,6 @@
 package net.paulem.simpleores.datagen.providers;
 
-//? if !hasBucketlib {
+//? if containsBucket && !hasBucketlib {
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.util.ARGB;
@@ -91,7 +91,7 @@ public class ModelProvider extends FabricModelProvider {
         for (Item item : ModItems.registeredItems.values()) {
             //? if hasBucketlib {
             /*if(item instanceof UniversalBucketItem) continue;
-            *///?} else {
+            *///?} else containsBucket {
             if(item instanceof CustomParentBucketItem parentBucketItem) {
                 itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
                 for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
@@ -137,7 +137,7 @@ public class ModelProvider extends FabricModelProvider {
         }
     }
 
-    //? if !hasBucketlib {
+    //? if containsBucket && !hasBucketlib {
     public final void registerCustomBucketWithOverlay(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource tint) {
         ResourceLocation identifier = itemModelGenerator.generateLayeredItem(item, TextureMapping.getItemTexture(parentBucket), TextureMapping.getItemTexture(parentBucket, "_overlay"));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, ItemModelUtils.constantTint(-1), tint));

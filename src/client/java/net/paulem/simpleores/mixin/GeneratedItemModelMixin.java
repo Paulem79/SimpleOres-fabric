@@ -1,13 +1,15 @@
 package net.paulem.simpleores.mixin;
 
-//? if hasBucketlib {
-/*public class GeneratedItemModelMixin {}
+import org.spongepowered.asm.mixin.Mixin;
+
+//? if hasBucketlib || !containsBucket {
+/*@Mixin
+public class GeneratedItemModelMixin {}
 *///?} else {
 
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.block.model.ItemModelGenerator;
 import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import net.paulem.simpleores.bucket.tint.handler.LayersUploader;

@@ -63,7 +63,7 @@ public class SimpleOres implements ModInitializer {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-        *///?} else {
+        *///?} else if >1.19.4 {
         RegistryEntryAddedCallback.allEntries(BuiltInRegistries.FLUID, fluidReference -> {
             ResourceLocation identifier = fluidReference.key() //$location
                     .location(
@@ -85,7 +85,21 @@ public class SimpleOres implements ModInitializer {
         //? hasBucketlib && >1.21.3
         /*CopperBucketMigration.migrate();*/
 
+        //? if >1.19.4 {
 		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, SCId.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
+        //? } else {
+        /*
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SIMPLEORES).register(content -> {
+			content.addAll(ModBlocks.registeredBlockItems.values()
+					.stream()
+					.map(blockItem -> new ItemStack(blockItem.asItem()))
+					.toList());
+			content.addAll(ModItems.registeredItems.values()
+					.stream()
+					.map(ItemStack::new)
+					.toList());
+		});
+         *///?}
 
 		ModWorldGeneration.generateModWorldGen();
 

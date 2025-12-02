@@ -83,6 +83,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
             );
         //?}
 
+        //? if containsBucket {
         //$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
                 copperBucket = buildAdvancement(
@@ -92,6 +93,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 Component.translatable("advancements.copper_bucket_ach"),
                 Component.translatable("advancements.copper_bucket_ach.desc")
         );
+        //?}
 
         //$ advancementEntry
         net.minecraft.advancements.AdvancementHolder

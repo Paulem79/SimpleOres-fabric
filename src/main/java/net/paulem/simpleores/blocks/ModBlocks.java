@@ -35,46 +35,39 @@ public class ModBlocks {
 
     // RAW METAL BLOCKS
     public static final Block RAW_TIN_BLOCK = registerBlock("raw_tin_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.METAL)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                     .sound(SoundType.STONE)
                     .strength(4.0F, 6.0F)
                     .requiresCorrectToolForDrops())));
     public static final Block RAW_MYTHRIL_BLOCK = registerBlock("raw_mythril_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLUE)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
                     .sound(SoundType.STONE)
                     .strength(7.0F, 6.0F)
                     .requiresCorrectToolForDrops())));
     public static final Block RAW_ADAMANTIUM_BLOCK = registerBlock("raw_adamantium_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GREEN)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                     .sound(SoundType.STONE)
                     .strength(7.0F, 12.0F)
                     .requiresCorrectToolForDrops())));
 
     // METAL BLOCKS
     public static final Block TIN_BLOCK = registerBlock("tin_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.METAL)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                     .sound(SoundType.METAL)
                     .strength(4.0F, 6.0F)
                     .requiresCorrectToolForDrops())));
     public static final Block MYTHRIL_BLOCK = registerBlock("mythril_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLUE)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
                     .sound(SoundType.METAL)
                     .strength(7.0F, 6.0F)
                     .requiresCorrectToolForDrops())));
     public static final Block ADAMANTIUM_BLOCK = registerBlock("adamantium_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GREEN)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                     .sound(SoundType.METAL)
                     .strength(7.0F, 12.0F)
                     .requiresCorrectToolForDrops())));
     public static final Block ONYX_BLOCK = registerBlock("onyx_block", key ->
-            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLACK)
+            new Block(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                     .sound(SoundType.METAL)
                     .strength(20.0F, 100.0F)
                     .requiresCorrectToolForDrops())));
@@ -89,47 +82,40 @@ public class ModBlocks {
 
     // ORE BLOCKS
     public static final DropExperienceBlock TIN_ORE = registerBlock("tin_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                     .requiresCorrectToolForDrops()
                     .strength(3.0F)
             )));
     public static final DropExperienceBlock DEEPSLATE_TIN_ORE = registerBlock("deepslate_tin_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                     .sound(SoundType.DEEPSLATE)
                     .requiresCorrectToolForDrops()
                     .strength(3.0F)
             )));
     public static final DropExperienceBlock MYTHRIL_ORE = registerBlock("mythril_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                     .requiresCorrectToolForDrops()
                     .strength(4.0F, 3.0F)
             )));
     public static final DropExperienceBlock DEEPSLATE_MYTHRIL_ORE = registerBlock("deepslate_mythril_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                     .sound(SoundType.DEEPSLATE)
                     .requiresCorrectToolForDrops()
                     .strength(4.0F, 3.0F)
             )));
     public static final DropExperienceBlock ADAMANTIUM_ORE = registerBlock("adamantium_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                     .requiresCorrectToolForDrops()
                     .strength(5.0F, 3.0F)
             )));
     public static final DropExperienceBlock DEEPSLATE_ADAMANTIUM_ORE = registerBlock("deepslate_adamantium_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
+            makeExperienceDroppingBlock(UniformInt.of(2, 5), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
                     .sound(SoundType.DEEPSLATE)
                     .requiresCorrectToolForDrops()
                     .strength(5.0F, 3.0F)
             )));
     public static final DropExperienceBlock ONYX_ORE = registerBlock("onyx_ore", key ->
-            makeExperienceDroppingBlock(UniformInt.of(9, 14), SCBlockSettings(key, BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLACK)
+            makeExperienceDroppingBlock(UniformInt.of(9, 14), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                     .requiresCorrectToolForDrops()
                     .strength(7.0F, 3.0F)
             )));
@@ -189,9 +175,12 @@ public class ModBlocks {
     }
 
     // Blocks - doors - simpleores
+    // Already present on 1.21+
+    //? if <1.21 {
     /*public static DoorBlock copper_door = registerBlock("copper_door", key ->
-            makeDoor(BlockSetType.COPPER, BlockBehaviour.Properties.of().mapColor(MapColor.ORANGE)
-                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)));*/ // Already present on 1.21+
+            makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
+                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)));*/
+    //?}
     public static DoorBlock tin_door = registerBlock("tin_door", key ->
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                     .requiresCorrectToolForDrops().strength(4.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));

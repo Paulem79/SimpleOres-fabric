@@ -60,7 +60,7 @@ public class ModItems {
                             .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature)
                             .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking))
             ));
-    *///?} else {
+    *///?} else containsBucket {
     public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
             new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Properties().stacksTo(16),
                     (bucketItem, name, fluid) ->

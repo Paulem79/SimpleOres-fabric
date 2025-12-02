@@ -18,7 +18,7 @@ import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 
 @Mixin({LiquidBlock.class})
 public abstract class FluidMixin {
-    //? if !hasBucketlib {
+    //? if containsBucket && !hasBucketlib {
     @Inject(method = "pickupBlock", at = @At("RETURN"), cancellable = true)
     private void injected(@Nullable LivingEntity drainer, LevelAccessor world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
         cir.setReturnValue(getCorrespondingBucket(((LiquidBlock) (Object) this).fluid, drainer, world, pos, state, cir));

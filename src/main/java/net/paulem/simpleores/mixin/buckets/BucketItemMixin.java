@@ -12,7 +12,7 @@ import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 
 @Mixin(BucketItem.class)
 public class BucketItemMixin {
-    //? if !hasBucketlib {
+    //? if containsBucket && !hasBucketlib {
     @Inject(method = "getEmptySuccessItem", at = @At("RETURN"), cancellable = true)
     private static void injected(ItemStack stack, Player player, CallbackInfoReturnable<ItemStack> cir) {
         cir.setReturnValue(getEmptiedStack(stack, player, cir));

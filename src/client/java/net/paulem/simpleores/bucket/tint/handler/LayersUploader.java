@@ -1,6 +1,6 @@
 package net.paulem.simpleores.bucket.tint.handler;
 
-//? if hasBucketlib {
+//? if hasBucketlib || !containsBucket {
 /*public class LayersUploader {}
 *///?} else {
 

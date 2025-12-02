@@ -1,6 +1,6 @@
 package net.paulem.simpleores.mixin.buckets;
 
-//? if !hasBucketlib {
+//? if !hasBucketlib || !containsBucket {
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 //? }
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Item.Properties.class)
 public class ItemSettingsMixin {
-    //? if !hasBucketlib {
+    //? if !hasBucketlib || !containsBucket {
     @Inject(
             method = "buildAndValidateComponents",
             at = @At(
