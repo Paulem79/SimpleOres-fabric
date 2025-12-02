@@ -19,16 +19,5 @@ public class ItemGroups {
                      *///?}
             )
             .title(Component.translatable("item_group." + SimpleOres.MOD_ID + ".simpleores_tab"))
-            .displayItems((displayContext, entries) -> {
-                entries.acceptAll(ModBlocks.registeredBlockItems.values()
-                        .stream()
-                        .map(blockItem -> new ItemStack(blockItem.asItem()))
-                        .toList());
-                entries.acceptAll(ModItems.registeredItems.values()
-                        .stream()
-                        .map(ItemStack::new)
-                        //.sorted(Comparator.comparing(itemStack -> itemStack.getItem().getClass().getName()))
-                        .toList());
-            })
             .build();
 }

@@ -1,8 +1,8 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
-// public class CustomBucketDispenseBehaviour {}
-//?} else {
+ /*public class CustomBucketDispenseBehaviour {}
+*///?} else {
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
@@ -122,8 +122,8 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         Fluid fluid = bucketItem.getFluid();
         //vaporize
         boolean vaporize = //? if >1.21.10 {
-        // level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
-        //?} else {
+         /*level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
+        *///?} else {
         level.dimensionType().ultraWarm();
         //?}
 

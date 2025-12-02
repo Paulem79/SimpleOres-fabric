@@ -20,13 +20,14 @@ import net.paulem.simpleores.stonecutter.SCAccess;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipBlockItem;
 import net.paulem.simpleores.tooltip.TooltipBlock;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;
 
 public class ModBlocks {
     public static final LinkedHashMap<ResourceLocation, BlockItem> registeredBlockItems = new LinkedHashMap<>();
 
-    private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<Block> key, BlockBehaviour.Properties settings) {
+    private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<@NotNull Block> key, BlockBehaviour.Properties settings) {
         return settings
                 //? if >1.21
                 .setId(key)
@@ -123,13 +124,13 @@ public class ModBlocks {
     private static final SCAccess<Block, BlockBehaviour.Properties> copyAccess = new SCAccess<>(//? if >1.20.1 {
             BlockBehaviour.Properties::ofFullCopy
     //?} else {
-            //BlockBehaviour.Properties::copy
-    //?}
+            /*BlockBehaviour.Properties::copy
+    *///?}
     );
 
     // Blocks - bricks - Simple Ores
-//    public static Block copper_bricks = registerBlock("copper_bricks",
-//            new Block(copyAccess.get(Blocks.COPPER_BLOCK)));
+//    public static Block COPPER_BRICKS = registerBlock("copper_bricks", key ->
+//            new Block(SCBlockSettings(key, copyAccess.get(Blocks.COPPER_BLOCK))));
     public static Block TIN_BRICKS = registerBlock("tin_bricks", key ->
             new Block(SCBlockSettings(key, copyAccess.get(TIN_BLOCK))));
     public static Block ONYX_BRICKS = registerBlock("onyx_bricks", key ->
@@ -150,9 +151,9 @@ public class ModBlocks {
             new SlabBlock(SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BRICKS))));
 
     // Blocks - stairs - simpleores
-//    public static StairBlock copper_brick_stairs = registerBlock("copper_brick_stairs",
-//            new StairBlock( copper_bricks.defaultBlockState(),
-//                                   copyAccess.get(copper_bricks)));
+//    public static StairBlock copper_brick_stairs = registerBlock("copper_brick_stairs", key ->
+//           new StairBlock(COPPER_BRICKS.defaultBlockState(),
+//                   SCBlockSettings(key, copyAccess.get(COPPER_BRICKS))));
     public static StairBlock tin_brick_stairs = registerBlock("tin_brick_stairs", key ->
             new StairBlock(TIN_BRICKS.defaultBlockState(),
                     SCBlockSettings(key, copyAccess.get(TIN_BRICKS))));
@@ -178,9 +179,9 @@ public class ModBlocks {
     // Already present on 1.21+
     //? if <1.21 {
     /*public static DoorBlock copper_door = registerBlock("copper_door", key ->
-            makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
-                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)));*/
-    //?}
+            makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of(net.minecraft.world.level.material.Material.STONE, MaterialColor.COLOR_ORANGE)
+                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion()/^Removed push reaction^/));
+    *///?}
     public static DoorBlock tin_door = registerBlock("tin_door", key ->
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                     .requiresCorrectToolForDrops().strength(4.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
@@ -239,10 +240,10 @@ public class ModBlocks {
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                             .noCollission().strength(0.5F).sound(SoundType.STONE)), BlockSetType.STONE));
 
-    public static<T extends Block> T registerBlock(String name, Function<ResourceKey<Block>, T> func) {
+    public static<T extends Block> T registerBlock(String name, Function<ResourceKey<@NotNull Block>, T> func) {
         ResourceLocation identifier = SCId.of(SimpleOres.MOD_ID, name);
 
-        ResourceKey<Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(), SCId.of(SimpleOres.MOD_ID, name));
+        ResourceKey<@NotNull Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(), SCId.of(SimpleOres.MOD_ID, name));
         T block = func.apply(key);
         
         BlockItem blockItem = registerBlockItem(block, identifier);
@@ -251,7 +252,7 @@ public class ModBlocks {
     }
 
     public static<T extends Block> BlockItem registerBlockItem(T block, ResourceLocation identifier) {
-        ResourceKey<Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), identifier);
+        ResourceKey<@NotNull Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), identifier);
 
         Item.Properties properties = new Item.Properties()
                 //? if >1.21

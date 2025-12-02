@@ -71,6 +71,8 @@ loom {
 }
 
 tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
     val bucketlibExpansion = "\", \"bucketlib\": \"*"
     val clientMixinExpansion = "\", \"simpleores_client.mixins.json"
 

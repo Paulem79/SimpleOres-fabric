@@ -18,8 +18,8 @@ import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.items.ModToolMaterials;
 import net.minecraft.Util;
 import net.minecraft.world.item.crafting.Ingredient;
-import java.util.function.Supplier;*/
-//?}
+import java.util.function.Supplier;
+*///?}
 //? if 1.21 {
 /*import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -205,7 +205,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
 import net.paulem.simpleores.config.SimpleOresConfig;
 import net.paulem.simpleores.items.ModToolMaterials;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

@@ -173,11 +173,11 @@ public class RecipeProvider extends FabricRecipeProvider {
     //? if <1.21.3 {
     
     /*@Override
-    public void buildRecipes(RecipeOutput recipeExporter) {
+    public void buildRecipes(java.util.function.Consumer<net.minecraft.data.recipes.FinishedRecipe> recipeExporter) {
         extracted(recipeExporter, recipeExporter);
-    }*/
+    }
      
-    //?} else {
+    *///?} else {
     @Override
     protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
         return new net.minecraft.data.recipes.RecipeProvider(wrapperLookup, recipeExporter) {

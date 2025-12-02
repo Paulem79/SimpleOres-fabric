@@ -30,8 +30,8 @@ public class TooltipBlockItem extends BlockItem implements TooltipItem {
         @Nullable Block block = BuiltInRegistries.BLOCK.//? if >1.21 {
                 getValue
                 //?} else {
-                //get
-                //?}
+                /*get
+                *///?}
                         (ResourceKey.create(BuiltInRegistries.BLOCK.key(), value));
 
         if(block instanceof TooltipItem tooltipItem) {

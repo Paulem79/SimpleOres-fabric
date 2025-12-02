@@ -48,7 +48,6 @@ public class ModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
-
         BlockModelGenerators.BlockFamilyProvider tinBricksPool = blockStateModelGenerator.family(ModBlocks.TIN_BRICKS);
         tinBricksPool.stairs(ModBlocks.tin_brick_stairs);
         tinBricksPool.slab(ModBlocks.TIN_BRICK_SLAB);

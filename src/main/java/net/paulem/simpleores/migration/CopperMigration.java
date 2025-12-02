@@ -2,7 +2,7 @@ package net.paulem.simpleores.migration;
 
 //? hasCopperTools {
 /*import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.stonecutter.SCId;
 
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class CopperMigration {
     //? hasCopperTools {
-    /*private static final Set<ResourceLocation> MIGRATE_ITEMS = Set.of(
+    /*private static final Set<Identifier> MIGRATE_ITEMS = Set.of(
             "copper_sword",
             "copper_pickaxe",
             "copper_axe",
@@ -24,7 +24,7 @@ public class CopperMigration {
             "copper_boots"
     ).stream().map(s -> SCId.of(SimpleOres.MOD_ID, s)).collect(Collectors.toUnmodifiableSet());
 
-    private static final Set<ResourceLocation> MIGRATE_BLOCKS = Set.of(
+    private static final Set<Identifier> MIGRATE_BLOCKS = Set.of(
             "copper_bars"
     ).stream().map(s -> SCId.of(SimpleOres.MOD_ID, s)).collect(Collectors.toUnmodifiableSet());
 

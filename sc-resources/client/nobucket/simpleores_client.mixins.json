@@ -2,9 +2,6 @@
   "required": true,
   "package": "net.paulem.simpleores.mixin",
   "compatibilityLevel": "JAVA_17",
-  "client": [
-    "GeneratedItemModelMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
   }

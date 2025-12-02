@@ -1,13 +1,22 @@
 package net.paulem.simpleores;
 
+//? <=1.19.4
+//import net.minecraft.world.item.CreativeModeTab;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.config.SimpleOresConfig;
-//? !hasBucketlib
+//? containsBucket && !hasBucketlib
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
+import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
 import net.paulem.simpleores.items.ItemGroups;
@@ -22,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 //? hasCopperTools
 //import net.paulem.simpleores.migration.CopperMigration;
-//? !hasBucketlib
+//? containsBucket && !hasBucketlib
 import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 
 //? hasBucketlib && >=1.21.3
@@ -80,26 +89,30 @@ public class SimpleOres implements ModInitializer {
 
 
         //? hasCopperTools
-        /*CopperMigration.migrate();*/
+        //CopperMigration.migrate();
+
+        //? >1.21
+        CopperDoorMigration.migrate();
 
         //? hasBucketlib && >1.21.3
         /*CopperBucketMigration.migrate();*/
 
-        //? if >1.19.4 {
+        //? if >1.19.4
 		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, SCId.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
-        //? } else {
-        /*
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SIMPLEORES).register(content -> {
-			content.addAll(ModBlocks.registeredBlockItems.values()
-					.stream()
-					.map(blockItem -> new ItemStack(blockItem.asItem()))
-					.toList());
-			content.addAll(ModItems.registeredItems.values()
-					.stream()
-					.map(ItemStack::new)
-					.toList());
+
+        ItemGroupEvents.modifyEntriesEvent(//? if >1.19.4 {
+                ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), SCId.of(MOD_ID, "itemgroup.global"))
+                //?} else {
+                //ItemGroups.SIMPLEORES
+                //?}
+        ).register(content -> {
+            for (BlockItem blockItem : ModBlocks.registeredBlockItems.values()) {
+                content.accept(new ItemStack(blockItem.asItem()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+            for (Item item : ModItems.registeredItems.values()) {
+                content.accept(new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
 		});
-         *///?}
 
 		ModWorldGeneration.generateModWorldGen();
 

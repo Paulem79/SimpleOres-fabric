@@ -4,9 +4,9 @@ package net.paulem.simpleores.datagen.providers;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.models.EquipmentAssetProvider;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
-import net.minecraft/*FIXME: IMPORTANT TO AVOID IT BEING REPLACED*/.data.CachedOutput;
-import net.minecraft/*FIXME: IMPORTANT TO AVOID IT BEING REPLACED*/.data.DataProvider;
-import net.minecraft/*FIXME: IMPORTANT TO AVOID IT BEING REPLACED*/.data.PackOutput;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.paulem.simpleores.armors.ModEquipmentClientModels;
 

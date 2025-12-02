@@ -36,8 +36,8 @@ public final class ModEquipmentClientModels
                     .location(
                     )
                 //?} else {
-                /*.modelId()*/
-                //?}
+                /*.modelId()
+                *///?}
         ;
 
         EquipmentClientInfo model = EquipmentClientInfo.builder().addHumanoidLayers(location).build();

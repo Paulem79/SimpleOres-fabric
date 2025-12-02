@@ -45,7 +45,7 @@ public final class ModToolMaterials {
 }
 //?} else {
 
-/*import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+/*import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.world.item.Items;

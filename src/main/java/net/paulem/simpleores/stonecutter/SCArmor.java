@@ -2,8 +2,8 @@ package net.paulem.simpleores.stonecutter;
 
 //? if <=1.21 {
 /*import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.core.Holder;*/
-//?}
+import net.minecraft.core.Holder;
+*///?}
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorMaterial;
@@ -43,42 +43,42 @@ public class SCArmor {
         switch (name) {
             case "copper" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.of(*/
+                        //() -> Ingredient.of(
                         ConventionalItemTags.COPPER_INGOTS
                         //? if <=1.21
-                        /*)*/
+                        //)
                         ;
             }
             case "tin" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.of(*/
+                        //() -> Ingredient.of(
                         ModTags.Items.REPAIRS_TIN_ITEMS
                         //? if <=1.21
-                        /*)*/
+                        //)
                         ;
             }
             case "mythril" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.of(*/
+                        //() -> Ingredient.of(
                         ModTags.Items.REPAIRS_MYTHRIL_ITEMS
                         //? if <=1.21
-                        /*)*/
+                        //)
                         ;
             }
             case "adamantium" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.of(*/
+                        //() -> Ingredient.of(
                         ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS
                         //? if <=1.21
-                        /*)*/
+                        //)
                         ;
             }
             case "onyx" -> {
                 return //? if <=1.21
-                        /*() -> Ingredient.of(*/
+                        //() -> Ingredient.of(
                         ModTags.Items.REPAIRS_ONYX_ITEMS
                         //? if <=1.21
-                        /*)*/
+                        //)
                         ;
             }
             default -> throw new IllegalArgumentException("Unknown armor material: " + name);

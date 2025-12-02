@@ -21,8 +21,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /*import com.google.common.collect.ImmutableSet;
 import net.paulem.simpleores.mixin.accessor.ItemPredicateAccessor;
 import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Shadow;*/
-//?}
+import org.spongepowered.asm.mixin.Shadow;
+*///?}
 
 import java.util.ArrayList;
 import java.util.List;
