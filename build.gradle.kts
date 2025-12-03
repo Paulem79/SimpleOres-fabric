@@ -3,12 +3,12 @@ import net.paulem.buildscript.VersionRangeParser
 
 buildscript {
 	repositories {
-		maven { url = uri("https://maven.paulem.ovh/releases") }
+		maven { url = uri("https://maven.paulem.net/releases") }
 	}
 }
 
 plugins {
-	id("fabric-loom") version "1.13-SNAPSHOT"
+    id("fabric-loom") version "1.13-SNAPSHOT"
 
 	`maven-publish`
 	id("me.shedaniel.unified-publishing") version "0.1.+"
@@ -80,6 +80,7 @@ tasks.processResources {
         "version" to version,
         "min_version_range" to preToBeta("min_version_range"),
         "max_version_range" to preToBeta("max_version_range"),
+        "fabricloader_version" to project.property("deps.fabricloader_version") as String,
         "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
         "aw_file" to accesswidener,
         "client_mixin_expansion" to if (hasBucketlib) "" else clientMixinExpansion,
