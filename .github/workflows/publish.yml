@@ -55,10 +55,11 @@ jobs:
             const script = require('./scripts/download-previous-artifact.js')
             await script({github, context, core})
 
+# Microsoft OpenJDK 25
       - name: 🛠️ Setup jdk 25
         uses: actions/setup-java@v5
         with:
-          distribution: 'jetbrains'
+          distribution: 'zulu'
           java-version: 25
           java-package: jdk
         # To prevent rate limiting on GitHub Actions
