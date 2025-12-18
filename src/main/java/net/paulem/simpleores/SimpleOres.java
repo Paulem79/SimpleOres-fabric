@@ -3,34 +3,34 @@ package net.paulem.simpleores;
 //? <=1.19.4
 //import net.minecraft.world.item.CreativeModeTab;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.blocks.ModBlocks;
-import net.paulem.simpleores.config.SimpleOresConfig;
+import net.paulem.simpleores.config.BaseSimpleOresConfig;
+import net.paulem.simpleores.config.Config;
 //? containsBucket && !hasBucketlib
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluid;
+import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
 import net.paulem.simpleores.items.ItemGroups;
 import net.paulem.simpleores.items.ModItems;
 import net.paulem.simpleores.villagers.ModCustomTrades;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //? hasCopperTools
-//import net.paulem.simpleores.migration.CopperMigration;
+import net.paulem.simpleores.migration.CopperMigration;
 //? containsBucket && !hasBucketlib
 import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 
@@ -45,22 +45,15 @@ import de.cech12.bucketlib.api.item.UniversalBucketItem;
 public class SimpleOres implements ModInitializer {
 	public static final String MOD_ID = "simpleores";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static SimpleOresConfig CONFIG;
+	public static Config CONFIG;
 
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Simple Ores has been initialized!");
 
-		AutoConfig.register(SimpleOresConfig.class, Toml4jConfigSerializer::new);
-
-		CONFIG = new SimpleOresConfig();
-		AutoConfig.getConfigHolder(SimpleOresConfig.class).getConfig();
-
-		try {
-			CONFIG.validatePostLoad();
-		} catch (ConfigData.ValidationException e) {
-			LOGGER.info("Config validation failed");
-		}
+		ConfigLoader<?> configLoader = ConfigLoader.getLoader(FabricLoader.getInstance().isModLoaded("cloth-config2"));
+		configLoader.load();
+		CONFIG = configLoader.getConfig();
 
 		ModBlocks.init();
 		ModItems.init();
@@ -74,8 +67,8 @@ public class SimpleOres implements ModInitializer {
 		});
         *///?} else if >1.19.4 {
         RegistryEntryAddedCallback.allEntries(BuiltInRegistries.FLUID, fluidReference -> {
-            ResourceLocation identifier = fluidReference.key() //$location
-                    .location(
+            Identifier identifier = fluidReference.key() //$location
+                    .identifier(
             );
             Fluid modFluid = fluidReference.value();
 
@@ -89,7 +82,7 @@ public class SimpleOres implements ModInitializer {
 
 
         //? hasCopperTools
-        //CopperMigration.migrate();
+        CopperMigration.migrate();
 
         //? >1.21
         CopperDoorMigration.migrate();
@@ -117,7 +110,7 @@ public class SimpleOres implements ModInitializer {
 		ModWorldGeneration.generateModWorldGen();
 
 		// If trades are enabled
-		if(SimpleOres.CONFIG.enableTrades) {
+		if(SimpleOres.CONFIG.enableTrades()) {
 			ModCustomTrades.registerCustomTrades();
 		}
 	}

@@ -7,7 +7,7 @@ import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.paulem.simpleores.armors.ModEquipmentClientModels;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider
 
     @Override
     public CompletableFuture<?> run(CachedOutput output) {
-        Map<ResourceLocation, EquipmentClientInfo> map = new HashMap<>();
+        Map<Identifier, EquipmentClientInfo> map = new HashMap<>();
         ModEquipmentClientModels.bootstrap((id, model) -> {
             if (map.putIfAbsent(id, model) != null)
             {

@@ -8,17 +8,17 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.config.SimpleOresConfig;
+import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.tags.ModTags;
 
 public final class ModToolMaterials {
-	public static final ToolMaterial COPPER = material(SimpleOres.CONFIG.copperTools, ConventionalItemTags.COPPER_INGOTS);
-	public static final ToolMaterial TIN = material(SimpleOres.CONFIG.tinTools, ModTags.Items.REPAIRS_TIN_ITEMS);
-	public static final ToolMaterial MYTHRIL = material(SimpleOres.CONFIG.mythrilTools, ModTags.Items.REPAIRS_MYTHRIL_ITEMS);
-	public static final ToolMaterial ADAMANTIUM = material(SimpleOres.CONFIG.adamantiumTools, ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS);
-	public static final ToolMaterial ONYX = material(SimpleOres.CONFIG.onyxTools, ModTags.Items.REPAIRS_ONYX_ITEMS);
+	public static final ToolMaterial COPPER = material(SimpleOres.CONFIG.copperTools(), ConventionalItemTags.COPPER_INGOTS);
+	public static final ToolMaterial TIN = material(SimpleOres.CONFIG.tinTools(), ModTags.Items.REPAIRS_TIN_ITEMS);
+	public static final ToolMaterial MYTHRIL = material(SimpleOres.CONFIG.mythrilTools(), ModTags.Items.REPAIRS_MYTHRIL_ITEMS);
+	public static final ToolMaterial ADAMANTIUM = material(SimpleOres.CONFIG.adamantiumTools(), ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS);
+	public static final ToolMaterial ONYX = material(SimpleOres.CONFIG.onyxTools(), ModTags.Items.REPAIRS_ONYX_ITEMS);
 
-	private static ToolMaterial material(SimpleOresConfig.ToolsProperties toolsProperties, TagKey<Item> repairItems) {
+	private static ToolMaterial material(BaseSimpleOresConfig.ToolsProperties toolsProperties, TagKey<Item> repairItems) {
 		TagKey<Block> incorrectBlocksForDrops = switch (toolsProperties.miningLevel()){
 			case WOOD -> BlockTags.INCORRECT_FOR_WOODEN_TOOL;
 			case STONE -> BlockTags.INCORRECT_FOR_STONE_TOOL;
@@ -47,6 +47,7 @@ public final class ModToolMaterials {
 
 /*import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.paulem.simpleores.SimpleOres;
+import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
@@ -58,11 +59,11 @@ import net.minecraft.tags.TagKey;
 import java.util.function.Supplier;
 
 public enum ModToolMaterials implements Tier {
-	COPPER(SimpleOres.CONFIG.copperTools, () -> Ingredient.of(ConventionalItemTags.COPPER_INGOTS)),
-	TIN(SimpleOres.CONFIG.tinTools, () -> Ingredient.of(ModTags.Items.Conventional.TIN_INGOTS)),
-	MYTHRIL(SimpleOres.CONFIG.mythrilTools, () -> Ingredient.of(ModTags.Items.Conventional.MYTHRIL_INGOTS)),
-	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools, () -> Ingredient.of(ModTags.Items.Conventional.ADAMANTIUM_INGOTS)),
-	ONYX(SimpleOres.CONFIG.onyxTools, () -> Ingredient.of(ModTags.Items.Conventional.ONYX_GEMS));
+	COPPER(SimpleOres.CONFIG.copperTools(), () -> Ingredient.of(ConventionalItemTags.COPPER_INGOTS)),
+	TIN(SimpleOres.CONFIG.tinTools(), () -> Ingredient.of(ModTags.Items.Conventional.TIN_INGOTS)),
+	MYTHRIL(SimpleOres.CONFIG.mythrilTools(), () -> Ingredient.of(ModTags.Items.Conventional.MYTHRIL_INGOTS)),
+	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools(), () -> Ingredient.of(ModTags.Items.Conventional.ADAMANTIUM_INGOTS)),
+	ONYX(SimpleOres.CONFIG.onyxTools(), () -> Ingredient.of(ModTags.Items.Conventional.ONYX_GEMS));
 
 	//? if 1.21 {
 	/^private final TagKey<Block> inverseTag;
@@ -94,7 +95,7 @@ public enum ModToolMaterials implements Tier {
 		this.repairIngredient = repairIngredient;
 	}
 
-	ModToolMaterials(SimpleOresConfig.ToolsProperties toolsProperties, Supplier<Ingredient> repairIngredient) {
+	ModToolMaterials(BaseSimpleOresConfig.ToolsProperties toolsProperties, Supplier<Ingredient> repairIngredient) {
 		//? if 1.21 {
 		/^this.inverseTag = switch (toolsProperties.miningLevel()){
 			case WOOD -> BlockTags.INCORRECT_FOR_WOODEN_TOOL;

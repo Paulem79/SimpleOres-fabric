@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.paulem.simpleores.mixin.accessor.HolderSetDirectAccessor;
 import net.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;

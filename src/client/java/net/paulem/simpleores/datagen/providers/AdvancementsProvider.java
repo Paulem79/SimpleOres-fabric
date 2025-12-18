@@ -4,11 +4,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -41,17 +41,17 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                 null,
                 consumer,
                 //? if !hasCopperTools {
-                ModItems.COPPER_PICKAXE,
-                //?} else {
-                /*ModItems.MYTHRIL_PICKAXE,
-                *///?}
+                /*ModItems.COPPER_PICKAXE,
+                *///?} else {
+                ModItems.MYTHRIL_PICKAXE,
+                //?}
                 Component.translatable("advancements.welcome"),
                 Component.translatable("advancements.welcome"),
                 //? if !hasCopperTools {
-                SCId.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
-                //?} else {
-                 /*SCId.ofVanilla("gui/advancements/backgrounds/stone"),
-                *///?}
+                /*SCId.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
+                *///?} else {
+                 SCId.ofVanilla("gui/advancements/backgrounds/stone"),
+                //?}
                 AdvancementType.TASK,
                 false,
                 false,
@@ -72,7 +72,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //? if !hasCopperTools {
-            //$ advancementEntry
+            /*//$ advancementEntry
             net.minecraft.advancements.AdvancementHolder
              pickaxeCopper = buildAdvancement(
                     neitherOrNeitherIron,
@@ -81,7 +81,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
                     Component.translatable("advancements.copper_pick_ach"),
                     Component.translatable("advancements.copper_pick_ach.desc")
             );
-        //?}
+        *///?}
 
         //? if containsBucket {
         //$ advancementEntry
@@ -255,7 +255,7 @@ public class AdvancementsProvider extends FabricAdvancementProvider {
         > consumer, ItemLike icon,
                                                     Component title,
                                                     Component description,
-                                                    @Nullable ResourceLocation background,
+                                                    @Nullable Identifier background,
                                                     AdvancementType frame,
                                                     boolean showToast,
                                                     boolean announceToChat,

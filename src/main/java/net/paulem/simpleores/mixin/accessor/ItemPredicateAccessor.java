@@ -1,6 +1,6 @@
 package net.paulem.simpleores.mixin.accessor;
 
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import org.spongepowered.asm.mixin.Mixin;
 //? if <=1.20.1 {
 /*import net.minecraft.world.item.Item;

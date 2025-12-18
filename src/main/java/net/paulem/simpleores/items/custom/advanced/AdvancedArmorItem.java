@@ -53,17 +53,17 @@ public class AdvancedArmorItem extends
     *///?}
         //? if >1.20.4 {
         if (material == ModArmorMaterials.COPPER){
-            return type.getType().getDurability(SimpleOres.CONFIG.copperArmorDurability);
+            return type.getType().getDurability(SimpleOres.CONFIG.copperArmorDurability());
         } else if(material == ModArmorMaterials.TIN) {
-            return type.getType().getDurability(SimpleOres.CONFIG.tinArmorDurability);
+            return type.getType().getDurability(SimpleOres.CONFIG.tinArmorDurability());
         } else if(material == ModArmorMaterials.MYTHRIL) {
-            return type.getType().getDurability(SimpleOres.CONFIG.mythrilArmorDurability);
+            return type.getType().getDurability(SimpleOres.CONFIG.mythrilArmorDurability());
         } else if(material == ModArmorMaterials.ADAMANTIUM) {
-            return type.getType().getDurability(SimpleOres.CONFIG.adamantiumArmorDurability);
+            return type.getType().getDurability(SimpleOres.CONFIG.adamantiumArmorDurability());
         } else if(material == ModArmorMaterials.ONYX) {
-            return type.getType().getDurability(SimpleOres.CONFIG.onyxArmorDurability);
+            return type.getType().getDurability(SimpleOres.CONFIG.onyxArmorDurability());
         } else {
-            return type.getType().getDurability(SimpleOres.CONFIG.copperArmorDurability);
+            return type.getType().getDurability(SimpleOres.CONFIG.copperArmorDurability());
         }
         //?} else {
         /*return material.getDurabilityForType(type.getType());

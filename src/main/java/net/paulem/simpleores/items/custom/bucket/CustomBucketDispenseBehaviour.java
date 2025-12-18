@@ -122,16 +122,16 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         Fluid fluid = bucketItem.getFluid();
         //vaporize
         boolean vaporize = //? if >1.21.10 {
-         /*level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
-        *///?} else {
-        level.dimensionType().ultraWarm();
-        //?}
+         level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
+        //?} else {
+        /*level.dimensionType().ultraWarm();
+        *///?}
 
         if (vaporize && fluid.defaultFluidState().is(FluidTags.WATER)) {
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
-            level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
+            level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.8F);
             for (int i = 0; i < 8; ++i) {
                 level.addParticle(ParticleTypes.LARGE_SMOKE, (double) x + Math.random(), (double) y + Math.random(), (double) z + Math.random(), 0.0, 0.0, 0.0);
             }

@@ -1,0 +1,10 @@
+{
+  "type": "energizedpower:pulverizer",
+  "ingredient": "simpleores:raw_mythril",
+  "result": {
+    "result": {
+      "id": "simpleores:mythril_dust"
+    },
+    "percentages": [ 1.0, 0.25 ]
+  }
+}

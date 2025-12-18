@@ -1,365 +1,396 @@
 package net.paulem.simpleores.config;
 
-import me.shedaniel.autoconfig.annotation.Config;
-import net.minecraft.Util;
+//? if hasClothConfig {
+/*import me.shedaniel.autoconfig.annotation.Config;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.items.ModToolMaterials;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import net.paulem.simpleores.stonecutter.SCArmor;
+import net.paulem.simpleores.items.ModToolMaterials;
 
 @Config(name = SimpleOres.MOD_ID)
-public class SimpleOresConfig implements ConfigData
+public class SimpleOresConfig implements ConfigData, net.paulem.simpleores.config.Config
 {
-    public static class NotEditable {
-        // ores. Sadly, they are datapack-driven :'( (so not editable in the config)
-        public static int tinOreVeinPerChunks = 10;
-        public static int tinOreBlocksPerVeins = 7;
-        public static int tinVeinVeinPerChunks = 4;
-        public static int tinVeinBlocksPerVeins = 16;
-        public static int mythrilVeinPerChunks = 8;
-        public static int mythrilBlocksPerVeins = 4;
-        public static int adamantiumVeinPerChunks = 4;
-        public static int adamantiumBlocksPerVeins = 4;
-        public static int onyxVeinPerChunks = 5;
-        public static int onyxBlocksPerVeins = 4;
+    @ConfigEntry.Gui.Excluded
+    private final BaseSimpleOresConfig supers = new BaseSimpleOresConfig();
+
+    public static class ToolsProperties extends BaseSimpleOresConfig.ToolsProperties {
+        public ToolsProperties(ModToolMaterials.MiningLevels miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
+            super(miningLevel, itemDurability, miningSpeed, attackDamage, enchantability);
+        }
+    }
+    public static class ArmorProtection extends BaseSimpleOresConfig.ArmorProtection {
+        public ArmorProtection(int helmet, int chestplate, int leggings, int boots, int body, int thoughness, int knockbackProtection, int enchantability) {
+            super(helmet, chestplate, leggings, boots, body, thoughness, knockbackProtection, enchantability);
+        }
     }
 
     // armor
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
-    public int copperArmorDurability = 8;
+    public int copperArmorDurability = supers.copperArmorDurability;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection copperArmorProtection = new ArmorProtection(2, 3, 2, 1, 3, 0, 0, 8);
+    public BaseSimpleOresConfig.ArmorProtection copperArmorProtection = supers.copperArmorProtection;
 
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
-    public int tinArmorDurability = 9;
-    @ConfigEntry.Gui.RequiresRestart
-    @ConfigEntry.Category("armors")
-    @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection tinArmorProtection = new ArmorProtection(2, 3, 2, 1, 3, 0, 0, 8);
-
-    @ConfigEntry.Gui.RequiresRestart
-    @ConfigEntry.Category("armors")
-    public int mythrilArmorDurability = 22;
+    public int tinArmorDurability = supers.tinArmorDurability;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection mythrilArmorProtection = new ArmorProtection(3, 5, 4, 3, 4, 0, 0, 12);
+    public BaseSimpleOresConfig.ArmorProtection tinArmorProtection = supers.tinArmorProtection;
 
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
-    public int adamantiumArmorDurability = 28;
-    @ConfigEntry.Gui.RequiresRestart
-    @ConfigEntry.Category("armors")
-    @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection adamantiumArmorProtection = new ArmorProtection(3, 8, 6, 2, 8, 1, 0, 3);
-
-    @ConfigEntry.Gui.RequiresRestart
-    @ConfigEntry.Category("armors")
-    public int onyxArmorDurability = 45;
+    public int mythrilArmorDurability = supers.mythrilArmorDurability;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("armors")
     @ConfigEntry.Gui.CollapsibleObject
-    public ArmorProtection onyxArmorProtection = new ArmorProtection(5, 8, 6, 5, 11, 2, 0, 15);
+    public BaseSimpleOresConfig.ArmorProtection mythrilArmorProtection = supers.mythrilArmorProtection;
 
-    @SuppressWarnings("all")
-    public static final class ArmorProtection {
-        private int helmet;
-        private int chestplate;
-        private int leggings;
-        private int boots;
-        private int body;
-        private int thoughness;
-        private int knockbackProtection;
-        private int enchantability;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("armors")
+    public int adamantiumArmorDurability = supers.adamantiumArmorDurability;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("armors")
+    @ConfigEntry.Gui.CollapsibleObject
+    public BaseSimpleOresConfig.ArmorProtection adamantiumArmorProtection = supers.adamantiumArmorProtection;
 
-        public ArmorProtection(int helmet, int chestplate, int leggings, int boots, int body, int thoughness, int knockbackProtection, int enchantability) {
-            this.helmet = helmet;
-            this.chestplate = chestplate;
-            this.leggings = leggings;
-            this.boots = boots;
-            this.thoughness = thoughness;
-            this.knockbackProtection = knockbackProtection;
-            this.enchantability = enchantability;
-        }
-
-        //? if >1.20.4 {
-        public SCArmor.EnumProtection setProtectionAmount() {
-            return Util.make(new SCArmor.EnumProtection(SCArmor.ArmorEquipmentType.class), attribute -> {
-                attribute.put(SCArmor.ArmorEquipmentType.BOOTS, boots());
-                attribute.put(SCArmor.ArmorEquipmentType.LEGGINGS, leggings());
-                attribute.put(SCArmor.ArmorEquipmentType.CHESTPLATE, chestplate());
-                attribute.put(SCArmor.ArmorEquipmentType.HELMET, helmet());
-                attribute.put(SCArmor.ArmorEquipmentType.BODY, body());
-            });
-        }
-        //?} else {
-        
-        /*public int[] getProtectionAmount() {
-            return new int[]{helmet(), chestplate(), leggings(), boots()};
-        }
-         
-        *///?}
-
-        public int helmet() {
-            return helmet;
-        }
-
-        public int chestplate() {
-            return chestplate;
-        }
-
-        public int leggings() {
-            return leggings;
-        }
-
-        public int boots() {
-            return boots;
-        }
-
-        public int body() {
-            return body;
-        }
-
-        public int thoughness() {
-            return thoughness;
-        }
-
-        public int knockbackProtection() {
-            return knockbackProtection;
-        }
-
-        public int enchantability() {
-            return enchantability;
-        }
-
-    }
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("armors")
+    public int onyxArmorDurability = supers.onyxArmorDurability;
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.Category("armors")
+    @ConfigEntry.Gui.CollapsibleObject
+    public BaseSimpleOresConfig.ArmorProtection onyxArmorProtection = supers.onyxArmorProtection;
 
     // tools
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties copperTools = new ToolsProperties(ModToolMaterials.MiningLevels.STONE, 185, 4.0f, 1.0f, 8);
+    public BaseSimpleOresConfig.ToolsProperties copperTools = supers.copperTools;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties tinTools = new ToolsProperties(ModToolMaterials.MiningLevels.STONE, 220, 3.5F, 1.0F, 8);
+    public BaseSimpleOresConfig.ToolsProperties tinTools = supers.tinTools;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties mythrilTools = new ToolsProperties(ModToolMaterials.MiningLevels.IRON, 800, 8.0F, 3.0F, 12);
+    public BaseSimpleOresConfig.ToolsProperties mythrilTools = supers.mythrilTools;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties adamantiumTools = new ToolsProperties(ModToolMaterials.MiningLevels.IRON, 1150, 14.0F, 3.0F, 3);
+    public BaseSimpleOresConfig.ToolsProperties adamantiumTools = supers.adamantiumTools;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("tools")
     @ConfigEntry.Gui.CollapsibleObject
-    public ToolsProperties onyxTools = new ToolsProperties(ModToolMaterials.MiningLevels.NETHERITE, 3280, 10.0F, 5.0F, 15);
-
-    @SuppressWarnings("all")
-    public static final class ToolsProperties {
-        private ModToolMaterials.MiningLevels miningLevel;
-        private int itemDurability;
-        private float miningSpeed;
-        private float attackDamage;
-        private int enchantability;
-
-        public ToolsProperties(ModToolMaterials.MiningLevels miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
-            this.miningLevel = miningLevel;
-            this.itemDurability = itemDurability;
-            this.miningSpeed = miningSpeed;
-            this.attackDamage = attackDamage;
-            this.enchantability = enchantability;
-        }
-
-        public ModToolMaterials.MiningLevels miningLevel() {
-            return miningLevel;
-        }
-
-        public int itemDurability() {
-            return itemDurability;
-        }
-
-        public float miningSpeed() {
-            return miningSpeed;
-        }
-
-        public float attackDamage() {
-            return attackDamage;
-        }
-
-        public int enchantability() {
-            return enchantability;
-        }
-    }
+    public BaseSimpleOresConfig.ToolsProperties onyxTools = supers.onyxTools;
 
     // bows
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("bows")
-    public int mythrilBowDurability = 750;
+    public int mythrilBowDurability = supers.mythrilBowDurability;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("bows")
-    public int onyxBowDurability = 1000;
+    public int onyxBowDurability = supers.onyxBowDurability;
 
     // villagers
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean enableTrades = true;
+    public boolean enableTrades = supers.enableTrades;
 
     // ARMORER
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldCopperHelmet = true;
+    public boolean armorerEmeraldCopperHelmet = supers.armorerEmeraldCopperHelmet;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldCopperChestplate = true;
+    public boolean armorerEmeraldCopperChestplate = supers.armorerEmeraldCopperChestplate;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldCopperLeggings = true;
+    public boolean armorerEmeraldCopperLeggings = supers.armorerEmeraldCopperLeggings;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldCopperBoots = true;
+    public boolean armorerEmeraldCopperBoots = supers.armorerEmeraldCopperBoots;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerCopperToEmeralds = true;
+    public boolean armorerCopperToEmeralds = supers.armorerCopperToEmeralds;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerTinToEmeralds = true;
+    public boolean armorerTinToEmeralds = supers.armorerTinToEmeralds;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldTinLeggings = true;
+    public boolean armorerEmeraldTinLeggings = supers.armorerEmeraldTinLeggings;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldTinBoots = true;
+    public boolean armorerEmeraldTinBoots = supers.armorerEmeraldTinBoots;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerMythrilToEmeralds = true;
+    public boolean armorerMythrilToEmeralds = supers.armorerMythrilToEmeralds;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldTinHelmet = true;
+    public boolean armorerEmeraldTinHelmet = supers.armorerEmeraldTinHelmet;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldTinChestplate = true;
+    public boolean armorerEmeraldTinChestplate = supers.armorerEmeraldTinChestplate;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldMythrilLeggingsEnchanted = true;
+    public boolean armorerEmeraldMythrilLeggingsEnchanted = supers.armorerEmeraldMythrilLeggingsEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldMythrilBootsEnchanted = true;
+    public boolean armorerEmeraldMythrilBootsEnchanted = supers.armorerEmeraldMythrilBootsEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldMythrilHelmetEnchanted = true;
+    public boolean armorerEmeraldMythrilHelmetEnchanted = supers.armorerEmeraldMythrilHelmetEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean armorerEmeraldMythrilChestplateEnchanted = true;
+    public boolean armorerEmeraldMythrilChestplateEnchanted = supers.armorerEmeraldMythrilChestplateEnchanted;
 
     // TOOLSMITH
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithCopperToEmeralds = true;
+    public boolean toolsmithCopperToEmeralds = supers.toolsmithCopperToEmeralds;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithTinToEmeralds = true;
+    public boolean toolsmithTinToEmeralds = supers.toolsmithTinToEmeralds;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldCopperAxe = true;
+    public boolean toolsmithEmeraldCopperAxe = supers.toolsmithEmeraldCopperAxe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldCopperShovel = true;
+    public boolean toolsmithEmeraldCopperShovel = supers.toolsmithEmeraldCopperShovel;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldCopperHoe = true;
+    public boolean toolsmithEmeraldCopperHoe = supers.toolsmithEmeraldCopperHoe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldCopperPickaxe = true;
+    public boolean toolsmithEmeraldCopperPickaxe = supers.toolsmithEmeraldCopperPickaxe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldTinAxe = true;
+    public boolean toolsmithEmeraldTinAxe = supers.toolsmithEmeraldTinAxe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldTinShovel = true;
+    public boolean toolsmithEmeraldTinShovel = supers.toolsmithEmeraldTinShovel;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldTinHoe = true;
+    public boolean toolsmithEmeraldTinHoe = supers.toolsmithEmeraldTinHoe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldTinPickaxe = true;
+    public boolean toolsmithEmeraldTinPickaxe = supers.toolsmithEmeraldTinPickaxe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithMythrilToEmerald = true;
+    public boolean toolsmithMythrilToEmerald = supers.toolsmithMythrilToEmerald;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldMythrilAxeEnchantedLvl3 = true;
+    public boolean toolsmithEmeraldMythrilAxeEnchantedLvl3 = supers.toolsmithEmeraldMythrilAxeEnchantedLvl3;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldMythrilShovelEnchantedLvl3 = true;
+    public boolean toolsmithEmeraldMythrilShovelEnchantedLvl3 = supers.toolsmithEmeraldMythrilShovelEnchantedLvl3;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldMythrilPickaxeEnchantedLvl3 = true;
+    public boolean toolsmithEmeraldMythrilPickaxeEnchantedLvl3 = supers.toolsmithEmeraldMythrilPickaxeEnchantedLvl3;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldMythrilHoe = true;
+    public boolean toolsmithEmeraldMythrilHoe = supers.toolsmithEmeraldMythrilHoe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithAdamantiumToEmerald = true;
+    public boolean toolsmithAdamantiumToEmerald = supers.toolsmithAdamantiumToEmerald;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldAdamantiumAxeEnchanted = true;
+    public boolean toolsmithEmeraldAdamantiumAxeEnchanted = supers.toolsmithEmeraldAdamantiumAxeEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldMythrilShovelEnchanted = true;
+    public boolean toolsmithEmeraldMythrilShovelEnchanted = supers.toolsmithEmeraldMythrilShovelEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean toolsmithEmeraldMythrilPickaxeEnchanted = true;
+    public boolean toolsmithEmeraldMythrilPickaxeEnchanted = supers.toolsmithEmeraldMythrilPickaxeEnchanted;
 
     // WEAPONSMITH
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithEmeraldMythrilAxe = true;
+    public boolean weaponsmithEmeraldMythrilAxe = supers.weaponsmithEmeraldMythrilAxe;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithEmeraldMythrilSwordEnchanted = true;
+    public boolean weaponsmithEmeraldMythrilSwordEnchanted = supers.weaponsmithEmeraldMythrilSwordEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithCopperToEmerald = true;
+    public boolean weaponsmithCopperToEmerald = supers.weaponsmithCopperToEmerald;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithTinToEmerald = true;
+    public boolean weaponsmithTinToEmerald = supers.weaponsmithTinToEmerald;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithMythrilToEmerald = true;
+    public boolean weaponsmithMythrilToEmerald = supers.weaponsmithMythrilToEmerald;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithAdamantiumToEmerald = true;
+    public boolean weaponsmithAdamantiumToEmerald = supers.weaponsmithAdamantiumToEmerald;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithEmeraldAdamantiumAxeEnchanted = true;
+    public boolean weaponsmithEmeraldAdamantiumAxeEnchanted = supers.weaponsmithEmeraldAdamantiumAxeEnchanted;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("villagers")
-    public boolean weaponsmithEmeraldAdamantiumSwordEnchanted = true;
+    public boolean weaponsmithEmeraldAdamantiumSwordEnchanted = supers.weaponsmithEmeraldAdamantiumSwordEnchanted;
 
     // copper bucket
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("copper_bucket")
-    public boolean enableCopperBucketMilking = true;
+    public boolean enableCopperBucketMilking = supers.enableCopperBucketMilking;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("copper_bucket")
-    public int copperBucketMeltTemperature = 1000;
+    public int copperBucketMeltTemperature = supers.copperBucketMeltTemperature;
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("copper_bucket")
-    public int copperBucketFireTemperature = 9999;
+    public int copperBucketFireTemperature = supers.copperBucketFireTemperature;
+
+    // Implement Config getters to expose the public fields via the interface
+    @Override
+    public int copperArmorDurability() { return this.copperArmorDurability; }
+    @Override
+    public BaseSimpleOresConfig.ArmorProtection copperArmorProtection() { return this.copperArmorProtection; }
+
+    @Override
+    public int tinArmorDurability() { return this.tinArmorDurability; }
+    @Override
+    public BaseSimpleOresConfig.ArmorProtection tinArmorProtection() { return this.tinArmorProtection; }
+
+    @Override
+    public int mythrilArmorDurability() { return this.mythrilArmorDurability; }
+    @Override
+    public BaseSimpleOresConfig.ArmorProtection mythrilArmorProtection() { return this.mythrilArmorProtection; }
+
+    @Override
+    public int adamantiumArmorDurability() { return this.adamantiumArmorDurability; }
+    @Override
+    public BaseSimpleOresConfig.ArmorProtection adamantiumArmorProtection() { return this.adamantiumArmorProtection; }
+
+    @Override
+    public int onyxArmorDurability() { return this.onyxArmorDurability; }
+    @Override
+    public BaseSimpleOresConfig.ArmorProtection onyxArmorProtection() { return this.onyxArmorProtection; }
+
+    @Override
+    public BaseSimpleOresConfig.ToolsProperties copperTools() { return this.copperTools; }
+    @Override
+    public BaseSimpleOresConfig.ToolsProperties tinTools() { return this.tinTools; }
+    @Override
+    public BaseSimpleOresConfig.ToolsProperties mythrilTools() { return this.mythrilTools; }
+    @Override
+    public BaseSimpleOresConfig.ToolsProperties adamantiumTools() { return this.adamantiumTools; }
+    @Override
+    public BaseSimpleOresConfig.ToolsProperties onyxTools() { return this.onyxTools; }
+
+    @Override
+    public int mythrilBowDurability() { return this.mythrilBowDurability; }
+    @Override
+    public int onyxBowDurability() { return this.onyxBowDurability; }
+
+    @Override
+    public boolean enableTrades() { return this.enableTrades; }
+
+    @Override
+    public boolean armorerEmeraldCopperHelmet() { return this.armorerEmeraldCopperHelmet; }
+    @Override
+    public boolean armorerEmeraldCopperChestplate() { return this.armorerEmeraldCopperChestplate; }
+    @Override
+    public boolean armorerEmeraldCopperLeggings() { return this.armorerEmeraldCopperLeggings; }
+    @Override
+    public boolean armorerEmeraldCopperBoots() { return this.armorerEmeraldCopperBoots; }
+    @Override
+    public boolean armorerCopperToEmeralds() { return this.armorerCopperToEmeralds; }
+    @Override
+    public boolean armorerTinToEmeralds() { return this.armorerTinToEmeralds; }
+    @Override
+    public boolean armorerEmeraldTinLeggings() { return this.armorerEmeraldTinLeggings; }
+    @Override
+    public boolean armorerEmeraldTinBoots() { return this.armorerEmeraldTinBoots; }
+    @Override
+    public boolean armorerMythrilToEmeralds() { return this.armorerMythrilToEmeralds; }
+    @Override
+    public boolean armorerEmeraldTinHelmet() { return this.armorerEmeraldTinHelmet; }
+    @Override
+    public boolean armorerEmeraldTinChestplate() { return this.armorerEmeraldTinChestplate; }
+    @Override
+    public boolean armorerEmeraldMythrilLeggingsEnchanted() { return this.armorerEmeraldMythrilLeggingsEnchanted; }
+    @Override
+    public boolean armorerEmeraldMythrilBootsEnchanted() { return this.armorerEmeraldMythrilBootsEnchanted; }
+    @Override
+    public boolean armorerEmeraldMythrilHelmetEnchanted() { return this.armorerEmeraldMythrilHelmetEnchanted; }
+    @Override
+    public boolean armorerEmeraldMythrilChestplateEnchanted() { return this.armorerEmeraldMythrilChestplateEnchanted; }
+
+    @Override
+    public boolean toolsmithCopperToEmeralds() { return this.toolsmithCopperToEmeralds; }
+    @Override
+    public boolean toolsmithTinToEmeralds() { return this.toolsmithTinToEmeralds; }
+    @Override
+    public boolean toolsmithEmeraldCopperAxe() { return this.toolsmithEmeraldCopperAxe; }
+    @Override
+    public boolean toolsmithEmeraldCopperShovel() { return this.toolsmithEmeraldCopperShovel; }
+    @Override
+    public boolean toolsmithEmeraldCopperHoe() { return this.toolsmithEmeraldCopperHoe; }
+    @Override
+    public boolean toolsmithEmeraldCopperPickaxe() { return this.toolsmithEmeraldCopperPickaxe; }
+    @Override
+    public boolean toolsmithEmeraldTinAxe() { return this.toolsmithEmeraldTinAxe; }
+    @Override
+    public boolean toolsmithEmeraldTinShovel() { return this.toolsmithEmeraldTinShovel; }
+    @Override
+    public boolean toolsmithEmeraldTinHoe() { return this.toolsmithEmeraldTinHoe; }
+    @Override
+    public boolean toolsmithEmeraldTinPickaxe() { return this.toolsmithEmeraldTinPickaxe; }
+    @Override
+    public boolean toolsmithMythrilToEmerald() { return this.toolsmithMythrilToEmerald; }
+    @Override
+    public boolean toolsmithEmeraldMythrilAxeEnchantedLvl3() { return this.toolsmithEmeraldMythrilAxeEnchantedLvl3; }
+    @Override
+    public boolean toolsmithEmeraldMythrilShovelEnchantedLvl3() { return this.toolsmithEmeraldMythrilShovelEnchantedLvl3; }
+    @Override
+    public boolean toolsmithEmeraldMythrilPickaxeEnchantedLvl3() { return this.toolsmithEmeraldMythrilPickaxeEnchantedLvl3; }
+    @Override
+    public boolean toolsmithEmeraldMythrilHoe() { return this.toolsmithEmeraldMythrilHoe; }
+    @Override
+    public boolean toolsmithAdamantiumToEmerald() { return this.toolsmithAdamantiumToEmerald; }
+    @Override
+    public boolean toolsmithEmeraldAdamantiumAxeEnchanted() { return this.toolsmithEmeraldAdamantiumAxeEnchanted; }
+    @Override
+    public boolean toolsmithEmeraldMythrilShovelEnchanted() { return this.toolsmithEmeraldMythrilShovelEnchanted; }
+    @Override
+    public boolean toolsmithEmeraldMythrilPickaxeEnchanted() { return this.toolsmithEmeraldMythrilPickaxeEnchanted; }
+
+    @Override
+    public boolean weaponsmithEmeraldMythrilAxe() { return this.weaponsmithEmeraldMythrilAxe; }
+    @Override
+    public boolean weaponsmithEmeraldMythrilSwordEnchanted() { return this.weaponsmithEmeraldMythrilSwordEnchanted; }
+    @Override
+    public boolean weaponsmithCopperToEmerald() { return this.weaponsmithCopperToEmerald; }
+    @Override
+    public boolean weaponsmithTinToEmerald() { return this.weaponsmithTinToEmerald; }
+    @Override
+    public boolean weaponsmithMythrilToEmerald() { return this.weaponsmithMythrilToEmerald; }
+    @Override
+    public boolean weaponsmithAdamantiumToEmerald() { return this.weaponsmithAdamantiumToEmerald; }
+    @Override
+    public boolean weaponsmithEmeraldAdamantiumAxeEnchanted() { return this.weaponsmithEmeraldAdamantiumAxeEnchanted; }
+    @Override
+    public boolean weaponsmithEmeraldAdamantiumSwordEnchanted() { return this.weaponsmithEmeraldAdamantiumSwordEnchanted; }
+
+    @Override
+    public boolean enableCopperBucketMilking() { return this.enableCopperBucketMilking; }
+    @Override
+    public int copperBucketMeltTemperature() { return this.copperBucketMeltTemperature; }
+    @Override
+    public int copperBucketFireTemperature() { return this.copperBucketFireTemperature; }
 
 }  // end class SimpleOresConfig
+*///? } else {
+  public class SimpleOresConfig {}
+//? }

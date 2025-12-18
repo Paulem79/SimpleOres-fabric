@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
@@ -26,7 +26,7 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     private final Map<Fluid, CustomChildrenBucketItem> buckets = new HashMap<>();
     private final TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar;
     private final ResourceKey<Item> key;
-    private final ResourceLocation modelId;
+    private final Identifier modelId;
 
     public CustomParentBucketItem(ResourceKey<Item> key, String baseName, Fluid fluid, Item.Properties settings, TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar) {
         super(fluid, settings.setId(key));
@@ -37,7 +37,7 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
         this.registrar = registrar;
     }
 
-    public void registerFluid(ResourceLocation identifier, Fluid modFluid) {
+    public void registerFluid(Identifier identifier, Fluid modFluid) {
         if(modFluid == null || modFluid == Fluids.EMPTY) return;
 
         String fluidName = identifier.getPath();
@@ -97,7 +97,7 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
         return FluidVariantAttributes.getName(FluidVariant.of(fluid));
     }
 
-    public ResourceLocation getModelWithOverlay(Fluid fluid) {
+    public Identifier getModelWithOverlay(Fluid fluid) {
         if(isWaterLike(fluid)) {
             return SCId.of(modelId.getNamespace(), baseName + "_water_bucket");
         }

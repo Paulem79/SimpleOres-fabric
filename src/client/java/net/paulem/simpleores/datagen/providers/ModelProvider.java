@@ -19,7 +19,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.item.*;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -138,7 +138,7 @@ public class ModelProvider extends FabricModelProvider {
 
     //? if containsBucket && !hasBucketlib {
     public final void registerCustomBucketWithOverlay(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource tint) {
-        ResourceLocation identifier = itemModelGenerator.generateLayeredItem(item, TextureMapping.getItemTexture(parentBucket), TextureMapping.getItemTexture(parentBucket, "_overlay"));
+        Identifier identifier = itemModelGenerator.generateLayeredItem(item, TextureMapping.getItemTexture(parentBucket), TextureMapping.getItemTexture(parentBucket, "_overlay"));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, ItemModelUtils.constantTint(-1), tint));
     }
 

@@ -106,19 +106,19 @@ public class RecipeProvider extends FabricRecipeProvider {
         // Copper
         createMaterialSetRecipes(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
                 //? if !hasCopperTools {
-                ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE, ModItems.COPPER_HELMET,
+                /*ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE, ModItems.COPPER_HELMET,
                 ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS,
-                //?} else {
-                /*null, null, null, null, null, null, null, null, null,
-                *///?}
+                *///?} else {
+                null, null, null, null, null, null, null, null, null,
+                //?}
                 ModItems.COPPER_SHEARS,
                 ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
                 null,
                 //? !hasCopperTools {
-                ModBlocks.copper_bars,
-                //?} else {
-                /*null,
-                *///?}
+                /*ModBlocks.copper_bars,
+                *///?} else {
+                null,
+                //?}
                 ModBlocks.copper_pressure_plate, null, null, null,
                 //? containsBucket
                 ModItems.COPPER_BUCKET,

@@ -4,7 +4,7 @@ import com.google.common.base.Function;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedHashMap;
 
 public class ModBlocks {
-    public static final LinkedHashMap<ResourceLocation, BlockItem> registeredBlockItems = new LinkedHashMap<>();
+    public static final LinkedHashMap<Identifier, BlockItem> registeredBlockItems = new LinkedHashMap<>();
 
     private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<@NotNull Block> key, BlockBehaviour.Properties settings) {
         return settings
@@ -197,10 +197,10 @@ public class ModBlocks {
 
     // Blocks - bars - simpleores
     //? if !hasCopperTools {
-    public static IronBarsBlock copper_bars = registerBlock("copper_bars", key ->
+    /*public static IronBarsBlock copper_bars = registerBlock("copper_bars", key ->
             new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                     .strength(3.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())));
-    //?}
+    *///?}
     public static IronBarsBlock tin_bars = registerBlock("tin_bars", key ->
             new IronBarsBlock(SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                     .strength(4.0F).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())));
@@ -218,30 +218,30 @@ public class ModBlocks {
     public static final MultifunctionPressurePlateBlock copper_pressure_plate = registerBlock("copper_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(15, MultifunctionPressurePlateBlock.Sensitivity.LIVING_WEIGHTED, 10,
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
-                            .noCollission().strength(0.5F).sound(SoundType.COPPER)), BlockSetType.IRON));
+                            .noCollision().strength(0.5F).sound(SoundType.COPPER)), BlockSetType.IRON));
 
     public static final MultifunctionPressurePlateBlock tin_pressure_plate = registerBlock("tin_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(15, MultifunctionPressurePlateBlock.Sensitivity.EVERYTHING_WEIGHTED, 10,
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
-                            .noCollission().strength(0.5F).sound(SoundType.METAL)), BlockSetType.IRON));
+                            .noCollision().strength(0.5F).sound(SoundType.METAL)), BlockSetType.IRON));
 
     public static final MultifunctionPressurePlateBlock mythril_pressure_plate = registerBlock("mythril_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(75, MultifunctionPressurePlateBlock.Sensitivity.MOBS_WEIGHTED, 10,
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
-                            .noCollission().strength(0.5F).sound(SoundType.METAL)),BlockSetType.GOLD));
+                            .noCollision().strength(0.5F).sound(SoundType.METAL)),BlockSetType.GOLD));
 
     public static final MultifunctionPressurePlateBlock adamantium_pressure_plate = registerBlock("adamantium_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(75, MultifunctionPressurePlateBlock.Sensitivity.EVERYTHING_WEIGHTED, 10,
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                            .noCollission().strength(0.5F).sound(SoundType.METAL)),BlockSetType.GOLD));
+                            .noCollision().strength(0.5F).sound(SoundType.METAL)),BlockSetType.GOLD));
 
     public static final MultifunctionPressurePlateBlock onyx_pressure_plate = registerBlock("onyx_pressure_plate", key ->
             new MultifunctionPressurePlateBlock(15, MultifunctionPressurePlateBlock.Sensitivity.PLAYERS, 20,
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
-                            .noCollission().strength(0.5F).sound(SoundType.STONE)), BlockSetType.STONE));
+                            .noCollision().strength(0.5F).sound(SoundType.STONE)), BlockSetType.STONE));
 
     public static<T extends Block> T registerBlock(String name, Function<ResourceKey<@NotNull Block>, T> func) {
-        ResourceLocation identifier = SCId.of(SimpleOres.MOD_ID, name);
+        Identifier identifier = SCId.of(SimpleOres.MOD_ID, name);
 
         ResourceKey<@NotNull Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(), SCId.of(SimpleOres.MOD_ID, name));
         T block = func.apply(key);
@@ -251,7 +251,7 @@ public class ModBlocks {
         return Registry.register(BuiltInRegistries.BLOCK, identifier, block);
     }
 
-    public static<T extends Block> BlockItem registerBlockItem(T block, ResourceLocation identifier) {
+    public static<T extends Block> BlockItem registerBlockItem(T block, Identifier identifier) {
         ResourceKey<@NotNull Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), identifier);
 
         Item.Properties properties = new Item.Properties()

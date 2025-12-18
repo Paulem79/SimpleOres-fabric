@@ -11,7 +11,7 @@ import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.paulem.simpleores.SimpleOres;
 
@@ -34,21 +34,21 @@ public class LayersUploader {
     public static final ModelTemplate GENERATED_TWENTY_FOUR_LAYERS = item("generated", LAYERS);
 
     public static void registerOverlayBucket(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource... tints) {
-        LinkedList<ResourceLocation > layers = new LinkedList<>();
+        LinkedList<Identifier > layers = new LinkedList<>();
 
         layers.add(TextureMapping.getItemTexture(parentBucket));
         for (int i = 1; i < LAYERS.length; i++) {
             // Get the corresponding texture for this layer. Starts with 0.
-            ResourceLocation subId = TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1));
+            Identifier subId = TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1));
             SimpleOres.LOGGER.info("Adding overlay layer " + i + " : " + subId);
             layers.add(subId);
         }
 
-        ResourceLocation identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new ResourceLocation[0]));
+        Identifier identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new Identifier[0]));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, tints));
     }
 
-    public static ResourceLocation uploadLayers(ItemModelGenerators itemModelGenerator, Item item, ResourceLocation... layers) {
+    public static Identifier uploadLayers(ItemModelGenerators itemModelGenerator, Item item, Identifier... layers) {
         TextureMapping layered = layered(layers);
         return GENERATED_TWENTY_FOUR_LAYERS.create(item, layered, itemModelGenerator.modelOutput);
     }
@@ -56,7 +56,7 @@ public class LayersUploader {
     /**
      * Get the texture map for the given layers.
      */
-    public static TextureMapping layered(ResourceLocation ... layers) {
+    public static TextureMapping layered(Identifier ... layers) {
         TextureMapping textureMap = new TextureMapping();
 
         for (int i = 0; i < layers.length; i++) {
@@ -71,7 +71,7 @@ public class LayersUploader {
      * @see net.minecraft.client.data.models.model.ModelTemplate#create(String, TextureSlot...)
      */
     private static ModelTemplate item(String parent, TextureSlot... requiredTextureSlots) {
-        return new ModelTemplate(Optional.of(ResourceLocation.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureSlots);
+        return new ModelTemplate(Optional.of(Identifier.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureSlots);
     }
 }
 //?}

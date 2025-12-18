@@ -15,7 +15,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.ModBlocks;
-import net.paulem.simpleores.config.SimpleOresConfig;
+import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.stonecutter.SCId;
 
 import java.util.List;
@@ -29,11 +29,11 @@ public class ModConfiguredFeatures {
 
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        addOre(context, TIN_ORE_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, SimpleOresConfig.NotEditable.tinOreBlocksPerVeins);
-        addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, SimpleOresConfig.NotEditable.tinVeinBlocksPerVeins);
-        addOre(context, MYTHRIL_ORE_KEY, ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, SimpleOresConfig.NotEditable.mythrilBlocksPerVeins);
-        addOre(context, ADAMANTIUM_ORE_KEY, ModBlocks.ADAMANTIUM_ORE, ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, SimpleOresConfig.NotEditable.adamantiumBlocksPerVeins);
-        addOreNether(context, ONYX_ORE_KEY, ModBlocks.ONYX_ORE, SimpleOresConfig.NotEditable.onyxBlocksPerVeins);
+        addOre(context, TIN_ORE_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinOreBlocksPerVeins);
+        addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinVeinBlocksPerVeins);
+        addOre(context, MYTHRIL_ORE_KEY, ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, BaseSimpleOresConfig.NotEditable.mythrilBlocksPerVeins);
+        addOre(context, ADAMANTIUM_ORE_KEY, ModBlocks.ADAMANTIUM_ORE, ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, BaseSimpleOresConfig.NotEditable.adamantiumBlocksPerVeins);
+        addOreNether(context, ONYX_ORE_KEY, ModBlocks.ONYX_ORE, BaseSimpleOresConfig.NotEditable.onyxBlocksPerVeins);
     }
 
     private static void addOre(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, Block deepslateOre, int count){

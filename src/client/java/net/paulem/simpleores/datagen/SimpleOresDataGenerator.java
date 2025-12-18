@@ -22,9 +22,11 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(RecipeProvider::new);
 		pack.addProvider(BlockTagProvider::new);
 		pack.addProvider(ItemTagProvider::new);
-		pack.addProvider(WorldGenProvider::new);
+		pack.addProvider(ModRegistryDataGenerator::new);
 		pack.addProvider(LootTableProvider::new);
 		pack.addProvider(AdvancementsProvider::new);
+		//? if >1.21.11
+		pack.addProvider(VillagersTradesTagsProvider::new);
 
 		List<FabricDataGenerator.Pack.RegistryDependentFactory<GlobalLangProvider>> langs = Arrays.asList(ChineseSimplifiedLangProvider::new, ChineseTraditionalLangProvider::new,
 				EnglishLangProvider::new, FrenchLangProvider::new, DanishLangProvider::new,
@@ -45,5 +47,7 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 	public void buildRegistry(RegistrySetBuilder registryBuilder) {
 		registryBuilder.add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap);
 		registryBuilder.add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
+		//? if >1.21.11
+		registryBuilder.add(Registries.VILLAGER_TRADE, VillagersTradesProvider::bootstrap);
 	}
 }

@@ -4,7 +4,7 @@ package net.paulem.simpleores.tooltip;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +23,7 @@ public class TooltipBlockItem extends BlockItem implements TooltipItem {
     public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
         // TODO : Maybe item model isn't the best way to get the block?
         //? if >1.21 {
-        ResourceLocation value = stack.getItem().components().get(DataComponents.ITEM_MODEL);
+        Identifier value = stack.getItem().components().get(DataComponents.ITEM_MODEL);
         //?} else {
         /*ResourceLocation value = BuiltInRegistries.ITEM.getKey(stack.getItem());
          *///?}

@@ -3,14 +3,14 @@ package net.paulem.simpleores.armors;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 //? if >1.21.3
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.config.SimpleOresConfig;
+import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.stonecutter.SCId;
 //? if <=1.20.4 {
@@ -46,22 +46,22 @@ public final class ModArmorMaterials
             ONYX;
 
     static {
-        COPPER = register("copper", SimpleOres.CONFIG.copperArmorDurability, SimpleOres.CONFIG.copperArmorProtection, SoundEvents.ARMOR_EQUIP_CHAIN);
+        COPPER = register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
 
-        TIN = register("tin", SimpleOres.CONFIG.tinArmorDurability,
-                SimpleOres.CONFIG.tinArmorProtection,
+        TIN = register("tin", SimpleOres.CONFIG.tinArmorDurability(),
+                SimpleOres.CONFIG.tinArmorProtection(),
                 SoundEvents.ARMOR_EQUIP_CHAIN);
 
-        MYTHRIL = register("mythril", SimpleOres.CONFIG.mythrilArmorDurability, SimpleOres.CONFIG.mythrilArmorProtection, SoundEvents.ARMOR_EQUIP_GOLD);
+        MYTHRIL = register("mythril", SimpleOres.CONFIG.mythrilArmorDurability(), SimpleOres.CONFIG.mythrilArmorProtection(), SoundEvents.ARMOR_EQUIP_GOLD);
 
-        ADAMANTIUM = register("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability, SimpleOres.CONFIG.adamantiumArmorProtection, SoundEvents.ARMOR_EQUIP_IRON);
+        ADAMANTIUM = register("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability(), SimpleOres.CONFIG.adamantiumArmorProtection(), SoundEvents.ARMOR_EQUIP_IRON);
 
-        ONYX = register("onyx", SimpleOres.CONFIG.onyxArmorDurability, SimpleOres.CONFIG.onyxArmorProtection, SoundEvents.ARMOR_EQUIP_TURTLE);
+        ONYX = register("onyx", SimpleOres.CONFIG.onyxArmorDurability(), SimpleOres.CONFIG.onyxArmorProtection(), SoundEvents.ARMOR_EQUIP_TURTLE);
     }
 
     private static //$ armorRegistry
     net.minecraft.world.item.equipment.ArmorMaterial
-    register(String name, int durabilityMultiplier, SimpleOresConfig.ArmorProtection armorProtection, Holder<SoundEvent> equipSound) {
+    register(String name, int durabilityMultiplier, BaseSimpleOresConfig.ArmorProtection armorProtection, Holder<SoundEvent> equipSound) {
         return register(name, durabilityMultiplier, armorProtection.setProtectionAmount(), armorProtection.enchantability(), equipSound, armorProtection.thoughness(), armorProtection.knockbackProtection(), SCArmor.repairTagOrIngredient(name));
     }
 
@@ -79,7 +79,7 @@ public final class ModArmorMaterials
              net.minecraft.tags.TagKey<net.minecraft.world.item.Item>
              repairIngredient)
     {
-        ResourceLocation loc = SCId.of(SimpleOres.MOD_ID, name);
+        Identifier loc = SCId.of(SimpleOres.MOD_ID, name);
 
         //? if >1.21.3 {
         return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
@@ -106,19 +106,19 @@ public final class ModArmorMaterials
 //?} else if 1.20.4 {
 /*import net.minecraft.world.item.ArmorItem;
 public enum ModArmorMaterials implements ArmorMaterial {
-    COPPER("copper", SimpleOres.CONFIG.copperArmorDurability, SimpleOres.CONFIG.copperArmorProtection,
+    COPPER("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(),
             SoundEvents.ARMOR_EQUIP_CHAIN, ModToolMaterials.COPPER),
 
-    TIN("tin", SimpleOres.CONFIG.tinArmorDurability, SimpleOres.CONFIG.tinArmorProtection,
+    TIN("tin", SimpleOres.CONFIG.tinArmorDurability(), SimpleOres.CONFIG.tinArmorProtection(),
             SoundEvents.ARMOR_EQUIP_CHAIN, ModToolMaterials.TIN),
 
-    MYTHRIL("mythril", SimpleOres.CONFIG.mythrilArmorDurability, SimpleOres.CONFIG.mythrilArmorProtection,
+    MYTHRIL("mythril", SimpleOres.CONFIG.mythrilArmorDurability(), SimpleOres.CONFIG.mythrilArmorProtection(),
             SoundEvents.ARMOR_EQUIP_GOLD, ModToolMaterials.MYTHRIL),
 
-    ADAMANTIUM("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability, SimpleOres.CONFIG.adamantiumArmorProtection,
+    ADAMANTIUM("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability(), SimpleOres.CONFIG.adamantiumArmorProtection(),
             SoundEvents.ARMOR_EQUIP_IRON, ModToolMaterials.ADAMANTIUM),
 
-    ONYX("onyx", SimpleOres.CONFIG.onyxArmorDurability, SimpleOres.CONFIG.onyxArmorProtection,
+    ONYX("onyx", SimpleOres.CONFIG.onyxArmorDurability(), SimpleOres.CONFIG.onyxArmorProtection(),
             SoundEvents.ARMOR_EQUIP_TURTLE, ModToolMaterials.ONYX);
 
     private static final EnumMap<ArmorItem.Type, Integer> BASE_DURABILITY = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
@@ -148,7 +148,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.repairIngredient = simpleOresTiers.getRepairIngredientSupplier();
     }
 
-    ModArmorMaterials(String name, int durabilityMultiplier, SimpleOresConfig.ArmorProtection armorProtection, SoundEvent equipSound, ModToolMaterials simpleOresTiers) {
+    ModArmorMaterials(String name, int durabilityMultiplier, BaseSimpleOresConfig.ArmorProtection armorProtection, SoundEvent equipSound, ModToolMaterials simpleOresTiers) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionAmounts = armorProtection.getProtectionAmount();
@@ -215,19 +215,19 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
-    COPPER("copper", SimpleOres.CONFIG.copperArmorDurability, SimpleOres.CONFIG.copperArmorProtection,
+    COPPER("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(),
             SoundEvents.ARMOR_EQUIP_CHAIN, ModToolMaterials.COPPER),
 
-    TIN("tin", SimpleOres.CONFIG.tinArmorDurability, SimpleOres.CONFIG.tinArmorProtection,
+    TIN("tin", SimpleOres.CONFIG.tinArmorDurability(), SimpleOres.CONFIG.tinArmorProtection(),
             SoundEvents.ARMOR_EQUIP_CHAIN, ModToolMaterials.TIN),
 
-    MYTHRIL("mythril", SimpleOres.CONFIG.mythrilArmorDurability, SimpleOres.CONFIG.mythrilArmorProtection,
+    MYTHRIL("mythril", SimpleOres.CONFIG.mythrilArmorDurability(), SimpleOres.CONFIG.mythrilArmorProtection(),
             SoundEvents.ARMOR_EQUIP_GOLD, ModToolMaterials.MYTHRIL),
 
-    ADAMANTIUM("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability, SimpleOres.CONFIG.adamantiumArmorProtection,
+    ADAMANTIUM("adamantium", SimpleOres.CONFIG.adamantiumArmorDurability(), SimpleOres.CONFIG.adamantiumArmorProtection(),
             SoundEvents.ARMOR_EQUIP_IRON, ModToolMaterials.ADAMANTIUM),
 
-    ONYX("onyx", SimpleOres.CONFIG.onyxArmorDurability, SimpleOres.CONFIG.onyxArmorProtection,
+    ONYX("onyx", SimpleOres.CONFIG.onyxArmorDurability(), SimpleOres.CONFIG.onyxArmorProtection(),
             SoundEvents.ARMOR_EQUIP_TURTLE, ModToolMaterials.ONYX);
 
     private static final EnumMap<ArmorItem.Type, Integer> BASE_DURABILITY = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
@@ -257,7 +257,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.repairIngredient = simpleOresTiers.getRepairIngredientSupplier();
     }
 
-    ModArmorMaterials(String name, int durabilityMultiplier, SimpleOresConfig.ArmorProtection armorProtection, SoundEvent equipSound, ModToolMaterials simpleOresTiers) {
+    ModArmorMaterials(String name, int durabilityMultiplier, BaseSimpleOresConfig.ArmorProtection armorProtection, SoundEvent equipSound, ModToolMaterials simpleOresTiers) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionAmounts = armorProtection.getProtectionAmount();

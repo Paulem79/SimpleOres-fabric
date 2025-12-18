@@ -1,18 +1,18 @@
 package net.paulem.simpleores.migration;
 
 //? hasCopperTools {
-/*import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.stonecutter.SCId;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-*///?}
+//?}
 
 public class CopperMigration {
     //? hasCopperTools {
-    /*private static final Set<Identifier> MIGRATE_ITEMS = Set.of(
+    private static final Set<Identifier> MIGRATE_ITEMS = Set.of(
             "copper_sword",
             "copper_pickaxe",
             "copper_axe",
@@ -38,5 +38,5 @@ public class CopperMigration {
             BuiltInRegistries.ITEM.addAlias(identifier, SCId.ofVanilla(identifier.getPath()));
         });
     }
-    *///?}
+    //?}
 }

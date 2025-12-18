@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.config.SimpleOresConfig;
+import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.stonecutter.SCId;
 
 // TODO : More affiliated to base gen
@@ -32,7 +32,7 @@ public class ModPlacedFeatures {
                 context,
                 TIN_ORE_PLACED_KEY,
                 tinEntry,
-                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.tinOreVeinPerChunks, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.tinOreVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(108), VerticalAnchor.belowTop(236)))
         );
 
@@ -42,7 +42,7 @@ public class ModPlacedFeatures {
                 context,
                 TIN_VEIN_PLACED_KEY,
                 tinVeinEntry,
-                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.tinVeinVeinPerChunks, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.tinVeinVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(24), VerticalAnchor.aboveBottom(64)))
         );
 
@@ -52,7 +52,7 @@ public class ModPlacedFeatures {
                 context,
                 MYTHRIL_ORE_PLACED_KEY,
                 mythrilEntry,
-                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.mythrilVeinPerChunks, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.mythrilVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(1), VerticalAnchor.aboveBottom(96)))
         );
 
@@ -62,7 +62,7 @@ public class ModPlacedFeatures {
                 context,
                 ADAMANTIUM_ORE_PLACED_KEY,
                 adamantiumEntry,
-                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.adamantiumVeinPerChunks, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.adamantiumVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(1), VerticalAnchor.aboveBottom(48)))
         );
 
@@ -72,7 +72,7 @@ public class ModPlacedFeatures {
                 context,
                 ONYX_ORE_PLACED_KEY,
                 onyxEntry,
-                ModOrePlacement.modifiersWithCount(SimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
+                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(10), VerticalAnchor.belowTop(10)))
         );
     }

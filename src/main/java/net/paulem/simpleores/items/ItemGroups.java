@@ -13,10 +13,10 @@ public class ItemGroups {
             )
             .icon(() ->
                             //? if !hasCopperTools {
-                            new ItemStack(ModItems.COPPER_PICKAXE)
-                    //?} else {
-                    /*new ItemStack(ModItems.MYTHRIL_PICKAXE)
-                     *///?}
+                            /*new ItemStack(ModItems.COPPER_PICKAXE)
+                    *///?} else {
+                    new ItemStack(ModItems.MYTHRIL_PICKAXE)
+                     //?}
             )
             .title(Component.translatable("item_group." + SimpleOres.MOD_ID + ".simpleores_tab"))
             .build();
