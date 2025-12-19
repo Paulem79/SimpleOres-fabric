@@ -30,7 +30,12 @@ public class VersionRangeParser {
 
     private static List<String> commonVersionExtract(String min_version_range, String max_version_range, VersionRangeParser.CompiledVersions allVersions) {
         int startElement = allVersions.contains(min_version_range) ? allVersions.indexOf(min_version_range) : allVersions.indexOf(getReleaseFromSnapshot(min_version_range));
-        int endElement = allVersions.contains(max_version_range) ? allVersions.indexOf(max_version_range) : allVersions.size() - 1;
+        int endElement;
+        if (allVersions.contains(max_version_range)) {
+            endElement = allVersions.indexOf(max_version_range);
+        } else {
+            endElement = allVersions.size() - 1;
+        }
 
         return allVersions.stream()
                 .filter(element -> allVersions.indexOf(element) >= startElement && allVersions.indexOf(element) <= endElement)
@@ -42,6 +47,12 @@ public class VersionRangeParser {
         CompiledVersions allVersions = new CompiledVersions(getAllMinecraftVersions());
 
         int snapshotIndex = allVersions.indexOf(snapshot);
+
+        if(snapshotIndex == -1) {
+            // Return newest snapshot if snapshot not found
+            return allVersions.snapshots().reversed().getFirst();
+        }
+
         // Parcours vers l'avant pour trouver la prochaine version RELEASE
         for (int i = snapshotIndex + 1; i < allVersions.size(); i++) {
             MinecraftVersion candidate = allVersions.get(i);

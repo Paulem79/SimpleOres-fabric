@@ -487,6 +487,19 @@ unifiedPublishing {
 
 		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName).toFile()) // Declares the publicated jar
 
+		val modrinthToken = (project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")) as String?
+		if (modrinthToken != null) {
+			// Same defensive wrapper for Modrinth
+			runCatching {
+				modrinth {
+					token = modrinthToken
+					id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
+				}
+			}.onFailure { ex ->
+				logger.warn("Failed to configure Modrinth publishing - continuing with other publishers: ${ex.message}")
+			}
+		}
+
 		relations {
 			depends {
 				modrinth = "fabric-api"
@@ -541,19 +554,6 @@ unifiedPublishing {
 				}
 			}.onFailure { ex ->
 				logger.warn("Failed to configure CurseForge publishing - continuing with other publishers: ${ex.message}")
-			}
-		}
-
-		val modrinthToken = (project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")) as String?
-		if (modrinthToken != null) {
-			// Same defensive wrapper for Modrinth
-			runCatching {
-				modrinth {
-					token = modrinthToken
-					id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
-				}
-			}.onFailure { ex ->
-				logger.warn("Failed to configure Modrinth publishing - continuing with other publishers: ${ex.message}")
 			}
 		}
 	}
