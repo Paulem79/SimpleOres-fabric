@@ -404,7 +404,7 @@ java {
 }
 
 fun preToBeta(versionProperty: String): String? {
-    val version = project.property(versionProperty) as String? ?: return null
+    val version = project.findProperty(versionProperty) as? String ?: return null
 
     return version
         .replace(Regex("-rc(\\d+)"), "-rc.$1")
@@ -412,7 +412,7 @@ fun preToBeta(versionProperty: String): String? {
 }
 
 fun runtimeVersionToSnapshot(versionProperty: String): String? {
-    val version = project.property(versionProperty) as String? ?: return null
+    val version = project.findProperty(versionProperty) as? String ?: return null
 
     // 1.21.9-alpha.25.31.a -> 25w31a
     return version.replace(Regex("""(\d+\.\d+\.\d+)-alpha\.(\d+)\.(\d+)\.a""")) {
@@ -522,27 +522,38 @@ unifiedPublishing {
 
 		val curseforgeToken = (project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")) as String?
 		if (curseforgeToken != null) { // No pre or rc on curseforge
-			curseforge {
-				token = curseforgeToken
-				id = "1092987" // Required, must be a string, ID of CurseForge project
+			// Wrap configuration in runCatching so a failure configuring the CurseForge
+			// publisher does not abort the rest of the unified publishing setup.
+			runCatching {
+				curseforge {
+					token = curseforgeToken
+					id = "1092987" // Required, must be a string, ID of CurseForge project
 
-                gameVersions = if(isSnapshot) {
-                    listOf(stonecutter.current.project)
-                } else {
-                    VersionRangeParser.parseVersionRange(
-                        project.property("min_version_range") as String,
-                        project.property("max_version_range") as String,
-                        VersionRangeParser.CompiledVersions.VersionType.RELEASE
-                    )
-                }
+					gameVersions = if(isSnapshot) {
+						listOf(stonecutter.current.project)
+					} else {
+						VersionRangeParser.parseVersionRange(
+							project.property("min_version_range") as String,
+							project.property("max_version_range") as String,
+							VersionRangeParser.CompiledVersions.VersionType.RELEASE
+						)
+					}
+				}
+			}.onFailure { ex ->
+				logger.warn("Failed to configure CurseForge publishing - continuing with other publishers: ${ex.message}")
 			}
 		}
 
 		val modrinthToken = (project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")) as String?
 		if (modrinthToken != null) {
-			modrinth {
-				token = modrinthToken
-				id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
+			// Same defensive wrapper for Modrinth
+			runCatching {
+				modrinth {
+					token = modrinthToken
+					id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
+				}
+			}.onFailure { ex ->
+				logger.warn("Failed to configure Modrinth publishing - continuing with other publishers: ${ex.message}")
 			}
 		}
 	}
