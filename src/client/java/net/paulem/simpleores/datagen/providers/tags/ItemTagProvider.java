@@ -216,6 +216,11 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         build(ConventionalItemTags.RANGED_WEAPON_TOOLS, ModTags.Items.BOWS);
         //? if >1.20.4
         build(ItemTags.BOW_ENCHANTABLE, ModTags.Items.BOWS);
+        //? if >1.21.3 {
+        build(ItemTags.SKELETON_PREFERRED_WEAPONS, ModTags.Items.BOWS);
+        build(ItemTags.WITHER_SKELETON_DISLIKED_WEAPONS, ModTags.Items.BOWS);
+        //?}
+
 
         // ------------------- INGOTS/GEMS -------------------
         build(ConventionalItemTags.INGOTS, ModTags.Items.INGOTS);
@@ -279,8 +284,8 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
         }
         //?} else {
             /*for (Object object : objects) {
-                if (object instanceof Item block) {
-                    builder.get().add(block);
+                if (object instanceof Item item) {
+                    builder.get().add(item);
                 } else if (object instanceof TagKey<?> tag) {
                     builder.get().addTag((TagKey<Item>) tag);
                 }
