@@ -272,7 +272,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
             if(object instanceof Item item) {
                 builder.get()
                         .add(ResourceKey.create(BuiltInRegistries.ITEM.key(), BuiltInRegistries.ITEM.getKey(item)));
-            } else if(object instanceof TagKey<?> tag && object.getClass().getGenericSuperclass() == Item.class) {
+            } else if(object instanceof TagKey<?> tag) {
                 builder.get()
                         .addTag((TagKey<Item>) tag);
             }
