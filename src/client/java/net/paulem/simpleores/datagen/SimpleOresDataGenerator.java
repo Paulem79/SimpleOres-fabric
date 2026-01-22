@@ -3,7 +3,7 @@ package net.paulem.simpleores.datagen;
 import net.paulem.simpleores.datagen.providers.*;
 import net.paulem.simpleores.datagen.providers.langs.*;
 import net.paulem.simpleores.datagen.providers.tags.BlockTagProvider;
-import net.paulem.simpleores.datagen.providers.tags.ItemTagProvider;
+import net.paulem.simpleores.datagen.providers.tags.ModItemTagProvider;
 import net.paulem.simpleores.world.ModConfiguredFeatures;
 import net.paulem.simpleores.world.ModPlacedFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -21,7 +21,7 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModelProvider::new);
 		pack.addProvider(RecipeProvider::new);
 		pack.addProvider(BlockTagProvider::new);
-		pack.addProvider(ItemTagProvider::new);
+		pack.addProvider(ModItemTagProvider::new);
 		pack.addProvider(ModRegistryDataGenerator::new);
 		pack.addProvider(LootTableProvider::new);
 		pack.addProvider(AdvancementsProvider::new);
