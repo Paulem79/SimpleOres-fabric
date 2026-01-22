@@ -28,8 +28,8 @@ import net.paulem.simpleores.tags.ModTags;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public ItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
