@@ -40,9 +40,12 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     public void registerFluid(Identifier identifier, Fluid modFluid) {
         if(modFluid == null || modFluid == Fluids.EMPTY) return;
 
+        // Prevent duplicate registration
+        if(buckets.containsKey(modFluid)) return;
+
         String fluidName = identifier.getPath();
         // If it's not the still fluid
-        if(!modFluid.isSource(modFluid.defaultFluidState())) {
+        if(!modFluid.isSource(modFluid. defaultFluidState())) {
             return;
         }
 
