@@ -15,9 +15,8 @@ import net.paulem.simpleores.bucket.tint.handler.LayersUploader;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.item.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BowItem;
@@ -41,8 +40,8 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
-public class ModelProvider extends FabricModelProvider {
-    public ModelProvider(FabricDataOutput generator) {
+public class ModModelProvider extends FabricModelProvider {
+    public ModModelProvider(FabricPackOutput generator) {
         super(generator);
     }
 
@@ -121,7 +120,7 @@ public class ModelProvider extends FabricModelProvider {
                         //?}
                         , false);
                 //?} else if >1.21 {
-                /*ResourceLocation identifier = armorItem.getMaterial().modelId();
+                /*Identifier identifier = armorItem.getMaterial().modelId();
                 itemModelGenerator.generateArmorTrims(item, identifier, ModEquipmentClientModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getSlot());
                 *///?} else {
                  /*itemModelGenerator.generateArmorTrims(armorItem);
@@ -188,12 +187,12 @@ public class ModelProvider extends FabricModelProvider {
     }
     /*?} else {*/
     /*private void registerBars(BlockModelGenerators blockStateModelGenerator, Block barBlock) {
-        ResourceLocation identifier = ModelLocationUtils.getModelLocation(barBlock, "_post_ends");
-        ResourceLocation identifier2 = ModelLocationUtils.getModelLocation(barBlock, "_post");
-        ResourceLocation identifier3 = ModelLocationUtils.getModelLocation(barBlock, "_cap");
-        ResourceLocation identifier4 = ModelLocationUtils.getModelLocation(barBlock, "_cap_alt");
-        ResourceLocation identifier5 = ModelLocationUtils.getModelLocation(barBlock, "_side");
-        ResourceLocation identifier6 = ModelLocationUtils.getModelLocation(barBlock, "_side_alt");
+        Identifier identifier = ModelLocationUtils.getModelLocation(barBlock, "_post_ends");
+        Identifier identifier2 = ModelLocationUtils.getModelLocation(barBlock, "_post");
+        Identifier identifier3 = ModelLocationUtils.getModelLocation(barBlock, "_cap");
+        Identifier identifier4 = ModelLocationUtils.getModelLocation(barBlock, "_cap_alt");
+        Identifier identifier5 = ModelLocationUtils.getModelLocation(barBlock, "_side");
+        Identifier identifier6 = ModelLocationUtils.getModelLocation(barBlock, "_side_alt");
 
         blockStateModelGenerator.blockStateOutput
                 .accept(

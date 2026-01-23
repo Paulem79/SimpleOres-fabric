@@ -2,7 +2,7 @@ package net.paulem.simpleores.datagen;
 
 import net.paulem.simpleores.datagen.providers.*;
 import net.paulem.simpleores.datagen.providers.langs.*;
-import net.paulem.simpleores.datagen.providers.tags.BlockTagProvider;
+import net.paulem.simpleores.datagen.providers.tags.ModBlockTagProvider;
 import net.paulem.simpleores.datagen.providers.tags.ModItemTagProvider;
 import net.paulem.simpleores.world.ModConfiguredFeatures;
 import net.paulem.simpleores.world.ModPlacedFeatures;
@@ -18,15 +18,15 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
-		pack.addProvider(ModelProvider::new);
-		pack.addProvider(RecipeProvider::new);
-		pack.addProvider(BlockTagProvider::new);
+		pack.addProvider(ModModelProvider::new);
+		pack.addProvider(ModRecipeProvider::new);
+		pack.addProvider(ModBlockTagProvider::new);
 		pack.addProvider(ModItemTagProvider::new);
 		pack.addProvider(ModRegistryDataGenerator::new);
 		pack.addProvider(LootTableProvider::new);
-		pack.addProvider(AdvancementsProvider::new);
+		pack.addProvider(ModAdvancementsProvider::new);
 		//? if >1.21.11
-		pack.addProvider(VillagersTradesTagsProvider::new);
+		pack.addProvider(ModVillagersTradesTagsProvider::new);
 
 		List<FabricDataGenerator.Pack.RegistryDependentFactory<GlobalLangProvider>> langs = Arrays.asList(ChineseSimplifiedLangProvider::new, ChineseTraditionalLangProvider::new,
 				EnglishLangProvider::new, FrenchLangProvider::new, DanishLangProvider::new,
@@ -48,6 +48,6 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		registryBuilder.add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap);
 		registryBuilder.add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
 		//? if >1.21.11
-		registryBuilder.add(Registries.VILLAGER_TRADE, VillagersTradesProvider::bootstrap);
+		registryBuilder.add(Registries.VILLAGER_TRADE, ModVillagersTradesProvider::bootstrap);
 	}
 }

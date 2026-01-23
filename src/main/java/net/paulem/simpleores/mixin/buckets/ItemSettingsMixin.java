@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Item.Properties.class)
 public class ItemSettingsMixin {
-    //? if !hasBucketlib || !containsBucket {
-    @Inject(
+    //? if (!hasBucketlib || !containsBucket) && !afterDeobf {
+    /*@Inject(
             method = "buildAndValidateComponents",
             at = @At(
                     value = "HEAD"
@@ -36,5 +36,5 @@ public class ItemSettingsMixin {
             cir.setReturnValue(componentMap);
         }
     }
-    //?}
+    *///?}
 }

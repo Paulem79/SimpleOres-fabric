@@ -6,7 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 //? if <=1.20.1
-//import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+//import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 //? if >1.20.1
@@ -19,18 +19,14 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.BlastingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.armors.MaterialRecipeContainer;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tags.ModTags;
@@ -43,8 +39,8 @@ import java.util.concurrent.CompletableFuture;
 import static net.minecraft.data.recipes.RecipeProvider.*;
 
 
-public class RecipeProvider extends FabricRecipeProvider {
-    public RecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModRecipeProvider extends FabricRecipeProvider {
+    public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output //? if >1.20.4
                 , registryLookup
         );
@@ -173,7 +169,7 @@ public class RecipeProvider extends FabricRecipeProvider {
     //? if <1.21.3 {
     
     /*@Override
-    public void buildRecipes(java.util.function.Consumer<net.minecraft.data.recipes.FinishedRecipe> recipeExporter) {
+    public void buildRecipes(RecipeOutput recipeExporter) {
         extracted(recipeExporter, recipeExporter);
     }
      
@@ -549,17 +545,17 @@ public class RecipeProvider extends FabricRecipeProvider {
 
         public void oreSmelting(List<ItemLike> inputs, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group) {
             //? >=1.21.3 {
-            generator().oreSmelting(inputs, category, output, experience, cookingTime, group);
+            generator().oreSmelting(inputs, category, CookingBookCategory.BLOCKS, output, experience, cookingTime, group);
             //?} else {
-            /*provider().oreSmelting(exporter(), inputs, category, output, experience, cookingTime, group);
+            /*provider().oreSmelting(exporter(), inputs, category, CookingBookCategory.BLOCKS, output, experience, cookingTime, group);
             *///?}
         }
 
         public void oreBlasting(List<ItemLike> inputs, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group) {
             //? >=1.21.3 {
-            generator().oreBlasting(inputs, category, output, experience, cookingTime, group);
+            generator().oreBlasting(inputs, category, CookingBookCategory.BLOCKS, output, experience, cookingTime, group);
             //?} else {
-            /*provider().oreBlasting(exporter(), inputs, category, output, experience, cookingTime, group);
+            /*provider().oreBlasting(exporter(), inputs, category, CookingBookCategory.BLOCKS, output, experience, cookingTime, group);
             *///?}
         }
 
@@ -673,7 +669,11 @@ public class RecipeProvider extends FabricRecipeProvider {
                 String group,
                 String suffix
         ) {
-            SimpleCookingRecipeBuilder.generic(ingredientFromTag(tag), category, output, experience, cookingTime, serializer //? if >1.20.1
+            SimpleCookingRecipeBuilder.generic(ingredientFromTag(tag), category, //? if afterDeobf
+                    CookingBookCategory.BLOCKS,
+                            output, experience, cookingTime //? if !afterDeobf
+                            //, serializer
+                            //? if >1.20.1
                     , recipeFactory
             )
                     .group(group)

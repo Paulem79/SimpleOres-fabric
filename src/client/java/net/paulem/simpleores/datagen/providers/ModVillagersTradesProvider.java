@@ -11,11 +11,11 @@ import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.stonecutter.SCId;
 import org.jspecify.annotations.NonNull;
 
-public class VillagersTradesProvider {
+public class ModVillagersTradesProvider {
     public static @NonNull Holder<VillagerTrade> bootstrap(final BootstrapContext<VillagerTrade> context) {
         int index = 0;
-        for (VillagersTradesTagsProvider.TradeDefinition tradeDefinition : VillagersTradesTagsProvider.TRADE_DEFINITIONS) {
-            if (index >= VillagersTradesTagsProvider.TRADE_DEFINITIONS.size() - 1) {
+        for (ModVillagersTradesTagsProvider.TradeDefinition tradeDefinition : ModVillagersTradesTagsProvider.TRADE_DEFINITIONS) {
+            if (index >= ModVillagersTradesTagsProvider.TRADE_DEFINITIONS.size() - 1) {
                 break;
             }
 
@@ -28,12 +28,12 @@ public class VillagersTradesProvider {
             index++;
         }
 
-        return registerFromTradeDefinition(context, VillagersTradesTagsProvider.TRADE_DEFINITIONS.get(index));
+        return registerFromTradeDefinition(context, ModVillagersTradesTagsProvider.TRADE_DEFINITIONS.get(index));
     }
 
-    public static @NonNull Holder<VillagerTrade> registerFromTradeDefinition(final BootstrapContext<VillagerTrade> context, final VillagersTradesTagsProvider.TradeDefinition tradeDefinition) {
+    public static @NonNull Holder<VillagerTrade> registerFromTradeDefinition(final BootstrapContext<VillagerTrade> context, final ModVillagersTradesTagsProvider.TradeDefinition tradeDefinition) {
         ResourceKey<VillagerTrade> key = resourceKey(
-                VillagersTradesTagsProvider.getProfessionName(tradeDefinition.profession()) + "/" +
+                ModVillagersTradesTagsProvider.getProfessionName(tradeDefinition.profession()) + "/" +
                         tradeDefinition.level() + "/" +
                         tradeDefinition.tradeName()
         );
@@ -42,7 +42,7 @@ public class VillagersTradesProvider {
     }
 
     public static ResourceKey<VillagerTrade> createKey(VillagerProfession profession, int level, String name) {
-        String professionName = VillagersTradesTagsProvider.getProfessionName(profession);
+        String professionName = ModVillagersTradesTagsProvider.getProfessionName(profession);
         return resourceKey(professionName + "/" + level + "/" + name);
     }
 
@@ -55,5 +55,5 @@ public class VillagersTradesProvider {
     }
 }
 //? } else {
-/*public class VillagersTradesProvider {}
+/*public class ModVillagersTradesProvider {}
 *///? }

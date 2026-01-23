@@ -179,7 +179,7 @@ public class ModBlocks {
     // Already present on 1.21+
     //? if <1.21 {
     /*public static DoorBlock copper_door = registerBlock("copper_door", key ->
-            makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of(net.minecraft.world.level.material.Material.STONE, MaterialColor.COLOR_ORANGE)
+            makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
                     .requiresCorrectToolForDrops().strength(3.0F).noOcclusion()/^Removed push reaction^/));
     *///?}
     public static DoorBlock tin_door = registerBlock("tin_door", key ->

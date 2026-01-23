@@ -1,12 +1,12 @@
 package net.paulem.simpleores.datagen.providers.langs;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class DanishLangProvider extends GlobalLangProvider {
-    public DanishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(dataOutput, "da_dk", registryLookup);
+    public DanishLangProvider(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(packOutput, "da_dk", registryLookup);
     }
 
     @Override

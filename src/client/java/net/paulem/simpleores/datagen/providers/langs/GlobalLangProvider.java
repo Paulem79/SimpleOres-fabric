@@ -1,6 +1,6 @@
 package net.paulem.simpleores.datagen.providers.langs;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.paulem.simpleores.SimpleOres;
@@ -18,8 +18,8 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         translationPrefix = "item.simpleores.";
     }
 
-    public GlobalLangProvider(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(dataOutput, languageCode //? if >1.20.4
+    public GlobalLangProvider(FabricPackOutput packOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(packOutput, languageCode //? if >1.20.4
                 , registryLookup
         );
 
@@ -34,7 +34,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         // Load an existing language file.
         try {
             SimpleOres.LOGGER.info("Adding existing language file for language: {}", languageCode);
-            Path existingFilePath = dataOutput.getModContainer().findPath("assets/" + SimpleOres.MOD_ID + "/lang/" + languageCode + ".existing.json").get();
+            Path existingFilePath = packOutput.getModContainer().findPath("assets/" + SimpleOres.MOD_ID + "/lang/" + languageCode + ".existing.json").get();
             translationBuilder.add(existingFilePath);
         } catch (Exception e) {
             throw new RuntimeException("Failed to add existing language file!", e);

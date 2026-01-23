@@ -25,7 +25,7 @@ public class TooltipBlockItem extends BlockItem implements TooltipItem {
         //? if >1.21 {
         Identifier value = stack.getItem().components().get(DataComponents.ITEM_MODEL);
         //?} else {
-        /*ResourceLocation value = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        /*Identifier value = BuiltInRegistries.ITEM.getKey(stack.getItem());
          *///?}
         @Nullable Block block = BuiltInRegistries.BLOCK.//? if >1.21 {
                 getValue

@@ -22,25 +22,25 @@ public class ModCustomTrades {
         // ARMORER
         //? if !hasCopperTools {
         /^TradeOfferHelper.registerVillagerOffers(VillagerProfession.ARMORER, 1, factories -> {
-            if(SimpleOres.CONFIG.armorerEmeraldCopperHelmet()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.armorerEmeraldCopperHelmet()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD, 3).get(),
                     new ItemStack(ModItems.COPPER_HELMET),
                     12, 1, 0.2F
             ));
 
-            if(SimpleOres.CONFIG.armorerEmeraldCopperChestplate()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.armorerEmeraldCopperChestplate()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD, 7).get(),
                     new ItemStack(ModItems.COPPER_CHESTPLATE),
                     12, 1, 0.2F
             ));
 
-            if(SimpleOres.CONFIG.armorerEmeraldCopperLeggings()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.armorerEmeraldCopperLeggings()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD, 5).get(),
                     new ItemStack(ModItems.COPPER_LEGGINGS),
                     12, 1, 0.2F
             ));
 
-            if(SimpleOres.CONFIG.armorerEmeraldCopperBoots()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.armorerEmeraldCopperBoots()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD, 2).get(),
                     new ItemStack(ModItems.COPPER_BOOTS),
                     12, 1, 0.2F
@@ -133,25 +133,25 @@ public class ModCustomTrades {
             ));
 
             //? if !hasCopperTools {
-            /^if(SimpleOres.CONFIG.toolsmithEmeraldCopperAxe()) factories.add((entity, random) -> new MerchantOffer(
+            /^if(SimpleOres.CONFIG.toolsmithEmeraldCopperAxe()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_AXE),
                     12, 1, 0.2F
             ));
 
-            if(SimpleOres.CONFIG.toolsmithEmeraldCopperShovel()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.toolsmithEmeraldCopperShovel()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_SHOVEL),
                     12, 1, 0.2F
             ));
 
-            if(SimpleOres.CONFIG.toolsmithEmeraldCopperHoe()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.toolsmithEmeraldCopperHoe()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_HOE),
                     12, 1, 0.2F
             ));
 
-            if(SimpleOres.CONFIG.toolsmithEmeraldCopperPickaxe()) factories.add((entity, random) -> new MerchantOffer(
+            if(SimpleOres.CONFIG.toolsmithEmeraldCopperPickaxe()) factories.add((level, entity, random) -> new MerchantOffer(
                     new SCTradedItem(Items.EMERALD).get(),
                     new ItemStack(ModItems.COPPER_PICKAXE),
                     12, 1, 0.2F

@@ -2,7 +2,11 @@ package net.paulem.simpleores;
 
 //? <=1.19.4
 //import net.minecraft.world.item.CreativeModeTab;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+//? if afterDeobf {
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+//? } else {
+/*import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+*///? }
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
@@ -93,7 +97,12 @@ public class SimpleOres implements ModInitializer {
         //? if >1.19.4
 		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, SCId.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);
 
-        ItemGroupEvents.modifyEntriesEvent(//? if >1.19.4 {
+        //? if afterDeobf {
+        CreativeModeTabEvents.modifyOutputEvent
+        //? } else {
+        /*ItemGroupEvents.modifyEntriesEvent
+        *///? }
+                (//? if >1.19.4 {
                 ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), SCId.of(MOD_ID, "itemgroup.global"))
                 //?} else {
                 //ItemGroups.SIMPLEORES

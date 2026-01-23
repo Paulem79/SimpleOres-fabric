@@ -8,7 +8,7 @@ public class SCId {
         //? if >=1.21 {
         return Identifier.withDefaultNamespace(path);
         //?} else {
-        /*return of(ResourceLocation.DEFAULT_NAMESPACE, path);
+        /*return of(Identifier.DEFAULT_NAMESPACE, path);
         *///?}
     }
     public static Identifier of(String name) {
@@ -19,7 +19,7 @@ public class SCId {
         //? if >=1.21 {
         return Identifier.fromNamespaceAndPath(modId, name);
         //?} else {
-        /*return new ResourceLocation(modId, name);
+        /*return new Identifier(modId, name);
         *///?}
     }
 }

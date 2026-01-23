@@ -1,7 +1,7 @@
 package net.paulem.simpleores.datagen.providers;
 
 //? if >1.21.3 {
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.EquipmentAssetProvider;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.data.CachedOutput;
@@ -18,7 +18,7 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider
 {
     protected final PackOutput.PathProvider pathProvider;
 
-    public ModEquipmentAssetProvider(FabricDataOutput packOutput)
+    public ModEquipmentAssetProvider(FabricPackOutput packOutput)
     {
         super(packOutput);
         this.pathProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "equipment");
@@ -37,13 +37,13 @@ public class ModEquipmentAssetProvider extends EquipmentAssetProvider
     }
 }
 //?} else if 1.21.3 {
-/*import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+/*import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.CachedOutput;
-import net.minecraft.data.models.EquipmentModelProvider;
-import net.minecraft.world.item.equipment.EquipmentModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.data.models.EquipmentModelProvider;
+import net.minecraft.client.resources.model.EquipmentClientInfo;
+import net.minecraft.resources.Identifier;
 import net.paulem.simpleores.armors.ModEquipmentClientModels;
 
 import java.util.HashMap;
@@ -54,7 +54,7 @@ public class ModEquipmentAssetProvider extends EquipmentModelProvider
 {
     protected final PackOutput.PathProvider pathProvider;
 
-    public ModEquipmentAssetProvider(FabricDataOutput packOutput)
+    public ModEquipmentAssetProvider(FabricPackOutput packOutput)
     {
         super(packOutput);
         this.pathProvider = packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models/equipment");
@@ -62,14 +62,14 @@ public class ModEquipmentAssetProvider extends EquipmentModelProvider
 
     @Override
     public CompletableFuture<?> run(CachedOutput output) {
-        Map<ResourceLocation, EquipmentModel> map = new HashMap<>();
+        Map<Identifier, EquipmentClientInfo> map = new HashMap<>();
         ModEquipmentClientModels.bootstrap((id, model) -> {
             if (map.putIfAbsent(id, model) != null)
             {
                 throw new IllegalStateException("Duplicate equipment model for id: " + id.toString());
             }
         });
-        return DataProvider.saveAll(output, EquipmentModel.CODEC, this.pathProvider, map);
+        return DataProvider.saveAll(output, EquipmentClientInfo.CODEC, this.pathProvider, map);
     }
 }
 *///?} else {

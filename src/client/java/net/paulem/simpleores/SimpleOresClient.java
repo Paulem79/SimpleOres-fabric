@@ -10,10 +10,10 @@ import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipItem;
 
 //? if >=1.21.6 {
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ChunkSectionLayerMap;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 //?} else {
-/*import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+/*import net.fabricmc.fabric.api.blockrenderlayer.v1.ChunkSectionLayerMap;
 import net.minecraft.client.renderer.RenderType;
 *///?}
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -32,9 +32,9 @@ public class SimpleOresClient implements ClientModInitializer {
 			// Make doors non opaque on rendering
 			if(block instanceof DoorBlock || block instanceof IronBarsBlock) {
 				//? if >=1.21.6 {
-				BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
+				ChunkSectionLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
 				//?} else {
-				/*BlockRenderLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
+				/*ChunkSectionLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
 				*///?}
 			}
 		});

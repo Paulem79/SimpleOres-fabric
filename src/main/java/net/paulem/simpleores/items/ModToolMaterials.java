@@ -45,12 +45,12 @@ public final class ModToolMaterials {
 }
 //?} else {
 
-/*import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+/*import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.paulem.simpleores.tags.ModTags;
@@ -58,7 +58,7 @@ import net.minecraft.tags.TagKey;
 
 import java.util.function.Supplier;
 
-public enum ModToolMaterials implements Tier {
+public enum ModToolMaterials implements ToolMaterial {
 	COPPER(SimpleOres.CONFIG.copperTools(), () -> Ingredient.of(ConventionalItemTags.COPPER_INGOTS)),
 	TIN(SimpleOres.CONFIG.tinTools(), () -> Ingredient.of(ModTags.Items.Conventional.TIN_INGOTS)),
 	MYTHRIL(SimpleOres.CONFIG.mythrilTools(), () -> Ingredient.of(ModTags.Items.Conventional.MYTHRIL_INGOTS)),

@@ -39,7 +39,11 @@
 		"fabricloader": "${fabricloader_version}",
 		"fabric-api": "*${bucketlib_expansion}"
 	},
+	"breaks": {
+		"fabric-api": "${fabric_api_breaks_version}"
+	},
 	"recommends": {
+		"cloth-config": "*",
 		"modmenu": "*",
 		"energizedpower": "*"
 	}

@@ -91,7 +91,12 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         if (block instanceof BucketPickup bucketPickup) {
             ItemStack fullVanillaBucket = bucketPickup.pickupBlock(player, level, pos, state);
             if (fullVanillaBucket.getItem() instanceof BucketItem vanillaBucketItem) {
-                Fluid fluid = ((BucketItemAccessor) vanillaBucketItem).fabric_getFluid();
+                Fluid fluid = ((BucketItemAccessor) vanillaBucketItem)
+                        //? if afterDeobf {
+                        .fabric_getContent();
+                        //? } else {
+                        /*.fabric_getFluid();
+                        *///?}
                 if (stack.getItem() instanceof CustomChildrenBucketItem bucketItem) {
                     SoundEvent sound = bucketPickup.getPickupSound().orElse(FluidVariantAttributes.getFillSound(FluidVariant.of(fluid)));
                     level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);

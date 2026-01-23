@@ -3,8 +3,8 @@ package net.paulem.simpleores.datagen.providers.tags;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.stonecutter.SCTag;
 import net.paulem.simpleores.tags.ModTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.world.level.block.*;
 import net.minecraft.core.HolderLookup;
@@ -18,8 +18,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import java.util.concurrent.CompletableFuture;
 
-public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public BlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+    public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -168,7 +168,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Block>, Block>/*?} else {*//*FabricTagProvider<Block>.FabricTagBuilder*//*?}*/ get() {
+        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Block>, Block>/*?} else {*//*FabricTagsProvider<Block>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
             return builder(tag);
             /*?} else {*/

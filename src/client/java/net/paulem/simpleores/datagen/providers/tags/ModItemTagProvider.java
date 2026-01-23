@@ -2,8 +2,8 @@ package net.paulem.simpleores.datagen.providers.tags;
 
 //? hasBucketlib
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,8 +28,8 @@ import net.paulem.simpleores.tags.ModTags;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
+    public ModItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -300,7 +300,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Item>, Item>/*?} else {*//*FabricTagProvider<Item>.FabricTagBuilder*//*?}*/ get() {
+        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Item>, Item>/*?} else {*//*FabricTagsProvider<Item>.FabricTagBuilder*//*?}*/ get() {
             /*? if >=1.21.6 {*/
             return builder(tag);
             /*?} else {*/
