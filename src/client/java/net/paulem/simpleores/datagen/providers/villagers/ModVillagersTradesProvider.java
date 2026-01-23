@@ -1,6 +1,6 @@
-package net.paulem.simpleores.datagen.providers;
+package net.paulem.simpleores.datagen.providers.villagers;
 
-//? if >1.21.11 {
+//? if afterDeobf {
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -9,13 +9,18 @@ import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.trading.VillagerTrade;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.simpleores.villagers.ModVillagersTrades;
+import net.paulem.simpleores.villagers.TradeDefinition;
 import org.jspecify.annotations.NonNull;
 
 public class ModVillagersTradesProvider {
     public static @NonNull Holder<VillagerTrade> bootstrap(final BootstrapContext<VillagerTrade> context) {
+        ModVillagersTrades.generateFromBootstrap(context);
+
         int index = 0;
-        for (ModVillagersTradesTagsProvider.TradeDefinition tradeDefinition : ModVillagersTradesTagsProvider.TRADE_DEFINITIONS) {
-            if (index >= ModVillagersTradesTagsProvider.TRADE_DEFINITIONS.size() - 1) {
+
+        for (TradeDefinition tradeDefinition : ModVillagersTrades.TRADE_DEFINITIONS) {
+            if (index >= ModVillagersTrades.TRADE_DEFINITIONS.size() - 1) {
                 break;
             }
 
@@ -28,10 +33,11 @@ public class ModVillagersTradesProvider {
             index++;
         }
 
-        return registerFromTradeDefinition(context, ModVillagersTradesTagsProvider.TRADE_DEFINITIONS.get(index));
+        // Get the last trade definition to return
+        return registerFromTradeDefinition(context, ModVillagersTrades.TRADE_DEFINITIONS.get(index));
     }
 
-    public static @NonNull Holder<VillagerTrade> registerFromTradeDefinition(final BootstrapContext<VillagerTrade> context, final ModVillagersTradesTagsProvider.TradeDefinition tradeDefinition) {
+    public static @NonNull Holder<VillagerTrade> registerFromTradeDefinition(final BootstrapContext<VillagerTrade> context, final TradeDefinition tradeDefinition) {
         ResourceKey<VillagerTrade> key = resourceKey(
                 ModVillagersTradesTagsProvider.getProfessionName(tradeDefinition.profession()) + "/" +
                         tradeDefinition.level() + "/" +

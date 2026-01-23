@@ -4,6 +4,8 @@ import net.paulem.simpleores.datagen.providers.*;
 import net.paulem.simpleores.datagen.providers.langs.*;
 import net.paulem.simpleores.datagen.providers.tags.ModBlockTagProvider;
 import net.paulem.simpleores.datagen.providers.tags.ModItemTagProvider;
+import net.paulem.simpleores.datagen.providers.villagers.ModVillagersTradesProvider;
+import net.paulem.simpleores.datagen.providers.villagers.ModVillagersTradesTagsProvider;
 import net.paulem.simpleores.world.ModConfiguredFeatures;
 import net.paulem.simpleores.world.ModPlacedFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
