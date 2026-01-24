@@ -14,7 +14,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.blocks.ModBlocks;
-import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.config.Config;
 //? containsBucket && !hasBucketlib
 import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
@@ -28,7 +27,7 @@ import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
 import net.paulem.simpleores.items.ItemGroups;
 import net.paulem.simpleores.items.ModItems;
-import net.paulem.simpleores.villagers.ModCustomTrades;
+import net.paulem.simpleores.villagers.ModLegacyVillagersTrades;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +119,7 @@ public class SimpleOres implements ModInitializer {
 
 		// If trades are enabled
 		if(SimpleOres.CONFIG.enableTrades()) {
-			ModCustomTrades.registerCustomTrades();
+			ModLegacyVillagersTrades.registerCustomTrades();
 		}
 	}
 }

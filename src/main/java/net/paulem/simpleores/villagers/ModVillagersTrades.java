@@ -1,12 +1,13 @@
 package net.paulem.simpleores.villagers;
 
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
 //? if afterDeobf {
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.VillagerTrade;
+//? }
+import net.minecraft.world.item.Items;
 import net.paulem.simpleores.items.ModItems;
 
 import java.util.*;
@@ -15,55 +16,39 @@ public class ModVillagersTrades {
     public static final List<TradeDefinition> TRADE_DEFINITIONS = new ArrayList<>();
     public static ModTrades INSTANCE;
 
-    private static //? afterDeobf {
-    ItemStackTemplate
-    //? } else {
-    //ItemStack
-    //? }
-    getStack(Item itemStack) {
-        return getStack(itemStack, 1);
-    }
+    public static void generateFromBootstrap(//? afterDeobf
+            final BootstrapContext<VillagerTrade> context
+    ) {
+        INSTANCE = new ModTrades(//? afterDeobf
+                context
+        );
 
-    private static //? afterDeobf {
-    ItemStackTemplate
-    //? } else {
-    //ItemStack
-    //? }
-    getStack(Item itemStack, int count) {
-        //? afterDeobf {
-        return new ItemStackTemplate(itemStack, count);
-        //? } else {
-        //return itemStack;
-        //? }
-    }
-
-    public static void generateFromBootstrap(final BootstrapContext<VillagerTrade> context) {
-        INSTANCE = new ModTrades(context);
-
-        // ARMORER - level 1: emerald -> copper armor pieces
+        //? if !hasCopperTools {
+        /*// ARMORER - level 1: emerald -> copper armor pieces
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.ARMORER, 1, "copper_helmet_emerald",
-                new ModTradeItem(Items.EMERALD, 3), new ModTradeItem(Items.COPPER_HELMET),
+                new ModTradeItem(Items.EMERALD, 3), new ModTradeItem(ModItems.COPPER_HELMET),
                 12, 1, 0.2F
         ));
 
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.ARMORER, 1, "copper_chestplate_emerald",
-                new ModTradeItem(Items.EMERALD, 7), new ModTradeItem(Items.COPPER_CHESTPLATE),
+                new ModTradeItem(Items.EMERALD, 7), new ModTradeItem(ModItems.COPPER_CHESTPLATE),
                 12, 1, 0.2F
         ));
 
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.ARMORER, 1, "copper_leggings_emerald",
-                new ModTradeItem(Items.EMERALD, 5), new ModTradeItem(Items.COPPER_LEGGINGS),
+                new ModTradeItem(Items.EMERALD, 5), new ModTradeItem(ModItems.COPPER_LEGGINGS),
                 12, 1, 0.2F
         ));
 
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.ARMORER, 1, "copper_boots_emerald",
-                new ModTradeItem(Items.EMERALD, 2), new ModTradeItem(Items.COPPER_BOOTS),
+                new ModTradeItem(Items.EMERALD, 2), new ModTradeItem(ModItems.COPPER_BOOTS),
                 12, 1, 0.2F
-        ));
+        ));*/
+        //? }
 
         // ARMORER - level 2: ingots -> emerald
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
@@ -148,30 +133,32 @@ public class ModVillagersTrades {
                 12, 10, 0.05F
         ));
 
-        // Copper tool offers (TOOLSMITH level 2)
+        //? if !hasCopperTools {
+        /*// Copper tool offers (TOOLSMITH level 2)
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.TOOLSMITH, 2, "copper_axe_emerald",
-                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(Items.COPPER_AXE),
+                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(ModItems.COPPER_AXE),
                 12, 1, 0.2F
         ));
 
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.TOOLSMITH, 2, "copper_shovel_emerald",
-                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(Items.COPPER_SHOVEL),
+                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(ModItems.COPPER_SHOVEL),
                 12, 1, 0.2F
         ));
 
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.TOOLSMITH, 2, "copper_hoe_emerald",
-                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(Items.COPPER_HOE),
+                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(ModItems.COPPER_HOE),
                 12, 1, 0.2F
         ));
 
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
                 VillagerProfession.TOOLSMITH, 2, "copper_pickaxe_emerald",
-                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(Items.COPPER_PICKAXE),
+                new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(ModItems.COPPER_PICKAXE),
                 12, 1, 0.2F
-        ));
+        ));*/
+        //? }
 
         // tin tools
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
@@ -310,6 +297,3 @@ public class ModVillagersTrades {
         ));
     }
 }
-//? } else {
-// public class ModVillagersTrades {}
-//? }

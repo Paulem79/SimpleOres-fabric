@@ -55,6 +55,11 @@ stonecutter parameters {
         else -> ".location("
     }
 
+    swaps["villagerProfession"] = when {
+        eval(current.version, ">=1.21.5") -> "ResourceKey<VillagerProfession>"
+        else -> "VillagerProfession"
+    }
+
     replacements {
         string {
             direction = afterDeobf

@@ -1,6 +1,5 @@
 package net.paulem.simpleores.datagen.providers.villagers;
 
-// TODO: Merge trades with CustomTrades
 //? if afterDeobf {
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
