@@ -43,19 +43,6 @@ jobs:
           echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
           echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
 
-      - name: Download dist-artifacts from last build.yml run
-        uses: actions/github-script@v8
-        env:
-          WORKFLOW_FILENAME: build.yml
-          ARTIFACT_NAME: dist-artifacts
-          ARTIFACT_FILENAME: dist-artifacts.zip
-          UNZIP_DIR: dist
-        with:
-          script: |
-            const script = require('./scripts/download-previous-artifact.js')
-            await script({github, context, core})
-
-# Microsoft OpenJDK 25
       - name: 🛠️ Setup jdk 25
         uses: actions/setup-java@v5
         with:
@@ -68,6 +55,27 @@ jobs:
 
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
+
+      - name: runDatagen
+        run: |
+          PARALLELISM=$(($(nproc) * 2))
+          ./gradlew runDatagen --stacktrace --parallel \
+          --max-workers=$PARALLELISM \
+          --build-cache
+
+      - name: 🔨 Build project
+        run: |
+          PARALLELISM=$(($(nproc) * 2))
+          ./gradlew build --stacktrace --parallel \
+          --max-workers=$PARALLELISM \
+          --build-cache
+
+      - name: 🔨 Dist Jar Build
+        run: |
+          PARALLELISM=$(($(nproc) * 2))
+          ./gradlew distJar --stacktrace --parallel \
+          --max-workers=$PARALLELISM \
+          --build-cache
 
       - name: ⬆️ Upload to Modrinth/CurseForge
         run: ./gradlew publishUnified
