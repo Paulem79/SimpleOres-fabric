@@ -22,6 +22,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluid;
 import net.paulem.simpleores.config.loader.ConfigLoader;
+import net.paulem.simpleores.furnaces.ModFurnaces;
+import net.paulem.simpleores.furnaces.ModFurnacesEntities;
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
@@ -60,6 +62,8 @@ public class SimpleOres implements ModInitializer {
 
 		ModBlocks.init();
 		ModItems.init();
+        ModFurnaces.init();
+        ModFurnacesEntities.init();
 
 		// Register custom buckets
         //? hasBucketlib {

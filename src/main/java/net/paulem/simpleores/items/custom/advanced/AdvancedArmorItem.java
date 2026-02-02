@@ -18,18 +18,10 @@ public class AdvancedArmorItem extends
         *///?}
     {
 
-    //? if >1.20.4 {
-    public AdvancedArmorItem(
-            //? if 1.21 {
-            /*Holder<ArmorMaterial>
-            *///?} else {
-            ArmorMaterial
-            //?}
+    public AdvancedArmorItem(//$ armorRegistry
+                             ArmorMaterial
                     material,
         SCArmor.ArmorEquipmentType type, Properties settings) {
-    //?} else {
-    /*public AdvancedArmorItem(ModArmorMaterials material, SCArmor.ArmorEquipmentType type, Properties settings) {
-    *///?}
         /*? if >=1.21.5 {*/
         super(settings.humanoidArmor(material, type.getType()));
         /*?} else {*/
@@ -44,13 +36,9 @@ public class AdvancedArmorItem extends
         //?}
     }
 
-    //? if 1.21 {
-    /*public static int getDurability(Holder<ArmorMaterial> material, SCArmor.ArmorEquipmentType type) {
-    *///?} else if >1.20.4 {
-    public static int getDurability(ArmorMaterial material, SCArmor.ArmorEquipmentType type) {
-    //?} else if <=1.20.4 {
-    /*public static int getDurability(ModArmorMaterials material, SCArmor.ArmorEquipmentType type) {
-    *///?}
+    public static int getDurability(//$ armorRegistry
+            ArmorMaterial
+                    material, SCArmor.ArmorEquipmentType type) {
         //? if >1.20.4 {
         if (material == ModArmorMaterials.COPPER){
             return type.getType().getDurability(SimpleOres.CONFIG.copperArmorDurability());

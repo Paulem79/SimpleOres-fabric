@@ -1,4 +1,4 @@
-package net.paulem.simpleores.util;
+package net.paulem.simpleores.utils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -87,6 +87,17 @@ public class ConcurrentFifoMap<K, V> {
             if (oldest == null) break;
             map.remove(oldest); // retire éventuellement (si déjà retirée, noop)
         }
+    }
+
+    public Set<Map.Entry<K, V>> entrySet() {
+        Set<Map.Entry<K, V>> entries = new LinkedHashSet<>();
+        Set<K> seen = new LinkedHashSet<>();
+        for (K k : order) {
+            if (!seen.add(k)) continue;
+            V v = map.get(k);
+            if (v != null) entries.add(new AbstractMap.SimpleEntry<>(k, v));
+        }
+        return entries;
     }
 }
 

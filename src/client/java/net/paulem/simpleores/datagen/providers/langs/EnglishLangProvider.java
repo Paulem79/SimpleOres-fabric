@@ -2,6 +2,7 @@ package net.paulem.simpleores.datagen.providers.langs;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
+
 import java.util.concurrent.CompletableFuture;
 
 public class EnglishLangProvider extends GlobalLangProvider {
@@ -63,5 +64,8 @@ public class EnglishLangProvider extends GlobalLangProvider {
         add(translationBuilder, "mythril_pressure_plate", "Mythril Pressure Plate");
         add(translationBuilder, "adamantium_pressure_plate", "Adamantium Pressure Plate");
         add(translationBuilder, "onyx_pressure_plate", "Onyx Pressure Plate");
+
+        generateFurnaceTranslations(translationBuilder, materialName -> materialName + " Furnace");
+        translationBuilder.add("tips.furnace.speed_modifier", "Speed Modifier: x%s");
     }
 }

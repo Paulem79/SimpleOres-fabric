@@ -3,12 +3,10 @@ package net.paulem.simpleores.armors;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.equipment.ArmorMaterial;
-//? if >1.21.3
-import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.stonecutter.SCArmor;
@@ -25,6 +23,10 @@ import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
  */
 //?}
+//? if >1.21.3
+import net.minecraft.world.item.equipment.EquipmentAsset;
+//? if <=1.21.3
+//import net.minecraft.resources.Identifier;
 
 //? if >1.20.4 {
 public final class ModArmorMaterials
@@ -46,7 +48,11 @@ public final class ModArmorMaterials
             ONYX;
 
     static {
-        COPPER = register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
+        COPPER = //? if hasCopperTools {
+                ArmorMaterials.COPPER;
+        //?} else {
+        // register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
+        //?}
 
         TIN = register("tin", SimpleOres.CONFIG.tinArmorDurability(),
                 SimpleOres.CONFIG.tinArmorProtection(),
@@ -79,7 +85,8 @@ public final class ModArmorMaterials
              net.minecraft.tags.TagKey<net.minecraft.world.item.Item>
              repairIngredient)
     {
-        Identifier loc = SCId.of(SimpleOres.MOD_ID, name);
+        //? if <=1.21.3
+        //Identifier loc = SCId.of(SimpleOres.MOD_ID, name);
 
         //? if >1.21.3 {
         return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));

@@ -1,24 +1,17 @@
 package net.paulem.simpleores.furnaces;
 
-import com.mojang.serialization.MapCodec;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,90 +19,59 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
+import net.paulem.simpleores.tooltip.TooltipBlock;
 import org.jetbrains.annotations.Nullable;
+//? if >1.20.1 {
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+//?}
 
-import java.util.ArrayList;
-import java.util.List;
+public class ModFurnaceBlock extends AbstractFurnaceBlock implements TooltipBlock {
+    private final double speedModifier;
 
-public class ModFurnaceBlock extends BaseEntityBlock {
-    private static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
-    public static final BooleanProperty LIT = RedstoneTorchBlock.LIT;
+    //? if >1.20.1 {
+    public static final MapCodec<ModFurnaceBlock> CODEC = RecordCodecBuilder.mapCodec(i ->
+            i.group(propertiesCodec())
+                    .and(Codec.DOUBLE
+                            .fieldOf("speed_modifier")
+                            .forGetter(block -> block.speedModifier)
+                    )
+                    .apply(i, ModFurnaceBlock::new)
+    );
 
-    protected double speed;
-    protected double fuel;
-    protected int dupe;
+    @Override
+    public MapCodec<ModFurnaceBlock> codec() {
+        return CODEC;
+    }
+    //?}
 
-    public ModFurnaceBlock(BlockBehaviour.Properties settings, double speedMultiplier, double fuelMultiplier, int dupeChance100) {
-        super(settings);
+    public ModFurnaceBlock(final BlockBehaviour.Properties properties, final double speedModifier) {
+        super(properties);
 
-        this.speed = speedMultiplier;
-        this.fuel = fuelMultiplier;
-        this.dupe = dupeChance100;
-
-        this.setDefaultState(this.getDefaultState().with(FACING, Direction.NORTH).with(LIT, false));
+        this.speedModifier = speedModifier;
     }
 
     @Override
-    public @org.jspecify.annotations.Nullable BlockEntity newBlockEntity(BlockPos worldPosition, BlockState blockState) {
-        return new FabricFurnaceEntity(pos, state);
+    public BlockEntity newBlockEntity(final BlockPos worldPosition, final BlockState blockState) {
+        return new ModFurnaceBlockEntity(worldPosition, blockState);
     }
 
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return checkType(world, type, FFEntities.FABRIC_FURNACE);
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(final Level level, final BlockState blockState, final BlockEntityType<T> type) {
+        return createFurnaceTicker(level, type, ModFurnacesEntities.FABRIC_FURNACE);
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide()) {
-            this.openContainer(level, pos, player);
-        }
-
-        return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
-        BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof FabricFurnaceEntity furnace) {
-            Containers.dropContents(level, pos, furnace);
-            ((FabricFurnaceEntity)be).getRecipesUsedAndDropExperience(level, Vec3.atCenterOf(pos));
-
-            level.updateNeighbourForOutputSignal(pos, this);
-        }
-
-        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
-    }
-
-    @Override
-    protected void openContainer(Level level, BlockPos blockPos, Player playerEntity) {
-        BlockEntity blockEntity = level.getBlockEntity(blockPos);
-
-        if (blockEntity instanceof FabricFurnaceEntity) {
-            playerEntity.openMenu((MenuProvider) blockEntity);
-            playerEntity.awardStat(Stats.INTERACT_WITH_FURNACE);
+    protected void openContainer(final Level level, final BlockPos pos, final Player player) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof ModFurnaceBlockEntity) {
+            player.openMenu((MenuProvider)blockEntity);
+            player.awardStat(Stats.INTERACT_WITH_FURNACE);
         }
     }
 
-    @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        ArrayList<ItemStack> dropList = new ArrayList<>();
-        dropList.add(new ItemStack(this));
-        return dropList;
-    }
-
-    @Environment(EnvType.CLIENT)
     @Override
     public void animateTick(final BlockState state, final Level level, final BlockPos pos, final RandomSource random) {
         if (state.getValue(LIT)) {
@@ -122,7 +84,7 @@ public class ModFurnaceBlock extends BaseEntityBlock {
 
             Direction direction = state.getValue(FACING);
             Direction.Axis axis = direction.getAxis();
-            double r = 0.52;
+
             double ss = random.nextDouble() * 0.6 - 0.3;
             double dx = axis == Direction.Axis.X ? direction.getStepX() * 0.52 : ss;
             double dy = random.nextDouble() * 6.0 / 16.0;
@@ -133,56 +95,12 @@ public class ModFurnaceBlock extends BaseEntityBlock {
     }
 
     @Override
-    public @org.jspecify.annotations.Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace().getOpposite());
-    }
-
-    @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @org.jspecify.annotations.Nullable LivingEntity by, ItemStack itemStack) {
-        if (itemStack.getCustomName() != null) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-
-            if (blockEntity instanceof FabricFurnaceEntity) {
-                ((FabricFurnaceEntity) blockEntity).setCustomName(itemStack.getHoverName());
-            }
-        }
-    }
-
-    @Override
-    protected boolean hasAnalogOutputSignal(BlockState state) {
-        return true;
-    }
-
-    @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
-    }
-
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LIT);
-        super.createBlockStateDefinition(builder);
-    }
-
-    @Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> checkType(Level world, BlockEntityType<T> givenType, BlockEntityType<? extends FabricFurnaceEntity> expectedType) {
-        return world.isClientSide() ? null : checkType(givenType, expectedType, FabricFurnaceEntity::tick);
+    public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
+        tooltips.accept(Component.translatable("tips.furnace.speed_modifier", String.format("%.1f", this.getSpeedModifier()))
+                .withStyle(ChatFormatting.AQUA));
     }
 
     public double getSpeedModifier() {
-        return speed;
-    }
-
-    public double getFuelModifier() {
-        return fuel;
-    }
-
-    public int getDuplicationChance() {
-        return dupe;
+        return speedModifier;
     }
 }

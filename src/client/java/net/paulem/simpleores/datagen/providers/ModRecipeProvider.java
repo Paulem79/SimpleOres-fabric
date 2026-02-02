@@ -5,12 +5,8 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-//? if <=1.20.1
-//import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
-//? if >1.20.1
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
@@ -35,9 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+//? if >1.20.1
+import net.minecraft.data.recipes.RecipeOutput;
+//? if <=1.20.1
+//import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 //? if >1.21
 import static net.minecraft.data.recipes.RecipeProvider.*;
-
 
 public class ModRecipeProvider extends FabricRecipeProvider {
     public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
@@ -645,14 +644,24 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         public void oreSmelting(TagKey<Item> tag, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group
         ) {
-            offerMultipleOptions(RecipeSerializer.SMELTING_RECIPE, //? if >1.20.1
+            offerMultipleOptions(//? afterDeobf {
+                    null,
+                    //?} else {
+                    //RecipeSerializer.SMELTING_RECIPE,
+                    //?}
+                    //? if >1.20.1
                     SmeltingRecipe::new,
                     tag, category, output, experience, cookingTime, group, "_from_smelting");
         }
 
         public void oreBlasting(TagKey<Item> tag, RecipeCategory category, ItemLike output, float experience, int cookingTime, String group
         ) {
-            offerMultipleOptions(RecipeSerializer.BLASTING_RECIPE, //? if >1.20.1
+            offerMultipleOptions(//? afterDeobf {
+                    null,
+                    //?} else {
+                    //RecipeSerializer.BLASTING_RECIPE,
+                    //?}
+                    //? if >1.20.1
                     BlastingRecipe::new,
                     tag, category, output, experience, cookingTime, group, "_from_blasting");
         }

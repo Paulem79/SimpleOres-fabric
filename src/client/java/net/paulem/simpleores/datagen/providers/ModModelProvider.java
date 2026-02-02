@@ -12,6 +12,7 @@ import net.minecraft.client.data.models.model.*;
 import net.paulem.simpleores.bucket.tint.ClientBucketUtil;
 import net.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import net.paulem.simpleores.bucket.tint.handler.LayersUploader;
+import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
@@ -62,6 +63,10 @@ public class ModModelProvider extends FabricModelProvider {
         BlockModelGenerators.BlockFamilyProvider onyxBricksPool = blockStateModelGenerator.family(ModBlocks.ONYX_BRICKS);
         onyxBricksPool.stairs(ModBlocks.onyx_brick_stairs);
         onyxBricksPool.slab(ModBlocks.ONYX_BRICK_SLAB);
+
+        for (Block modFurnace : ModFurnaces.getFurnaces()) {
+            blockStateModelGenerator.createFurnace(modFurnace, TexturedModel.ORIENTABLE_ONLY_TOP);
+        }
 
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK);
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.tin_pressure_plate, ModBlocks.TIN_BLOCK);

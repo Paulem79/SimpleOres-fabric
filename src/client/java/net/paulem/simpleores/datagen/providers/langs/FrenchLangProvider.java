@@ -2,6 +2,7 @@ package net.paulem.simpleores.datagen.providers.langs;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
+
 import java.util.concurrent.CompletableFuture;
 
 public class FrenchLangProvider extends GlobalLangProvider {
@@ -64,5 +65,8 @@ public class FrenchLangProvider extends GlobalLangProvider {
         add(translationBuilder, "mythril_door", "Porte en Mythril");
         add(translationBuilder, "onyx_door", "Porte en Onyx");
         add(translationBuilder, "tin_door", "Porte en Étain");
+
+        generateFurnaceTranslations(translationBuilder, materialName -> "Four en " + materialName);
+        translationBuilder.add("tips.furnace.speed_modifier", "Modification de la vitesse: x%s");
     }
 }

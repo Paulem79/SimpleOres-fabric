@@ -17,7 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.stonecutter.SCId;
-import net.paulem.simpleores.util.ConcurrentFifoMap;
+import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;

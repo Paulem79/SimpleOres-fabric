@@ -138,8 +138,6 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
 
     @Override
     public void appendClientTooltip(ItemStack stack, TooltipAccept tooltips) {
-
-        // end-switch
         String tipKey = switch (this.sensitivity) {
             case EVERYTHING, EVERYTHING_WEIGHTED -> "tips.pressure_plate.everything";
             case LIVING, LIVING_WEIGHTED -> "tips.pressure_plate.living";
