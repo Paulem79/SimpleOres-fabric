@@ -24,7 +24,6 @@ public class LayersUploader {
 
     static {
         for (int i = 0; i < LAYERS.length; i++) {
-            SimpleOres.LOGGER.info("Registering layer " + i);
             // Compute the texture key for this layer.
             LAYERS[i] = TextureSlot.create("layer" + i);
         }
@@ -40,7 +39,6 @@ public class LayersUploader {
         for (int i = 1; i < LAYERS.length; i++) {
             // Get the corresponding texture for this layer. Starts with 0.
             Identifier subId = TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1));
-            SimpleOres.LOGGER.info("Adding overlay layer " + i + " : " + subId);
             layers.add(subId);
         }
 
@@ -60,7 +58,6 @@ public class LayersUploader {
         TextureMapping textureMap = new TextureMapping();
 
         for (int i = 0; i < layers.length; i++) {
-            SimpleOres.LOGGER.info("layering " + i + " : " + layers[i]);
             textureMap.put(LAYERS[i], layers[i]);
         }
 

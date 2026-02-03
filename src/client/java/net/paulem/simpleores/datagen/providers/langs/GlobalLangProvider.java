@@ -51,7 +51,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
     }
 
     protected void generateFurnaceTranslations(TranslationBuilder translationBuilder, UnaryOperator<String> translateFunction) {
-        Map<String, String> datagenFurnaces = ModFurnaces.getForDatagen(translateFunction, languageCode);
+        Map<String, String> datagenFurnaces = ModFurnaces.generateFurnaceTranslations(translateFunction, languageCode);
         datagenFurnaces.forEach((key, value) -> add(translationBuilder, key, value));
     }
 }

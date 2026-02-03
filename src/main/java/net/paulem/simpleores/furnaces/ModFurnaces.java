@@ -17,9 +17,9 @@ import java.util.function.ToIntFunction;
 import java.util.function.UnaryOperator;
 
 public class ModFurnaces {
-    private static final Map<String, ModFurnaceBlock> allFurnaces = new HashMap<>();
+    private static final List<ModFurnaceBlock> allFurnaces = new ArrayList<>();
 
-    private static final ConcurrentFifoMap<//$ armorRegistry
+    public static final ConcurrentFifoMap<//$ armorRegistry
             ArmorMaterial
             , Double> FURNACES = new ConcurrentFifoMap<>();
 
@@ -39,7 +39,7 @@ public class ModFurnaces {
         }
     }
 
-    public static Map<String, String> getForDatagen(UnaryOperator<String> translateFunction, String locale) {
+    public static Map<String, String> generateFurnaceTranslations(UnaryOperator<String> translateFunction, String locale) {
         Map<String, String> translates = new HashMap<>();
 
         for (Map.Entry<//$ armorRegistry
@@ -76,11 +76,11 @@ public class ModFurnaces {
                 .setId(key)
                 , speedModifier));
 
-        allFurnaces.put(name, furnace);
+        allFurnaces.add(furnace);
     }
 
     public static Collection<ModFurnaceBlock> getFurnaces() {
-        return allFurnaces.values();
+        return allFurnaces;
     }
 
     private static ToIntFunction<BlockState> createLightLevelFromBlockState(int litLevel) {

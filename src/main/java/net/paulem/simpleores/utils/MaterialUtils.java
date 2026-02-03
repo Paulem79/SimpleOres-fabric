@@ -1,11 +1,16 @@
 package net.paulem.simpleores.utils;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.paulem.simpleores.armors.ModArmorMaterials;
+import net.paulem.simpleores.items.ModItems;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
 public class MaterialUtils {
+    private MaterialUtils(){}
+
     public static Pair<Float, Float> getStrength(//$ armorRegistry
             ArmorMaterial
                                                  material
@@ -41,5 +46,17 @@ public class MaterialUtils {
         }
 
         return null;
+    }
+
+    @Nullable
+    public static Item getMaterialItem(String material) {
+        return switch (material) {
+            case "copper": yield Items.COPPER_INGOT;
+            case "tin": yield ModItems.TIN_INGOT;
+            case "mythril": yield ModItems.MYTHRIL_INGOT;
+            case "adamantium": yield ModItems.ADAMANTIUM_INGOT;
+            case "onyx": yield ModItems.ONYX_GEM;
+            default: yield null;
+        };
     }
 }

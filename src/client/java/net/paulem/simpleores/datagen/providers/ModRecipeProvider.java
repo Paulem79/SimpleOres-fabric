@@ -16,11 +16,14 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.armors.MaterialRecipeContainer;
 import net.paulem.simpleores.blocks.ModBlocks;
+import net.paulem.simpleores.furnaces.ModFurnaceBlock;
+import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -33,6 +36,9 @@ import java.util.concurrent.CompletableFuture;
 
 //? if >1.20.1
 import net.minecraft.data.recipes.RecipeOutput;
+import net.paulem.simpleores.utils.MaterialUtils;
+import net.paulem.simpleores.utils.MapUtils;
+import org.jetbrains.annotations.Nullable;
 //? if <=1.20.1
 //import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 //? if >1.21
@@ -163,6 +169,31 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 null,
                 1f, false
         ));
+
+        for (ModFurnaceBlock furnace : ModFurnaces.getFurnaces()) {
+            @Nullable //$ armorRegistry
+            ArmorMaterial
+                    material = MapUtils.keys(ModFurnaces.FURNACES, furnace.getSpeedModifier())
+                    .findFirst()
+                    .orElse(null);
+
+            String materialName = MaterialUtils.getName(material);
+            if(materialName == null) continue;
+
+            Item materialItem = MaterialUtils.getMaterialItem(materialName);
+            if(materialItem == null) continue;
+
+            scRecipe.createShaped(RecipeCategory.DECORATIONS, furnace.asItem())
+                    .pattern("MMM")
+                    .pattern("MFM")
+                    .pattern("MMM")
+                    .define('M', materialItem)
+                    .define('F', Items.FURNACE)
+                    .unlockedBy(getHasName(materialItem), scRecipe.has(materialItem))
+                    .unlockedBy(getHasName(Items.FURNACE), scRecipe.has(Items.FURNACE))
+                    .group(materialName)
+                    .save(exporter);
+        }
     }
 
     //? if <1.21.3 {
