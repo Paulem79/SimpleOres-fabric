@@ -172,7 +172,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         for (ModFurnaceBlock furnace : ModFurnaces.getFurnaces()) {
             @Nullable //$ armorRegistry
-            ArmorMaterial
+            net.minecraft.world.item.equipment.ArmorMaterial
                     material = MapUtils.keys(ModFurnaces.FURNACES, furnace.getSpeedModifier())
                     .findFirst()
                     .orElse(null);

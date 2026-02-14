@@ -12,7 +12,7 @@ public class MaterialUtils {
     private MaterialUtils(){}
 
     public static Pair<Float, Float> getStrength(//$ armorRegistry
-            ArmorMaterial
+            net.minecraft.world.item.equipment.ArmorMaterial
                                                  material
     ) {
         if(material == ModArmorMaterials.TIN) {
@@ -30,7 +30,7 @@ public class MaterialUtils {
 
     @Nullable
     public static String getName(//$ armorRegistry
-                                 ArmorMaterial
+                                 net.minecraft.world.item.equipment.ArmorMaterial
                                          material
     ) {
         if(material == ModArmorMaterials.COPPER) {

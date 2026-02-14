@@ -20,7 +20,7 @@ public class ModFurnaces {
     private static final List<ModFurnaceBlock> allFurnaces = new ArrayList<>();
 
     public static final ConcurrentFifoMap<//$ armorRegistry
-            ArmorMaterial
+            net.minecraft.world.item.equipment.ArmorMaterial
             , Double> FURNACES = new ConcurrentFifoMap<>();
 
     static {
@@ -33,7 +33,7 @@ public class ModFurnaces {
 
     public static void init() {
         for (Map.Entry<//$ armorRegistry
-                ArmorMaterial
+                net.minecraft.world.item.equipment.ArmorMaterial
                 , Double> entry : FURNACES.entrySet()) {
             registerFurnace(entry.getKey(), entry.getValue());
         }
@@ -43,7 +43,7 @@ public class ModFurnaces {
         Map<String, String> translates = new HashMap<>();
 
         for (Map.Entry<//$ armorRegistry
-                ArmorMaterial
+                net.minecraft.world.item.equipment.ArmorMaterial
                 , Double> entry : FURNACES.entrySet()) {
             String id = getFurnaceName(entry.getKey());
 
@@ -57,13 +57,13 @@ public class ModFurnaces {
     }
 
     public static String getFurnaceName(//$ armorRegistry
-                                        ArmorMaterial
+                                        net.minecraft.world.item.equipment.ArmorMaterial
                                                 material) {
         return MaterialUtils.getName(material) + "_furnace";
     }
 
     private static void registerFurnace(//$ armorRegistry
-                                        ArmorMaterial
+                                        net.minecraft.world.item.equipment.ArmorMaterial
             material, double speedModifier) {
         Pair<Float, Float> strength = MaterialUtils.getStrength(material);
         String name = getFurnaceName(material);

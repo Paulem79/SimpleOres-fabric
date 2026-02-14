@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class TranslateUtils {
     private static final Map<//$ armorRegistry
-            ArmorMaterial
+            net.minecraft.world.item.equipment.ArmorMaterial
             , Map<String, String>> MATERIAL_NAMES = Map.of(
             ModArmorMaterials.COPPER, Map.of(
                     "en_us", "Copper",
@@ -33,7 +33,7 @@ public class TranslateUtils {
     );
 
     public static String getTranslatedName(//$ armorRegistry
-                                    ArmorMaterial
+                                    net.minecraft.world.item.equipment.ArmorMaterial
             material, String locale) {
         @Nullable String translatedName = MATERIAL_NAMES.get(material).get(locale);
 

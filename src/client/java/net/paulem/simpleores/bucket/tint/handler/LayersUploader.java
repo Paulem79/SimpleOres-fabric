@@ -13,10 +13,12 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.paulem.simpleores.SimpleOres;
 
 import java.util.LinkedList;
 import java.util.Optional;
+
+//? afterDeobf
+import net.minecraft.client.renderer.block.model.Material;
 
 public class LayersUploader {
     // I want 24 layers, because the base overlay texture has 24 layers.
@@ -33,20 +35,34 @@ public class LayersUploader {
     public static final ModelTemplate GENERATED_TWENTY_FOUR_LAYERS = item("generated", LAYERS);
 
     public static void registerOverlayBucket(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource... tints) {
-        LinkedList<Identifier > layers = new LinkedList<>();
+        LinkedList<//? afterDeobf {
+                Material
+                //?} else {
+                //Identifier
+                //?}
+                > layers = new LinkedList<>();
 
         layers.add(TextureMapping.getItemTexture(parentBucket));
         for (int i = 1; i < LAYERS.length; i++) {
             // Get the corresponding texture for this layer. Starts with 0.
-            Identifier subId = TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1));
-            layers.add(subId);
+            layers.add(TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1)));
         }
 
-        Identifier identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new Identifier[0]));
+        Identifier identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new //? afterDeobf {
+                Material
+                //?} else {
+                //Identifier
+                //?}
+                [0]));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, tints));
     }
 
-    public static Identifier uploadLayers(ItemModelGenerators itemModelGenerator, Item item, Identifier... layers) {
+    public static Identifier uploadLayers(ItemModelGenerators itemModelGenerator, Item item, //? afterDeobf {
+                                          Material
+                                                  //?} else {
+                                                  //Identifier
+                                                  //?}
+                                          ... layers) {
         TextureMapping layered = layered(layers);
         return GENERATED_TWENTY_FOUR_LAYERS.create(item, layered, itemModelGenerator.modelOutput);
     }
@@ -54,7 +70,12 @@ public class LayersUploader {
     /**
      * Get the texture map for the given layers.
      */
-    public static TextureMapping layered(Identifier ... layers) {
+    public static TextureMapping layered(//? afterDeobf {
+                                         Material
+                                                 //?} else {
+                                                 //Identifier
+                                                 //?}
+                                                 ... layers) {
         TextureMapping textureMap = new TextureMapping();
 
         for (int i = 0; i < layers.length; i++) {
