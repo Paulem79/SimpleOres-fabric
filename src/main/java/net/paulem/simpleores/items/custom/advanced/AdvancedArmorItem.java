@@ -19,7 +19,7 @@ public class AdvancedArmorItem extends
     {
 
     public AdvancedArmorItem(//$ armorRegistry
-                             ArmorMaterial
+                             net.minecraft.world.item.equipment.ArmorMaterial
                     material,
         SCArmor.ArmorEquipmentType type, Properties settings) {
         /*? if >=1.21.5 {*/
@@ -37,7 +37,7 @@ public class AdvancedArmorItem extends
     }
 
     public static int getDurability(//$ armorRegistry
-            ArmorMaterial
+            net.minecraft.world.item.equipment.ArmorMaterial
                     material, SCArmor.ArmorEquipmentType type) {
         //? if >1.20.4 {
         if (material == ModArmorMaterials.COPPER){

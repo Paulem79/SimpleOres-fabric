@@ -1,6 +1,5 @@
 package net.paulem.simpleores.utils;
 
-import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.paulem.simpleores.armors.ModArmorMaterials;
 import org.jetbrains.annotations.Nullable;
 

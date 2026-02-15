@@ -11,7 +11,9 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -27,11 +29,13 @@ import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.paulem.simpleores.items.custom.advanced.AdvancedSpearItem;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tags.ModTags;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 //? if >1.20.1
@@ -194,6 +198,33 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .group(materialName)
                     .save(exporter);
         }
+
+        //TODO: merge with ore-targeted recipes generation
+        //? if >=1.21.11 {
+        for (Item item : ModItems.registeredItems.values()) {
+            if(!(item instanceof AdvancedSpearItem spearItem)) continue;
+            
+            @Nullable //$ armorRegistry
+            net.minecraft.world.item.equipment.ArmorMaterial
+                    material = MaterialUtils.toArmor(spearItem.getMaterial());
+
+            String materialName = MaterialUtils.getName(material);
+            if(materialName == null) continue;
+
+            Item materialItem = MaterialUtils.getMaterialItem(materialName);
+            if(materialItem == null) continue;
+
+            scRecipe.createShaped(RecipeCategory.COMBAT, spearItem)
+                    .pattern("  X")
+                    .pattern(" # ")
+                    .pattern("#  ")
+                    .define('#', Items.STICK)
+                    .define('X', materialItem)
+                    .unlockedBy("has_stick", scRecipe.has(Items.STICK))
+                    .group(materialName)
+                    .save(exporter);
+        }
+        //?}
     }
 
     //? if <1.21.3 {

@@ -68,5 +68,9 @@ public class FrenchLangProvider extends GlobalLangProvider {
 
         generateFurnaceTranslations(translationBuilder, materialName -> "Four en " + materialName);
         translationBuilder.add("tips.furnace.speed_modifier", "Modification de la vitesse: x%s");
+
+        //? if >=1.21.11 {
+        generateSpearsTranslations(translationBuilder, materialName -> "Lance en " + materialName);
+        //?}
     }
 }

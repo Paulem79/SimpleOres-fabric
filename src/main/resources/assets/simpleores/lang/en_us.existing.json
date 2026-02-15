@@ -127,6 +127,7 @@
 
     "text.autoconfig.simpleores.title" : "SimpleOres Fabric",
 
+    "text.autoconfig.simpleores.category.default" : "General",
     "text.autoconfig.simpleores.category.armors" : "Armors",
     "text.autoconfig.simpleores.category.tools" : "Tools",
     "text.autoconfig.simpleores.category.bows" : "Bows",

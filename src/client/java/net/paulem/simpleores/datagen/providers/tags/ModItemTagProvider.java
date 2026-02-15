@@ -74,6 +74,11 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
             } else if (item instanceof AdvancedShearsItem) {
                 // Shears
                 build(ModTags.Items.SHEARS, item);
+            //? if >=1.21.11 {
+            } else if (item instanceof AdvancedSpearItem) {
+                // Spear
+                build(ItemTags.SPEARS, item);
+            //?}
             } //? if hasBucketlib {
             /*else if (item instanceof UniversalBucketItem) {
             *///?} else {

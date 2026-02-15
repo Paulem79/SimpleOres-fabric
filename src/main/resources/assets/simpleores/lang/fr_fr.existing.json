@@ -119,6 +119,7 @@
  "tips.zoom_tooltip": "+Zoom",
  "tips.efficiency_tooltip": "+Infinité",
 
+ "text.autoconfig.simpleores.category.default" : "Général",
  "text.autoconfig.simpleores.category.armors" : "Armures",
  "text.autoconfig.simpleores.category.tools" : "Outils",
  "text.autoconfig.simpleores.category.bows" : "Arcs",

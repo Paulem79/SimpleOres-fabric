@@ -60,9 +60,11 @@ public class BaseSimpleOresConfig implements Config {
     public final boolean enableTrades = true;
 
     // copper bucket defaults
-    public final boolean enableCopperBucketMilking = true;
+    //? if hasBucketlib {
+    /*public final boolean enableCopperBucketMilking = true;
     public final int copperBucketMeltTemperature = 1000;
-    public final int copperBucketFireTemperature = 9999;
+    public final int copperBucketFireTemperature = 9999;*/
+    //?}
 
     // Implement Config getters
     @Override
@@ -109,12 +111,15 @@ public class BaseSimpleOresConfig implements Config {
     @Override
     public boolean enableTrades() { return this.enableTrades; }
 
+    //? hasBucketlib {
+    /*
     @Override
     public boolean enableCopperBucketMilking() { return this.enableCopperBucketMilking; }
     @Override
     public int copperBucketMeltTemperature() { return this.copperBucketMeltTemperature; }
     @Override
-    public int copperBucketFireTemperature() { return this.copperBucketFireTemperature; }
+    public int copperBucketFireTemperature() { return this.copperBucketFireTemperature; }*/
+    //?}
 
      @SuppressWarnings("all")
      public static class ArmorProtection {

@@ -121,6 +121,12 @@ public class ModItems {
     public static final AdvancedHoeItem ADAMANTIUM_HOE = register("adamantium_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.ADAMANTIUM, -3, -1.0F, settings));
     public static final AdvancedHoeItem ONYX_HOE = register("onyx_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.ONYX, -5, 0.0F, settings));
 
+    //? if >=1.21.11 {
+    public static final AdvancedSpearItem TIN_SPEAR = register("tin_spear", settings -> new AdvancedSpearItem(ModToolMaterials.TIN, settings));
+    public static final AdvancedSpearItem MYTHRIL_SPEAR = register("mythril_spear", settings -> new AdvancedSpearItem(ModToolMaterials.MYTHRIL, settings));
+    public static final AdvancedSpearItem ADAMANTIUM_SPEAR = register("adamantium_spear", settings -> new AdvancedSpearItem(ModToolMaterials.ADAMANTIUM, settings));
+    public static final AdvancedSpearItem ONYX_SPEAR = register("onyx_spear", settings -> new AdvancedSpearItem(ModToolMaterials.ONYX, settings));
+    //?}
 
     // shears
     public static final AdvancedShearsItem COPPER_SHEARS = register(

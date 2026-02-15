@@ -105,6 +105,8 @@ public class SimpleOresConfig implements ConfigData, net.paulem.simpleores.confi
     public boolean enableTrades = supers.enableTrades;
 
     // copper bucket
+    //? if hasBucketlib {
+    /^
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("copper_bucket")
@@ -115,6 +117,8 @@ public class SimpleOresConfig implements ConfigData, net.paulem.simpleores.confi
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.Category("copper_bucket")
     public int copperBucketFireTemperature = supers.copperBucketFireTemperature;
+    ^/
+    //?}
 
     // Implement Config getters to expose the public fields via the interface
     @Override
@@ -161,12 +165,16 @@ public class SimpleOresConfig implements ConfigData, net.paulem.simpleores.confi
     @Override
     public boolean enableTrades() { return this.enableTrades; }
 
+    //? if hasBucketlib {
+    /^
     @Override
     public boolean enableCopperBucketMilking() { return this.enableCopperBucketMilking; }
     @Override
     public int copperBucketMeltTemperature() { return this.copperBucketMeltTemperature; }
     @Override
     public int copperBucketFireTemperature() { return this.copperBucketFireTemperature; }
+    ^/
+    //?}
 
 }  // end class SimpleOresConfig
 *///? } else {
