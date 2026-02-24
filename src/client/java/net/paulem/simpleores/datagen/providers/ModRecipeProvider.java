@@ -62,9 +62,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                          generator, RecipeOutput exporter) {
         scRecipe = new SCRecipe(this, generator, exporter);
 
-        offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT, "tin");
-        offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT, "mythril");
-        offerDustFurnace(ModTags.Items.Conventional.ADAMANTIUM_DUSTS, ModItems.ADAMANTIUM_INGOT, "adamantium");
+        offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT);
+        offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT);
+        offerDustFurnace(ModTags.Items.Conventional.ADAMANTIUM_DUSTS, ModItems.ADAMANTIUM_INGOT);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.MYTHRIL_BOW)
                 .pattern(" RS")
@@ -73,10 +73,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .define('S', Items.STRING)
                 .define('F', Items.IRON_INGOT)
                 .define('R', ModItems.MYTHRIL_ROD)
-                .unlockedBy(getHasName(Items.STRING), scRecipe.has(Items.STRING))
-                .unlockedBy(getHasName(Items.IRON_INGOT), scRecipe.has(Items.IRON_INGOT))
-                .unlockedBy(getHasName(ModItems.MYTHRIL_ROD), scRecipe.has(ModItems.MYTHRIL_ROD))
-                .group("mythril")
+                .unlockedBy("has_string", scRecipe.has(Items.STRING))
                 .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.MYTHRIL_ROD)
@@ -84,7 +81,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("R")
                 .define('R', ModItems.MYTHRIL_INGOT)
                 .unlockedBy(getHasName(ModItems.MYTHRIL_INGOT), scRecipe.has(ModItems.MYTHRIL_INGOT))
-                .group("mythril")
                 .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.ONYX_BOW)
@@ -94,10 +90,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .define('S', Items.STRING)
                 .define('F', Items.IRON_INGOT)
                 .define('R', ModItems.ONYX_ROD)
-                .unlockedBy(getHasName(Items.STRING), scRecipe.has(Items.STRING))
-                .unlockedBy(getHasName(Items.IRON_INGOT), scRecipe.has(Items.IRON_INGOT))
-                .unlockedBy(getHasName(ModItems.ONYX_ROD), scRecipe.has(ModItems.ONYX_ROD))
-                .group("onyx")
+                .unlockedBy("has_string", scRecipe.has(Items.STRING))
                 .save(exporter);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.ONYX_ROD)
@@ -105,11 +98,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("R")
                 .define('R', ModItems.ONYX_GEM)
                 .unlockedBy(getHasName(ModItems.ONYX_GEM), scRecipe.has(ModItems.ONYX_GEM))
-                .group("onyx")
                 .save(exporter);
 
         // Copper
-        createMaterialSetRecipes(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, "copper", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ConventionalItemTags.COPPER_INGOTS, Items.COPPER_INGOT, exporter, new MaterialRecipeContainer(
                 //? if !hasCopperTools {
                 /*ModItems.COPPER_SWORD, ModItems.COPPER_PICKAXE, ModItems.COPPER_AXE, ModItems.COPPER_SHOVEL, ModItems.COPPER_HOE, ModItems.COPPER_HELMET,
                 ModItems.COPPER_CHESTPLATE, ModItems.COPPER_LEGGINGS, ModItems.COPPER_BOOTS,
@@ -131,7 +123,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ));
 
         // Tin
-        createMaterialSetRecipes(ModTags.Items.Conventional.TIN_INGOTS, ModItems.TIN_INGOT, exporter, "tin", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.TIN_INGOTS, ModItems.TIN_INGOT, exporter, new MaterialRecipeContainer(
                 ModItems.TIN_SWORD, ModItems.TIN_PICKAXE, ModItems.TIN_AXE, ModItems.TIN_SHOVEL, ModItems.TIN_HOE,
                 ModItems.TIN_HELMET, ModItems.TIN_CHESTPLATE, ModItems.TIN_LEGGINGS, ModItems.TIN_BOOTS, ModItems.TIN_SHEARS,
                 ModTags.Items.Conventional.TIN_ORES, ModBlocks.TIN_BLOCK, ModBlocks.RAW_TIN_BLOCK, ModTags.Items.Conventional.RAW_TIN_ORES, ModItems.RAW_TIN, ModItems.TIN_NUGGET,
@@ -142,7 +134,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ));
 
         // Mythril
-        createMaterialSetRecipes(ModTags.Items.Conventional.MYTHRIL_INGOTS, ModItems.MYTHRIL_INGOT, exporter, "mythril", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.MYTHRIL_INGOTS, ModItems.MYTHRIL_INGOT, exporter, new MaterialRecipeContainer(
                 ModItems.MYTHRIL_SWORD, ModItems.MYTHRIL_PICKAXE, ModItems.MYTHRIL_AXE, ModItems.MYTHRIL_SHOVEL, ModItems.MYTHRIL_HOE,
                 ModItems.MYTHRIL_HELMET, ModItems.MYTHRIL_CHESTPLATE, ModItems.MYTHRIL_LEGGINGS, ModItems.MYTHRIL_BOOTS, ModItems.MYTHRIL_SHEARS,
                 ModTags.Items.Conventional.MYTHRIL_ORES, ModBlocks.MYTHRIL_BLOCK, ModBlocks.RAW_MYTHRIL_BLOCK, ModTags.Items.Conventional.RAW_MYTHRIL_ORES, ModItems.RAW_MYTHRIL, ModItems.MYTHRIL_NUGGET,
@@ -153,7 +145,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ));
 
         // Adamantium
-        createMaterialSetRecipes(ModTags.Items.Conventional.ADAMANTIUM_INGOTS, ModItems.ADAMANTIUM_INGOT, exporter, "adamantium", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.ADAMANTIUM_INGOTS, ModItems.ADAMANTIUM_INGOT, exporter, new MaterialRecipeContainer(
                 ModItems.ADAMANTIUM_SWORD, ModItems.ADAMANTIUM_PICKAXE, ModItems.ADAMANTIUM_AXE, ModItems.ADAMANTIUM_SHOVEL, ModItems.ADAMANTIUM_HOE,
                 ModItems.ADAMANTIUM_HELMET, ModItems.ADAMANTIUM_CHESTPLATE, ModItems.ADAMANTIUM_LEGGINGS, ModItems.ADAMANTIUM_BOOTS, ModItems.ADAMANTIUM_SHEARS,
                 ModTags.Items.Conventional.ADAMANTIUM_ORES, ModBlocks.ADAMANTIUM_BLOCK, ModBlocks.RAW_ADAMANTIUM_BLOCK, ModTags.Items.Conventional.RAW_ADAMANTIUM_ORES, ModItems.RAW_ADAMANTIUM, ModItems.ADAMANTIUM_NUGGET,
@@ -164,7 +156,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ));
 
         // Onyx
-        createMaterialSetRecipes(ModTags.Items.Conventional.ONYX_GEMS, ModItems.ONYX_GEM, exporter, "onyx", new MaterialRecipeContainer(
+        createMaterialSetRecipes(ModTags.Items.Conventional.ONYX_GEMS, ModItems.ONYX_GEM, exporter, new MaterialRecipeContainer(
                 ModItems.ONYX_SWORD, ModItems.ONYX_PICKAXE, ModItems.ONYX_AXE, ModItems.ONYX_SHOVEL, ModItems.ONYX_HOE,
                 ModItems.ONYX_HELMET, ModItems.ONYX_CHESTPLATE, ModItems.ONYX_LEGGINGS, ModItems.ONYX_BOOTS, ModItems.ONYX_SHEARS,
                 ModTags.Items.Conventional.ONYX_ORES, ModBlocks.ONYX_BLOCK, null, null, null, null,
@@ -193,9 +185,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("MMM")
                     .define('M', materialItem)
                     .define('F', Items.FURNACE)
-                    .unlockedBy(getHasName(materialItem), scRecipe.has(materialItem))
                     .unlockedBy(getHasName(Items.FURNACE), scRecipe.has(Items.FURNACE))
-                    .group(materialName)
                     .save(exporter);
         }
 
@@ -220,8 +210,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("#  ")
                     .define('#', Items.STICK)
                     .define('X', materialItem)
-                    .unlockedBy("has_stick", scRecipe.has(Items.STICK))
-                    .group(materialName)
+                    .unlockedBy(getHasName(materialItem), scRecipe.has(materialItem))
                     .save(exporter);
         }
         //?}
@@ -251,39 +240,39 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         return "Simple Ores Recipes";
     }
 
-    private static void offerDustFurnace(TagKey<Item> dustTag, ItemLike output, String group) {
+    private static void offerDustFurnace(TagKey<Item> dustTag, ItemLike output) {
         scRecipe.oreSmelting(dustTag, RecipeCategory.MISC, output,
-                0.7f, 200, group);
+                0.7f, 200, null);
         scRecipe.oreBlasting(dustTag, RecipeCategory.MISC, output,
-                0.7f, 100, group);
+                0.7f, 100, null);
     }
 
-    public static void createMaterialSetRecipes(TagKey<Item> tag, ItemLike baseItem, RecipeOutput exporter, String group, MaterialRecipeContainer container) {
+    public static void createMaterialSetRecipes(TagKey<Item> tag, ItemLike baseItem, RecipeOutput exporter, MaterialRecipeContainer container) {
         List<ItemLike> SMELT_NUGGET_ITEMS = new ArrayList<>();
 
         // TOOLS
         if(container.sword() != null) {
             SMELT_NUGGET_ITEMS.add(container.sword());
-            createSwordRecipe(container.sword(), tag, exporter, group);
+            createSwordRecipe(container.sword(), tag, exporter);
         }
         if(container.pickaxe() != null) {
             SMELT_NUGGET_ITEMS.add(container.pickaxe());
-            createPickaxeRecipe(container.pickaxe(), tag, exporter, group);
+            createPickaxeRecipe(container.pickaxe(), tag, exporter);
         }
         if(container.axe() != null) {
             SMELT_NUGGET_ITEMS.add(container.axe());
-            createAxeRecipe(container.axe(), tag, exporter, group);
+            createAxeRecipe(container.axe(), tag, exporter);
         }
         if(container.shovel() != null) {
             SMELT_NUGGET_ITEMS.add(container.shovel());
-            createShovelRecipe(container.shovel(), tag, exporter, group);
+            createShovelRecipe(container.shovel(), tag, exporter);
         }
         if(container.hoe() != null) {
             SMELT_NUGGET_ITEMS.add(container.hoe());
-            createHoeRecipe(container.hoe(), tag, exporter, group);
+            createHoeRecipe(container.hoe(), tag, exporter);
         }
         if(container.shears() != null) {
-            createShearsRecipe(container.shears(), tag, exporter, group);
+            createShearsRecipe(container.shears(), tag, exporter);
         }
         //? containsBucket {
         if(container.bucket() != null) {
@@ -293,7 +282,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern(" R ")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
         //?}
@@ -307,7 +295,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("RR")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
 
@@ -317,7 +304,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("RR")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
 
             scRecipe.offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, container.cut(), tag);
@@ -328,7 +314,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("RRR")
                         .define('R', container.cut())
                         .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                        .group(group)
                         .save(exporter);
 
                 scRecipe.offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, container.cutSlab(), container.cut(), 2);
@@ -342,7 +327,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("RRR")
                         .define('R', container.cut())
                         .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                        .group(group)
                         .save(exporter);
 
                 scRecipe.offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, container.stairs(), container.cut());
@@ -353,16 +337,17 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         if(container.door() != null) {
             scRecipe.createDoorRecipe(container.door(), scRecipe.ingredientFromTag(tag))
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
-        if(container.bars() != null) scRecipe.createShaped(RecipeCategory.BUILDING_BLOCKS, container.bars(), 16)
-                .pattern("RRR")
-                .pattern("RRR")
-                .define('R', tag)
-                .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .group(group)
-                .save(exporter);
+        
+        if(container.bars() != null) {
+            scRecipe.createShaped(RecipeCategory.BUILDING_BLOCKS, container.bars(), 16)
+                    .pattern("RRR")
+                    .pattern("RRR")
+                    .define('R', tag)
+                    .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                    .save(exporter);
+        }
 
         // ARMORS
         if(container.helmet() != null) {
@@ -372,7 +357,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("R R")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
         if(container.chesplate() != null) {
@@ -383,7 +367,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("RRR")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
         if(container.leggings() != null) {
@@ -394,7 +377,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("R R")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
         if(container.boots() != null) {
@@ -404,7 +386,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .pattern("R R")
                     .define('R', tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                    .group(group)
                     .save(exporter);
         }
 
@@ -454,49 +435,35 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             if(!SMELTABLES.isEmpty()) {
                 for (TagKey<Item> smeltable : SMELTABLES) {
                     scRecipe.oreSmelting(smeltable, RecipeCategory.MISC, baseItem,
-                            container.smeltXp(), 200, group);
+                            container.smeltXp(), 200, null);
                     scRecipe.oreBlasting(smeltable, RecipeCategory.MISC, baseItem,
-                            container.smeltXp(), 100, group);
+                            container.smeltXp(), 100, null);
                 }
             }
         }
     }
 
-    private static void createShearsRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group) {
+    private static void createShearsRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
         scRecipe.createShaped(RecipeCategory.TOOLS, output)
                 .pattern(" R")
                 .pattern("R ")
                 .define('R', tag)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .group(group)
                 .save(exporter);
     }
 
-    public static void createHoeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
+    public static void createHoeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
-                .pattern("RR")
-                .pattern("S ")
-                .pattern("S ")
-                .define('R', tag)
-                .define('S', Items.STICK)
+                .pattern("XX")
+                .pattern(" #")
+                .pattern(" #")
+                .define('X', tag)
+                .define('#', Items.STICK)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
                 .save(exporter);
-
-        scRecipe.createShaped(RecipeCategory.COMBAT, output)
-                .pattern("RR")
-                .pattern(" S")
-                .pattern(" S")
-                .define('R', tag)
-                .define('S', Items.STICK)
-                .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
-                .save(exporter, SimpleOres.MOD_ID + ":" + getSimpleRecipeName(output) + "_inverted");
     }
 
-    public static void createShovelRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
+    public static void createShovelRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("R")
                 .pattern("S")
@@ -504,12 +471,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .define('R', tag)
                 .define('S', Items.STICK)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
                 .save(exporter);
     }
 
-    public static void createPickaxeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
+    public static void createPickaxeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("RRR")
                 .pattern(" S ")
@@ -517,36 +482,21 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .define('R', tag)
                 .define('S', Items.STICK)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
                 .save(exporter);
     }
 
-    public static void createAxeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
+    public static void createAxeRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
-                .pattern("RR")
-                .pattern("SR")
-                .pattern("S ")
-                .define('R', tag)
-                .define('S', Items.STICK)
+                .pattern("XX")
+                .pattern("X#")
+                .pattern(" #")
+                .define('X', tag)
+                .define('#', Items.STICK)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
                 .save(exporter);
-
-        scRecipe.createShaped(RecipeCategory.COMBAT, output)
-                .pattern("RR")
-                .pattern("RS")
-                .pattern(" S")
-                .define('R', tag)
-                .define('S', Items.STICK)
-                .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
-                .save(exporter, SimpleOres.MOD_ID + ":" + getSimpleRecipeName(output) + "_inverted");
     }
 
-    public static void createSwordRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter, String group){
+    public static void createSwordRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
         scRecipe.createShaped(RecipeCategory.COMBAT, output)
                 .pattern("R")
                 .pattern("R")
@@ -554,8 +504,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .define('R', tag)
                 .define('S', Items.STICK)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
-                .unlockedBy(getHasName(Items.STICK), scRecipe.has(Items.STICK))
-                .group(group)
                 .save(exporter);
     }
 
