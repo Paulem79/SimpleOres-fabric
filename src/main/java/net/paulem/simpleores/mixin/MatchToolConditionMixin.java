@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.paulem.simpleores.mixin.accessor.HolderSetDirectAccessor;
 import net.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
-import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -18,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //? if <=1.20.1 {
-/*import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet;
 import net.paulem.simpleores.mixin.accessor.ItemPredicateAccessor;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Shadow;
-*///?}
+//?}
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,10 @@ import java.util.List;
 public abstract class MatchToolConditionMixin implements LootItemCondition {
     //? if <=1.20.1 {
     
-    /*@SuppressWarnings("ShadowModifiers")
+    @SuppressWarnings("ShadowModifiers")
     @Shadow @Final private ItemPredicate predicate;
      
-     *///?}
+     //?}
 
     @Unique
     private static final List<ItemPredicate> ITEM_PREDICATES = new ArrayList<>();
@@ -42,17 +42,17 @@ public abstract class MatchToolConditionMixin implements LootItemCondition {
     @Inject(at = @At("RETURN"), method = "<init>")
     private void initProxy(CallbackInfo ci) {
         //? if <=1.20.1 {
-        /*if (((ItemPredicateAccessor) predicate).getItems() != null) ITEM_PREDICATES.add(predicate);
-        *///?} else {
-        ((MatchTool)(Object)this).predicate().ifPresent(ITEM_PREDICATES::add);
-        //?}
+        if (((ItemPredicateAccessor) predicate).getItems() != null) ITEM_PREDICATES.add(predicate);
+        //?} else {
+        /*((MatchTool)(Object)this).predicate().ifPresent(ITEM_PREDICATES::add);
+        *///?}
     }
 
     static {
         CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
             //? if <=1.20.1 {
             
-            /*if (!client) {
+            if (!client) {
                 List<Item> shears = new ArrayList<>();
                 for (Holder<Item> entry :
                         BuiltInRegistries.ITEM.getOrCreateTag(ModTags.Items.SHEARS))
@@ -71,12 +71,12 @@ public abstract class MatchToolConditionMixin implements LootItemCondition {
             }
             ITEM_PREDICATES.clear();
              
-             *///?} else {
-                //? if <=1.21 {
-                /*HolderSet.Named<Item> modShears = BuiltInRegistries.ITEM.getTag(ModTags.Items.SHEARS).get();
-                *///?} else {
-                HolderSet.Named<Item> modShears = BuiltInRegistries.ITEM.getOrThrow(ModTags.Items.SHEARS);
-                //?}
+             //?} else {
+                /*//? if <=1.21 {
+                HolderSet.Named<Item> modShears = BuiltInRegistries.ITEM.getTag(ModTags.Items.SHEARS).get();
+                //?} else {
+                /^HolderSet.Named<Item> modShears = BuiltInRegistries.ITEM.getOrThrow(ModTags.Items.SHEARS);
+                ^///?}
                 Holder<Item> shearsHolder = BuiltInRegistries.ITEM.wrapAsHolder(Items.SHEARS);
                 //add mod shears to all MatchTool predicates that contains vanilla shears
                 for (Holder<Item> modShear : modShears) {
@@ -92,7 +92,7 @@ public abstract class MatchToolConditionMixin implements LootItemCondition {
                         });
                     }
                 }
-            //?}
+            *///?}
         });
     }
 

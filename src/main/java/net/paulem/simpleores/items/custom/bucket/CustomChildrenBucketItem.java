@@ -1,9 +1,5 @@
 package net.paulem.simpleores.items.custom.bucket;
 
-//? if hasBucketlib || !containsBucket {
-/*public class CustomChildrenBucketItem {}
-*///?} else {
-
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.material.Fluid;
@@ -106,4 +102,3 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
                 BuiltInRegistries.FLUID.getKey(fluid).getPath().contains("water");
     }
 }
-//?}

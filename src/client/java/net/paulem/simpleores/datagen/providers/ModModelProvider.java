@@ -1,14 +1,14 @@
 package net.paulem.simpleores.datagen.providers;
 
 //? if containsBucket && !hasBucketlib {
-import net.minecraft.client.color.item.ItemTintSource;
-import net.minecraft.client.data.models.model.ItemModelUtils;
+/*import net.minecraft.client.color.item.ItemTintSource;
+import net.minecraft.data.models.model.ItemModelUtils;
 import net.minecraft.util.ARGB;
-//?}
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.client.data.models.*;
-import net.minecraft.client.data.models.blockstates.*;
-import net.minecraft.client.data.models.model.*;
+*///?}
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.data.models.*;
+import net.minecraft.data.models.blockstates.*;
+import net.minecraft.data.models.model.*;
 import net.paulem.simpleores.bucket.tint.ClientBucketUtil;
 import net.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import net.paulem.simpleores.bucket.tint.handler.LayersUploader;
@@ -16,10 +16,10 @@ import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -32,17 +32,17 @@ import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 //? if >1.21.3
-import net.minecraft.world.item.equipment.EquipmentAsset;
+//import net.minecraft.world.item.equipment.EquipmentAsset;
 //? if 1.21.3
 /*import net.paulem.simpleores.armors.ModEquipmentClientModels;*/
 
 //? hasBucketlib
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
+import com.github.cech12.BucketLib.api.item.UniversalBucketItem;
 
-import static net.minecraft.client.data.models.BlockModelGenerators.*;
+import static net.minecraft.data.models.BlockModelGenerators.*;
 
 public class ModModelProvider extends FabricModelProvider {
-    public ModModelProvider(FabricPackOutput generator) {
+    public ModModelProvider(FabricDataOutput generator) {
         super(generator);
     }
 
@@ -93,9 +93,9 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
             //? if hasBucketlib {
-            /*if(item instanceof UniversalBucketItem) continue;
-            *///?} else containsBucket {
-            if(item instanceof CustomParentBucketItem parentBucketItem) {
+            if(item instanceof UniversalBucketItem) continue;
+            //?} else containsBucket {
+            /*if(item instanceof CustomParentBucketItem parentBucketItem) {
                 itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
                 for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
                     if(child.getFluid() == Fluids.WATER) {
@@ -109,27 +109,27 @@ public class ModModelProvider extends FabricModelProvider {
 
             // Exclude childs registration because it's handled in the loop
             if(item instanceof CustomBucketFluidable) continue;
-            //?}
+            *///?}
 
             if (item instanceof BowItem bowItem) {
                 //? if >1.21.3
-                itemModelGenerator.generateBow(bowItem);
+                //itemModelGenerator.generateBow(bowItem);
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 //? if >1.21.3 {
-                ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
+                /*ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
                 itemModelGenerator.generateTrimmableItem(item, identifier,
                         //? if >=1.21.5 {
-                        ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName())
-                        //?} else if >1.21.3 && <1.21.5 {
+                        /^ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName())
+                        ^///?} else if >1.21.3 && <1.21.5 {
                         //armorItem.getType().getName()
                         //?}
                         , false);
-                //?} else if >1.21 {
-                /*Identifier identifier = armorItem.getMaterial().modelId();
+                *///?} else if >1.21 {
+                /*ResourceLocation identifier = armorItem.getMaterial().modelId();
                 itemModelGenerator.generateArmorTrims(item, identifier, ModEquipmentClientModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getSlot());
                 *///?} else {
-                 /*itemModelGenerator.generateArmorTrims(armorItem);
-                *///?}
+                 itemModelGenerator.generateArmorTrims(armorItem);
+                //?}
             } else if (item instanceof AdvancedToolItem) {
                 itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM);
             } else if (item instanceof AdvancedSwordItem swordItem) {
@@ -141,18 +141,18 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     //? if containsBucket && !hasBucketlib {
-    public final void registerCustomBucketWithOverlay(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource tint) {
-        Identifier identifier = itemModelGenerator.generateLayeredItem(item, TextureMapping.getItemTexture(parentBucket), TextureMapping.getItemTexture(parentBucket, "_overlay"));
+    /*public final void registerCustomBucketWithOverlay(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource tint) {
+        ResourceLocation identifier = itemModelGenerator.generateLayeredItem(item, TextureMapping.getItemTexture(parentBucket), TextureMapping.getItemTexture(parentBucket, "_overlay"));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, ItemModelUtils.constantTint(-1), tint));
     }
 
     public final void registerNonWaterBucket(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource... tints) {
         LayersUploader.registerOverlayBucket(itemModelGenerator, item, parentBucket, tints);
     }
-    //?}
+    *///?}
 
     /*? if >=1.21.5 {*/
-    private void registerBars(BlockModelGenerators generator, Block barBlock) {
+    /*private void registerBars(BlockModelGenerators generator, Block barBlock) {
         MultiVariant weightedVariant = plainVariant(ModelLocationUtils.getModelLocation(barBlock, "_post_ends"));
         MultiVariant weightedVariant2 = plainVariant(ModelLocationUtils.getModelLocation(barBlock, "_post"));
         MultiVariant weightedVariant3 = plainVariant(ModelLocationUtils.getModelLocation(barBlock, "_cap"));
@@ -190,14 +190,14 @@ public class ModModelProvider extends FabricModelProvider {
                 );
         generator.registerSimpleFlatItemModel(barBlock);
     }
-    /*?} else {*/
-    /*private void registerBars(BlockModelGenerators blockStateModelGenerator, Block barBlock) {
-        Identifier identifier = ModelLocationUtils.getModelLocation(barBlock, "_post_ends");
-        Identifier identifier2 = ModelLocationUtils.getModelLocation(barBlock, "_post");
-        Identifier identifier3 = ModelLocationUtils.getModelLocation(barBlock, "_cap");
-        Identifier identifier4 = ModelLocationUtils.getModelLocation(barBlock, "_cap_alt");
-        Identifier identifier5 = ModelLocationUtils.getModelLocation(barBlock, "_side");
-        Identifier identifier6 = ModelLocationUtils.getModelLocation(barBlock, "_side_alt");
+    *//*?} else {*/
+    private void registerBars(BlockModelGenerators blockStateModelGenerator, Block barBlock) {
+        ResourceLocation identifier = ModelLocationUtils.getModelLocation(barBlock, "_post_ends");
+        ResourceLocation identifier2 = ModelLocationUtils.getModelLocation(barBlock, "_post");
+        ResourceLocation identifier3 = ModelLocationUtils.getModelLocation(barBlock, "_cap");
+        ResourceLocation identifier4 = ModelLocationUtils.getModelLocation(barBlock, "_cap_alt");
+        ResourceLocation identifier5 = ModelLocationUtils.getModelLocation(barBlock, "_side");
+        ResourceLocation identifier6 = ModelLocationUtils.getModelLocation(barBlock, "_side_alt");
 
         blockStateModelGenerator.blockStateOutput
                 .accept(
@@ -236,5 +236,5 @@ public class ModModelProvider extends FabricModelProvider {
                 );
         blockStateModelGenerator.createSimpleFlatItemModel(barBlock);
     }
-    *//*?}*/
+    /*?}*/
 }

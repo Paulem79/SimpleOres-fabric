@@ -1,16 +1,16 @@
 package net.paulem.simpleores.datagen.providers.villagers;
 
 //? if afterDeobf {
-import net.minecraft.core.HolderLookup;
+/*import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.KeyTagProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerProfession;
 //? afterDeobf
-import net.minecraft.world.item.trading.VillagerTrade;
+//import net.minecraft.world.item.trading.VillagerTrade;
 import net.paulem.simpleores.villagers.TradeDefinition;
 import net.paulem.simpleores.villagers.ModVillagersTrades;
 import org.jspecify.annotations.NonNull;
@@ -34,11 +34,11 @@ public class ModVillagersTradesTagsProvider extends KeyTagProvider<VillagerTrade
         this.tag(getKey(profession, level)).add(ModVillagersTradesProvider.createKey(profession, level, tradeName));
     }
 
-    /**
+    /^*
      * Get the tag key for the given profession and level.
-     */
+     ^/
     public static TagKey<VillagerTrade> getKey(VillagerProfession profession, int level) {
-        return TagKey.create(Registries.VILLAGER_TRADE, Identifier.withDefaultNamespace(
+        return TagKey.create(Registries.VILLAGER_TRADE, ResourceLocation.withDefaultNamespace(
                 getProfessionName(profession).toLowerCase().replace(" ", "_") + "/level_" + level
         ));
     }
@@ -48,6 +48,6 @@ public class ModVillagersTradesTagsProvider extends KeyTagProvider<VillagerTrade
     }
 
 }
-//? } else {
-/*public class ModVillagersTradesTagsProvider {}
-*///? }
+*///? } else {
+public class ModVillagersTradesTagsProvider {}
+//? }

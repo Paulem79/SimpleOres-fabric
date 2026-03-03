@@ -30,12 +30,4 @@ public interface Config {
 
     // villagers
     boolean enableTrades();
-
-    //? if hasBucketlib {
-    /*boolean enableCopperBucketMilking();
-
-    int copperBucketMeltTemperature();
-
-    int copperBucketFireTemperature();*/
-    //?}
 }

@@ -1,12 +1,12 @@
 package net.paulem.simpleores.datagen.providers.langs;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class SpanishSpainLangProvider extends GlobalLangProvider {
-    public SpanishSpainLangProvider(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(packOutput, "es_es", registryLookup);
+    public SpanishSpainLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, "es_es", registryLookup);
     }
 
     @Override

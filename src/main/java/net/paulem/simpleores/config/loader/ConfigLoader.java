@@ -12,14 +12,6 @@ public abstract class ConfigLoader<T extends Config> {
     }
 
     public static ConfigLoader<?> getLoader(boolean condition) {
-        //? if hasClothConfig {
-        /*if (condition) {
-            return new ClothConfigLoader();
-        } else {
-            return new BaseConfigLoader();
-        }
-        *///? } else {
-             return new BaseConfigLoader();
-        //?}
+        return new BaseConfigLoader();
     }
 }

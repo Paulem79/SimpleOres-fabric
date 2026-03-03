@@ -16,16 +16,16 @@ import java.util.function.Predicate;
 public abstract class ItemStackMixin {
 
     @Inject(method = //? if >1.21.11 {
-            "is(Ljava/util/function/Predicate;)Z"
-            //?} else {
-            /*"is(Lnet/minecraft/world/item/Item;)Z"
-            *///? }
+            /*"is(Ljava/util/function/Predicate;)Z"
+            *///?} else {
+            "is(Lnet/minecraft/world/item/Item;)Z"
+            //? }
             , at = @At("HEAD"), cancellable = true)
     private void simpleores$acceptAdvancedShears(//? if >1.21.11 {
-            Predicate<Holder<Item>> item
-            //?} else {
-            /*Item item
-            *///? }
+            /*Predicate<Holder<Item>> item
+            *///?} else {
+            Item item
+            //? }
             , CallbackInfoReturnable<Boolean> cir
     ) {
         ItemStack self = (ItemStack) (Object) this;

@@ -1,10 +1,10 @@
 package net.paulem.simpleores.datagen.providers.langs;
 
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.Tier;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.ModItems;
@@ -26,15 +26,15 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
 
     static {
         //? if >=1.21.3 {
-        TRANSLATION_PREFIX = "item.simpleores.";
-        //?} else {
-        //TRANSLATION_PREFIX = "block.simpleores.";
+        /*TRANSLATION_PREFIX = "item.simpleores.";
+        *///?} else {
+        TRANSLATION_PREFIX = "block.simpleores.";
         //?}
     }
 
-    public GlobalLangProvider(FabricPackOutput packOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(packOutput, languageCode //? if >1.20.4
-                , registryLookup
+    public GlobalLangProvider(FabricDataOutput dataOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, languageCode //? if >1.20.4
+                //, registryLookup
         );
 
         this.languageCode = languageCode;
@@ -48,7 +48,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         // Load an existing language file.
         try {
             SimpleOres.LOGGER.info("Adding existing language file for language: {}", languageCode);
-            Path existingFilePath = packOutput.getModContainer().findPath("assets/" + SimpleOres.MOD_ID + "/lang/" + languageCode + ".existing.json").get();
+            Path existingFilePath = dataOutput.getModContainer().findPath("assets/" + SimpleOres.MOD_ID + "/lang/" + languageCode + ".existing.json").get();
             translationBuilder.add(existingFilePath);
         } catch (Exception e) {
             throw new RuntimeException("Failed to add existing language file!", e);
@@ -65,7 +65,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
     }
 
     //? if >=1.21.11 {
-    protected void generateSpearsTranslations(TranslationBuilder translationBuilder, UnaryOperator<String> translateFunction) {
+    /*protected void generateSpearsTranslations(TranslationBuilder translationBuilder, UnaryOperator<String> translateFunction) {
         Set<Pair<String, String>> datagenSpears = ModItems.registeredItems.entrySet()
                 .stream()
                 // Check if the item is a spear
@@ -73,7 +73,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
                 // Collect the path of identifier, and the material name of the spear
                 .map(entry -> {
                     AdvancedSpearItem spearItem = (AdvancedSpearItem) entry.getValue();
-                    ToolMaterial toolMaterial = spearItem.getMaterial();
+                    Tier toolMaterial = spearItem.getMaterial();
                     String translatedName = TranslateUtils.getTranslatedName(MaterialUtils.toArmor(toolMaterial), languageCode);
 
                     return new Pair<>(
@@ -87,5 +87,5 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         
         datagenSpears.forEach(pair -> add(translationBuilder, pair.getFirst(), translateFunction.apply(pair.getSecond())));
     }
-    //?}
+    *///?}
 }

@@ -1,7 +1,7 @@
 package net.paulem.simpleores.world;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +28,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ONYX_ORE_KEY = registerKey("ore_onyx");
 
 
-    public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+    public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         addOre(context, TIN_ORE_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinOreBlocksPerVeins);
         addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinVeinBlocksPerVeins);
         addOre(context, MYTHRIL_ORE_KEY, ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, BaseSimpleOresConfig.NotEditable.mythrilBlocksPerVeins);
@@ -36,7 +36,7 @@ public class ModConfiguredFeatures {
         addOreNether(context, ONYX_ORE_KEY, ModBlocks.ONYX_ORE, BaseSimpleOresConfig.NotEditable.onyxBlocksPerVeins);
     }
 
-    private static void addOre(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, Block deepslateOre, int count){
+    private static void addOre(BootstapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, Block deepslateOre, int count){
         RuleTest stoneReplaceables = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest deepslateReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
 
@@ -47,7 +47,7 @@ public class ModConfiguredFeatures {
         register(context, key, Feature.ORE, new OreConfiguration(overworldOres, count));
     }
 
-    private static void addOreNether(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, int count){
+    private static void addOreNether(BootstapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, int count){
         RuleTest netherrackReplaceables = new BlockMatchTest(Blocks.NETHERRACK);
 
         List<OreConfiguration.TargetBlockState> netherrackOres =
@@ -60,7 +60,7 @@ public class ModConfiguredFeatures {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, SCId.of(SimpleOres.MOD_ID, name));
     }
 
-    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstrapContext<ConfiguredFeature<?, ?>> context,
+    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context,
                                                                                    ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
     }

@@ -3,7 +3,7 @@ package net.paulem.simpleores.world;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -23,7 +23,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> ONYX_ORE_PLACED_KEY = registerKey("ore_onyx");
 
 
-    public static void bootstrap(BootstrapContext<PlacedFeature> context) {
+    public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> HolderLookup = context.lookup(Registries.CONFIGURED_FEATURE);
 
         Holder<ConfiguredFeature<?, ?>> tinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);

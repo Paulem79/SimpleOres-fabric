@@ -1,10 +1,10 @@
 package net.paulem.simpleores.bucket.tint.handler;
 
 //? if hasBucketlib || !containsBucket {
-/*public class BucketLayerTintSource {}
-*///?} else {
+public class BucketLayerTintSource {}
+//?} else {
 
-import com.mojang.serialization.MapCodec;
+/*import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,9 +18,9 @@ import org.jetbrains.annotations.Nullable;
 import net.paulem.simpleores.bucket.tint.ClientBucketUtil;
 import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 
-/**
+/^*
  * Represents a tint for a bucket layer, corresponding to one pixel in the texture.
- */
+ ^/
 @Environment(EnvType.CLIENT)
 public record BucketLayerTintSource(int defaultColor, int x, int y) implements ItemTintSource {
     public static final MapCodec<BucketLayerTintSource> CODEC = RecordCodecBuilder.mapCodec(
@@ -51,4 +51,4 @@ public record BucketLayerTintSource(int defaultColor, int x, int y) implements I
         return CODEC;
     }
 }
-//?}
+*///?}

@@ -39,7 +39,7 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
      * @param pMaxWeight - 15 * number of entities per signal strength. light weighted plate=15, heavy weighted plate=150.
      * @param pSensitify - @see MultifunctionPressurePlateBlock.Sensitivity
      * @param pPressedTime - game ticks to deactivate when no longer pressed. heavy/light weighted plate=10; stone/wooden plate=20.
-     * @param pProperties - usually @code{Block.Properties.of(Material.STONE).noCollision().strength(0.5F).sound(SoundType.STONE)}
+     * @param pProperties - usually @code{Block.Properties.of(Material.STONE).noCollission().strength(0.5F).sound(SoundType.STONE)}
      */
     public MultifunctionPressurePlateBlock(int pMaxWeight, MultifunctionPressurePlateBlock.Sensitivity pSensitify,
                                            int pPressedTime, BlockBehaviour.Properties pProperties,
@@ -47,10 +47,10 @@ public class MultifunctionPressurePlateBlock extends WeightedPressurePlateBlock 
     {
         super(pMaxWeight,
                 //? if >1.20.1 {
-                pSetType, pProperties
-                //?} else {
-                /*pProperties, pSetType
-                *///?}
+                /*pSetType, pProperties
+                *///?} else {
+                pProperties, pSetType
+                //?}
         );
         this.sensitivity = pSensitify;
         this.pressTime = pPressedTime;

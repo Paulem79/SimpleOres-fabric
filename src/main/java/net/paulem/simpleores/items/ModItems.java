@@ -11,7 +11,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -19,13 +19,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
-//? hasBucketlib {
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;
-import com.google.common.base.Suppliers;*/
-//?}
-
 public class ModItems {
-    public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();
+    public static final ConcurrentFifoMap<ResourceLocation, Item> registeredItems = new ConcurrentFifoMap<>();
 
     // ingots and nuggets
     public static final Item TIN_INGOT = register("tin_ingot", Item::new);
@@ -50,24 +45,12 @@ public class ModItems {
     public static final Item MYTHRIL_ROD = register("mythril_rod", Item::new);
     public static final Item ONYX_ROD = register("onyx_rod", Item::new);
 
-    //? hasBucketlib {
-    /*// buckets
-    public static final UniversalBucketItem COPPER_BUCKET = registerByKey("copper_bucket",
-            key -> new UniversalBucketItem(//? if >1.21
-                    key,
-                    new UniversalBucketItem.Properties()
-                            .upperCrackingTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature())
-                            .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature())
-                            .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking()))
-            ));
-    *///?} else containsBucket {
     public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
             new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Properties().stacksTo(16),
                     (bucketItem, name, fluid) ->
                             register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.craftRemainder(bucketItem).stacksTo(1), bucketItem))
             )
     );
-    //?}
 
 
     // TOOLS & WEAPONS
@@ -78,8 +61,7 @@ public class ModItems {
             new OnyxBow(settings.durability(SimpleOres.CONFIG.onyxBowDurability())));
 
     // swords: constant dmg 3, eff -2.4
-    //? if !hasCopperTools
-    //public static final AdvancedSwordItem COPPER_SWORD = register("copper_sword", settings -> new AdvancedSwordItem(ModToolMaterials.COPPER, settings));
+    public static final AdvancedSwordItem COPPER_SWORD = register("copper_sword", settings -> new AdvancedSwordItem(ModToolMaterials.COPPER, settings));
 
     public static final AdvancedSwordItem TIN_SWORD = register("tin_sword", settings -> new AdvancedSwordItem(ModToolMaterials.TIN, settings));
 
@@ -90,43 +72,39 @@ public class ModItems {
     public static final AdvancedSwordItem ONYX_SWORD = register("onyx_sword", settings -> new AdvancedSwordItem(ModToolMaterials.ONYX, settings));
 
     // pickaxes: constant dmg 1, eff: -2.8
-    //? if !hasCopperTools
-    //public static final AdvancedPickaxeItem COPPER_PICKAXE = register("copper_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.COPPER, settings));
+    public static final AdvancedPickaxeItem COPPER_PICKAXE = register("copper_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.COPPER, settings));
     public static final AdvancedPickaxeItem TIN_PICKAXE = register("tin_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.TIN, settings));
     public static final AdvancedPickaxeItem MYTHRIL_PICKAXE = register("mythril_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.MYTHRIL, settings));
     public static final AdvancedPickaxeItem ADAMANTIUM_PICKAXE = register("adamantium_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.ADAMANTIUM, settings));
     public static final AdvancedPickaxeItem ONYX_PICKAXE = register("onyx_pickaxe", settings -> new AdvancedPickaxeItem(ModToolMaterials.ONYX, settings));
 
     // axes: axe dmg + tier dmg == ~8.0  (9.0 for uber-materials); constant eff: -3.2 (3.1 to 3.0 for uberliness)
-    //? if !hasCopperTools
-    //public static final AdvancedAxeItem COPPER_AXE = register("copper_axe", settings -> new AdvancedAxeItem(ModToolMaterials.COPPER, 7.0F, -3.2F, settings));
+    public static final AdvancedAxeItem COPPER_AXE = register("copper_axe", settings -> new AdvancedAxeItem(ModToolMaterials.COPPER, 7.0F, -3.2F, settings));
     public static final AdvancedAxeItem TIN_AXE = register("tin_axe", settings -> new AdvancedAxeItem(ModToolMaterials.TIN, 7.0F, -3.2F, settings));
     public static final AdvancedAxeItem MYTHRIL_AXE = register("mythril_axe", settings -> new AdvancedAxeItem(ModToolMaterials.MYTHRIL, 5.0F, -3.2F, settings));
     public static final AdvancedAxeItem ADAMANTIUM_AXE = register("adamantium_axe", settings -> new AdvancedAxeItem(ModToolMaterials.ADAMANTIUM, 5.0F, -3.2F, settings));
     public static final AdvancedAxeItem ONYX_AXE = register("onyx_axe", settings -> new AdvancedAxeItem(ModToolMaterials.ONYX, 4.0F, -3.0F, settings));
 
     // shovels: constant dmg: 1.5, eff: -3.0
-    //? if !hasCopperTools
-    //public static final AdvancedShovelItem COPPER_SHOVEL = register("copper_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.COPPER, settings));
+    public static final AdvancedShovelItem COPPER_SHOVEL = register("copper_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.COPPER, settings));
     public static final AdvancedShovelItem TIN_SHOVEL = register("tin_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.TIN, settings));
     public static final AdvancedShovelItem MYTHRIL_SHOVEL = register("mythril_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.MYTHRIL, settings));
     public static final AdvancedShovelItem ADAMANTIUM_SHOVEL = register("adamantium_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.ADAMANTIUM, settings));
     public static final AdvancedShovelItem ONYX_SHOVEL = register("onyx_shovel", settings -> new AdvancedShovelItem(ModToolMaterials.ONYX, settings));
 
     // hoes: hoe dmg + tier dmg == 0; Eff: -3 for bad hoe materials, 0 for uber materials, rest in-between.
-    //? if !hasCopperTools
-    //public static final AdvancedHoeItem COPPER_HOE = register("copper_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.COPPER, -1, -2.0F, settings));
+    public static final AdvancedHoeItem COPPER_HOE = register("copper_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.COPPER, -1, -2.0F, settings));
     public static final AdvancedHoeItem TIN_HOE = register("tin_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.TIN, -1, -2.0F, settings));
     public static final AdvancedHoeItem MYTHRIL_HOE = register("mythril_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.MYTHRIL, -3, -1.0F, settings));
     public static final AdvancedHoeItem ADAMANTIUM_HOE = register("adamantium_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.ADAMANTIUM, -3, -1.0F, settings));
     public static final AdvancedHoeItem ONYX_HOE = register("onyx_hoe", settings -> new AdvancedHoeItem(ModToolMaterials.ONYX, -5, 0.0F, settings));
 
     //? if >=1.21.11 {
-    public static final AdvancedSpearItem TIN_SPEAR = register("tin_spear", settings -> new AdvancedSpearItem(ModToolMaterials.TIN, settings));
+    /*public static final AdvancedSpearItem TIN_SPEAR = register("tin_spear", settings -> new AdvancedSpearItem(ModToolMaterials.TIN, settings));
     public static final AdvancedSpearItem MYTHRIL_SPEAR = register("mythril_spear", settings -> new AdvancedSpearItem(ModToolMaterials.MYTHRIL, settings));
     public static final AdvancedSpearItem ADAMANTIUM_SPEAR = register("adamantium_spear", settings -> new AdvancedSpearItem(ModToolMaterials.ADAMANTIUM, settings));
     public static final AdvancedSpearItem ONYX_SPEAR = register("onyx_spear", settings -> new AdvancedSpearItem(ModToolMaterials.ONYX, settings));
-    //?}
+    *///?}
 
     // shears
     public static final AdvancedShearsItem COPPER_SHEARS = register(
@@ -151,13 +129,11 @@ public class ModItems {
     );
 
     // ARMOR
-    // copper
-    //? if !hasCopperTools {
-    /*public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.HELMET, settings));
+    // copper {
+    public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.HELMET, settings));
     public static final AdvancedArmorItem COPPER_CHESTPLATE = register("copper_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
     public static final AdvancedArmorItem COPPER_LEGGINGS = register("copper_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
     public static final AdvancedArmorItem COPPER_BOOTS = register("copper_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.BOOTS, settings));
-    *///?}
 
     // tin
     public static final AdvancedArmorItem TIN_HELMET = register("tin_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.HELMET, settings));
@@ -198,11 +174,9 @@ public class ModItems {
 
     public static<T extends Item> T register(ResourceKey<Item> key, java.util.function.Function<Item.Properties, T> factory, Item.Properties settings) {
         T item = factory.apply(settings
-                //? if >1.21
-                .setId(key)
         );
-        registeredItems.put(key //$location
-                .identifier(
+        registeredItems.put(key
+                .location(
                 ), item);
 
         if (item instanceof BlockItem blockItem) {
@@ -218,8 +192,8 @@ public class ModItems {
         ResourceKey<Item> key = keyOf(id);
         T item = factory.apply(key);
 
-        registeredItems.put(key //$location
-                .identifier(
+        registeredItems.put(key
+                .location(
                 ), item);
 
         if (item instanceof BlockItem blockItem) {

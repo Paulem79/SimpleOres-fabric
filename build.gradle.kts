@@ -8,7 +8,8 @@ buildscript {
 }
 
 plugins {
-    id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT"
+    id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT"
+	id("legacy-looming") version "1.15-SNAPSHOT"
 
 	`maven-publish`
 	id("me.shedaniel.unified-publishing") version "0.1.+"
@@ -41,26 +42,21 @@ repositories {
 	mavenLocal()
 }
 
-// If this version has BucketLib
-val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
-// If this version has BucketLib
-val hasClothConfig: Boolean = findProperty("deps.cloth_config")?.takeIf { it != "[VERSIONED]" } != null
 // If this version has the buckets
 val containsBucket = stonecutter.eval(stonecutter.current.project, ">1.19.4")
 
 val accesswidener = when {
-    //hasBucketlib -> "hasbucketlib-deobf.accesswidener"
-    containsBucket -> "nobucketlib-deobf.accesswidener"
-    else -> "nobucket-deobf.accesswidener"
+    containsBucket -> "nobucketlib.accesswidener"
+    else -> "nobucket.accesswidener"
 }
 
 loom {
-	splitEnvironmentSourceSets()
+	//splitEnvironmentSourceSets()
 
 	mods {
         register("simpleores") {
-            sourceSet(sourceSets.main.get())
-            sourceSet(sourceSets.getByName("client"))
+            //sourceSet(sourceSets.main.get())
+            //sourceSet(sourceSets.getByName("client"))
         }
 	}
 
@@ -83,9 +79,9 @@ tasks.processResources {
         "min_version_range" to preToBeta("min_version_range"),
         "max_version_range" to preToBeta("max_version_range"),
         "fabricloader_version" to project.property("deps.fabricloader_version") as String,
-        "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
+        "bucketlib_expansion" to "",
         "aw_file" to accesswidener,
-        "client_mixin_expansion" to if (hasBucketlib) "" else clientMixinExpansion,
+        "client_mixin_expansion" to clientMixinExpansion,
 
         "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
 
@@ -105,9 +101,6 @@ sourceSets {
                 project.file("versions/${stonecutter.current.project}/src/main/generated"),
                 project.file("versions/${stonecutter.current.project}/src/main/resources"),
                 when {
-                    hasBucketlib -> {
-                        rootProject.file("sc-resources/main/hasbucketlib")
-                    }
                     containsBucket -> {
                         rootProject.file("sc-resources/main/nobucketlib")
                     }
@@ -119,7 +112,7 @@ sourceSets {
         }
     }
 
-    get("client").resources {
+    /*get("client").resources {
         srcDirs(
             when {
                 hasBucketlib -> {
@@ -133,7 +126,7 @@ sourceSets {
                 }
             }
         )
-    }
+    }*/
 }
 
 fabricApi {
@@ -141,8 +134,6 @@ fabricApi {
 		client = true
 	}
 }
-
-val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
 
 val isSnapshot = stonecutter.current.project.contains("snapshot", true)
 val minecraftVersion = if(isSnapshot ||
@@ -152,24 +143,11 @@ else stonecutter.current.project
 dependencies {
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
 
+	mappings(legacy.yarn(minecraftVersion as String, property("deps.yarn") as String))
 	if(checkSpecified("fabric_loader"))
-		implementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+		modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
 	if(checkSpecified("fabric_api"))
-		implementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
-
-	/*if(checkSpecified("cloth_config"))
-		compileOnly("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth_config")}") {
-			exclude(group = "net.fabricmc.fabric-api")
-		}
-	if(checkSpecified("mod_menu"))
-		implementation("com.terraformersmc:modmenu:${property("deps.mod_menu")}")
-
-	if(checkSpecified("bucketlib")) {
-		implementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
-
-		if(includesBucketlib)
-			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
-	}*/
+		modImplementation("net.legacyfabric.legacy-fabric-api:legacy-fabric-api:${property("deps.fabric_api")}")
 }
 
 fun checkSpecified(depName: String): Boolean {
@@ -193,7 +171,7 @@ java {
 }
 
 fun preToBeta(versionProperty: String): String? {
-    val version = project.findProperty(versionProperty) as? String ?: return null
+    val version = project.property(versionProperty) as String? ?: return null
 
     return version
         .replace(Regex("-rc(\\d+)"), "-rc.$1")
@@ -201,7 +179,7 @@ fun preToBeta(versionProperty: String): String? {
 }
 
 fun runtimeVersionToSnapshot(versionProperty: String): String? {
-    val version = project.findProperty(versionProperty) as? String ?: return null
+    val version = project.property(versionProperty) as String? ?: return null
 
     // 1.21.9-alpha.25.31.a -> 25w31a
     return version.replace(Regex("""(\d+\.\d+\.\d+)-alpha\.(\d+)\.(\d+)\.a""")) {
@@ -267,7 +245,7 @@ unifiedPublishing {
 		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
 		version = project.version.toString() // Optional, Inferred from project by default
 		changelog = githubChangelog // Optional, in markdown format
-		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
+		releaseType = "beta" // Optional, use "release", "beta" or "alpha"
 		gameVersions = VersionRangeParser.parseVersionRange(
             runtimeVersionToSnapshot("min_version_range") as String,
             runtimeVersionToSnapshot("max_version_range") as String
@@ -275,19 +253,6 @@ unifiedPublishing {
 		gameLoaders = listOf("fabric", "quilt")
 
 		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName).toFile()) // Declares the publicated jar
-
-		val modrinthToken = (project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")) as String?
-		if (modrinthToken != null) {
-			// Same defensive wrapper for Modrinth
-			runCatching {
-				modrinth {
-					token = modrinthToken
-					id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
-				}
-			}.onFailure { ex ->
-				logger.warn("Failed to configure Modrinth publishing - continuing with other publishers: ${ex.message}")
-			}
-		}
 
 		relations {
 			depends {
@@ -306,43 +271,31 @@ unifiedPublishing {
 				modrinth = "energized-power"
 				curseforge = "energized-power"
 			}
-
-			if(hasBucketlib) {
-				if(includesBucketlib) {
-					includes {
-						modrinth = "bucketlib"
-						curseforge = "bucketlib"
-					}
-				} else {
-					depends {
-						modrinth = "bucketlib"
-						curseforge = "bucketlib"
-					}
-				}
-			}
 		}
 
 		val curseforgeToken = (project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")) as String?
 		if (curseforgeToken != null) { // No pre or rc on curseforge
-			// Wrap configuration in runCatching so a failure configuring the CurseForge
-			// publisher does not abort the rest of the unified publishing setup.
-			runCatching {
-				curseforge {
-					token = curseforgeToken
-					id = "1092987" // Required, must be a string, ID of CurseForge project
+			curseforge {
+				token = curseforgeToken
+				id = "1092987" // Required, must be a string, ID of CurseForge project
 
-					gameVersions = if(isSnapshot) {
-						listOf(stonecutter.current.project)
-					} else {
-						VersionRangeParser.parseVersionRange(
-							project.property("min_version_range") as String,
-							project.property("max_version_range") as String,
-							VersionRangeParser.CompiledVersions.VersionType.RELEASE
-						)
-					}
-				}
-			}.onFailure { ex ->
-				logger.warn("Failed to configure CurseForge publishing - continuing with other publishers: ${ex.message}")
+                gameVersions = if(isSnapshot) {
+                    listOf(stonecutter.current.project)
+                } else {
+                    VersionRangeParser.parseVersionRange(
+                        project.property("min_version_range") as String,
+                        project.property("max_version_range") as String,
+                        VersionRangeParser.CompiledVersions.VersionType.RELEASE
+                    )
+                }
+			}
+		}
+
+		val modrinthToken = (project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")) as String?
+		if (modrinthToken != null) {
+			modrinth {
+				token = modrinthToken
+				id = "Boe3chj8" // Required, must be a string, ID of Modrinth project
 			}
 		}
 	}

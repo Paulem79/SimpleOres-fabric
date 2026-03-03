@@ -1,14 +1,14 @@
 package net.paulem.simpleores.datagen.providers;
 
 import net.paulem.simpleores.SimpleOres;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRegistryDataGenerator extends FabricDynamicRegistryProvider {
-    public ModRegistryDataGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public ModRegistryDataGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -18,7 +18,7 @@ public class ModRegistryDataGenerator extends FabricDynamicRegistryProvider {
         entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
 
         //? if >1.21.11
-        entries.addAll(registries.lookupOrThrow(Registries.VILLAGER_TRADE));
+        //entries.addAll(registries.lookupOrThrow(Registries.VILLAGER_TRADE));
     }
 
     @Override

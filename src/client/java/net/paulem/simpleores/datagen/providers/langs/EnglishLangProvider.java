@@ -1,13 +1,13 @@
 package net.paulem.simpleores.datagen.providers.langs;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.core.HolderLookup;
 
 import java.util.concurrent.CompletableFuture;
 
 public class EnglishLangProvider extends GlobalLangProvider {
-    public EnglishLangProvider(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(packOutput, "en_us", registryLookup);
+    public EnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, "en_us", registryLookup);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class EnglishLangProvider extends GlobalLangProvider {
         translationBuilder.add("tips.furnace.speed_modifier", "Speed Modifier: x%s");
 
         //? if >=1.21.11 {
-        generateSpearsTranslations(translationBuilder, materialName -> materialName + " Spear");
-        //?}
+        /*generateSpearsTranslations(translationBuilder, materialName -> materialName + " Spear");
+        *///?}
     }
 }

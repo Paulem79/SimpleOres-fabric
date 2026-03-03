@@ -1,6 +1,6 @@
 package net.paulem.simpleores.tags;
 
-import net.fabricmc.fabric.impl.tag.convention.v2.TagRegistration;
+import net.fabricmc.fabric.impl.tag.convention.TagRegistration;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -22,10 +22,10 @@ public class ModTags {
 
             public static TagKey<Block> createTag(String name) {
                 //? if <1.20.5 {
-                /*return TagRegistration.BLOCK_TAG_REGISTRATION.registerCommon(name);
-                *///?} else {
-                return TagRegistration.BLOCK_TAG.registerC(name);
-                //?}
+                return TagRegistration.BLOCK_TAG_REGISTRATION.registerCommon(name);
+                //?} else {
+                /*return TagRegistration.BLOCK_TAG.registerC(name);
+                *///?}
             }
         }
     }
@@ -118,10 +118,10 @@ public class ModTags {
 
             public static TagKey<Item> createTag(String name) {
                 //? if <1.20.5 {
-                /*return TagRegistration.ITEM_TAG_REGISTRATION.registerCommon(name);
-                *///?} else {
-                return TagRegistration.ITEM_TAG.registerC(name);
-                //?}
+                return TagRegistration.ITEM_TAG_REGISTRATION.registerCommon(name);
+                //?} else {
+                /*return TagRegistration.ITEM_TAG.registerC(name);
+                *///?}
             }
         }
     }

@@ -3,14 +3,14 @@ package net.paulem.simpleores.datagen.providers.tags;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.stonecutter.SCTag;
 import net.paulem.simpleores.tags.ModTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.world.level.block.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 //? if >=1.21.6
-import net.minecraft.data.tags.TagAppender;
+//import net.minecraft.data.tags.TagAppender;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -18,8 +18,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import java.util.concurrent.CompletableFuture;
 
-public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
-    public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+    public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -28,7 +28,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         build(ConventionalBlockTags.ORES, ModTags.Blocks.SIMPLEORES_ORES);
 
         //? if >1.20.4
-        TagBuilder storageBlocksTag = new TagBuilder(ConventionalBlockTags.STORAGE_BLOCKS);
+        //TagBuilder storageBlocksTag = new TagBuilder(ConventionalBlockTags.STORAGE_BLOCKS);
         TagBuilder carverReplaceables = new TagBuilder(BlockTags.OVERWORLD_CARVER_REPLACEABLES);
 
         // ------------------- BLOCKS BREAK -------------------
@@ -74,8 +74,8 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 build(tag, block);
 
                 //? if >1.20.4 {
-                build(carverReplaceables, block);
-                //?}
+                /*build(carverReplaceables, block);
+                *///?}
             } else if(path.contains("_ore")) {
                 build(ModTags.Blocks.SIMPLEORES_ORES, block);
 
@@ -86,13 +86,13 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 build(tag, block);
 
                 //? if >1.20.4 {
-                build(carverReplaceables, block);
-                //?}
+                /*build(carverReplaceables, block);
+                *///?}
             }
 
             if(path.contains("block")) {
                 //? if >1.20.4
-                build(storageBlocksTag, block);
+                //build(storageBlocksTag, block);
 
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_block", "");
@@ -140,7 +140,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     private void build(TagBuilder builder,
                        Object... objects) {
         //? if >=1.21.6 {
-        for (Object object : objects) {
+        /*for (Object object : objects) {
 
             if(object instanceof Block block) {
                 builder.get()
@@ -150,15 +150,15 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                         .addTag((TagKey<Block>) tag);
             }
         }
-        //?} else {
-            /*for (Object object : objects) {
+        *///?} else {
+            for (Object object : objects) {
                 if (object instanceof Block block) {
                     builder.get().add(block);
                 } else if (object instanceof TagKey<?> tag) {
                     builder.get().addTag((TagKey<Block>) tag);
                 }
             }
-        *///?}
+        //?}
     }
 
     class TagBuilder {
@@ -168,12 +168,12 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Block>, Block>/*?} else {*//*FabricTagsProvider<Block>.FabricTagBuilder*//*?}*/ get() {
+        public /*? if >=1.21.6 {*//*TagAppender<ResourceKey<Block>, Block>*//*?} else {*/FabricTagProvider<Block>.FabricTagBuilder/*?}*/ get() {
             /*? if >=1.21.6 {*/
-            return builder(tag);
-            /*?} else {*/
-            /*return getOrCreateTagBuilder(tag);
-            *//*?}*/
+            /*return builder(tag);
+            *//*?} else {*/
+            return getOrCreateTagBuilder(tag);
+            /*?}*/
         }
     }
 }

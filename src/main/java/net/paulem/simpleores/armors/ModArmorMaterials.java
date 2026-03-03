@@ -1,57 +1,50 @@
 package net.paulem.simpleores.armors;
 
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.equipment.ArmorMaterial;
-import net.minecraft.world.item.equipment.ArmorMaterials;
+import net.minecraft.world.item.ArmorMaterial;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.BaseSimpleOresConfig;
-import net.paulem.simpleores.stonecutter.SCArmor;
-import net.paulem.simpleores.stonecutter.SCId;
 //? if <=1.20.4 {
-/*import java.util.EnumMap;
+import java.util.EnumMap;
 import net.paulem.simpleores.items.ModToolMaterials;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
-*///?}
+//?}
 //? if 1.21 {
 /*import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
  */
 //?}
 //? if >1.21.3
-import net.minecraft.world.item.equipment.EquipmentAsset;
+//import net.minecraft.world.item.equipment.EquipmentAsset;
 //? if <=1.21.3
-//import net.minecraft.resources.Identifier;
 
 //? if >1.20.4 {
-public final class ModArmorMaterials
+/*public final class ModArmorMaterials
 {
-    public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    public static final 
+    net.paulem.simpleores.armors.ModArmorMaterials
             COPPER;
-    public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    public static final 
+    net.paulem.simpleores.armors.ModArmorMaterials
             TIN;
-    public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    public static final 
+    net.paulem.simpleores.armors.ModArmorMaterials
             MYTHRIL;
-    public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    public static final 
+    net.paulem.simpleores.armors.ModArmorMaterials
             ADAMANTIUM;
-    public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    public static final 
+    net.paulem.simpleores.armors.ModArmorMaterials
             ONYX;
 
     static {
         COPPER = //? if hasCopperTools {
-                ArmorMaterials.COPPER;
-        //?} else {
-        // register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
+                /^ArmorMaterials.COPPER;
+        ^///?} else {
+         register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
         //?}
 
         TIN = register("tin", SimpleOres.CONFIG.tinArmorDurability(),
@@ -65,52 +58,52 @@ public final class ModArmorMaterials
         ONYX = register("onyx", SimpleOres.CONFIG.onyxArmorDurability(), SimpleOres.CONFIG.onyxArmorProtection(), SoundEvents.ARMOR_EQUIP_TURTLE);
     }
 
-    private static //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    private static 
+    net.paulem.simpleores.armors.ModArmorMaterials
     register(String name, int durabilityMultiplier, BaseSimpleOresConfig.ArmorProtection armorProtection, Holder<SoundEvent> equipSound) {
         return register(name, durabilityMultiplier, armorProtection.setProtectionAmount(), armorProtection.enchantability(), equipSound, armorProtection.thoughness(), armorProtection.knockbackProtection(), SCArmor.repairTagOrIngredient(name));
     }
 
-    /**
+    /^*
      * @param typeProtections       The amount of protection per slot
      * @param enchantability        The higher the number, the more likely better enchantments will be applied when using the enchanting table
      * @param toughness             Toughness for netherite armor
      * @param knockbackResistance   The knockback resistance for armor
      * @return Registered armor material
-     */
-    private static //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+     ^/
+    private static 
+    net.paulem.simpleores.armors.ModArmorMaterials
     register(String name, int durability, SCArmor.EnumProtection typeProtections, int enchantability, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance,
-             //$ tagOrIngredient
-             net.minecraft.tags.TagKey<net.minecraft.world.item.Item>
+             
+             java.util.function.Supplier<net.minecraft.world.item.crafting.Ingredient>
              repairIngredient)
     {
         //? if <=1.21.3
-        //Identifier loc = SCId.of(SimpleOres.MOD_ID, name);
+        ResourceLocation loc = SCId.of(SimpleOres.MOD_ID, name);
 
         //? if >1.21.3 {
-        return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
-        //?} else if 1.21 {
+        /^return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
+        ^///?} else if 1.21 {
         
-        /*List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
+        /^List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
 
         return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, loc, new ArmorMaterial(typeProtections.convert(), enchantability, equipSound, repairIngredient, layers, toughness, knockbackResistance/10));
          
-        *///?} else if <=1.21.3 {
+        ^///?} else if <=1.21.3 {
         
-        /*return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, loc);
-         *///?}
+        return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, loc);
+         //?}
     }
 
     //? if >1.21.3 {
-    private static ResourceKey<EquipmentAsset> getAssetKey(String name) {
+    /^private static ResourceKey<EquipmentAsset> getAssetKey(String name) {
         ResourceKey<Registry<EquipmentAsset>> equipmentAsset = ResourceKey.createRegistryKey(SCId.ofVanilla("equipment_asset"));
         return ResourceKey.create(equipmentAsset, SCId.of(SimpleOres.MOD_ID, name));
     }
-    //?}
+    ^///?}
 
 }
-//?} else if 1.20.4 {
+*///?} else if 1.20.4 {
 /*import net.minecraft.world.item.ArmorItem;
 public enum ModArmorMaterials implements ArmorMaterial {
     COPPER("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(),
@@ -208,18 +201,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
 }
 *///?} else {
 
-/*import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.config.SimpleOresConfig;
-import net.paulem.simpleores.items.ModToolMaterials;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.equipment.ArmorMaterial;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Util;
-
-import java.util.EnumMap;
-import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
     COPPER("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(),
@@ -316,4 +298,4 @@ public enum ModArmorMaterials implements ArmorMaterial {
     }
 }
  
-*///?}
+//?}

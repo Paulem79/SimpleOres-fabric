@@ -1,9 +1,5 @@
 package net.paulem.simpleores.items.custom.bucket;
 
-//? if hasBucketlib || !containsBucket {
- /*public class CustomBucketDispenseBehaviour {}
-*///?} else {
-
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -34,9 +30,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
-/**
+/*
  * Adapted from cech12's BucketLib
- */
+*/
 public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 
     private static final CustomBucketDispenseBehaviour INSTANCE = new CustomBucketDispenseBehaviour();
@@ -91,12 +87,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         if (block instanceof BucketPickup bucketPickup) {
             ItemStack fullVanillaBucket = bucketPickup.pickupBlock(player, level, pos, state);
             if (fullVanillaBucket.getItem() instanceof BucketItem vanillaBucketItem) {
-                Fluid fluid = ((BucketItemAccessor) vanillaBucketItem)
-                        //? if afterDeobf {
-                        .fabric_getContent();
-                        //? } else {
-                        /*.fabric_getFluid();
-                        *///?}
+                Fluid fluid = ((BucketItemAccessor) vanillaBucketItem).fabric_getFluid();
                 if (stack.getItem() instanceof CustomChildrenBucketItem bucketItem) {
                     SoundEvent sound = bucketPickup.getPickupSound().orElse(FluidVariantAttributes.getFillSound(FluidVariant.of(fluid)));
                     level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -126,17 +117,14 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 
         Fluid fluid = bucketItem.getFluid();
         //vaporize
-        boolean vaporize = //? if >1.21.10 {
-         level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
-        //?} else {
-        /*level.dimensionType().ultraWarm();
-        *///?}
+        boolean vaporize =
+        level.dimensionType().ultraWarm();
 
         if (vaporize && fluid.defaultFluidState().is(FluidTags.WATER)) {
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
-            level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.8F);
+            level.playSound(player, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
             for (int i = 0; i < 8; ++i) {
                 level.addParticle(ParticleTypes.LARGE_SMOKE, (double) x + Math.random(), (double) y + Math.random(), (double) z + Math.random(), 0.0, 0.0, 0.0);
             }
@@ -161,4 +149,3 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
     }
 
 }
-//?}

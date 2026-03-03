@@ -1,24 +1,24 @@
 package net.paulem.simpleores.items.custom.advanced;
 
 //? if >=1.21.11 {
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ToolMaterial;
+/*import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Tier;
 import net.paulem.simpleores.items.ModToolMaterials;
 
 public class AdvancedSpearItem extends Item {
-    private ToolMaterial material;
+    private Tier material;
     
-    public AdvancedSpearItem(ToolMaterial material, Properties settings) {
+    public AdvancedSpearItem(Tier material, Properties settings) {
         super(settings.spear(material, getAttackDuration(material), getDamageMultiplier(material), getDelay(material), getDismountTime(material), getDismountThreshold(material), getKnockbackTime(material), getKnockbackThreshold(material), getDamageTime(material), getDamageThreshold(material)));
         
         this.material = material;
     }
 
-    public ToolMaterial getMaterial() {
+    public Tier getMaterial() {
         return material;
     }
 
-    private static float getAttackDuration(ToolMaterial material) {
+    private static float getAttackDuration(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 0.9F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -30,7 +30,7 @@ public class AdvancedSpearItem extends Item {
         return 1.25F; // For onyx
     }
     
-    private static float getDamageMultiplier(ToolMaterial material) {
+    private static float getDamageMultiplier(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 0.9F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -42,7 +42,7 @@ public class AdvancedSpearItem extends Item {
         return 1.25F; // For onyx
     }
     
-    private static float getDelay(ToolMaterial material) {
+    private static float getDelay(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 0.6F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -54,7 +54,7 @@ public class AdvancedSpearItem extends Item {
         return 0.3F; // For onyx
     }
 
-    private static float getDismountTime(ToolMaterial material) {
+    private static float getDismountTime(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 3.75F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -66,7 +66,7 @@ public class AdvancedSpearItem extends Item {
         return 2.0F; // For onyx
     }
 
-    private static float getDismountThreshold(ToolMaterial material) {
+    private static float getDismountThreshold(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 8.5F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -78,7 +78,7 @@ public class AdvancedSpearItem extends Item {
         return 6.5F; // For onyx
     }
 
-    private static float getKnockbackTime(ToolMaterial material) {
+    private static float getKnockbackTime(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 7.5F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -90,11 +90,11 @@ public class AdvancedSpearItem extends Item {
         return 5.0F; // For onyx
     }
 
-    private static float getKnockbackThreshold(ToolMaterial material) {
+    private static float getKnockbackThreshold(Tier material) {
         return 5.1F; // Constant across vanilla tiers
     }
 
-    private static float getDamageTime(ToolMaterial material) {
+    private static float getDamageTime(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return 11.8F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -106,10 +106,10 @@ public class AdvancedSpearItem extends Item {
         return 8.0F; // For onyx
     }
 
-    private static float getDamageThreshold(ToolMaterial material) {
+    private static float getDamageThreshold(Tier material) {
         return 4.6F; // Constant across vanilla tiers
     }
 }
-//?} else {
-/*public class AdvancedSpearItem {}*/
+*///?} else {
+public class AdvancedSpearItem {}
 //?}

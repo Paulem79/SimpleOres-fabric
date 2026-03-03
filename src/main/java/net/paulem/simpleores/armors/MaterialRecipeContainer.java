@@ -27,7 +27,5 @@ public record MaterialRecipeContainer(@Nullable AdvancedSwordItem sword, @Nullab
                                       @Nullable TagKey<Item> raw, @Nullable ItemLike baseRawItem, @Nullable ItemLike nugget,
                                       @Nullable DoorBlock door, @Nullable IronBarsBlock bars, @Nullable MultifunctionPressurePlateBlock pressurePlate, @Nullable Block cut, @Nullable
                                       SlabBlock cutSlab, @Nullable StairBlock stairs,
-                                      //? containsBucket
-                                      @Nullable Item bucket,
                                       @Nullable Float smeltXp, boolean excludeSmeltCreation) {
 }

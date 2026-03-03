@@ -1,6 +1,6 @@
 package net.paulem.simpleores.config;
 
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.ModToolMaterials;
 
@@ -59,13 +59,6 @@ public class BaseSimpleOresConfig implements Config {
     // villagers defaults
     public final boolean enableTrades = true;
 
-    // copper bucket defaults
-    //? if hasBucketlib {
-    /*public final boolean enableCopperBucketMilking = true;
-    public final int copperBucketMeltTemperature = 1000;
-    public final int copperBucketFireTemperature = 9999;*/
-    //?}
-
     // Implement Config getters
     @Override
     public int copperArmorDurability() { return this.copperArmorDurability; }
@@ -111,16 +104,6 @@ public class BaseSimpleOresConfig implements Config {
     @Override
     public boolean enableTrades() { return this.enableTrades; }
 
-    //? hasBucketlib {
-    /*
-    @Override
-    public boolean enableCopperBucketMilking() { return this.enableCopperBucketMilking; }
-    @Override
-    public int copperBucketMeltTemperature() { return this.copperBucketMeltTemperature; }
-    @Override
-    public int copperBucketFireTemperature() { return this.copperBucketFireTemperature; }*/
-    //?}
-
      @SuppressWarnings("all")
      public static class ArmorProtection {
          private int helmet;
@@ -144,7 +127,7 @@ public class BaseSimpleOresConfig implements Config {
          }
 
          //? if >1.20.4 {
-         public SCArmor.EnumProtection setProtectionAmount() {
+         /*public SCArmor.EnumProtection setProtectionAmount() {
              return Util.make(new SCArmor.EnumProtection(SCArmor.ArmorEquipmentType.class), attribute -> {
                  attribute.put(SCArmor.ArmorEquipmentType.BOOTS, boots());
                  attribute.put(SCArmor.ArmorEquipmentType.LEGGINGS, leggings());
@@ -153,13 +136,13 @@ public class BaseSimpleOresConfig implements Config {
                  attribute.put(SCArmor.ArmorEquipmentType.BODY, body());
              });
          }
-         //?} else {
+         *///?} else {
 
-         /*public int[] getProtectionAmount() {
+         public int[] getProtectionAmount() {
              return new int[]{helmet(), chestplate(), leggings(), boots()};
          }
 
-         */
+         
          //?}
 
          public int helmet() {

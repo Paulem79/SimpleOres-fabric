@@ -2,8 +2,8 @@ package net.paulem.simpleores.utils;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ToolMaterial;
-import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ArmorMaterial;
 import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.items.ModItems;
 import net.paulem.simpleores.items.ModToolMaterials;
@@ -13,8 +13,8 @@ import org.jetbrains.annotations.Nullable;
 public class MaterialUtils {
     private MaterialUtils(){}
 
-    public static Pair<Float, Float> getStrength(//$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+    public static Pair<Float, Float> getStrength(
+            net.paulem.simpleores.armors.ModArmorMaterials
                                                  material
     ) {
         if(material == ModArmorMaterials.TIN) {
@@ -31,8 +31,8 @@ public class MaterialUtils {
     }
 
     @Nullable
-    public static String getName(//$ armorRegistry
-                                 net.minecraft.world.item.equipment.ArmorMaterial
+    public static String getName(
+                                 net.paulem.simpleores.armors.ModArmorMaterials
                                          material
     ) {
         if(material == ModArmorMaterials.COPPER) {
@@ -63,9 +63,9 @@ public class MaterialUtils {
     }
     
     @Nullable
-    public static //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
-    toArmor(ToolMaterial material) {
+    public static 
+    net.paulem.simpleores.armors.ModArmorMaterials
+    toArmor(Tier material) {
         if(material == ModToolMaterials.TIN) {
             return ModArmorMaterials.TIN;
         } else if(material == ModToolMaterials.MYTHRIL) {

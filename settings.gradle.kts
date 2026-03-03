@@ -8,6 +8,10 @@ pluginManagement {
 		mavenCentral()
 		gradlePluginPortal()
 		maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" }
+		maven {
+			name = "legacy-fabric"
+			url = uri("https://maven.legacyfabric.net/")
+		}
 	}
 }
 
@@ -17,20 +21,8 @@ plugins {
 
 stonecutter {
 	create(rootProject) {
-		fun match(version: String, vararg loaders: String) = loaders
-			.forEach { version(version, version).buildscript = "build.$it.gradle.kts" }
+		version("1.12.2")
 
-		match("1.19.4", "mojmaps")
-		match("1.20.1", "mojmaps")
-		match("1.20.4", "mojmaps")
-		match("1.21", "mojmaps")
-		match("1.21.3", "mojmaps")
-		match("1.21.5", "mojmaps")
-		match("1.21.6", "mojmaps")
-		match("1.21.9", "mojmaps")
-		match("1.21.11", "mojmaps")
-		match("26.1-snapshot", "deobf")
-
-		vcsVersion = "1.21.6"
+		vcsVersion = "1.12.2"
 	}
 }

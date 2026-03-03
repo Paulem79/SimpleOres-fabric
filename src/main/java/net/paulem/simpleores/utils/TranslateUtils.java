@@ -6,8 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 public class TranslateUtils {
-    private static final Map<//$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+    private static final Map<
+            net.paulem.simpleores.armors.ModArmorMaterials
             , Map<String, String>> MATERIAL_NAMES = Map.of(
             ModArmorMaterials.COPPER, Map.of(
                     "en_us", "Copper",
@@ -31,8 +31,8 @@ public class TranslateUtils {
             )
     );
 
-    public static String getTranslatedName(//$ armorRegistry
-                                    net.minecraft.world.item.equipment.ArmorMaterial
+    public static String getTranslatedName(
+                                    net.paulem.simpleores.armors.ModArmorMaterials
             material, String locale) {
         @Nullable String translatedName = MATERIAL_NAMES.get(material).get(locale);
 

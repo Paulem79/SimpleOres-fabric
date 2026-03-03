@@ -1,14 +1,14 @@
 package net.paulem.simpleores.datagen.providers.tags;
 
 //? hasBucketlib
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import com.github.cech12.BucketLib.api.item.UniversalBucketItem;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 //? if >=1.21.6
-import net.minecraft.data.tags.TagAppender;
+//import net.minecraft.data.tags.TagAppender;
 import net.minecraft.world.item.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
@@ -28,8 +28,8 @@ import net.paulem.simpleores.tags.ModTags;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
-    public ModItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -56,7 +56,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 build(ModTags.Items.ARMORS, item);
 
                 //? if >1.20.4 {
-                if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.HELMET) {
+                /*if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.HELMET) {
                     // Helmets
                     build(ItemTags.HEAD_ARMOR, item);
                 } else if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.CHESTPLATE) {
@@ -69,21 +69,21 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                     // Boots
                     build(ItemTags.FOOT_ARMOR, item);
                 }
-                //?}
+                *///?}
 
             } else if (item instanceof AdvancedShearsItem) {
                 // Shears
                 build(ModTags.Items.SHEARS, item);
             //? if >=1.21.11 {
-            } else if (item instanceof AdvancedSpearItem) {
+            /*} else if (item instanceof AdvancedSpearItem) {
                 // Spear
                 build(ItemTags.SPEARS, item);
-            //?}
+            *///?}
             } //? if hasBucketlib {
-            /*else if (item instanceof UniversalBucketItem) {
-            *///?} else {
-            else if (item instanceof CustomBucketFluidable) {
-            //?}
+            else if (item instanceof UniversalBucketItem) {
+            //?} else {
+            /*else if (item instanceof CustomBucketFluidable) {
+            *///?}
                 // Buckets
                 build(ModTags.Items.BUCKETS, item);
             }
@@ -141,10 +141,10 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 build(tag, item);
 
                 build(ConventionalItemTags.//? if >1.20.4 {
-                        RAW_MATERIALS
-                        //?} else {
-                        /*RAW_ORES
-                        *///?}
+                        /*RAW_MATERIALS
+                        *///?} else {
+                        RAW_ORES
+                        //?}
                         , tag);
             } else if(identifier.getPath().contains("_rod")) {
                 // Rods
@@ -157,7 +157,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 build(tag, item);
 
                 //? if >1.20.4
-                build(ConventionalItemTags.RODS, tag);
+                //build(ConventionalItemTags.RODS, tag);
             }
         }));
 
@@ -172,7 +172,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
         // ------------------- MELEE -------------------
         //? if >1.20.4
-        build(ConventionalItemTags.MELEE_WEAPON_TOOLS, ModTags.Items.SWORDS, ModTags.Items.AXES);
+        //build(ConventionalItemTags.MELEE_WEAPON_TOOLS, ModTags.Items.SWORDS, ModTags.Items.AXES);
 
         // ------------------- SHOVELS -------------------
         build(ItemTags.SHOVELS, ModTags.Items.SHOVELS);
@@ -184,21 +184,21 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         build(ItemTags.PICKAXES, ModTags.Items.PICKAXES);
         build(ItemTags.CLUSTER_MAX_HARVESTABLES, ModTags.Items.PICKAXES);
         //? if >1.20.4
-        build(ConventionalItemTags.MINING_TOOL_TOOLS, ModTags.Items.PICKAXES);
+        //build(ConventionalItemTags.MINING_TOOL_TOOLS, ModTags.Items.PICKAXES);
 
         // ------------------- SHEARS -------------------
         build(ConventionalItemTags. //? if >1.20.4 {
-                SHEAR_TOOLS
-                //?} else {
-                 /*SHEARS
-                *///?}
+                /*SHEAR_TOOLS
+                *///?} else {
+                 SHEARS
+                //?}
                 , ModTags.Items.SHEARS);
         //? if >1.20.4
-        build(ItemTags.MINING_ENCHANTABLE, ModTags.Items.SHEARS);
+        //build(ItemTags.MINING_ENCHANTABLE, ModTags.Items.SHEARS);
 
         // ------------------- BUCKETS -------------------
         //? if >=1.21
-        build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);
+        //build(ConventionalItemTags.BUCKETS, ModTags.Items.BUCKETS);
 
         // ------------------- NUGGETS -------------------
         build(ConventionalItemTags.NUGGETS, ModTags.Items.NUGGETS);
@@ -208,23 +208,23 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
         // ------------------- DURABILITY ENCHANTABLE -------------------
         //? if >1.20.4
-        build(ItemTags.DURABILITY_ENCHANTABLE, ModTags.Items.SHEARS, ModTags.Items.BOWS);
+        //build(ItemTags.DURABILITY_ENCHANTABLE, ModTags.Items.SHEARS, ModTags.Items.BOWS);
 
         // ------------------- BOWS -------------------
         build(ConventionalItemTags. //? if >1.20.4 {
-                        BOW_TOOLS
-                //?} else {
-                 /*BOWS
-                *///?}
+                        /*BOW_TOOLS
+                *///?} else {
+                 BOWS
+                //?}
                 , ModTags.Items.BOWS);
         //? if >1.20.4
-        build(ConventionalItemTags.RANGED_WEAPON_TOOLS, ModTags.Items.BOWS);
+        //build(ConventionalItemTags.RANGED_WEAPON_TOOLS, ModTags.Items.BOWS);
         //? if >1.20.4
-        build(ItemTags.BOW_ENCHANTABLE, ModTags.Items.BOWS);
+        //build(ItemTags.BOW_ENCHANTABLE, ModTags.Items.BOWS);
         //? if >1.21.3 {
-        build(ItemTags.SKELETON_PREFERRED_WEAPONS, ModTags.Items.BOWS);
+        /*build(ItemTags.SKELETON_PREFERRED_WEAPONS, ModTags.Items.BOWS);
         build(ItemTags.WITHER_SKELETON_DISLIKED_WEAPONS, ModTags.Items.BOWS);
-        //?}
+        *///?}
 
 
         // ------------------- INGOTS/GEMS -------------------
@@ -235,7 +235,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
         // ------------------- RODS -------------------
         //? if >1.20.4
-        build(ConventionalItemTags.RODS, ModTags.Items.RODS);
+        //build(ConventionalItemTags.RODS, ModTags.Items.RODS);
 
         // ------------------- REPAIR -------------------
         build(ModTags.Items.REPAIRS_TIN_ITEMS, ModItems.TIN_INGOT);
@@ -277,7 +277,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     private void build(TagBuilder builder,
                        Object... objects) {
         //? if >=1.21.6 {
-        for (Object object : objects) {
+        /*for (Object object : objects) {
 
             if(object instanceof Item item) {
                 builder.get()
@@ -287,15 +287,15 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                         .addTag((TagKey<Item>) tag);
             }
         }
-        //?} else {
-            /*for (Object object : objects) {
+        *///?} else {
+            for (Object object : objects) {
                 if (object instanceof Item item) {
                     builder.get().add(item);
                 } else if (object instanceof TagKey<?> tag) {
                     builder.get().addTag((TagKey<Item>) tag);
                 }
             }
-        *///?}
+        //?}
     }
 
     class TagBuilder {
@@ -305,12 +305,12 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Item>, Item>/*?} else {*//*FabricTagsProvider<Item>.FabricTagBuilder*//*?}*/ get() {
+        public /*? if >=1.21.6 {*//*TagAppender<ResourceKey<Item>, Item>*//*?} else {*/FabricTagProvider<Item>.FabricTagBuilder/*?}*/ get() {
             /*? if >=1.21.6 {*/
-            return builder(tag);
-            /*?} else {*/
-            /*return getOrCreateTagBuilder(tag);
-             *//*?}*/
+            /*return builder(tag);
+            *//*?} else {*/
+            return getOrCreateTagBuilder(tag);
+             /*?}*/
         }
     }
 }

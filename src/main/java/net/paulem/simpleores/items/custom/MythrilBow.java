@@ -2,7 +2,7 @@ package net.paulem.simpleores.items.custom;
 
 import net.paulem.simpleores.tooltip.TooltipItem;
 //? if >1.21 {
-import net.paulem.simpleores.items.ModItems;
+/*import net.paulem.simpleores.items.ModItems;
 import java.util.Random;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
@@ -73,7 +73,7 @@ public class MythrilBow extends BowItem implements TooltipItem
         return stack;
     } // end addMythrilEnchantments()
 }  // end class MythrilBow
-//?} else if 1.21 {
+*///?} else if 1.21 {
 
 /*import net.paulem.simpleores.items.ModItems;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -158,7 +158,7 @@ public class MythrilBow extends BowItem implements TooltipItem
  
 *///?} else {
 
-/*import net.fabricmc.api.EnvType;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -246,4 +246,4 @@ public class MythrilBow extends BowItem implements TooltipItem
     }
 }  // end class MythrilBow
  
-*///?}
+//?}

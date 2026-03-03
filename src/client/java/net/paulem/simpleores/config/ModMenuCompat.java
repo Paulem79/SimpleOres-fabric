@@ -1,9 +1,9 @@
 package net.paulem.simpleores.config;
 
 //? !hasClothConfig {
- public class ModMenuCompat {}
-//?} else {
-/*import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+ /*public class ModMenuCompat {}
+*///?} else {
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.EnvType;
@@ -18,4 +18,4 @@ public class ModMenuCompat implements ModMenuApi
         return parent -> AutoConfig.getConfigScreen(SimpleOresConfig.class, parent).get();
     }
 }
-*///?}
+//?}

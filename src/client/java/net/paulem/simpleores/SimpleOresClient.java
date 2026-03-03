@@ -6,21 +6,21 @@ import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipItem;
 
 //? if >=1.21.6 && !afterDeobf {
-/*import net.fabricmc.fabric.api.client.rendering.v1.ChunkSectionLayerMap;
+/*import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 *///?} else !afterDeobf {
-/*import net.fabricmc.fabric.api.blockrenderlayer.v1.ChunkSectionLayerMap;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.RenderType;
-*///?}
+//?}
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 //? if containsBucket && !hasBucketlib
-import net.minecraft.client.color.item.ItemTintSources;
+//import net.minecraft.client.color.item.ItemTintSources;
 
 //? !afterDeobf {
-/*import net.paulem.simpleores.blocks.ModBlocks;
+import net.paulem.simpleores.blocks.ModBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.IronBarsBlock;*/
+import net.minecraft.world.level.block.IronBarsBlock;
 //?}
 
 public class SimpleOresClient implements ClientModInitializer {
@@ -29,27 +29,27 @@ public class SimpleOresClient implements ClientModInitializer {
 		ModModelPredicateProvider.registerModModels();
 
 		//? !afterDeobf {
-		/*ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
+		ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
 			Block block = blockItem.getBlock();
 
 			// Make doors non opaque on rendering
 			if(block instanceof DoorBlock || block instanceof IronBarsBlock) {
 				//? if >=1.21.6 {
-				ChunkSectionLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
-				//?} else {
-				/^ChunkSectionLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
-				^///?}
+				/*BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
+				*///?} else {
+				BlockRenderLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
+				//?}
 			}
 		});
-		*///?}
+		//?}
 
 		ItemTooltipCallback.EVENT.register((itemStack, tooltipContext,
 											//? if <=1.20.4 {
-											/*list
-											*///?} else {
-											tooltipType,
 											list
-											//?}
+											//?} else {
+											/*tooltipType,
+											list
+											*///?}
 		) -> {
 			if(itemStack.getItem() instanceof TooltipItem tooltipItem) {
 				tooltipItem.appendClientTooltip(itemStack, new TooltipItem.TooltipAccept(list));
@@ -57,7 +57,7 @@ public class SimpleOresClient implements ClientModInitializer {
 		});
 
         //? if containsBucket && !hasBucketlib {
-        ItemTintSources.ID_MAPPER.put(SCId.of(SimpleOres.MOD_ID, "bucketlayersource"), BucketLayerTintSource.CODEC);
-        //?}
+        /*ItemTintSources.ID_MAPPER.put(SCId.of(SimpleOres.MOD_ID, "bucketlayersource"), BucketLayerTintSource.CODEC);
+        *///?}
 	}
 }

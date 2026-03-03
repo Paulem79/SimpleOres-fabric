@@ -1,24 +1,24 @@
 package net.paulem.simpleores.bucket.tint.handler;
 
 //? if hasBucketlib || !containsBucket {
-/*public class LayersUploader {}
-*///?} else {
+public class LayersUploader {}
+//?} else {
 
-import net.minecraft.client.color.item.ItemTintSource;
+/*import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.*;
-import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelTemplate;
-import net.minecraft.client.data.models.model.TextureMapping;
-import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.resources.Identifier;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.ItemModelUtils;
+import net.minecraft.data.models.model.ModelTemplate;
+import net.minecraft.data.models.model.TextureMapping;
+import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 import java.util.LinkedList;
 import java.util.Optional;
 
 //? afterDeobf
-import net.minecraft.client.renderer.block.model.Material;
+//import net.minecraft.client.renderer.block.model.Material;
 
 public class LayersUploader {
     // I want 24 layers, because the base overlay texture has 24 layers.
@@ -36,9 +36,9 @@ public class LayersUploader {
 
     public static void registerOverlayBucket(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource... tints) {
         LinkedList<//? afterDeobf {
-                Material
-                //?} else {
-                //Identifier
+                /^Material
+                ^///?} else {
+                ResourceLocation
                 //?}
                 > layers = new LinkedList<>();
 
@@ -48,32 +48,32 @@ public class LayersUploader {
             layers.add(TextureMapping.getItemTexture(parentBucket, "_overlay" + (i-1)));
         }
 
-        Identifier identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new //? afterDeobf {
-                Material
-                //?} else {
-                //Identifier
+        ResourceLocation identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new //? afterDeobf {
+                /^Material
+                ^///?} else {
+                ResourceLocation
                 //?}
                 [0]));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, tints));
     }
 
-    public static Identifier uploadLayers(ItemModelGenerators itemModelGenerator, Item item, //? afterDeobf {
-                                          Material
-                                                  //?} else {
-                                                  //Identifier
+    public static ResourceLocation uploadLayers(ItemModelGenerators itemModelGenerator, Item item, //? afterDeobf {
+                                          /^Material
+                                                  ^///?} else {
+                                                  ResourceLocation
                                                   //?}
                                           ... layers) {
         TextureMapping layered = layered(layers);
         return GENERATED_TWENTY_FOUR_LAYERS.create(item, layered, itemModelGenerator.modelOutput);
     }
 
-    /**
+    /^*
      * Get the texture map for the given layers.
-     */
+     ^/
     public static TextureMapping layered(//? afterDeobf {
-                                         Material
-                                                 //?} else {
-                                                 //Identifier
+                                         /^Material
+                                                 ^///?} else {
+                                                 ResourceLocation
                                                  //?}
                                                  ... layers) {
         TextureMapping textureMap = new TextureMapping();
@@ -85,11 +85,11 @@ public class LayersUploader {
         return textureMap;
     }
 
-    /**
-     * @see net.minecraft.client.data.models.model.ModelTemplate#create(String, TextureSlot...)
-     */
+    /^*
+     * @see net.minecraft.data.models.model.ModelTemplate#create(String, TextureSlot...)
+     ^/
     private static ModelTemplate item(String parent, TextureSlot... requiredTextureSlots) {
-        return new ModelTemplate(Optional.of(Identifier.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureSlots);
+        return new ModelTemplate(Optional.of(ResourceLocation.withDefaultNamespace("item/" + parent)), Optional.empty(), requiredTextureSlots);
     }
 }
-//?}
+*///?}

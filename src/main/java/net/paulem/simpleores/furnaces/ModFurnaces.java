@@ -1,10 +1,10 @@
 package net.paulem.simpleores.furnaces;
 
-import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
@@ -19,8 +19,8 @@ import java.util.function.UnaryOperator;
 public class ModFurnaces {
     private static final List<ModFurnaceBlock> allFurnaces = new ArrayList<>();
 
-    public static final ConcurrentFifoMap<//$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+    public static final ConcurrentFifoMap<
+            net.paulem.simpleores.armors.ModArmorMaterials
             , Double> FURNACES = new ConcurrentFifoMap<>();
 
     static {
@@ -32,8 +32,8 @@ public class ModFurnaces {
     }
 
     public static void init() {
-        for (Map.Entry<//$ armorRegistry
-                net.minecraft.world.item.equipment.ArmorMaterial
+        for (Map.Entry<
+                net.paulem.simpleores.armors.ModArmorMaterials
                 , Double> entry : FURNACES.entrySet()) {
             registerFurnace(entry.getKey(), entry.getValue());
         }
@@ -42,8 +42,8 @@ public class ModFurnaces {
     public static Map<String, String> generateFurnaceTranslations(UnaryOperator<String> translateFunction, String locale) {
         Map<String, String> translates = new HashMap<>();
 
-        for (Map.Entry<//$ armorRegistry
-                net.minecraft.world.item.equipment.ArmorMaterial
+        for (Map.Entry<
+                net.paulem.simpleores.armors.ModArmorMaterials
                 , Double> entry : FURNACES.entrySet()) {
             String id = getFurnaceName(entry.getKey());
 
@@ -56,24 +56,24 @@ public class ModFurnaces {
         return translates;
     }
 
-    public static String getFurnaceName(//$ armorRegistry
-                                        net.minecraft.world.item.equipment.ArmorMaterial
+    public static String getFurnaceName(
+                                        net.paulem.simpleores.armors.ModArmorMaterials
                                                 material) {
         return MaterialUtils.getName(material) + "_furnace";
     }
 
-    private static void registerFurnace(//$ armorRegistry
-                                        net.minecraft.world.item.equipment.ArmorMaterial
+    private static void registerFurnace(
+                                        net.paulem.simpleores.armors.ModArmorMaterials
             material, double speedModifier) {
         Pair<Float, Float> strength = MaterialUtils.getStrength(material);
         String name = getFurnaceName(material);
 
-        ModFurnaceBlock furnace = ModBlocks.registerBlock(name, key -> new ModFurnaceBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+        ModFurnaceBlock furnace = ModBlocks.registerBlock(name, key -> new ModFurnaceBlock(BlockBehaviour.Properties.of(net.minecraft.world.level.material.Material.STONE, MaterialColor.STONE)
                 .lightLevel(createLightLevelFromBlockState(13))
                 .strength(strength.getLeft(), strength.getRight())
                 .requiresCorrectToolForDrops()
                 //? if >1.21
-                .setId(key)
+                //.setId(key)
                 , speedModifier));
 
         allFurnaces.add(furnace);

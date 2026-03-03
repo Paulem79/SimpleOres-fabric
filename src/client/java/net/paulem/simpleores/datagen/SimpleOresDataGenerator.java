@@ -28,7 +28,7 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(LootTableProvider::new);
 		pack.addProvider(ModAdvancementsProvider::new);
 		//? if >1.21.11
-		pack.addProvider(ModVillagersTradesTagsProvider::new);
+		//pack.addProvider(ModVillagersTradesTagsProvider::new);
 
 		List<FabricDataGenerator.Pack.RegistryDependentFactory<GlobalLangProvider>> langs = Arrays.asList(ChineseSimplifiedLangProvider::new, ChineseTraditionalLangProvider::new,
 				EnglishLangProvider::new, FrenchLangProvider::new, DanishLangProvider::new,
@@ -40,9 +40,9 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		}
 
 		//? if >=1.21.3 {
-		FabricDataGenerator.Pack secondaryPack = fabricDataGenerator.createPack();
+		/*FabricDataGenerator.Pack secondaryPack = fabricDataGenerator.createPack();
 		secondaryPack.addProvider(ModEquipmentAssetProvider::new);
-		//?}
+		*///?}
 	}
 
 	@Override
@@ -50,6 +50,6 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		registryBuilder.add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap);
 		registryBuilder.add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
 		//? if >1.21.11
-		registryBuilder.add(Registries.VILLAGER_TRADE, ModVillagersTradesProvider::bootstrap);
+		//registryBuilder.add(Registries.VILLAGER_TRADE, ModVillagersTradesProvider::bootstrap);
 	}
 }

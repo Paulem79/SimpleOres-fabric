@@ -1,12 +1,12 @@
 package net.paulem.simpleores.stonecutter;
 
 //? if <=1.21 {
-/*import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.Holder;
-*///?}
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+//?}
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterial;
 import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.tags.ModTags;
@@ -22,13 +22,13 @@ public class SCArmor {
             super(keyType);
         }
 
-        public EnumMap<//$ armorType
-                net.minecraft.world.item.equipment.ArmorType
+        public EnumMap<
+                net.minecraft.world.item.ArmorItem.Type
                 , Integer> convert() {
-            EnumMap<//$ armorType
-                    net.minecraft.world.item.equipment.ArmorType
-                    , Integer> map = new EnumMap<>(//$ armorType
-                    net.minecraft.world.item.equipment.ArmorType
+            EnumMap<
+                    net.minecraft.world.item.ArmorItem.Type
+                    , Integer> map = new EnumMap<>(
+                    net.minecraft.world.item.ArmorItem.Type
                             .class);
             for (Entry<ArmorEquipmentType, Integer> entry : this.entrySet()) {
                 map.put(entry.getKey().getType(), entry.getValue());
@@ -37,48 +37,48 @@ public class SCArmor {
         }
     }
 
-    public static //$ tagOrIngredient
-    net.minecraft.tags.TagKey<net.minecraft.world.item.Item>
+    public static 
+    java.util.function.Supplier<net.minecraft.world.item.crafting.Ingredient>
     repairTagOrIngredient(String name) {
         switch (name) {
             case "copper" -> {
                 return //? if <=1.21
-                        //() -> Ingredient.of(
+                        () -> Ingredient.of(
                         ConventionalItemTags.COPPER_INGOTS
                         //? if <=1.21
-                        //)
+                        )
                         ;
             }
             case "tin" -> {
                 return //? if <=1.21
-                        //() -> Ingredient.of(
+                        () -> Ingredient.of(
                         ModTags.Items.REPAIRS_TIN_ITEMS
                         //? if <=1.21
-                        //)
+                        )
                         ;
             }
             case "mythril" -> {
                 return //? if <=1.21
-                        //() -> Ingredient.of(
+                        () -> Ingredient.of(
                         ModTags.Items.REPAIRS_MYTHRIL_ITEMS
                         //? if <=1.21
-                        //)
+                        )
                         ;
             }
             case "adamantium" -> {
                 return //? if <=1.21
-                        //() -> Ingredient.of(
+                        () -> Ingredient.of(
                         ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS
                         //? if <=1.21
-                        //)
+                        )
                         ;
             }
             case "onyx" -> {
                 return //? if <=1.21
-                        //() -> Ingredient.of(
+                        () -> Ingredient.of(
                         ModTags.Items.REPAIRS_ONYX_ITEMS
                         //? if <=1.21
-                        //)
+                        )
                         ;
             }
             default -> throw new IllegalArgumentException("Unknown armor material: " + name);
@@ -96,20 +96,20 @@ public class SCArmor {
         //? if 1.21 {
         /*Holder<ArmorMaterial>
         *///?} else if >1.20.4 {
-        ArmorMaterial
-        //?} else if <=1.20.4 {
-        /*ModArmorMaterials
-        *///?}
+        /*ArmorMaterial
+        *///?} else if <=1.20.4 {
+        ModArmorMaterials
+        //?}
                 material;
 
         SOArmorMaterial(
                 //? if 1.21 {
                 /*Holder<ArmorMaterial>
                 *///?} else if >1.20.4 {
-                ArmorMaterial
-                        //?} else if <=1.20.4 {
-                        /*ModArmorMaterials
-                        *///?}
+                /*ArmorMaterial
+                        *///?} else if <=1.20.4 {
+                        ModArmorMaterials
+                        //?}
                 material) {
             this.material = material;
         }
@@ -118,53 +118,53 @@ public class SCArmor {
             //? if 1.21 {
             /*Holder<ArmorMaterial>
             *///?} else if >1.20.4 {
-        ArmorMaterial
-        //?} else if <=1.20.4 {
-        /*ModArmorMaterials
-        *///?}
+        /*ArmorMaterial
+        *///?} else if <=1.20.4 {
+        ModArmorMaterials
+        //?}
         getMaterial() {
             return material;
         }
     }
 
     public enum ArmorEquipmentType {
-        HELMET(//$ armorType
-                net.minecraft.world.item.equipment.ArmorType
+        HELMET(
+                net.minecraft.world.item.ArmorItem.Type
                         .HELMET),
 
-        CHESTPLATE(//$ armorType
-                net.minecraft.world.item.equipment.ArmorType
+        CHESTPLATE(
+                net.minecraft.world.item.ArmorItem.Type
                         .CHESTPLATE),
 
-        LEGGINGS(//$ armorType
-                net.minecraft.world.item.equipment.ArmorType
+        LEGGINGS(
+                net.minecraft.world.item.ArmorItem.Type
                         .LEGGINGS),
 
-        BOOTS(//$ armorType
-                net.minecraft.world.item.equipment.ArmorType
+        BOOTS(
+                net.minecraft.world.item.ArmorItem.Type
                         .BOOTS)
 
         //? if >1.20.4 {
-        ,
+        /*,
 
-        BODY(//$ armorType
-                net.minecraft.world.item.equipment.ArmorType
+        BODY(
+                net.minecraft.world.item.ArmorItem.Type
                         .BODY)
-        //?}
+        *///?}
         ;
 
-        private final //$ armorType
-        net.minecraft.world.item.equipment.ArmorType
+        private final 
+        net.minecraft.world.item.ArmorItem.Type
         type;
 
-        ArmorEquipmentType(//$ armorType
-                           net.minecraft.world.item.equipment.ArmorType
+        ArmorEquipmentType(
+                           net.minecraft.world.item.ArmorItem.Type
                 type) {
             this.type = type;
         }
 
-        public //$ armorType
-        net.minecraft.world.item.equipment.ArmorType
+        public 
+        net.minecraft.world.item.ArmorItem.Type
         getType() {
             return type;
         }

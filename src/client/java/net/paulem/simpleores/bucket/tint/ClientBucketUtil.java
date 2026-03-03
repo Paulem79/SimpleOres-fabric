@@ -1,13 +1,13 @@
 package net.paulem.simpleores.bucket.tint;
 
 //? if hasBucketlib || !containsBucket {
-/*public class ClientBucketUtil {}
-*///?} else {
+public class ClientBucketUtil {}
+//?} else {
 
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
+/*import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.color.item.ItemTintSource;
-import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.data.models.model.ItemModelUtils;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ARGB;
@@ -137,9 +137,9 @@ public class ClientBucketUtil {
         return color;
     }
 
-    /**
+    /^*
      * Get the color at the given coordinates in the sprite.
-     */
+     ^/
     private static Integer getColorAt(TextureAtlasSprite sprite, int x, int y) {
         try {
             int frame = 0; // first frame
@@ -161,9 +161,9 @@ public class ClientBucketUtil {
         }
     }
     
-    /**
+    /^*
      * {@return the pixel color at frame {@code frameIndex} within mipmap {@code layer} at sprite relative coordinates}
-     */
+     ^/
     private static int getPixelColor(SpriteContents contents, int frameIndex, int layer, int x, int y) {
         @Nullable SpriteContents.AnimatedTexture animation = contents.animatedTexture;
         if (animation == null) return getNotAnimatedPixelColor(contents, layer, x, y);
@@ -209,4 +209,4 @@ public class ClientBucketUtil {
         return tintSources.toArray(new ItemTintSource[0]);
     }
 }
-//?}
+*///?}

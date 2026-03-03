@@ -12,7 +12,6 @@ import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 
 @Mixin(BucketItem.class)
 public class BucketItemMixin {
-    //? if containsBucket && !hasBucketlib {
     @Inject(method = "getEmptySuccessItem", at = @At("RETURN"), cancellable = true)
     private static void injected(ItemStack stack, Player player, CallbackInfoReturnable<ItemStack> cir) {
         cir.setReturnValue(getEmptiedStack(stack, player, cir));
@@ -22,5 +21,4 @@ public class BucketItemMixin {
     private static ItemStack getEmptiedStack(ItemStack stack, Player player, CallbackInfoReturnable<ItemStack> cir) {
         return !player.hasInfiniteMaterials() && stack.getItem() instanceof CustomBucketFluidable bucketItem ? new ItemStack(bucketItem.getParent()) : cir.getReturnValue();
     }
-    //?}
 }

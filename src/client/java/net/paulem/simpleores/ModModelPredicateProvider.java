@@ -1,7 +1,7 @@
 package net.paulem.simpleores;
 
 //? if <=1.21.3 {
-/*import net.paulem.simpleores.items.ModItems;
+import net.paulem.simpleores.items.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
 import net.paulem.simpleores.stonecutter.SCId;
@@ -19,7 +19,7 @@ public class ModModelPredicateProvider {
                 return 0.0F;
             } else {
                 return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration(//? if >1.20.4
-                        entity
+                        //entity
                 ) - entity.getUseItemRemainingTicks()) / 20.0F;
             }
         });
@@ -27,11 +27,11 @@ public class ModModelPredicateProvider {
                 && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 }
-*///?} else {
-public class ModModelPredicateProvider {
+//?} else {
+/*public class ModModelPredicateProvider {
 
     public static void registerModModels() {
         // No model predicates to register for versions >= 1.21.4
     }
 }
-//?}
+*///?}

@@ -3,7 +3,7 @@ package net.paulem.simpleores.items.custom;
 
 import net.paulem.simpleores.tooltip.TooltipItem;
 //? if >1.21 {
-import net.paulem.simpleores.items.ModItems;
+/*import net.paulem.simpleores.items.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -68,7 +68,7 @@ public class OnyxBow extends BowItem implements TooltipItem
         return stack;
     } // end addMythrilEnchantments()
 }  // end class OnyxBow
-//?} else if 1.21 {
+*///?} else if 1.21 {
 
 /*import net.paulem.simpleores.items.ModItems;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -147,7 +147,7 @@ public class OnyxBow extends BowItem implements TooltipItem
  
 *///?} else {
 
-/*import net.fabricmc.api.EnvType;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -226,4 +226,4 @@ public class OnyxBow extends BowItem implements TooltipItem
 
 }  // end class OnyxBow
  
-*///?}
+//?}
