@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,15 +15,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.Objects;
 
+// https://discord.com/channels/507304429255393322/507982478276034570/1481037865998614609
+// https://discord.com/channels/507304429255393322/507982478276034570/1481039564582682776
 public class CustomChildrenBucketItem extends BucketItem implements CustomBucketFluidable {
     @Nullable
     private final CustomParentBucketItem parent;

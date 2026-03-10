@@ -5,7 +5,6 @@ package net.paulem.simpleores.bucket.tint.handler;
 *///?} else {
 
 import net.minecraft.client.color.item.ItemTintSource;
-import net.minecraft.client.data.*;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplate;
@@ -18,7 +17,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 //? afterDeobf
-import net.minecraft.client.renderer.block.model.Material;
+import net.minecraft.client.resources.model.sprite.Material;
 
 public class LayersUploader {
     // I want 24 layers, because the base overlay texture has 24 layers.
