@@ -1,12 +1,13 @@
 //? if hasBucketlib || !containsBucket {
 /*
 package net.paulem.simpleores.mixin;
+
+import org.spongepowered.asm.mixin.Mixin;
+
 @Mixin
 public class GeneratedItemModelMixin {}
 *///?} else {
 package net.paulem.simpleores.mixin;
-
-import net.minecraft.client.resources.model.cuboid.ItemModelGenerator;
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -18,6 +19,12 @@ import net.paulem.simpleores.bucket.tint.handler.LayersUploader;
 
 import java.util.Arrays;
 import java.util.List;
+
+//? if afterDeobf {
+import net.minecraft.client.resources.model.cuboid.ItemModelGenerator;
+//?} else {
+//import net.minecraft.client.renderer.block.model.ItemModelGenerator;
+//?}
 
 @Mixin(ItemModelGenerator.class)
 public class GeneratedItemModelMixin {
