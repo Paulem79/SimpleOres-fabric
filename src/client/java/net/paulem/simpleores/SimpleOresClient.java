@@ -20,8 +20,8 @@ import net.minecraft.client.color.item.ItemTintSources;
 /*import net.paulem.simpleores.blocks.ModBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.IronBarsBlock;*/
-//?}
+import net.minecraft.world.level.block.IronBarsBlock;
+*///?}
 
 public class SimpleOresClient implements ClientModInitializer {
 	@Override

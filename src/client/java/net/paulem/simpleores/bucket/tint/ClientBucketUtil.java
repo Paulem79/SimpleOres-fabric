@@ -5,18 +5,14 @@ package net.paulem.simpleores.bucket.tint;
 *///?} else {
 
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ARGB;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -31,8 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-//? if afterDeobf
+//? if afterDeobf {
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
 import net.minecraft.client.renderer.block.FluidModel;
+//?} else {
+//import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+//?}
 
 public class ClientBucketUtil {
     // Cache to avoid recomputing dominant colors for the same fluids
@@ -49,7 +49,7 @@ public class ClientBucketUtil {
         return Fluids.EMPTY;
     }
 
-    public static int getWaterLikeColor(Fluid fluid, int defaultColor, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity) {
+    public static int getWaterLikeColor(Fluid fluid, int defaultColor) {
         int color = ARGB.color(255, defaultColor);
 
         FluidRenderHandler fluidRenderHandler;
@@ -57,16 +57,14 @@ public class ClientBucketUtil {
             return color;
         }
 
-        FluidState state = fluid.defaultFluidState();
-        //? if afterDeobf
-        FluidModel fluidModel = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(state);
+        //FluidState state = fluid.defaultFluidState();
+        //FluidModel fluidModel = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(state);
 
         int handlerColor = //? if afterDeobf {
-                fluidModel.tintSource().colorInWorld(Blocks.AIR.defaultBlockState(), clientLevel, livingEntity.getOnPos());
+                4159204; //fluidModel.tintSource().colorInWorld(Blocks.AIR.defaultBlockState(), clientLevel, livingEntity.getOnPos());
                 //?} else {
-                //fluidRenderHandler.getFluidColor(null, null, fluid.defaultFluidState());
-                //?}
-        System.out.println(handlerColor);
+                /*fluidRenderHandler.getFluidColor(null, null, fluid.defaultFluidState());
+                *///?}
         color = ARGB.color(255, handlerColor);
 
         if (color == -1) {
@@ -161,8 +159,8 @@ public class ClientBucketUtil {
 
         return new TextureAtlasSprite[]{fluidModel.stillMaterial().sprite()};
         //?} else {
-        //return fluidRenderHandler.getFluidSprites(null, null, fluid.defaultFluidState());
-        //?}
+        /*return fluidRenderHandler.getFluidSprites(null, null, fluid.defaultFluidState());
+        *///?}
     }
 
     /**

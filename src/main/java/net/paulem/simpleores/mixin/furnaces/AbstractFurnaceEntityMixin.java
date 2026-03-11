@@ -63,8 +63,8 @@ public class AbstractFurnaceEntityMixin extends BlockEntity {
         }
     }
     //?} else {
-    /*
-    @Inject(
+    
+    /*@Inject(
             method = "serverTick",
             at = @At(
                     value = "INVOKE",
@@ -87,8 +87,8 @@ public class AbstractFurnaceEntityMixin extends BlockEntity {
         if(entity instanceof ModFurnaceBlockEntity furnaceBlockEntity) {
             entity.cookingTotalTime = simpleores$getCookingTotalTime(furnaceBlockEntity, original);
         }
-    }*/
-    //?}
+    }
+    *///?}
 
     @Unique
     private static int simpleores$getCookingTotalTime(ModFurnaceBlockEntity furnaceBlockEntity, int original) {

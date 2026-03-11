@@ -20,8 +20,8 @@ public class ModLegacyVillagersTrades {
                             trade.from().getWants() //? if >1.20.5 {
                             .count(),
                             //?} else {
-                            .getCount(),
-                            //?}
+                            /^.getCount(),
+                            ^///?}
                             trade.maxUses(),
                             trade.xp(),
                             trade.reputationDiscount()

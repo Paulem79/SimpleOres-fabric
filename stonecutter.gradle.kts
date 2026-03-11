@@ -64,12 +64,7 @@ stonecutter parameters {
     replacements {
         string {
             direction = afterDeobf
-            replace("FluidRenderingRegistry.INSTANCE.", "FluidRenderingRegistry.")
-        }
-
-        string {
-            direction = afterDeobf
-            replace("FluidRenderHandlerRegistry;", "FluidRenderingRegistry;")
+            replace("FluidRenderHandlerRegistry.INSTANCE.", "FluidRenderingRegistry.")
         }
 
         string {

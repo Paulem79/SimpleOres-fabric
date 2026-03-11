@@ -37,8 +37,8 @@ public class LayersUploader {
         LinkedList<//? afterDeobf {
                 Material
                 //?} else {
-                //Identifier
-                //?}
+                /*Identifier
+                *///?}
                 > layers = new LinkedList<>();
 
         layers.add(TextureMapping.getItemTexture(parentBucket));
@@ -50,8 +50,8 @@ public class LayersUploader {
         Identifier identifier = uploadLayers(itemModelGenerator, item, layers.toArray(new //? afterDeobf {
                 Material
                 //?} else {
-                //Identifier
-                //?}
+                /*Identifier
+                *///?}
                 [0]));
         itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, tints));
     }
@@ -59,8 +59,8 @@ public class LayersUploader {
     public static Identifier uploadLayers(ItemModelGenerators itemModelGenerator, Item item, //? afterDeobf {
                                           Material
                                                   //?} else {
-                                                  //Identifier
-                                                  //?}
+                                                  /*Identifier
+                                                  *///?}
                                           ... layers) {
         TextureMapping layered = layered(layers);
         return GENERATED_TWENTY_FOUR_LAYERS.create(item, layered, itemModelGenerator.modelOutput);
@@ -72,8 +72,8 @@ public class LayersUploader {
     public static TextureMapping layered(//? afterDeobf {
                                          Material
                                                  //?} else {
-                                                 //Identifier
-                                                 //?}
+                                                 /*Identifier
+                                                 *///?}
                                                  ... layers) {
         TextureMapping textureMap = new TextureMapping();
 

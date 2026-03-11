@@ -40,7 +40,7 @@ public record BucketLayerTintSource(int defaultColor, int x, int y) implements I
     public int calculate(ItemStack stack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity) {
         Fluid fluid = ClientBucketUtil.getContainedFluid(stack);
         if(CustomChildrenBucketItem.isWaterLike(fluid) || (x == Integer.MAX_VALUE && y == Integer.MAX_VALUE)) {
-            return ClientBucketUtil.getWaterLikeColor(fluid, defaultColor, clientLevel, livingEntity);
+            return ClientBucketUtil.getWaterLikeColor(fluid, defaultColor);
         }
 
         return ClientBucketUtil.getColorAt(fluid, defaultColor, x, y);

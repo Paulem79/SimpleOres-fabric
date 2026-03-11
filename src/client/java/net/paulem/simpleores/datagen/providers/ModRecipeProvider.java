@@ -657,8 +657,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             offerMultipleOptions(//? afterDeobf {
                     null,
                     //?} else {
-                    //RecipeSerializer.SMELTING_RECIPE,
-                    //?}
+                    /*RecipeSerializer.SMELTING_RECIPE,
+                    *///?}
                     //? if >1.20.1
                     SmeltingRecipe::new,
                     tag, category, output, experience, cookingTime, group, "_from_smelting");
@@ -669,8 +669,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             offerMultipleOptions(//? afterDeobf {
                     null,
                     //?} else {
-                    //RecipeSerializer.BLASTING_RECIPE,
-                    //?}
+                    /*RecipeSerializer.BLASTING_RECIPE,
+                    *///?}
                     //? if >1.20.1
                     BlastingRecipe::new,
                     tag, category, output, experience, cookingTime, group, "_from_blasting");
