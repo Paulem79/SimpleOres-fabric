@@ -64,6 +64,16 @@ stonecutter parameters {
     replacements {
         string {
             direction = afterDeobf
+            replace("FluidRenderingRegistry.INSTANCE.", "FluidRenderingRegistry.")
+        }
+
+        string {
+            direction = afterDeobf
+            replace("FluidRenderHandlerRegistry;", "FluidRenderingRegistry;")
+        }
+
+        string {
+            direction = afterDeobf
             replace("FabricDataOutput", "FabricPackOutput")
         }
 
