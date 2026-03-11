@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "simpleores",
 	"version": "${version}",
-	"name": "SimpleOres Refabricated",
+	"name": "SimpleOres Fabric",
 	"description": "An unofficial port of SimpleOres for fabric",
 	"authors": [
 		"Paulem"

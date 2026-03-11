@@ -267,7 +267,7 @@ tasks.publishUnified {
 
 unifiedPublishing {
 	project {
-		displayName = "SimpleOres Refabricated ${project.property("mod.version")}" // Optional, name of the file
+		displayName = "SimpleOres Fabric ${project.property("mod.version")}" // Optional, name of the file
 		version = project.version.toString() // Optional, Inferred from project by default
 		changelog = githubChangelog // Optional, in markdown format
 		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
