@@ -1,20 +1,20 @@
 package net.paulem.simpleores.mixin.buckets;
 
-//? if !hasBucketlib || !containsBucket {
+//? if !hasBucketlib && containsBucket {
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-//? }
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Item;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//? }
+import net.minecraft.world.item.Item;
+import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Item.Properties.class)
 public class ItemSettingsMixin {
-    //? if (!hasBucketlib || !containsBucket) && !afterDeobf {
+    //? if (!hasBucketlib && containsBucket) && !afterDeobf {
     /*@Inject(
             method = "buildAndValidateComponents",
             at = @At(
