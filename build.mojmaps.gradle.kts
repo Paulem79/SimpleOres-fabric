@@ -271,9 +271,10 @@ unifiedPublishing {
 		version = project.version.toString() // Optional, Inferred from project by default
 		changelog = githubChangelog // Optional, in markdown format
 		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
+
 		gameVersions = VersionRangeParser.parseVersionRange(
-            runtimeVersionToSnapshot("min_version_range") as String,
-            runtimeVersionToSnapshot("max_version_range") as String
+			runtimeVersionToSnapshot("min_version_range") as String,
+			runtimeVersionToSnapshot("max_version_range") as String
 		)
 		gameLoaders = listOf("fabric", "quilt")
 

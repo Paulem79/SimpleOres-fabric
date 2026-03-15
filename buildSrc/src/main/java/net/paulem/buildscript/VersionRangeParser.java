@@ -29,10 +29,13 @@ public class VersionRangeParser {
     }
 
     private static List<String> commonVersionExtract(String min_version_range, String max_version_range, VersionRangeParser.CompiledVersions allVersions) {
-        int startElement = allVersions.contains(min_version_range) ? allVersions.indexOf(min_version_range) : allVersions.indexOf(getReleaseFromSnapshot(min_version_range));
+        String realMin = findVersionId(allVersions, min_version_range);
+        String realMax = findVersionId(allVersions, max_version_range);
+
+        int startElement = allVersions.contains(realMin) ? allVersions.indexOf(realMin) : allVersions.indexOf(getReleaseFromSnapshot(realMin));
         int endElement;
-        if (allVersions.contains(max_version_range)) {
-            endElement = allVersions.indexOf(max_version_range);
+        if (allVersions.contains(realMax)) {
+            endElement = allVersions.indexOf(realMax);
         } else {
             endElement = allVersions.size() - 1;
         }
@@ -41,6 +44,20 @@ public class VersionRangeParser {
                 .filter(element -> allVersions.indexOf(element) >= startElement && allVersions.indexOf(element) <= endElement)
                 .map(MinecraftVersion::id)
                 .collect(Collectors.toList());
+    }
+
+    private static String findVersionId(CompiledVersions versions, String inputId) {
+        if (versions.contains(inputId)) return inputId;
+
+        // Try replacing "-pre." with "-pre-" or "-rc." with "-rc-" (e.g. 26.1-pre.1 -> 26.1-pre-1)
+        String dashed = inputId.replaceAll("-(pre|rc|snapshot)\\.", "-$1-");
+        if (versions.contains(dashed)) return dashed;
+
+        // Try removing the separator (e.g. 1.19.4-pre.1 -> 1.19.4-pre1 for older versions)
+        String combined = inputId.replaceAll("-(pre|rc|snapshot)\\.", "-$1");
+        if (versions.contains(combined)) return combined;
+
+        return inputId;
     }
 
     private static MinecraftVersion getReleaseFromSnapshot(String snapshot) {
