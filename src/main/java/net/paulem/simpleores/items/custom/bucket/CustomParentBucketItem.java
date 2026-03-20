@@ -16,6 +16,7 @@ import net.minecraft.world.level.material.Fluids;
 import org.apache.commons.lang3.function.TriFunction;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.stonecutter.SCId;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -101,7 +102,7 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     }
 
     @Override
-    public Component getName(ItemStack stack) {
+    public @NonNull Component getName(@NonNull ItemStack stack) {
         return getName(stack, Fluids.EMPTY);
     }
 
