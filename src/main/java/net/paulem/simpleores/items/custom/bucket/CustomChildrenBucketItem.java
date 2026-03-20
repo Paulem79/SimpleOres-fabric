@@ -19,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.Fluids;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Objects;
 
@@ -85,7 +86,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     }
 
     @Override
-    public Component getName(ItemStack stack) {
+    public @NonNull Component getName(@NonNull ItemStack stack) {
         if(fluid == null || fluid == Fluids.EMPTY) {
             return getParent().getName(stack);
         }
