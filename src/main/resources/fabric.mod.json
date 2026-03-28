@@ -43,7 +43,7 @@
 		"fabric-api": "${fabric_api_breaks_version}"
 	},
 	"recommends": {
-		"cloth-config": "*",
+		"midnightlib": "*",
 		"modmenu": "*",
 		"energizedpower": "*"
 	}

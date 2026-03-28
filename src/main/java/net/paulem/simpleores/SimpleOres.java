@@ -39,9 +39,6 @@ import net.paulem.simpleores.migration.CopperMigration;
 //? containsBucket && !hasBucketlib
 import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 
-//? hasBucketlib && >=1.21.3
-/*import net.paulem.simpleores.migration.CopperBucketMigration;*/
-
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.BucketLibApi;
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
@@ -56,9 +53,9 @@ public class SimpleOres implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Simple Ores has been initialized!");
 
-		ConfigLoader<?> configLoader = ConfigLoader.getLoader(FabricLoader.getInstance().isModLoaded("cloth-config2"));
-		configLoader.load();
-		CONFIG = configLoader.getConfig();
+        ConfigLoader<? extends Config> configLoader = ConfigLoader.getLoader(FabricLoader.getInstance().isModLoaded("midnightlib"));
+        configLoader.load();
+        CONFIG = configLoader.getConfig();
 
 		ModBlocks.init();
 		ModItems.init();
@@ -93,9 +90,6 @@ public class SimpleOres implements ModInitializer {
 
         //? >1.21
         CopperDoorMigration.migrate();
-
-        //? hasBucketlib && >1.21.3
-        /*CopperBucketMigration.migrate();*/
 
         //? if >1.19.4
 		Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, SCId.of(MOD_ID, "itemgroup.global"), ItemGroups.SIMPLEORES);

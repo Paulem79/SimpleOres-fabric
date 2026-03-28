@@ -2,6 +2,8 @@ package net.paulem.simpleores.datagen.providers.langs;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
+import net.paulem.simpleores.SimpleOres;
+import net.paulem.simpleores.items.ModToolMaterials;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -71,5 +73,11 @@ public class EnglishLangProvider extends GlobalLangProvider {
         //? if >=1.21.11 {
         generateSpearsTranslations(translationBuilder, materialName -> materialName + " Spear");
         //?}
+
+        for (ModToolMaterials.MiningLevels miningLevel : ModToolMaterials.MiningLevels.values()) {
+            String enumName = miningLevel.name().toUpperCase();
+            String translateKey = SimpleOres.MOD_ID + ".midnightconfig.enum.MiningLevels." + enumName;
+            translationBuilder.add(translateKey, enumName);
+        }
     }
 }

@@ -1,14 +1,16 @@
 plugins {
     id("dev.kikugie.stonecutter")
 }
-stonecutter active "26.1-snapshot"
+
+stonecutter active "26.1"
 
 stonecutter parameters {
     // Calcul de hasBucketlib dynamique pour chaque sous-projet
     // On vérifie la propriété sur le projet spécifique à la version (node.project)
     val bucketLibProp = node.project.findProperty("deps.bucketlib")
     val hasBucketlib = bucketLibProp != null && bucketLibProp != "[VERSIONED]"
-    val hasClothConfig: Boolean = node.project.findProperty("deps.cloth_config")?.takeIf { it != "[VERSIONED]" } != null
+    val hasMidnightLib: Boolean = node.project.findProperty("deps.midnightlib")?.takeIf { it != "[VERSIONED]" } != null
+    val isLegacyMidnightLib: Boolean = hasMidnightLib && node.project.findProperty("deps.midnightlib").toString().endsWith("-fabric") && !node.project.findProperty("deps.midnightlib").toString().contains("+")
 
     val current = node.metadata
     val afterDeobf = eval(current.version, ">1.21.11")
@@ -18,7 +20,10 @@ stonecutter parameters {
     val containsBucket = eval(current.version, ">1.19.4")
 
     constants.put("hasBucketlib", hasBucketlib)
-    constants.put("hasClothConfig", hasClothConfig)
+
+    constants.put("hasMidnightlib", hasMidnightLib)
+    constants.put("isLegacyMidnightLib", isLegacyMidnightLib)
+
     dependencies.put("maxVersionRange", node.project.findProperty("max_version_range") as String)
     constants.put("hasCopperTools", eval(node.project.findProperty("max_version_range") as String, ">1.21.8"))
     constants.put("containsBucket", containsBucket)

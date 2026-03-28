@@ -38,6 +38,8 @@ repositories {
 		url = uri("https://maven.paulem.net/releases")
 	}
 	maven("https://maven.nucleoid.xyz/") { name = "Nucleoid" }
+	maven("https://maven.midnightdust.eu/releases")
+	maven("https://api.modrinth.com/maven")
 	mavenLocal()
 }
 
@@ -160,14 +162,33 @@ dependencies {
 	if(checkSpecified("fabric_api"))
 		modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
 
-	if(checkSpecified("cloth_config"))
-		modApi("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth_config")}") {
+	if(checkSpecified("midnightlib")) {
+		// TODO: Might be needed in deobf in the future
+		// New : 1.9.2+26.1-fabric, legacy : 1.3.0-fabric, check the notation to determine if legacy
+		val isLegacyMidnightLib = property("deps.midnightlib").toString().endsWith("-fabric") && !property("deps.midnightlib").toString().contains("+")
+        val midnightlib: String = if(isLegacyMidnightLib) {
+            "maven.modrinth:midnightlib:${property("deps.midnightlib")}"
+        } else {
+            "eu.midnightdust:midnightlib:${property("deps.midnightlib")}"
+        }
+
+		modImplementation(midnightlib) {
 			exclude(group = "net.fabricmc.fabric-api")
 		}
+		include(midnightlib) {
+			exclude(group = "net.fabricmc.fabric-api")
+		}
+	}
 	if(checkSpecified("mod_menu"))
 		modImplementation("com.terraformersmc:modmenu:${property("deps.mod_menu")}")
 
 	if(checkSpecified("bucketlib")) {
+		// cloth config required
+		if(checkSpecified("cloth_config")) {
+			modApi("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth_config")}") {
+				exclude(group = "net.fabricmc.fabric-api")
+			}
+		}
 		modImplementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
 
 		if(includesBucketlib)
@@ -281,15 +302,15 @@ unifiedPublishing {
 		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName).toFile()) // Declares the publicated jar
 
 		relations {
-			depends {
-				modrinth = "fabric-api"
-				curseforge = "fabric-api"
-			}
-			optional {
-				modrinth = "cloth-config"
-				curseforge = "cloth-config"
-			}
-			optional {
+                        depends {
+                                modrinth = "fabric-api"
+                                curseforge = "fabric-api"
+                        }
+                        optional {
+                                modrinth = "midnightlib"
+                                curseforge = "midnightlib"
+                        }
+                        optional {
 				modrinth = "modmenu"
 				curseforge = "modmenu"
 			}

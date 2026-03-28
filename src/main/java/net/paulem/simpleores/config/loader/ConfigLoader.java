@@ -11,15 +11,15 @@ public abstract class ConfigLoader<T extends Config> {
         return config;
     }
 
-    public static ConfigLoader<?> getLoader(boolean condition) {
-        //? if hasClothConfig {
-        /*if (condition) {
-            return new ClothConfigLoader();
+    public static ConfigLoader<? extends Config> getLoader(boolean condition) {
+        //? if hasMidnightlib {
+        if (condition) {
+            return new MidnightLibLoader();
         } else {
             return new BaseConfigLoader();
         }
-        *///? } else {
-             return new BaseConfigLoader();
-        //?}
+        //? } else {
+             /*return new BaseConfigLoader();
+        *///?}
     }
 }
