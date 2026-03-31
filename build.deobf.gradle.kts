@@ -287,10 +287,7 @@ unifiedPublishing {
 		changelog = githubChangelog // Optional, in markdown format
 		releaseType = if(!hasBucketlib) "beta" else "release" // Optional, use "release", "beta" or "alpha"
 
-		gameVersions = VersionRangeParser.parseVersionRange(
-			runtimeVersionToSnapshot("min_version_range") as String,
-			runtimeVersionToSnapshot("max_version_range") as String
-		)
+		gameVersions = VersionRangeParser.parseVersionRange(project.properties)
 		gameLoaders = listOf("fabric", "quilt")
 
 		mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName).toFile()) // Declares the publicated jar
@@ -354,8 +351,7 @@ unifiedPublishing {
 						listOf(stonecutter.current.project)
 					} else {
 						VersionRangeParser.parseVersionRange(
-							project.property("min_version_range") as String,
-							project.property("max_version_range") as String,
+							project.properties,
 							VersionRangeParser.CompiledVersions.VersionType.RELEASE
 						)
 					}
