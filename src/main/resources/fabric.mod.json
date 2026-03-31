@@ -35,7 +35,7 @@
     "accessWidener" : "accesswideners/${aw_file}",
 	"depends": {
 		"java": "*",
-		"minecraft": ">=${min_version_range} <=${max_version_range}",
+		"minecraft": "${version_range}",
 		"fabricloader": "${fabricloader_version}",
 		"fabric-api": "*${bucketlib_expansion}"
 	},

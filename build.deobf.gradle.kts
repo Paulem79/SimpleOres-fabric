@@ -77,10 +77,17 @@ tasks.processResources {
 	val bucketlibExpansion = "\", \"bucketlib\": \"*"
 	val clientMixinExpansion = "\", \"simpleores_client.mixins.json"
 
+	// Check has property version_range
+	val versionRange = if(project.hasProperty("version_range")) {
+		preToBeta("version_range")
+	} else {
+		// Compute from old values
+		">=${preToBeta("min_version_range")} <=${preToBeta("max_version_range")}"
+	}
+
 	val expandProps = mapOf(
 		"version" to version,
-		"min_version_range" to preToBeta("min_version_range"),
-		"max_version_range" to preToBeta("max_version_range"),
+		"version_range" to versionRange,
 		"fabricloader_version" to project.property("deps.fabricloader_version") as String,
 		"bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
 		"aw_file" to accesswidener,

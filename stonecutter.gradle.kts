@@ -24,8 +24,7 @@ stonecutter parameters {
     constants.put("hasMidnightlib", hasMidnightLib)
     constants.put("isLegacyMidnightLib", isLegacyMidnightLib)
 
-    dependencies.put("maxVersionRange", node.project.findProperty("max_version_range") as String)
-    constants.put("hasCopperTools", eval(node.project.findProperty("max_version_range") as String, ">1.21.8"))
+    constants.put("hasCopperTools", afterDeobf || eval(node.project.findProperty("max_version_range") as String, ">1.21.8"))
     constants.put("containsBucket", containsBucket)
     constants.put("afterDeobf", afterDeobf)
 
