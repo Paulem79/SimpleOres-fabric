@@ -1,7 +1,6 @@
 package net.paulem.simpleores.datagen.providers;
 
 //? if containsBucket && !hasBucketlib {
-import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.renderer.item.ItemModel;
 //?}
@@ -26,7 +25,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import net.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
-import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 //? if >1.21.3
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import org.jspecify.annotations.NonNull;
@@ -92,9 +91,9 @@ public class ModModelProvider extends FabricModelProvider {
             //? if hasBucketlib {
             /*if(item instanceof UniversalBucketItem) continue;
             *///?} else containsBucket {
-            if(item instanceof CustomParentBucketItem parentBucketItem) {
-                System.out.println("Generating bucket model for: " + parentBucketItem.getKey());
-                generateCopperBucket(itemModelGenerator, parentBucketItem);
+            if(item instanceof CustomChildrenBucketItem bucketItem) {
+                System.out.println("Generating bucket model for: " + bucketItem.getFluidName());
+                generateCopperBucket(itemModelGenerator, bucketItem);
                 continue;
             }
 
