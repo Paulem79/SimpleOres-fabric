@@ -29,13 +29,11 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
     private final Set<String> registeredNames = new HashSet<>();
     private final TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar;
     private final ResourceKey<Item> key;
-    private final Identifier modelId;
 
     public CustomParentBucketItem(ResourceKey<Item> key, String baseName, Fluid fluid, Item.Properties settings, TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar) {
         super(fluid, settings.setId(key));
 
         this.key = key;
-        this.modelId = settings.effectiveModel();
         this.baseName = baseName;
         this.registrar = registrar;
     }
@@ -88,7 +86,7 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
         return this;
     }
 
-    // Compat with Bucket Lib
+    // Compat with Bucket Lib for future
     public Component getName(ItemStack stack, Fluid fluid) {
         if(fluid == Fluids.EMPTY) return Component.translatable(this.getDescriptionId(), "");
 
