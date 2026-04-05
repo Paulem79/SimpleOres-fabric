@@ -3,7 +3,6 @@ package net.paulem.simpleores;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.paulem.simpleores.bucket.renderer.CopperBucketSpecialRenderer;
-import net.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipItem;
 
@@ -58,13 +57,11 @@ public class SimpleOresClient implements ClientModInitializer {
 			}
 		});
 
-        //? if containsBucket && !hasBucketlib {
-        ItemTintSources.ID_MAPPER.put(SCId.of(SimpleOres.MOD_ID, "bucketlayersource"), BucketLayerTintSource.CODEC);
-        //?}
-
+		//? if containsBucket && !hasBucketlib {
 		SpecialModelRenderers.ID_MAPPER.put(
 				SCId.of(SimpleOres.MOD_ID, "copper_bucket_special_renderer"),
 				CopperBucketSpecialRenderer.Unbaked.MAP_CODEC
 		);
+		//?}
 	}
 }

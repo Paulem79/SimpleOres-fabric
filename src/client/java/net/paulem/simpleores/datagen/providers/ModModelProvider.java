@@ -10,7 +10,6 @@ import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
 import net.paulem.simpleores.bucket.renderer.CopperBucketSpecialRenderer;
-import net.paulem.simpleores.bucket.tint.handler.LayersUploader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
