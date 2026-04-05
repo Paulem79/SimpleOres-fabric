@@ -138,6 +138,9 @@ public class ModModelProvider extends FabricModelProvider {
         // Base model location, empty
         Identifier baseModelLocation = ModelLocationUtils.getModelLocation(item, "");
 
+        // Generate the base empty model so it actually exists in the models directory
+        itemModelGenerator.createFlatItemModel(item, "", ModelTemplates.FLAT_ITEM);
+
         // Link special model
         ItemModel.Unbaked bucketSpecialModel = ItemModelUtils.specialModel(
                 baseModelLocation,

@@ -13,7 +13,7 @@ import net.minecraft.util.Unit;
 public class CopperBucketModel extends Model<Unit> {
     public CopperBucketModel(final ModelPart root) {
         // cutout for transparent bucket background
-        super(root, RenderTypes::entityCutout);
+        super(root, RenderTypes::itemCutout);
     }
 
     public static LayerDefinition createLayer() {
