@@ -31,7 +31,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
     private final Fluid fluid;
 
     public CustomChildrenBucketItem(Fluid fluid, Item.Properties settings, CustomParentBucketItem parent) {
-        super(fluid, settings.component(DataComponents.ITEM_MODEL, parent.getModelWithOverlay(fluid)));
+        super(fluid, settings);
 
         this.parent = parent;
         this.fluid = fluid;
@@ -44,22 +44,6 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
         this.parent = null;
         this.fluid = fluid;
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
-    }
-
-    @Override
-    public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot) {
-        super.inventoryTick(stack, world, entity, slot);
-
-        DataComponentMap components;
-
-        if(parent != null && Objects.equals((components = stack.getComponents()).get(DataComponents.ITEM_MODEL), parent.getModelWithOverlay(fluid))) {
-            DataComponentMap newComponents = DataComponentMap.builder()
-                    .addAll(components)
-                    .set(DataComponents.ITEM_MODEL, parent.getModelWithOverlay(fluid))
-                    .build();
-
-            stack.applyComponents(newComponents);
-        }
     }
 
     @Override
