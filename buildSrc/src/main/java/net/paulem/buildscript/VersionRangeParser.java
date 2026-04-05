@@ -1,5 +1,6 @@
 package net.paulem.buildscript;
 
+import com.github.zafarkhaja.semver.Version;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -8,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,34 +18,100 @@ import java.util.stream.Stream;
 
 public class VersionRangeParser {
 
-    public static List<String> parseVersionRange(String min_version_range, String max_version_range) {
+    public static List<String> parseVersionRange(String range) {
         CompiledVersions allVersions = new CompiledVersions(getAllMinecraftVersions());
+        return commonVersionExtract(range, allVersions);
+    }
 
-        return commonVersionExtract(min_version_range, max_version_range, allVersions);
+    public static List<String> parseVersionRange(java.util.Map<String, ?> properties) {
+        Object range = properties.get("version_range");
+        if (range != null && !range.toString().isEmpty()) {
+            return parseVersionRange(range.toString());
+        }
+        Object min = properties.get("min_version_range");
+        Object max = properties.get("max_version_range");
+        if (min != null || max != null) {
+            return parseVersionRange(min != null ? min.toString() : null, max != null ? max.toString() : null);
+        }
+        return new ArrayList<>();
+    }
+
+    public static List<String> parseVersionRange(String min_version_range, String max_version_range) {
+        if (min_version_range == null || min_version_range.isEmpty()) {
+            return parseVersionRange(max_version_range);
+        }
+        if (max_version_range == null || max_version_range.isEmpty()) {
+            return parseVersionRange(min_version_range);
+        }
+
+        String combinedRange = ">=" + min_version_range + " <=" + max_version_range;
+        return parseVersionRange(combinedRange);
+    }
+
+    public static List<String> parseVersionRange(java.util.Map<String, ?> properties, CompiledVersions.VersionType versionType) {
+        Object range = properties.get("version_range");
+        if (range != null && !range.toString().isEmpty()) {
+            CompiledVersions allVersions = new CompiledVersions(new CompiledVersions(getAllMinecraftVersions()).from(versionType));
+            return commonVersionExtract(range.toString(), allVersions);
+        }
+        Object min = properties.get("min_version_range");
+        Object max = properties.get("max_version_range");
+        return parseVersionRange(min != null ? min.toString() : null, max != null ? max.toString() : null, versionType);
     }
 
     public static List<String> parseVersionRange(String min_version_range, String max_version_range, CompiledVersions.VersionType versionType) {
         CompiledVersions allVersions = new CompiledVersions(new CompiledVersions(getAllMinecraftVersions()).from(versionType));
-
-        return commonVersionExtract(min_version_range, max_version_range, allVersions);
+        String combinedRange = ">=" + min_version_range + " <=" + max_version_range;
+        return commonVersionExtract(combinedRange, allVersions);
     }
 
-    private static List<String> commonVersionExtract(String min_version_range, String max_version_range, VersionRangeParser.CompiledVersions allVersions) {
-        String realMin = findVersionId(allVersions, min_version_range);
-        String realMax = findVersionId(allVersions, max_version_range);
-
-        int startElement = allVersions.contains(realMin) ? allVersions.indexOf(realMin) : allVersions.indexOf(getReleaseFromSnapshot(realMin));
-        int endElement;
-        if (allVersions.contains(realMax)) {
-            endElement = allVersions.indexOf(realMax);
-        } else {
-            endElement = allVersions.size() - 1;
+    private static List<String> commonVersionExtract(String rangeExpression, VersionRangeParser.CompiledVersions allVersions) {
+        if (rangeExpression == null || rangeExpression.isEmpty()) {
+            return new ArrayList<>();
         }
 
+        // Nettoyage de l'expression de range pour SemVer
+        String semverRange = rangeExpression
+                .replace("-rc", "-rc.")
+                .replace("-pre", "-beta.")
+                .replaceAll("-rc\\.\\.", "-rc.")
+                .replaceAll("-beta\\.\\.", "-beta.");
+
+        if (semverRange.contains(" ") && !semverRange.contains("&") && !semverRange.contains("|")) {
+            semverRange = semverRange.trim().replaceAll("\\s+", " & ");
+        }
+
+        final String finalRange = semverRange;
         return allVersions.stream()
-                .filter(element -> allVersions.indexOf(element) >= startElement && allVersions.indexOf(element) <= endElement)
+                .filter(v -> {
+                    try {
+                        String normalized = normalize(v.id());
+                        return Version.parse(normalized, false).satisfies(finalRange);
+                    } catch (Exception e) {
+                        // Fallback match exact
+                        return v.id().equalsIgnoreCase(rangeExpression);
+                    }
+                })
                 .map(MinecraftVersion::id)
                 .collect(Collectors.toList());
+    }
+
+    public static String normalize(String version) {
+        if (version == null) return null;
+        String normalized = version.trim();
+        if (normalized.startsWith("v")) normalized = normalized.substring(1);
+
+        // x.y -> x.y.0
+        if (normalized.matches("^\\d+\\.\\d+$")) {
+            normalized += ".0";
+        }
+
+        // 1.21.1-pre2 -> 1.21.1-beta.2
+        normalized = normalized.replaceAll("-rc(\\d+)", "-rc.$1");
+        normalized = normalized.replaceAll("-pre(\\d+)", "-beta.$1");
+        normalized = normalized.replaceAll("-rc-(\\d+)", "-rc.$1");
+
+        return normalized;
     }
 
     private static String findVersionId(CompiledVersions versions, String inputId) {

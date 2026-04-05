@@ -12,7 +12,7 @@ pluginManagement {
 }
 
 plugins {
-	id("dev.kikugie.stonecutter") version "0.9-beta.4"
+	id("dev.kikugie.stonecutter") version "0.9"
 }
 
 stonecutter {
@@ -29,7 +29,7 @@ stonecutter {
 		match("1.21.6", "mojmaps")
 		match("1.21.9", "mojmaps")
 		match("1.21.11", "mojmaps")
-		match("26.1-snapshot", "deobf")
+		match("26.1", "deobf")
 
 		vcsVersion = "1.21.6"
 	}
