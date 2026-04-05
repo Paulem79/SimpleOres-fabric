@@ -15,7 +15,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.apache.commons.lang3.function.TriFunction;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCId;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;
@@ -99,15 +98,6 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
 
     public Component getFluidDescription(Fluid fluid) {
         return FluidVariantAttributes.getName(FluidVariant.of(fluid));
-    }
-
-    public Identifier getModelWithOverlay(Fluid fluid) {
-        if(isWaterLike(fluid)) {
-            return SCId.of(modelId.getNamespace(), baseName + "_water_bucket");
-        }
-
-        // Every non-tintable fluids uses lava model, because it's always generated and tint computation is done at runtime.
-        return SCId.of(modelId.getNamespace(), baseName + "_lava_bucket");
     }
 }
 //?}

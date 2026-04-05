@@ -3,14 +3,13 @@ package net.paulem.simpleores.datagen.providers;
 //? if containsBucket && !hasBucketlib {
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.util.ARGB;
+import net.minecraft.client.renderer.item.ItemModel;
 //?}
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
-import net.paulem.simpleores.bucket.tint.ClientBucketUtil;
-import net.paulem.simpleores.bucket.tint.handler.BucketLayerTintSource;
+import net.paulem.simpleores.bucket.renderer.CopperBucketSpecialRenderer;
 import net.paulem.simpleores.bucket.tint.handler.LayersUploader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
@@ -25,14 +24,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import net.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
-import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
 //? if >1.21.3
 import net.minecraft.world.item.equipment.EquipmentAsset;
+import org.jspecify.annotations.NonNull;
 //? if 1.21.3
 /*import net.paulem.simpleores.armors.ModEquipmentClientModels;*/
 
@@ -90,20 +88,14 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+    public void generateItemModels(@NonNull ItemModelGenerators itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
             //? if hasBucketlib {
             /*if(item instanceof UniversalBucketItem) continue;
             *///?} else containsBucket {
             if(item instanceof CustomParentBucketItem parentBucketItem) {
-                itemModelGenerator.generateFlatItem(item, ModelTemplates.FLAT_ITEM);
-                for (CustomChildrenBucketItem child : parentBucketItem.getChilds()) {
-                    if(child.getFluid() == Fluids.WATER) {
-                        registerCustomBucketWithOverlay(itemModelGenerator, child, parentBucketItem, new BucketLayerTintSource(ARGB.color(255, 0xFFFFFF), Integer.MAX_VALUE, Integer.MAX_VALUE));
-                    } else {
-                        registerNonWaterBucket(itemModelGenerator, child, parentBucketItem, ClientBucketUtil.getDefaultTints(child));
-                    }
-                }
+                System.out.println("Generating bucket model for: " + parentBucketItem.getKey());
+                generateCopperBucket(itemModelGenerator, parentBucketItem);
                 continue;
             }
 
@@ -141,13 +133,18 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     //? if containsBucket && !hasBucketlib {
-    public final void registerCustomBucketWithOverlay(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource tint) {
-        Identifier identifier = itemModelGenerator.generateLayeredItem(item, TextureMapping.getItemTexture(parentBucket), TextureMapping.getItemTexture(parentBucket, "_overlay"));
-        itemModelGenerator.itemModelOutput.accept(item, ItemModelUtils.tintedModel(identifier, ItemModelUtils.constantTint(-1), tint));
-    }
+    public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item item) {
+        // Base model location, empty
+        Identifier baseModelLocation = ModelLocationUtils.getModelLocation(item, "");
 
-    public final void registerNonWaterBucket(ItemModelGenerators itemModelGenerator, Item item, Item parentBucket, ItemTintSource... tints) {
-        LayersUploader.registerOverlayBucket(itemModelGenerator, item, parentBucket, tints);
+        // Link special model
+        ItemModel.Unbaked bucketSpecialModel = ItemModelUtils.specialModel(
+                baseModelLocation,
+                new CopperBucketSpecialRenderer.Unbaked()
+        );
+
+        // Register model
+        itemModelGenerator.itemModelOutput.accept(item, bucketSpecialModel);
     }
     //?}
 
