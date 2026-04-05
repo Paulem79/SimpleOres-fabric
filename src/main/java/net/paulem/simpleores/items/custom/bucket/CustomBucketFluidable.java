@@ -7,6 +7,8 @@ public interface CustomBucketFluidable {
 
     CustomParentBucketItem getParent();
 
+    Fluid getFluid();
+
     String getFluidName();
 
     String getBaseName();

@@ -77,6 +77,7 @@ public class CustomChildrenBucketItem extends BucketItem implements CustomBucket
         return getParent().getName(stack, FluidVariant.of(fluid).getFluid());
     }
 
+    @Override
     public Fluid getFluid() {
         return fluid;
     }
