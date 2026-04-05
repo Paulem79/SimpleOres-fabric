@@ -20,10 +20,13 @@ import org.jspecify.annotations.NonNull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 public class CustomParentBucketItem extends CustomChildrenBucketItem implements CustomBucketFluidable {
     private final String baseName;
     private final Map<Fluid, CustomChildrenBucketItem> buckets = new HashMap<>();
+    private final Set<String> registeredNames = new HashSet<>();
     private final TriFunction<CustomParentBucketItem, String, Fluid, CustomChildrenBucketItem> registrar;
     private final ResourceKey<Item> key;
 
@@ -47,9 +50,19 @@ public class CustomParentBucketItem extends CustomChildrenBucketItem implements 
             return;
         }
 
-        SimpleOres.LOGGER.info("Registering fluid: " + identifier + " for item " + this.baseName + "_bucket");
+        String bucketName = this.baseName + "_" + fluidName + "_bucket";
+        if (registeredNames.contains(bucketName)) {
+            bucketName = this.baseName + "_" + identifier.getNamespace() + "_" + fluidName + "_bucket";
+            if (registeredNames.contains(bucketName)) {
+                SimpleOres.LOGGER.warn("Skipping registration for duplicate fluid: " + identifier);
+                return;
+            }
+        }
+        registeredNames.add(bucketName);
 
-        CustomChildrenBucketItem bucket = registrar.apply(this, this.baseName + "_" + fluidName + "_bucket", modFluid);
+        SimpleOres.LOGGER.info("Registering fluid: " + identifier + " for item " + bucketName);
+
+        CustomChildrenBucketItem bucket = registrar.apply(this, bucketName, modFluid);
         buckets.put(modFluid, bucket);
     }
 
