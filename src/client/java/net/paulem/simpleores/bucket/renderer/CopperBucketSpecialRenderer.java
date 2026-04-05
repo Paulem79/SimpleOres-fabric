@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,10 +23,11 @@ import org.joml.Vector3fc;
 import org.jspecify.annotations.NonNull;
 
 public class CopperBucketSpecialRenderer implements SpecialModelRenderer<Fluid> {
-    public static final Transformation DEFAULT_TRANSFORMATION = new Transformation(null, null, new Vector3f(1.0F, -1.0F, -1.0F), null);
+    public static final Transformation DEFAULT_TRANSFORMATION = new Transformation(new Vector3f(0.5f, -0, 0), null, new Vector3f(1.0F, -1.0F, -1.0F), null);
 
     public static final Identifier COVER_TEXTURE = SCId.of("textures/item/copper_bucket_cover.png");
-    private static final RenderType COVER_RENDER_TYPE = RenderTypes.entityCutout(COVER_TEXTURE);
+    public static final Identifier EMPTY_COVER_TEXTURE = SCId.of("textures/item/copper_bucket.png");
+
     public static final ModelLayerLocation COPPER_BUCKET_MODEL_LAYER = new ModelLayerLocation(SCId.of("copper_bucket"), "");
 
     private final CopperBucketModel model;
@@ -54,13 +56,16 @@ public class CopperBucketSpecialRenderer implements SpecialModelRenderer<Fluid> 
             final boolean hasFoil,
             final int outlineColor
     ) {
-        System.out.println("Rendering Copper Bucket with fluid: " + fluid);
-
         poseStack.pushPose();
         poseStack.mulPose(DEFAULT_TRANSFORMATION);
 
+        // Render cover
+        submitNodeCollector.submitModelPart(
+                this.model.root(), poseStack, RenderTypes.entityCutout(COVER_TEXTURE), lightCoords, overlayCoords, null, false, hasFoil, -1, null, outlineColor
+        );
+
         // Render fluid
-        if (fluid != Fluids.EMPTY) {
+        if(fluid != Fluids.EMPTY) {
             Identifier fluidTexture = getFluidTexture(fluid);
             RenderType fluidRenderType = RenderTypes.entityCutout(fluidTexture);
 
@@ -69,18 +74,14 @@ public class CopperBucketSpecialRenderer implements SpecialModelRenderer<Fluid> 
             );
         }
 
-        // Render cover
-        submitNodeCollector.submitModelPart(
-                this.model.root(), poseStack, COVER_RENDER_TYPE, lightCoords, overlayCoords, null, false, hasFoil, -1, null, outlineColor
-        );
         poseStack.popPose();
     }
 
     private Identifier getFluidTexture(Fluid fluid) {
-        // Retourne la texture du fluide. Dans un vrai mod, on chercherait l'Identifier dynamiquement.
-        if (fluid == Fluids.LAVA) return Identifier.withDefaultNamespace("textures/block/exposed_copper.png");
-        if (fluid == Fluids.WATER) return Identifier.withDefaultNamespace("textures/block/exposed_copper.png");
-        return Identifier.withDefaultNamespace("textures/block/exposed_copper.png"); // Fallback
+        Item bucket = fluid.getBucket();
+        Identifier identifier = BuiltInRegistries.ITEM.getKey(bucket);
+
+        return SCId.of(identifier.getNamespace(), "textures/item/" + identifier.getPath() + ".png");
     }
 
     @Override
