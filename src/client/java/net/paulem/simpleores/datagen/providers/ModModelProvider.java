@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
-import net.paulem.simpleores.bucket.renderer.CopperBucketSpecialRenderer;
+import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
@@ -16,7 +16,6 @@ import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +33,8 @@ import org.jspecify.annotations.NonNull;
 
 //? hasBucketlib
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
+
+import java.util.Optional;
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
@@ -133,21 +134,13 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     //? if containsBucket && !hasBucketlib {
-    public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item item) {
-        // Base model location, empty
-        Identifier baseModelLocation = ModelLocationUtils.getModelLocation(item, "");
-
-        // Generate the base empty model so it actually exists in the models directory
-        itemModelGenerator.createFlatItemModel(item, "", ModelTemplates.FLAT_ITEM);
-
-        // Link special model
-        ItemModel.Unbaked bucketSpecialModel = ItemModelUtils.specialModel(
-                baseModelLocation,
-                new CopperBucketSpecialRenderer.Unbaked()
+    public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item bucketItem) {
+        ItemModel.Unbaked bucketModel = ItemModelUtils.composite(
+                new CopperBucketItemSpecialRenderer.Unbaked(),
+                ItemModelUtils.plainModel(itemModelGenerator.createFlatItemModel(bucketItem, "_cover", new ModelTemplate(Optional.empty(), Optional.empty(), TextureSlot.LAYER0)))
         );
 
-        // Register model
-        itemModelGenerator.itemModelOutput.accept(item, bucketSpecialModel);
+        itemModelGenerator.itemModelOutput.accept(bucketItem, bucketModel);
     }
     //?}
 
