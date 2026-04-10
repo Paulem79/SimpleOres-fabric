@@ -10,3 +10,5 @@ accessible method net/minecraft/client/renderer/texture/SpriteContents$AnimatedT
 accessible method net/minecraft/client/renderer/texture/SpriteContents$AnimatedTexture getFrameY (I)I
 accessible method net/minecraft/client/data/models/ItemModelGenerators generateLayeredItem (Lnet/minecraft/world/item/Item;Lnet/minecraft/client/resources/model/sprite/Material;Lnet/minecraft/client/resources/model/sprite/Material;)Lnet/minecraft/resources/Identifier;
 accessible method net/minecraft/client/model/geom/ModelLayers createLocation (Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/client/model/geom/ModelLayerLocation;
+accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemProperties (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ClientItem$Properties;
+accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemModel (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ItemModel;

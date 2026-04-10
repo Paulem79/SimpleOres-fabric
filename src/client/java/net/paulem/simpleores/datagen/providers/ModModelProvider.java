@@ -9,6 +9,7 @@ import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
+import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
@@ -137,7 +138,7 @@ public class ModModelProvider extends FabricModelProvider {
     public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item bucketItem) {
         ItemModel.Unbaked bucketModel = ItemModelUtils.composite(
                 new CopperBucketItemSpecialRenderer.Unbaked(),
-                ItemModelUtils.plainModel(itemModelGenerator.createFlatItemModel(bucketItem, "_cover", new ModelTemplate(Optional.empty(), Optional.empty(), TextureSlot.LAYER0)))
+                new CopperEmptyBucketItemSpecialRenderer.Unbaked()
         );
 
         itemModelGenerator.itemModelOutput.accept(bucketItem, bucketModel);

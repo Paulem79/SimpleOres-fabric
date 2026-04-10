@@ -67,6 +67,14 @@ public class ModItems {
                             register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.craftRemainder(bucketItem).stacksTo(1), bucketItem))
             )
     );
+
+    public static final Item LOWER_COPPER_BUCKET = registerByKey("copper_bucket_lower", key ->
+            new Item(new Item.Properties().stacksTo(1).setId(key))
+    );
+
+    public static final Item COVER_COPPER_BUCKET = registerByKey("copper_bucket_cover", key ->
+            new Item(new Item.Properties().stacksTo(1).setId(key))
+    );
     //?}
 
 
