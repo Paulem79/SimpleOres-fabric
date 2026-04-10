@@ -59,7 +59,10 @@ public class ModTrades {
                     xp,
                     reputationDiscount,
                     Optional.empty(),
-                    enchantedItem(items, enchantmentsForTradedEquipment, to.item())
+                    enchantedItem(items, enchantmentsForTradedEquipment
+                            //? if >=26.2
+                            .get()
+                            , to.item())
             );
         } else {
             trade = new VillagerTrade(

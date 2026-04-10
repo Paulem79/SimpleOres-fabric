@@ -109,7 +109,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 null, null, null, null, null, null, null, null, null,
                 //?}
                 ModItems.COPPER_SHEARS,
-                ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK, Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
+                ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK //? if >=26.2
+                .unaffected()
+                , Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
                 null,
                 //? !hasCopperTools {
                 /*ModBlocks.copper_bars,

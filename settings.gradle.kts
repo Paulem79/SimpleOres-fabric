@@ -30,6 +30,7 @@ stonecutter {
 		match("1.21.9", "mojmaps")
 		match("1.21.11", "mojmaps")
 		match("26.1", "deobf")
+		match("26.2", "deobf")
 
 		vcsVersion = "1.21.6"
 	}

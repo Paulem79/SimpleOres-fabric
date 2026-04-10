@@ -2,7 +2,7 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-stonecutter active "26.1"
+stonecutter active "26.2"
 
 stonecutter parameters {
     // Calcul de hasBucketlib dynamique pour chaque sous-projet

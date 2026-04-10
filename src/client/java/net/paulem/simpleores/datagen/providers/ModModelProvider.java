@@ -68,7 +68,9 @@ public class ModModelProvider extends FabricModelProvider {
             blockStateModelGenerator.createFurnace(modFurnace, TexturedModel.ORIENTABLE_ONLY_TOP);
         }
 
-        blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK);
+        blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK //? if >=26.2
+                .unaffected()
+        );
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.tin_pressure_plate, ModBlocks.TIN_BLOCK);
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BLOCK);
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BLOCK);
