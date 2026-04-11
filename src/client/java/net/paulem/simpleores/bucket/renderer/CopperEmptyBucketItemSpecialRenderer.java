@@ -12,7 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.items.ModItems;
-import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import net.paulem.simpleores.stonecutter.SCId;
 import org.joml.Matrix4fc;
 import org.jspecify.annotations.NonNull;
@@ -29,7 +29,7 @@ public class CopperEmptyBucketItemSpecialRenderer implements ItemModel {
     @Override
     public void update(@NonNull ItemStackRenderState output, @NonNull ItemStack stack, ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
         Item item = stack.getItem();
-        if(item instanceof CustomParentBucketItem parentBucketItem) {
+        if(item instanceof CustomBucketItem parentBucketItem) {
             resolver.appendItemLayers(output, ModItems.LOWER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
         } else {
             resolver.appendItemLayers(output, ModItems.COVER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);

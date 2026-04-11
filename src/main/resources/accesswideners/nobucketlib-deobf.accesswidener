@@ -12,3 +12,4 @@ accessible method net/minecraft/client/data/models/ItemModelGenerators generateL
 accessible method net/minecraft/client/model/geom/ModelLayers createLocation (Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/client/model/geom/ModelLayerLocation;
 accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemProperties (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ClientItem$Properties;
 accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemModel (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ItemModel;
+accessible method net/minecraft/world/level/block/Block codec ()Lcom/mojang/serialization/MapCodec;

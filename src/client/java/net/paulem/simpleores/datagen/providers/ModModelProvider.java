@@ -96,7 +96,7 @@ public class ModModelProvider extends FabricModelProvider {
             /*if(item instanceof UniversalBucketItem) continue;
             *///?} else containsBucket {
             if(item instanceof CustomChildrenBucketItem bucketItem) {
-                System.out.println("Generating bucket model for: " + bucketItem.getFluidName());
+                System.out.println("Generating bucket model for: " + bucketItem.getBaseName());
                 generateCopperBucket(itemModelGenerator, bucketItem);
                 continue;
             }

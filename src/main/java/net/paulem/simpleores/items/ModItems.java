@@ -1,7 +1,8 @@
 package net.paulem.simpleores.items;
 
+import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.custom.advanced.*;
@@ -15,9 +16,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
+
+import static net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem.getBlockIdentifier;
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;
@@ -61,10 +63,15 @@ public class ModItems {
                             .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking()))
             ));
     *///?} else containsBucket {
-    public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
-            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Properties().stacksTo(16),
-                    (bucketItem, name, fluid) ->
-                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.craftRemainder(bucketItem).stacksTo(1), bucketItem))
+    public static final CustomBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
+            new CustomBucketItem(key, "copper", new Item.Properties().stacksTo(16),
+            (bucketItem, name, fluid) ->
+                    register(name, innerSettings -> new CustomChildrenBucketItem(
+                            fluid,
+                            innerSettings
+                                    .component(ModComponents.BUCKET_FLUID_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR)),
+                            bucketItem
+                    ))
             )
     );
 
@@ -239,7 +246,7 @@ public class ModItems {
         return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 
-    private static ResourceKey<Item> keyOf(String id) {
+    public static ResourceKey<Item> keyOf(String id) {
         return ResourceKey.create(BuiltInRegistries.ITEM.key(), SCId.of(SimpleOres.MOD_ID, id));
     }
 

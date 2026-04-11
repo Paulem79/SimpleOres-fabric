@@ -24,6 +24,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
+import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
@@ -37,7 +38,7 @@ import org.slf4j.LoggerFactory;
 //? hasCopperTools
 import net.paulem.simpleores.migration.CopperMigration;
 //? containsBucket && !hasBucketlib
-import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.BucketLibApi;
@@ -57,6 +58,7 @@ public class SimpleOres implements ModInitializer {
         configLoader.load();
         CONFIG = configLoader.getConfig();
 
+        ModComponents.init();
 		ModBlocks.init();
 		ModItems.init();
         ModFurnaces.init();
@@ -77,7 +79,7 @@ public class SimpleOres implements ModInitializer {
             Fluid modFluid = fluidReference.value();
 
             ModItems.registeredItems.values().forEach(item -> {
-                if(item instanceof CustomParentBucketItem bucketItem) {
+                if(item instanceof CustomBucketItem bucketItem) {
                     bucketItem.registerFluid(identifier, modFluid);
                 }
             });

@@ -7,12 +7,17 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
-import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
+import net.minecraft.world.level.material.Fluids;
+import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.stonecutter.SCId;
 import org.joml.Matrix4fc;
 import org.jspecify.annotations.NonNull;
@@ -28,10 +33,19 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
 
     @Override
     public void update(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
-        Item item = stack.getItem();
+        Identifier blockIdentifier = stack.get(ModComponents.BUCKET_FLUID_BLOCK_COMPONENT);
+        if(blockIdentifier == null) return;
 
-        if(item instanceof CustomChildrenBucketItem bucketItem) {
-            Fluid fluid = bucketItem.getFluid();
+        Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
+
+        if(block instanceof LiquidBlock liquidBlock) {
+            Fluid fluid = liquidBlock.fluid.defaultFluidState().getType();
+
+            if(fluid == Fluids.EMPTY) {
+                resolver.appendItemLayers(output, stack, displayContext, level, owner, seed);
+                return;
+            }
+
             Item vanillaBucket = fluid.getBucket();
             resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
         }

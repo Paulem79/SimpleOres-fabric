@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.mixin.transfer.BucketItemAccessor;
-import net.minecraft.world.level.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
@@ -57,7 +56,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         Level level = source.level();
         Direction dispenserFacing = source.state().getValue(DispenserBlock.FACING);
         BlockPos pos = source.pos().relative(dispenserFacing);
-        if (stack.getItem() instanceof CustomParentBucketItem) {
+        if (stack.getItem() instanceof CustomBucketItem) {
             Pair<Boolean, ItemStack> result = tryPickUpFluid(stack, null, level, null, pos, dispenserFacing);
             if (result.getA()) {
                 if (stack.getCount() == 1) {
@@ -100,7 +99,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
                 if (stack.getItem() instanceof CustomChildrenBucketItem bucketItem) {
                     SoundEvent sound = bucketPickup.getPickupSound().orElse(FluidVariantAttributes.getFillSound(FluidVariant.of(fluid)));
                     level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    ItemStack usedStack = bucketItem.fromFluid(fluid).getDefaultInstance();
+                    ItemStack usedStack = bucketItem.getCorrespondingBucket(fluid);
                     return new Pair<>(true, usedStack);
                 }
                 level.setBlock(pos, state, 3);
@@ -124,7 +123,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 
         if(!(stack.getItem() instanceof CustomChildrenBucketItem bucketItem)) return new Pair<>(false, stack);
 
-        Fluid fluid = bucketItem.getFluid();
+        Fluid fluid = bucketItem.getFluid(stack);
         //vaporize
         boolean vaporize = //? if >1.21.10 {
          level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
