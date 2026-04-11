@@ -63,7 +63,7 @@ public class ModItems {
             new CustomBucketItem(new Item.Properties().stacksTo(1).setId(key))
     );
 
-    public static final TabExcludedItem LOWER_COPPER_BUCKET = registerByKey("copper_bucket_lower", key ->
+    public static final TabExcludedItem BASE_COPPER_BUCKET = registerByKey("copper_bucket_base", key ->
             new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
     );
 

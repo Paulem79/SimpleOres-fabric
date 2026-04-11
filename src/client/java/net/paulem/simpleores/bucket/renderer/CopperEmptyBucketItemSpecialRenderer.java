@@ -25,18 +25,16 @@ import org.jspecify.annotations.Nullable;
 public class CopperEmptyBucketItemSpecialRenderer implements ItemModel {
     private static final ItemModel INSTANCE = new CopperEmptyBucketItemSpecialRenderer();
 
-    public static final Identifier COVER_TEXTURE = SCId.of("item/copper_bucket_cover.png");
-
     public CopperEmptyBucketItemSpecialRenderer() {
     }
 
     @Override
-    public void update(@NonNull ItemStackRenderState output, @NonNull ItemStack stack, ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
+    public void update(@NonNull ItemStackRenderState output, @NonNull ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
         Identifier blockIdentifier = stack.get(ModComponents.BUCKET_BLOCK_COMPONENT);
         Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
 
         if(blockIdentifier == null || block == Blocks.AIR) {
-            resolver.appendItemLayers(output, ModItems.LOWER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
+            resolver.appendItemLayers(output, ModItems.BASE_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
         } else {
             Item item = stack.getItem();
 

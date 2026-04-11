@@ -8,7 +8,6 @@
     "accessor.HolderSetDirectAccessor",
     "accessor.ItemPredicateAccessor",
     "accessor.WeightedPressurePlateBlockAccessor",
-    "buckets.BucketItemMixin",
     "buckets.FluidMixin",
     "buckets.ItemSettingsMixin",
     "furnaces.AbstractFurnaceEntityMixin"
