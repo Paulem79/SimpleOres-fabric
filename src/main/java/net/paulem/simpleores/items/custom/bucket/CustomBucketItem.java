@@ -47,7 +47,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
-public class CustomBucketItem extends BucketItem implements DispensibleContainerItem {
+public class CustomBucketItem extends BucketItem implements CustomDispensibleContainerItem {
     public CustomBucketItem(Properties settings) {
         super(Fluids.EMPTY, settings.component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR)));
 
@@ -136,16 +136,6 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
         return fromIdentifier(stack.get(ModComponents.BUCKET_BLOCK_COMPONENT));
     }
 
-    /**
-     * Deprecated, use {@link #getBlock(ItemStack)} and check if it's a LiquidBlock or BucketPickup to get the fluid.
-     * @see #getBlock(ItemStack)
-     */
-    @Deprecated
-    public Fluid getFluid(ItemStack stack) {
-        Block block = getBlock(stack);
-        return block instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
-    }
-
     public static Block fromIdentifier(Identifier identifier) {
         return BuiltInRegistries.BLOCK.getValue(identifier);
     }
@@ -157,7 +147,9 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
     @Override
     public @NonNull InteractionResult use(final @NonNull Level level, final Player player, final @NonNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        Fluid content = getFluid(itemStack);
+
+        Block blockContent = getBlock(itemStack);
+        Fluid content = blockContent instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
 
         BlockHitResult hitResult = getPlayerPOVHitResult(
                 level, player, content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
@@ -189,24 +181,9 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
                 } else {
                     // FOR PICKUP
                     if (content == Fluids.EMPTY) {
-                        BlockState blockState = level.getBlockState(pos);
-
-                        if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock) {
-                            ItemStack taken = mix(bucketPickupBlock.pickupBlock(player, level, pos, blockState), itemStack);
-                            taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
-
-                            if (!taken.isEmpty()) {
-                                player.awardStat(Stats.ITEM_USED.get(this));
-                                bucketPickupBlock.getPickupSound().ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
-                                level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
-                                ItemStack result = ItemUtils.createFilledResult(itemStack, player, taken);
-
-                                if (!level.isClientSide()) {
-                                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, taken);
-                                }
-
-                                return InteractionResult.SUCCESS.heldItemTransformedTo(result);
-                            }
+                        InteractionResult interactionResult = pickup(level, player, pos, itemStack);
+                        if (interactionResult != null) {
+                            return interactionResult;
                         }
                     }
 
@@ -216,6 +193,42 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
                 return InteractionResult.FAIL;
             }
         }
+    }
+
+    public InteractionResult pickup(@NonNull Level level, @Nullable Player player, BlockPos pos, ItemStack itemStack) {
+        BlockState blockState = level.getBlockState(pos);
+
+        if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock) {
+            ItemStack taken = mix(bucketPickupBlock.pickupBlock(player, level, pos, blockState), itemStack);
+            taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
+
+            if (!taken.isEmpty()) {
+                if(player != null) {
+                    player.awardStat(Stats.ITEM_USED.get(this));
+                }
+
+                bucketPickupBlock.getPickupSound().ifPresent(soundEvent -> {
+                    if(player != null) {
+                        player.playSound(soundEvent, 1.0F, 1.0F);
+                    } else {
+                        level.playSound(null, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    }
+                });
+
+                level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
+
+                // Manage for player inventory if not dispenser
+                ItemStack result = player != null ? ItemUtils.createFilledResult(itemStack, player, taken) : taken;
+
+                // Also checks if not null at the same time
+                if (!level.isClientSide() && player instanceof ServerPlayer) {
+                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, taken);
+                }
+
+                return InteractionResult.SUCCESS.heldItemTransformedTo(result);
+            }
+        }
+        return null;
     }
 
     /**
@@ -240,16 +253,6 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
         return result;
     }
 
-    public static @NonNull ItemStack getEmptySuccessItem(final ItemStack itemStack, final Player player) {
-        Item item = itemStack.getItem();
-
-        if(item instanceof CustomBucketItem customBucket) {
-            return !player.hasInfiniteMaterials() ? customBucket.getEmpty() : itemStack;
-        }
-
-        return !player.hasInfiniteMaterials() ? item.getDefaultInstance() : itemStack;
-    }
-
     public @NonNull ItemStack getEmptySuccessItem(final Player player, final ItemStack itemStack) {
         return !player.hasInfiniteMaterials() ? getEmpty() : itemStack;
     }
@@ -261,6 +264,11 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
     @Override
     public boolean emptyContents(@Nullable final LivingEntity user, final Level level, final BlockPos pos, @Nullable final BlockHitResult hitResult) {
         ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
+        return emptyContents(user, level, pos, hitResult, itemStack);
+    }
+
+    @Override
+    public boolean emptyContents(@Nullable LivingEntity user, Level level, BlockPos pos, @Nullable BlockHitResult hitResult, ItemStack itemStack) {
         Block content = getBlock(itemStack);
 
         if (holdsFluid(itemStack) && content instanceof LiquidBlock liquidBlock) {
@@ -271,7 +279,9 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
             return false;
 
         } else if(holdsBlock(itemStack)) {
-            return false;
+            // TODO: Might duplicate behaviour with "use", migrate code to "use" if possible
+            InteractionResult interactionResult = useOn(new UseOnContext(level, (Player) user, InteractionHand.MAIN_HAND, itemStack, hitResult != null ? hitResult : new BlockHitResult(pos.getCenter(), Direction.DOWN, pos, false)));
+            return interactionResult.consumesAction();
         }
 
         return false;
@@ -320,7 +330,8 @@ public class CustomBucketItem extends BucketItem implements DispensibleContainer
 
     protected void playEmptySound(@Nullable final LivingEntity user, final LevelAccessor level, final BlockPos pos) {
         ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
-        Fluid content = getFluid(itemStack);
+        Block blockContent = getBlock(itemStack);
+        Fluid content = blockContent instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
 
         SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
         level.playSound(user, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
