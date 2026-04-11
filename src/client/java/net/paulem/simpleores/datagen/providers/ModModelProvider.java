@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
 import net.paulem.simpleores.furnaces.ModFurnaces;
@@ -24,8 +26,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import net.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
-import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
-import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 //? if >1.21.3
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import org.jspecify.annotations.NonNull;
@@ -34,8 +35,6 @@ import org.jspecify.annotations.NonNull;
 
 //? hasBucketlib
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
-
-import java.util.Optional;
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
@@ -95,14 +94,11 @@ public class ModModelProvider extends FabricModelProvider {
             //? if hasBucketlib {
             /*if(item instanceof UniversalBucketItem) continue;
             *///?} else containsBucket {
-            if(item instanceof CustomChildrenBucketItem bucketItem) {
-                System.out.println("Generating bucket model for: " + bucketItem.getBaseName());
+            if(item instanceof CustomBucketItem bucketItem) {
+                System.out.println("Generating bucket model for: " + bucketItem.getName(Fluids.EMPTY).getString());
                 generateCopperBucket(itemModelGenerator, bucketItem);
                 continue;
             }
-
-            // Exclude childs registration because it's handled in the loop
-            if(item instanceof CustomBucketFluidable) continue;
             //?}
 
             if (item instanceof BowItem bowItem) {

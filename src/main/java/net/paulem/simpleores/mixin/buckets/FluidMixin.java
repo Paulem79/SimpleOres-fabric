@@ -1,5 +1,6 @@
 package net.paulem.simpleores.mixin.buckets;
 
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Unique;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 
 @Mixin({LiquidBlock.class})
 public abstract class FluidMixin {
@@ -29,7 +29,7 @@ public abstract class FluidMixin {
         ItemStack hand = drainer == null ? null : drainer.getMainHandItem();
         Item handItem = hand == null ? null : hand.getItem();
 
-        if(handItem instanceof CustomBucketFluidable bucketItem) {
+        if(handItem instanceof CustomBucketItem bucketItem) {
             return bucketItem.getCorrespondingBucket(fluid);
         }
 

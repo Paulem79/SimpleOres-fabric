@@ -1,74 +1,81 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
-/*public class CustomParentBucketItem {}
+/*public class CustomBucketItem {}
 *///?} else {
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.network.chat.Component;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.paulem.simpleores.items.ModComponents;
-import net.paulem.simpleores.items.ModItems;
-import org.apache.commons.lang3.function.TriFunction;
+import org.jspecify.annotations.Nullable;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
-public class CustomBucketItem extends CustomChildrenBucketItem implements CustomBucketFluidable {
-    private final String baseName;
-    private final ResourceKey<Item> key;
-    private final TriFunction<CustomBucketItem, String, Fluid, CustomChildrenBucketItem> registrar;
+public class CustomBucketItem extends BucketItem implements DispensibleContainerItem {
+    public CustomBucketItem(Properties settings) {
+        super(Fluids.EMPTY, settings.component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR)));
 
-    private CustomChildrenBucketItem children;
-
-    public CustomBucketItem(ResourceKey<Item> key, String baseName, Item.Properties settings, TriFunction<CustomBucketItem, String, Fluid, CustomChildrenBucketItem> registrar) {
-        super(Fluids.EMPTY, settings.component(ModComponents.BUCKET_FLUID_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR)).setId(key));
-
-        this.key = key;
-        this.baseName = baseName;
-        this.registrar = registrar;
-
-        createChildren();
+        DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
-    public void createChildren() {
-        Fluid fluid = Fluids.EMPTY;
-        String childrenName = baseName + "_filled";
+    public ItemStack getCorrespondingBucket(Block block) {
+        if(block == null || block == Blocks.AIR) return getEmpty();
 
-        registrar.apply(this, childrenName, fluid);
-    }
-
-    @Override
-    public ItemStack getCorrespondingBucket(Fluid modFluid) {
-        if(modFluid == null || modFluid == Fluids.EMPTY) return getDefaultInstance();
-
-        Block block = modFluid.defaultFluidState().createLegacyBlock().getBlock();
         Identifier identifier = getBlockIdentifier(block);
 
-        ItemStack stack = children.getDefaultInstance();
-        stack.set(ModComponents.BUCKET_FLUID_BLOCK_COMPONENT, identifier);
+        ItemStack stack = getDefaultInstance();
+        stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, identifier);
 
         return stack;
     }
 
-    @Override
-    public String getBaseName() {
-        return baseName;
+    public ItemStack getCorrespondingBucket(Fluid modFluid) {
+        if(modFluid == null || modFluid == Fluids.EMPTY) return getEmpty();
+
+        Block block = modFluid.defaultFluidState().createLegacyBlock().getBlock();
+        return getCorrespondingBucket(block);
     }
 
-    @Override
-    public CustomBucketItem getParent() {
-        return this;
+    public ItemStack getEmpty() {
+        Identifier identifier = getBlockIdentifier(Blocks.AIR);
+
+        ItemStack stack = getDefaultInstance();
+        stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, identifier);
+
+        return stack;
     }
 
     // Compat with Bucket Lib for future
-    public Component getName(ItemStack stack, Fluid fluid) {
+    public Component getName(@NonNull Fluid fluid) {
         if(fluid == Fluids.EMPTY) return Component.translatable(this.getDescriptionId(), "");
 
         String descriptionId = this.getDescriptionId();
@@ -81,23 +88,240 @@ public class CustomBucketItem extends CustomChildrenBucketItem implements Custom
 
     @Override
     public @NonNull Component getName(@NonNull ItemStack stack) {
-        return getName(stack, Fluids.EMPTY);
-    }
-
-    public ResourceKey<Item> getKey() {
-        return key;
+        return getName(getFluid(stack));
     }
 
     public Component getFluidDescription(Fluid fluid) {
         return FluidVariantAttributes.getName(FluidVariant.of(fluid));
     }
 
-    public void registerFluid(Identifier identifier, Fluid modFluid) {
-        // PLACEHOLDER
+    public Block getBlock(ItemStack stack) {
+        return fromIdentifier(stack.get(ModComponents.BUCKET_BLOCK_COMPONENT));
+        // TODO: LiquidBlock or BucketPickup
     }
 
-    public CustomChildrenBucketItem getChildren() {
-        return children;
+    @Deprecated
+    public Fluid getFluid(ItemStack stack) {
+        Block block = getBlock(stack);
+        return block instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
+    }
+
+    public static Block fromIdentifier(Identifier identifier) {
+        return BuiltInRegistries.BLOCK.getValue(identifier);
+    }
+
+    public static Identifier getBlockIdentifier(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block);
+    }
+
+    @Override
+    public @NonNull InteractionResult use(final @NonNull Level level, final Player player, final @NonNull InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        
+        Fluid content = getFluid(itemStack);
+        
+        BlockHitResult hitResult = getPlayerPOVHitResult(
+                level, player, content == Fluids.EMPTY ? net.minecraft.world.level.ClipContext.Fluid.SOURCE_ONLY : net.minecraft.world.level.ClipContext.Fluid.NONE
+        );
+        if (hitResult.getType() == HitResult.Type.MISS) {
+            return InteractionResult.PASS;
+        } else if (hitResult.getType() != HitResult.Type.BLOCK) {
+            return InteractionResult.PASS;
+        } else {
+            BlockPos pos = hitResult.getBlockPos();
+            Direction direction = hitResult.getDirection();
+            BlockPos directionOffsetPos = pos.relative(direction);
+
+            if (level.mayInteract(player, pos) && player.mayUseItemAt(directionOffsetPos, direction, itemStack)) {
+                BlockState clicked = level.getBlockState(pos);
+                BlockPos placePos = clicked.getBlock() instanceof LiquidBlockContainer && content == Fluids.WATER ? pos : directionOffsetPos;
+
+                if (this.emptyContents(player, level, placePos, hitResult)) {
+                    this.checkExtraContent(player, level, itemStack, placePos);
+                    if (player instanceof ServerPlayer && content != Fluids.EMPTY) {
+                        CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, placePos, itemStack);
+                    }
+
+                    player.awardStat(Stats.ITEM_USED.get(this));
+                    ItemStack emptyResult = ItemUtils.createFilledResult(itemStack, player, getEmptySuccessItem(itemStack, player));
+                    return InteractionResult.SUCCESS.heldItemTransformedTo(emptyResult);
+                } else {
+                    if (content == Fluids.EMPTY) {
+                        BlockState blockState = level.getBlockState(pos);
+
+                        if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock) {
+                            ItemStack taken = mix(bucketPickupBlock.pickupBlock(player, level, pos, blockState), itemStack);
+                            taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
+
+                            if (!taken.isEmpty()) {
+                                player.awardStat(Stats.ITEM_USED.get(this));
+                                bucketPickupBlock.getPickupSound().ifPresent(soundEvent -> player.playSound(soundEvent, 1.0F, 1.0F));
+                                level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
+                                ItemStack result = ItemUtils.createFilledResult(itemStack, player, taken);
+
+                                if (!level.isClientSide()) {
+                                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, taken);
+                                }
+
+                                return InteractionResult.SUCCESS.heldItemTransformedTo(result);
+                            }
+                        }
+                    }
+
+                    return InteractionResult.FAIL;
+                }
+            } else {
+                return InteractionResult.FAIL;
+            }
+        }
+    }
+
+    /*@Override
+    public @NonNull InteractionResult useOn(final @NonNull UseOnContext context) {
+        InteractionResult placeResult = this.place(new BlockPlaceContext(context));
+        Player player = context.getPlayer();
+        if (placeResult.consumesAction() && player != null) {
+            player.setItemInHand(context.getHand(), BucketItem.getEmptySuccessItem(context.getItemInHand(), player));
+        }
+
+        return placeResult;
+    }
+
+    public InteractionResult place(final BlockPlaceContext placeContext) {
+        Block block = this.getBlock(placeContext.getItemInHand());
+
+        if (!block.isEnabled(placeContext.getLevel().enabledFeatures())) {
+            return InteractionResult.FAIL;
+        } else if (!placeContext.canPlace()) {
+            return InteractionResult.FAIL;
+        } else {
+            BlockPlaceContext updatedPlaceContext = this.updatePlacementContext(placeContext);
+            if (updatedPlaceContext == null) {
+                return InteractionResult.FAIL;
+            } else {
+                BlockState placementState = this.getPlacementState(updatedPlaceContext);
+                if (placementState == null) {
+                    return InteractionResult.FAIL;
+                } else if (!this.placeBlock(updatedPlaceContext, placementState)) {
+                    return InteractionResult.FAIL;
+                } else {
+                    BlockPos pos = updatedPlaceContext.getClickedPos();
+                    Level level = updatedPlaceContext.getLevel();
+                    Player player = updatedPlaceContext.getPlayer();
+                    ItemStack itemStack = updatedPlaceContext.getItemInHand();
+                    BlockState placedState = level.getBlockState(pos);
+                    if (placedState.is(placementState.getBlock())) {
+                        placedState = this.updateBlockStateFromTag(pos, level, itemStack, placedState);
+                        this.updateCustomBlockEntityTag(pos, level, player, itemStack, placedState);
+                        updateBlockEntityComponents(level, pos, itemStack);
+                        placedState.getBlock().setPlacedBy(level, pos, placedState, player, itemStack);
+                        if (player instanceof ServerPlayer) {
+                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, pos, itemStack);
+                        }
+                    }
+
+                    SoundType soundType = placedState.getSoundType();
+                    level.playSound(player, pos, this.getPlaceSound(placedState), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+                    level.gameEvent(GameEvent.BLOCK_PLACE, pos, GameEvent.Context.of(player, placedState));
+                    itemStack.consume(1, player);
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+    }*/
+
+    /**
+     * Mix a custom bucket item with a vanilla bucket item
+     */
+    public static @NonNull ItemStack mix(ItemStack vanillaBucketStack, ItemStack customBucketStack) {
+        ItemStack result = customBucketStack.copy();
+
+        Item vanillaBucketItem = vanillaBucketStack.getItem();
+
+        Block block = Blocks.AIR;
+
+        if(vanillaBucketItem instanceof BucketItem vanillaBucket) { // For liquid
+            Fluid fluid = vanillaBucket.getContent();
+            block = fluid.defaultFluidState().createLegacyBlock().getBlock();
+        } else if(vanillaBucketItem instanceof SolidBucketItem vanillaSolidBucket) { // For solid blocks, like powder snow
+            block = vanillaSolidBucket.getBlock();
+
+        }
+
+        result.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(block));
+        return result;
+    }
+
+    public static @NonNull ItemStack getEmptySuccessItem(final ItemStack itemStack, final Player player) {
+        Item item = itemStack.getItem();
+
+        if(item instanceof CustomBucketItem customBucket) {
+            return !player.hasInfiniteMaterials() ? customBucket.getEmpty() : itemStack;
+        }
+
+        return !player.hasInfiniteMaterials() ? item.getDefaultInstance() : itemStack;
+    }
+
+    @Override
+    public void checkExtraContent(@Nullable final LivingEntity user, final Level level, final ItemStack itemStack, final BlockPos pos) {
+    }
+
+    @Override
+    public boolean emptyContents(@Nullable final LivingEntity user, final Level level, final BlockPos pos, @Nullable final BlockHitResult hitResult) {
+        ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
+        Fluid content = getFluid(itemStack);
+
+        System.out.println("Trying to place fluid " + content + " at " + pos);
+
+        if (!(content instanceof FlowingFluid flowingFluid)) {
+            return false;
+        } else {
+            BlockState blockState = level.getBlockState(pos);
+            Block block = blockState.getBlock();
+            boolean mayReplace = blockState.canBeReplaced(content);
+            boolean shiftKeyDown = user != null && user.isShiftKeyDown();
+            boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, content);
+            boolean canPlaceFluidInsideBlock = blockState.isAir() || placeLiquid && (!shiftKeyDown || hitResult == null);
+            if (!canPlaceFluidInsideBlock) {
+                return hitResult != null && this.emptyContents(user, level, hitResult.getBlockPos().relative(hitResult.getDirection()), null);
+            } else if (level.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, pos) && content.is(FluidTags.WATER)) {
+                int x = pos.getX();
+                int y = pos.getY();
+                int z = pos.getZ();
+                RandomSource random = level.getRandom();
+                level.playSound(user, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (random.nextFloat() - random.nextFloat()) * 0.8F);
+
+                for (int i = 0; i < 8; i++) {
+                    level.addParticle(ParticleTypes.LARGE_SMOKE, x + random.nextFloat(), y + random.nextFloat(), z + random.nextFloat(), 0.0, 0.0, 0.0);
+                }
+
+                return true;
+            } else if (block instanceof LiquidBlockContainer containerx && content == Fluids.WATER) {
+                containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource(false));
+                this.playEmptySound(user, level, pos);
+                return true;
+            } else {
+                if (!level.isClientSide() && mayReplace && !blockState.liquid()) {
+                    level.destroyBlock(pos, true);
+                }
+
+                if (!level.setBlock(pos, content.defaultFluidState().createLegacyBlock(), 11) && !blockState.getFluidState().isSource()) {
+                    return false;
+                } else {
+                    this.playEmptySound(user, level, pos);
+                    return true;
+                }
+            }
+        }
+    }
+
+    protected void playEmptySound(@Nullable final LivingEntity user, final LevelAccessor level, final BlockPos pos) {
+        ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
+        Fluid content = getFluid(itemStack);
+
+        SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        level.playSound(user, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
+        level.gameEvent(user, GameEvent.FLUID_PLACE, pos);
     }
 }
 //?}

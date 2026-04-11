@@ -1,9 +1,7 @@
 package net.paulem.simpleores.items;
 
-import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
-import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
 import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.items.custom.MythrilBow;
@@ -18,8 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
-
-import static net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem.getBlockIdentifier;
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;
@@ -64,23 +60,15 @@ public class ModItems {
             ));
     *///?} else containsBucket {
     public static final CustomBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
-            new CustomBucketItem(key, "copper", new Item.Properties().stacksTo(16),
-            (bucketItem, name, fluid) ->
-                    register(name, innerSettings -> new CustomChildrenBucketItem(
-                            fluid,
-                            innerSettings
-                                    .component(ModComponents.BUCKET_FLUID_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR)),
-                            bucketItem
-                    ))
-            )
+            new CustomBucketItem(new Item.Properties().stacksTo(1).setId(key))
     );
 
-    public static final Item LOWER_COPPER_BUCKET = registerByKey("copper_bucket_lower", key ->
-            new Item(new Item.Properties().stacksTo(1).setId(key))
+    public static final TabExcludedItem LOWER_COPPER_BUCKET = registerByKey("copper_bucket_lower", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
     );
 
-    public static final Item COVER_COPPER_BUCKET = registerByKey("copper_bucket_cover", key ->
-            new Item(new Item.Properties().stacksTo(1).setId(key))
+    public static final TabExcludedItem COVER_COPPER_BUCKET = registerByKey("copper_bucket_cover", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
     );
     //?}
 

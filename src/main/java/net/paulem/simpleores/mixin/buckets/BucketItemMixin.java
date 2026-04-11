@@ -1,5 +1,6 @@
 package net.paulem.simpleores.mixin.buckets;
 
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -8,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
-import net.paulem.simpleores.items.custom.bucket.CustomBucketFluidable;
 
 @Mixin(BucketItem.class)
 public class BucketItemMixin {
@@ -20,7 +20,7 @@ public class BucketItemMixin {
 
     @Unique
     private static ItemStack getEmptiedStack(ItemStack stack, Player player, CallbackInfoReturnable<ItemStack> cir) {
-        return !player.hasInfiniteMaterials() && stack.getItem() instanceof CustomBucketFluidable bucketItem ? new ItemStack(bucketItem.getParent()) : cir.getReturnValue();
+        return !player.hasInfiniteMaterials() && stack.getItem() instanceof CustomBucketItem bucketItem ? bucketItem.getEmpty() : cir.getReturnValue();
     }
     //?}
 }

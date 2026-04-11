@@ -14,11 +14,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.simpleores.utils.BucketPickupUtils;
 import org.joml.Matrix4fc;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -33,7 +35,7 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
 
     @Override
     public void update(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
-        Identifier blockIdentifier = stack.get(ModComponents.BUCKET_FLUID_BLOCK_COMPONENT);
+        Identifier blockIdentifier = stack.get(ModComponents.BUCKET_BLOCK_COMPONENT);
         if(blockIdentifier == null) return;
 
         Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
@@ -47,6 +49,12 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
             }
 
             Item vanillaBucket = fluid.getBucket();
+            resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
+        } else if(block instanceof BucketPickup) {
+            Item vanillaBucket = BucketPickupUtils.getBucketForBlock(block);
+
+            if(vanillaBucket == null) return;
+
             resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
         }
     }

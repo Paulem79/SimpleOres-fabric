@@ -25,6 +25,7 @@ import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
 import net.paulem.simpleores.items.ModComponents;
+import net.paulem.simpleores.items.TabExcludedItem;
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
@@ -71,20 +72,7 @@ public class SimpleOres implements ModInitializer {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-        *///?} else if >1.19.4 {
-        RegistryEntryAddedCallback.allEntries(BuiltInRegistries.FLUID, fluidReference -> {
-            Identifier identifier = fluidReference.key() //$location
-                    .identifier(
-            );
-            Fluid modFluid = fluidReference.value();
-
-            ModItems.registeredItems.values().forEach(item -> {
-                if(item instanceof CustomBucketItem bucketItem) {
-                    bucketItem.registerFluid(identifier, modFluid);
-                }
-            });
-        });
-        //?}
+        *///?}
 
 
         //? hasCopperTools
@@ -111,6 +99,8 @@ public class SimpleOres implements ModInitializer {
                 content.accept(new ItemStack(blockItem.asItem()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
             for (Item item : ModItems.registeredItems.values()) {
+                if(item instanceof TabExcludedItem) continue;
+
                 content.accept(new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 		});

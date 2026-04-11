@@ -96,7 +96,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
                         //? } else {
                         /*.fabric_getFluid();
                         *///?}
-                if (stack.getItem() instanceof CustomChildrenBucketItem bucketItem) {
+                if (stack.getItem() instanceof CustomBucketItem bucketItem) {
                     SoundEvent sound = bucketPickup.getPickupSound().orElse(FluidVariantAttributes.getFillSound(FluidVariant.of(fluid)));
                     level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
                     ItemStack usedStack = bucketItem.getCorrespondingBucket(fluid);
@@ -121,7 +121,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
             return new Pair<>(true, player.getItemInHand(interactionHand).copy());
         }
 
-        if(!(stack.getItem() instanceof CustomChildrenBucketItem bucketItem)) return new Pair<>(false, stack);
+        if(!(stack.getItem() instanceof CustomBucketItem bucketItem)) return new Pair<>(false, stack);
 
         Fluid fluid = bucketItem.getFluid(stack);
         //vaporize
@@ -139,7 +139,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
             for (int i = 0; i < 8; ++i) {
                 level.addParticle(ParticleTypes.LARGE_SMOKE, (double) x + Math.random(), (double) y + Math.random(), (double) z + Math.random(), 0.0, 0.0, 0.0);
             }
-            return new Pair<>(true, bucketItem.getParent().getDefaultInstance());
+            return new Pair<>(true, bucketItem.getEmpty());
         }
         //waterlogged Block interaction
         BlockState state = level.getBlockState(pos);
@@ -147,13 +147,13 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         if (block instanceof LiquidBlockContainer liquidBlockContainer && liquidBlockContainer.canPlaceLiquid(player, level, pos, state, fluid)) {
             liquidBlockContainer.placeLiquid(level, pos, state, fluid.defaultFluidState());
             level.playSound(player, pos, FluidVariantAttributes.getEmptySound(FluidVariant.of(fluid)), SoundSource.BLOCKS, 1.0F, 1.0F);
-            return new Pair<>(true, bucketItem.getParent().getDefaultInstance());
+            return new Pair<>(true, bucketItem.getEmpty());
         }
         //air / replaceable block interaction
         if (state.isAir() || state.canBeReplaced(fluid) || (!state.getFluidState().isEmpty() && !(block instanceof LiquidBlockContainer))) {
             if (level.setBlock(pos, fluid.defaultFluidState().createLegacyBlock(), 11) || state.getFluidState().isSource()) {
                 level.playSound(player, pos, FluidVariantAttributes.getEmptySound(FluidVariant.of(fluid)), SoundSource.BLOCKS, 1.0F, 1.0F);
-                return new Pair<>(true, bucketItem.getParent().getDefaultInstance());
+                return new Pair<>(true, bucketItem.getEmpty());
             }
         }
         return new Pair<>(false, stack);
