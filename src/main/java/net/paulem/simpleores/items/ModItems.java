@@ -70,6 +70,10 @@ public class ModItems {
     public static final TabExcludedItem COVER_COPPER_BUCKET = registerByKey("copper_bucket_cover", key ->
             new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
     );
+
+    public static final TabExcludedItem COVER_BLOCK_COPPER_BUCKET = registerByKey("copper_bucket_cover_block", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
+    );
     //?}
 
 
