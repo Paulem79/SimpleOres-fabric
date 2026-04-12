@@ -40,7 +40,7 @@ import java.util.concurrent.CompletableFuture;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.paulem.simpleores.utils.MaterialUtils;
 import net.paulem.simpleores.utils.MapUtils;
-import org.jetbrains.annotations.Nullable;
+
 //? if <=1.20.1
 //import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 //? if >1.21
@@ -181,7 +181,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ));
 
         for (ModFurnaceBlock furnace : ModFurnaces.getFurnaces()) {
-            @Nullable //$ armorRegistry
+            //$ armorRegistry
             net.minecraft.world.item.equipment.ArmorMaterial
                     material = MapUtils.keys(ModFurnaces.FURNACES, furnace.getSpeedModifier())
                     .findFirst()
@@ -208,7 +208,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         for (Item item : ModItems.registeredItems.values()) {
             if(!(item instanceof AdvancedSpearItem spearItem)) continue;
             
-            @Nullable //$ armorRegistry
+            //$ armorRegistry
             net.minecraft.world.item.equipment.ArmorMaterial
                     material = MaterialUtils.toArmor(spearItem.getMaterial());
 

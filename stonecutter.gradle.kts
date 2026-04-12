@@ -34,7 +34,7 @@ stonecutter parameters {
     swaps["armorRegistry"] = when {
         eval(current.version, "<=1.20.4") -> "net.paulem.simpleores.armors.ModArmorMaterials"
         eval(current.version, "=1.21") -> "net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>"
-        else -> "net.minecraft.world.item.equipment.ArmorMaterial"
+        else -> "net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial"
     }
 
     swaps["tagOrIngredient"] = when {
@@ -50,7 +50,7 @@ stonecutter parameters {
 
     swaps["advancementEntry"] = when {
         eval(current.version, "<=1.20.1") -> "net.minecraft.advancements.Advancement"
-        else -> "net.minecraft.advancements.AdvancementHolder"
+        else -> "net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder"
     }
 
     swaps["location"] = when {
@@ -66,12 +66,12 @@ stonecutter parameters {
     replacements {
         string {
             direction = afterDeobf
-            replace("org.jetbrains.annotations.NotNull;", "org.jspecify.annotations.NonNull;")
+            replace("org.jetbrains.annotations.NotNull", "org.jspecify.annotations.NonNull")
         }
 
         string {
             direction = afterDeobf
-            replace("org.jetbrains.annotations.Nullable;", "org.jspecify.annotations.Nullable;")
+            replace("org.jetbrains.annotations.Nullable", "org.jspecify.annotations.Nullable")
         }
 
         string {

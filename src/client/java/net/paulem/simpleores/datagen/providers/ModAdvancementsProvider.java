@@ -223,7 +223,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
     public static //$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
-         buildAdvancement(@Nullable //$ advancementEntry
+         buildAdvancement(//$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
          parent, Consumer<//$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
@@ -235,7 +235,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
     public static //$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
-         buildAdvancement(@Nullable //$ advancementEntry
+         buildAdvancement(//$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
          parent, Consumer<//$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
@@ -248,7 +248,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
     public static //$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
-         buildAdvancement(@Nullable //$ advancementEntry
+         buildAdvancement(//$ advancementEntry
         net.minecraft.advancements.AdvancementHolder
          parent, Consumer<//$ advancementEntry
         net.minecraft.advancements.AdvancementHolder

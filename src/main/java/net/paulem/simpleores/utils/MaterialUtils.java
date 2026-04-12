@@ -62,7 +62,7 @@ public class MaterialUtils {
         };
     }
     
-    @Nullable
+
     public static //$ armorRegistry
     net.minecraft.world.item.equipment.ArmorMaterial
     toArmor(ToolMaterial material) {
