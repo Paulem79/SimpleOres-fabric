@@ -13,14 +13,12 @@ public interface TooltipItem {
     void appendClientTooltip(ItemStack stack, TooltipAccept tooltips);
 
     record TooltipAccept(
-            // TODO: Why
             // if >1.21.6
             //Consumer<Component> tooltips
             // if <=1.21.5
             List<Component> tooltips
     ) {
         public void accept(Component component) {
-            // TODO: Why
             // if >1.21.6
             //tooltips.accept(component);
             // if <=1.21.5

@@ -49,9 +49,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
+// TODO: Fix glitched behaviour in creative mode with buckets when picking up entity
 public class CustomBucketItem extends MobBucketItem implements CustomDispensibleContainerItem {
     public CustomBucketItem(Properties settings) {
-        super(null, Fluids.EMPTY, null, settings
+        super(null, Fluids.EMPTY, SoundEvents.EMPTY, settings
                 .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
                 //.component(DataComponents.MAX_STACK_SIZE, 16) // TODO: Fix bug with max stack size which duplicates bucket on picking up liquid/block when holding 16 empty buckets
         );
@@ -93,9 +94,36 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return stack;
     }
 
-    // Compat with Bucket Lib for future
-    public Component getName(@NonNull Block block) {
+    public boolean holdsFluid(ItemStack stack) {
+        return getBlock(stack) instanceof LiquidBlock;
+    }
+
+    public boolean holdsBlock(ItemStack stack) {
+        return getBlock(stack) instanceof BucketPickup && !holdsFluid(stack) && !holdsEntity(stack);
+    }
+
+    public boolean holdsEntity(ItemStack stack) {
+        return stack.has(ModComponents.BUCKET_FISH_COMPONENT);
+    }
+
+    @Override
+    public @NonNull Component getName(@NonNull ItemStack stack) {
         Component defaultEmpty = Component.translatable(this.getDescriptionId(), "");
+
+        if(holdsEntity(stack)) {
+            Identifier mobBucketIdentifier = stack.get(ModComponents.BUCKET_FISH_COMPONENT);
+            MobBucketItem mobBucketItem = (MobBucketItem) itemFromIdentifier(mobBucketIdentifier);
+            EntityType<?> entityType = mobBucketItem.type;
+
+            String descriptionId = this.getDescriptionId();
+            Component argument;
+            descriptionId += ".entity";
+            argument = entityType.getDescription();
+
+            return Component.translatable(descriptionId, argument);
+        }
+
+        Block block = getBlock(stack);
 
         if(block == Blocks.AIR) return defaultEmpty;
 
@@ -118,23 +146,6 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
             return Component.translatable(descriptionId, argument);
         }
-    }
-
-    public boolean holdsFluid(ItemStack stack) {
-        return getBlock(stack) instanceof LiquidBlock;
-    }
-
-    public boolean holdsBlock(ItemStack stack) {
-        return getBlock(stack) instanceof BucketPickup && !holdsFluid(stack) && !holdsEntity(stack);
-    }
-
-    public boolean holdsEntity(ItemStack stack) {
-        return stack.has(ModComponents.BUCKET_FISH_COMPONENT);
-    }
-
-    @Override
-    public @NonNull Component getName(@NonNull ItemStack stack) {
-        return getName(getBlock(stack));
     }
 
     protected Component getFluidDescription(Fluid fluid) {
@@ -279,7 +290,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             case MobBucketItem vanillaMobBucket when !exchangeWithCustomBucket -> {
                 result.set(ModComponents.BUCKET_FISH_COMPONENT, getItemIdentifier(vanillaMobBucket));
 
-                block = Blocks.WATER;
+                Fluid fluid = vanillaMobBucket.getContent();
+                block = fluid.defaultFluidState().createLegacyBlock().getBlock();
             }
 
             case SolidBucketItem vanillaSolidBucket -> block = vanillaSolidBucket.getBlock();
@@ -310,7 +322,10 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             mobBucketItem.spawn((ServerLevel)level, itemStack, pos);
             level.gameEvent(user, GameEvent.ENTITY_PLACE, pos);
 
-            itemStack.remove(ModComponents.BUCKET_FISH_COMPONENT);
+            // Remove if dispenser or smth like that, or not creative mode
+            if(user == null || !user.hasInfiniteMaterials()) {
+                itemStack.remove(ModComponents.BUCKET_FISH_COMPONENT);
+            }
             //itemStack.set(DataComponents.MAX_STACK_SIZE, 16);
         }
     }
@@ -336,6 +351,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             // TODO: Might duplicate behaviour with "use", migrate code to "use" if possible
             InteractionResult interactionResult = useOn(new UseOnContext(level, (Player) user, InteractionHand.MAIN_HAND, itemStack, hitResult != null ? hitResult : new BlockHitResult(pos.getCenter(), Direction.DOWN, pos, false)));
             return interactionResult.consumesAction();
+        } else if(holdsEntity(itemStack)) {
+            return true;
         }
 
         return false;

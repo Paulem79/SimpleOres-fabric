@@ -1,9 +1,7 @@
 package net.paulem.simpleores.mixin.buckets;
 
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity. //? afterDeobf && <26.2
@@ -11,14 +9,12 @@ import net.minecraft.world.entity. //? afterDeobf && <26.2
         Bucketable;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
-import net.paulem.simpleores.items.ModComponents;
+import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -46,18 +42,17 @@ public interface BucketableMixin {
 
         if (!(item instanceof CustomBucketItem bucketItem)) return;
 
-        if (!bucketItem.holdsFluid(itemStack)) return;
-
         Block block = bucketItem.getBlock(itemStack);
 
-        if (!(block instanceof LiquidBlock liquidBlock)) return;
+        ItemStack vanillaBucket = pickupEntity.getBucketItemStack();
+        Item vanillaBucketItem = vanillaBucket.getItem();
+        if(!(vanillaBucketItem instanceof BucketItem vanilleBucket)) return;
 
-        Fluid fluid = liquidBlock.fluid;
+        Fluid fluid = block instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
 
-        if(fluid.is(FluidTags.WATER) && pickupEntity.isAlive()) {
+        if(fluid.isSame(vanilleBucket.getContent()) && pickupEntity.isAlive()) {
             pickupEntity.playSound(pickupEntity.getPickupSound(), 1.0F, 1.0F);
 
-            ItemStack vanillaBucket = pickupEntity.getBucketItemStack();
             ItemStack finalBucket = CustomBucketItem.mix(vanillaBucket, itemStack);
 
             pickupEntity.saveToBucketTag(finalBucket);

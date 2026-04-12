@@ -15,3 +15,4 @@ accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemMo
 accessible method net/minecraft/world/level/block/Block codec ()Lcom/mojang/serialization/MapCodec;
 accessible method net/minecraft/world/item/MobBucketItem playEmptySound (Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V
 accessible method net/minecraft/world/item/MobBucketItem spawn (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/core/BlockPos;)V
+accessible field net/minecraft/world/item/MobBucketItem type Lnet/minecraft/world/entity/EntityType;
