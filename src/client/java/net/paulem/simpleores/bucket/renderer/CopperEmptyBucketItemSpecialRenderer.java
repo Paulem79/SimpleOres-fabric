@@ -30,27 +30,26 @@ public class CopperEmptyBucketItemSpecialRenderer implements ItemModel {
 
     @Override
     public void update(@NonNull ItemStackRenderState output, @NonNull ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
-        if(stack.has(ModComponents.BUCKET_FISH_COMPONENT)) {
+        Item item = stack.getItem();
+        if (!(item instanceof CustomBucketItem bucketItem)) return;
+
+        if(bucketItem.holdsEntity(stack) && !bucketItem.isMilkBucket(stack)) {
             resolver.appendItemLayers(output, ModItems.COVER_LOWER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
             return;
         }
 
-        Identifier blockIdentifier = stack.get(ModComponents.BUCKET_BLOCK_COMPONENT);
-        Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
-
-        if(blockIdentifier == null || block == Blocks.AIR) {
+        if(bucketItem.isEmpty(stack)) {
             resolver.appendItemLayers(output, ModItems.BASE_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
-        } else {
-            Item item = stack.getItem();
-
-            if(item instanceof CustomBucketItem bucketItem) {
-                if(bucketItem.holdsBlock(stack)) {
-                    resolver.appendItemLayers(output, ModItems.COVER_BLOCK_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
-                } else {
-                    resolver.appendItemLayers(output, ModItems.COVER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
-                }
-            }
+            return;
         }
+
+        if(bucketItem.holdsBlock(stack)) {
+            resolver.appendItemLayers(output, ModItems.COVER_BLOCK_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
+            return;
+        }
+
+        // Else, liquid or milk
+        resolver.appendItemLayers(output, ModItems.COVER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
     }
 
     public record Unbaked() implements ItemModel.Unbaked {

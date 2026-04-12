@@ -28,6 +28,7 @@
     "item.simpleores.copper_bucket": "Copper Bucket",
     "item.simpleores.copper_bucket.entity" : "Copper Bucket of %s",
     "item.simpleores.copper_bucket.filled" : "Copper %s Bucket",
+    "item.simpleores.copper_bucket.milked" : "Copper %s",
     "item.simpleores.mythril_rod": "Mythril Rod",
     "item.simpleores.onyx_rod": "Onyx Rod",
 

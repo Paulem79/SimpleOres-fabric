@@ -11,6 +11,9 @@
     "buckets.FluidMixin",
     "buckets.ItemSettingsMixin",
     "buckets.BucketableMixin",
+    "buckets.AbstractCowMixin",
+    "buckets.BucketItemMixin",
+    "buckets.ItemMixin",
     "furnaces.AbstractFurnaceEntityMixin"
   ],
   "injectors": {

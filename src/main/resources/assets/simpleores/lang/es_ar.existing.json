@@ -7,6 +7,7 @@
     "item.simpleores.onyx_gem": "Onix",
     "item.simpleores.copper_bucket": "Balde de Cobre",
     "item.simpleores.copper_bucket.filled": "Balde de Cobre de %s",
+    "item.simpleores.copper_bucket.milked": "%s de Cobre",
     "item.simpleores.mythril_rod": "Caña de Mitrilo",
     "item.simpleores.onyx_rod": "Caña de Onix",
 

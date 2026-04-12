@@ -15,15 +15,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.config.Config;
-//? containsBucket && !hasBucketlib
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.material.Fluid;
 import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
+import net.paulem.simpleores.ingredients.ModIngredients;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.items.TabExcludedItem;
 import net.paulem.simpleores.migration.CopperDoorMigration;
@@ -39,7 +36,7 @@ import org.slf4j.LoggerFactory;
 //? hasCopperTools
 import net.paulem.simpleores.migration.CopperMigration;
 //? containsBucket && !hasBucketlib
-import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
+
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.BucketLibApi;
@@ -64,6 +61,7 @@ public class SimpleOres implements ModInitializer {
 		ModItems.init();
         ModFurnaces.init();
         ModFurnacesEntities.init();
+        ModIngredients.init();
 
 		// Register custom buckets
         //? hasBucketlib {

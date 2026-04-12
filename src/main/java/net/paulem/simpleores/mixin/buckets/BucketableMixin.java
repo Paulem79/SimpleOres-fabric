@@ -44,16 +44,16 @@ public interface BucketableMixin {
 
         Block block = bucketItem.getBlock(itemStack);
 
-        ItemStack vanillaBucket = pickupEntity.getBucketItemStack();
-        Item vanillaBucketItem = vanillaBucket.getItem();
-        if(!(vanillaBucketItem instanceof BucketItem vanilleBucket)) return;
+        ItemStack vanillaBucketStack = pickupEntity.getBucketItemStack();
+        Item vanillaBucketItem = vanillaBucketStack.getItem();
+        if(!(vanillaBucketItem instanceof BucketItem vanillaBucket)) return;
 
         Fluid fluid = block instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
 
-        if(fluid.isSame(vanilleBucket.getContent()) && pickupEntity.isAlive()) {
+        if(fluid.isSame(vanillaBucket.getContent()) && !bucketItem.holdsEntity(itemStack) && pickupEntity.isAlive()) {
             pickupEntity.playSound(pickupEntity.getPickupSound(), 1.0F, 1.0F);
 
-            ItemStack finalBucket = CustomBucketItem.mix(vanillaBucket, itemStack);
+            ItemStack finalBucket = CustomBucketItem.mix(vanillaBucketStack, itemStack);
 
             pickupEntity.saveToBucketTag(finalBucket);
             ItemStack result = ItemUtils.createFilledResult(itemStack, player, finalBucket, false);
