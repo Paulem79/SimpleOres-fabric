@@ -30,6 +30,11 @@ public class CopperEmptyBucketItemSpecialRenderer implements ItemModel {
 
     @Override
     public void update(@NonNull ItemStackRenderState output, @NonNull ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
+        if(stack.has(ModComponents.BUCKET_FISH_COMPONENT)) {
+            resolver.appendItemLayers(output, ModItems.COVER_LOWER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
+            return;
+        }
+
         Identifier blockIdentifier = stack.get(ModComponents.BUCKET_BLOCK_COMPONENT);
         Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
 

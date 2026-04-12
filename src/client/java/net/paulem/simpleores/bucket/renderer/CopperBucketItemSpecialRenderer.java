@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -35,13 +36,19 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
 
     @Override
     public void update(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
+        if(stack.has(ModComponents.BUCKET_FISH_COMPONENT)) {
+            updateForEntity(output, stack, resolver, displayContext, level, owner, seed);
+            return;
+        }
+
         Identifier blockIdentifier = stack.get(ModComponents.BUCKET_BLOCK_COMPONENT);
+
         if(blockIdentifier == null) return;
 
         Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
 
         if(block instanceof LiquidBlock liquidBlock) {
-            Fluid fluid = liquidBlock.fluid.defaultFluidState().getType();
+            Fluid fluid = liquidBlock.fluid;
 
             if(fluid == Fluids.EMPTY) {
                 resolver.appendItemLayers(output, stack, displayContext, level, owner, seed);
@@ -57,6 +64,13 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
 
             resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
         }
+    }
+
+    public void updateForEntity(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
+        Identifier entityBucketIdentifier = stack.get(ModComponents.BUCKET_FISH_COMPONENT);
+        Item vanillaEntityBucketItem = BuiltInRegistries.ITEM.getValue(entityBucketIdentifier);
+
+        resolver.appendItemLayers(output, vanillaEntityBucketItem.getDefaultInstance(), displayContext, level, owner, seed);
     }
 
     public record Unbaked() implements ItemModel.Unbaked {

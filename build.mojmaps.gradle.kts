@@ -8,7 +8,7 @@ buildscript {
 }
 
 plugins {
-	id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT"
+	id("net.fabricmc.fabric-loom-remap") version "1.16-SNAPSHOT"
 
 	`maven-publish`
 	id("me.shedaniel.unified-publishing") version "0.1.+"

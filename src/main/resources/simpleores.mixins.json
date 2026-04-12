@@ -10,6 +10,7 @@
     "accessor.WeightedPressurePlateBlockAccessor",
     "buckets.FluidMixin",
     "buckets.ItemSettingsMixin",
+    "buckets.BucketableMixin",
     "furnaces.AbstractFurnaceEntityMixin"
   ],
   "injectors": {

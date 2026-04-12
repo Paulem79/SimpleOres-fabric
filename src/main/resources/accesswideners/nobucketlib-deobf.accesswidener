@@ -13,3 +13,5 @@ accessible method net/minecraft/client/model/geom/ModelLayers createLocation (Lj
 accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemProperties (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ClientItem$Properties;
 accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemModel (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ItemModel;
 accessible method net/minecraft/world/level/block/Block codec ()Lcom/mojang/serialization/MapCodec;
+accessible method net/minecraft/world/item/MobBucketItem playEmptySound (Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V
+accessible method net/minecraft/world/item/MobBucketItem spawn (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/core/BlockPos;)V

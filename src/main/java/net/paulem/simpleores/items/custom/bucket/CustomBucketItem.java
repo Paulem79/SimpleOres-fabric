@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -22,6 +23,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -47,29 +49,38 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
-public class CustomBucketItem extends BucketItem implements CustomDispensibleContainerItem {
+public class CustomBucketItem extends MobBucketItem implements CustomDispensibleContainerItem {
     public CustomBucketItem(Properties settings) {
-        super(Fluids.EMPTY, settings.component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR)));
+        super(null, Fluids.EMPTY, null, settings
+                .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
+                //.component(DataComponents.MAX_STACK_SIZE, 16) // TODO: Fix bug with max stack size which duplicates bucket on picking up liquid/block when holding 16 empty buckets
+        );
 
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
-    public ItemStack getCorrespondingBucket(Block block) {
+    public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, Block block) {
         if(block == null || block == Blocks.AIR) return getEmpty();
 
         Identifier identifier = getBlockIdentifier(block);
 
-        ItemStack stack = getDefaultInstance();
+        ItemStack stack = itemStack != null ? itemStack : getDefaultInstance();
+
         stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, identifier);
+        if(stack.has(ModComponents.BUCKET_FISH_COMPONENT)) {
+            stack.remove(ModComponents.BUCKET_FISH_COMPONENT);
+        }
+
+        //stack.set(DataComponents.MAX_STACK_SIZE, 1);
 
         return stack;
     }
 
-    public ItemStack getCorrespondingBucket(Fluid modFluid) {
+    public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, Fluid modFluid) {
         if(modFluid == null || modFluid == Fluids.EMPTY) return getEmpty();
 
         Block block = modFluid.defaultFluidState().createLegacyBlock().getBlock();
-        return getCorrespondingBucket(block);
+        return getCorrespondingBucket(itemStack, block);
     }
 
     public ItemStack getEmpty() {
@@ -77,6 +88,7 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
 
         ItemStack stack = getDefaultInstance();
         stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, identifier);
+        //stack.set(DataComponents.MAX_STACK_SIZE, 16);
 
         return stack;
     }
@@ -113,7 +125,11 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
     }
 
     public boolean holdsBlock(ItemStack stack) {
-        return getBlock(stack) instanceof BucketPickup && !holdsFluid(stack);
+        return getBlock(stack) instanceof BucketPickup && !holdsFluid(stack) && !holdsEntity(stack);
+    }
+
+    public boolean holdsEntity(ItemStack stack) {
+        return stack.has(ModComponents.BUCKET_FISH_COMPONENT);
     }
 
     @Override
@@ -136,12 +152,27 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
         return fromIdentifier(stack.get(ModComponents.BUCKET_BLOCK_COMPONENT));
     }
 
+    /**
+     * @return The entity vanilla bucket item inside the bucket. Can be null if no entity is inside.
+     */
+    public Item getVanillaEntityBucket(ItemStack stack) {
+        return itemFromIdentifier(stack.get(ModComponents.BUCKET_FISH_COMPONENT));
+    }
+
     public static Block fromIdentifier(Identifier identifier) {
         return BuiltInRegistries.BLOCK.getValue(identifier);
     }
 
+    public static Item itemFromIdentifier(Identifier identifier) {
+        return BuiltInRegistries.ITEM.getValue(identifier);
+    }
+
     public static Identifier getBlockIdentifier(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
+    }
+
+    public static Identifier getItemIdentifier(Item item) {
+        return BuiltInRegistries.ITEM.getKey(item);
     }
 
     @Override
@@ -201,6 +232,7 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
         if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock) {
             ItemStack taken = mix(bucketPickupBlock.pickupBlock(player, level, pos, blockState), itemStack);
             taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
+            //taken.set(DataComponents.MAX_STACK_SIZE, 1);
 
             if (!taken.isEmpty()) {
                 if(player != null) {
@@ -239,17 +271,30 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
 
         Item vanillaBucketItem = vanillaBucketStack.getItem();
 
+        boolean exchangeWithCustomBucket = vanillaBucketItem instanceof CustomBucketItem;
+
         Block block = Blocks.AIR;
 
-        if(vanillaBucketItem instanceof BucketItem vanillaBucket) { // For liquid
-            Fluid fluid = vanillaBucket.getContent();
-            block = fluid.defaultFluidState().createLegacyBlock().getBlock();
-        } else if(vanillaBucketItem instanceof SolidBucketItem vanillaSolidBucket) { // For solid blocks, like powder snow
-            block = vanillaSolidBucket.getBlock();
+        switch (vanillaBucketItem) {
+            case MobBucketItem vanillaMobBucket when !exchangeWithCustomBucket -> {
+                result.set(ModComponents.BUCKET_FISH_COMPONENT, getItemIdentifier(vanillaMobBucket));
 
+                block = Blocks.WATER;
+            }
+
+            case SolidBucketItem vanillaSolidBucket -> block = vanillaSolidBucket.getBlock();
+
+            case BucketItem vanillaBucket -> {
+                Fluid fluid = vanillaBucket.getContent();
+                block = fluid.defaultFluidState().createLegacyBlock().getBlock();
+            }
+
+            default -> {
+            }
         }
 
         result.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(block));
+        //result.set(DataComponents.MAX_STACK_SIZE, block == Blocks.AIR ? 16 : 1);
         return result;
     }
 
@@ -259,6 +304,15 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
 
     @Override
     public void checkExtraContent(@Nullable final LivingEntity user, final Level level, final ItemStack itemStack, final BlockPos pos) {
+        if (level instanceof ServerLevel && holdsEntity(itemStack)) {
+            MobBucketItem mobBucketItem = (MobBucketItem) itemFromIdentifier(itemStack.get(ModComponents.BUCKET_FISH_COMPONENT));
+
+            mobBucketItem.spawn((ServerLevel)level, itemStack, pos);
+            level.gameEvent(user, GameEvent.ENTITY_PLACE, pos);
+
+            itemStack.remove(ModComponents.BUCKET_FISH_COMPONENT);
+            //itemStack.set(DataComponents.MAX_STACK_SIZE, 16);
+        }
     }
 
     @Override
@@ -328,8 +382,15 @@ public class CustomBucketItem extends BucketItem implements CustomDispensibleCon
         }
     }
 
-    protected void playEmptySound(@Nullable final LivingEntity user, final LevelAccessor level, final BlockPos pos) {
+    public void playEmptySound(@Nullable final LivingEntity user, final LevelAccessor level, final BlockPos pos) {
         ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
+
+        Item vanillaMobBucket = itemFromIdentifier(itemStack.get(ModComponents.BUCKET_FISH_COMPONENT));
+        if(holdsEntity(itemStack) && vanillaMobBucket instanceof MobBucketItem mobBucketItem) {
+            mobBucketItem.playEmptySound(user, level, pos);
+            return;
+        }
+
         Block blockContent = getBlock(itemStack);
         Fluid content = blockContent instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
 

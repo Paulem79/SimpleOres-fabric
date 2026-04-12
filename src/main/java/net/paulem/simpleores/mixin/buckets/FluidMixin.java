@@ -30,7 +30,8 @@ public abstract class FluidMixin {
         Item handItem = hand == null ? null : hand.getItem();
 
         if(handItem instanceof CustomBucketItem bucketItem) {
-            return bucketItem.getCorrespondingBucket(fluid);
+            System.out.println("CustomBucketItem");
+            return bucketItem.getCorrespondingBucket(hand, fluid);
         }
 
         return cir.getReturnValue();
