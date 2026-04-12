@@ -1,5 +1,11 @@
 package net.paulem.simpleores.items.custom.bucket;
 
+//? if hasBucketlib {
+/*
+public interface CustomDispensibleContainerItem {}
+ */
+//?} else {
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DispensibleContainerItem;
@@ -16,3 +22,4 @@ public interface CustomDispensibleContainerItem extends DispensibleContainerItem
         return emptyContents(user, level, pos, hitResult);
     }
 }
+//?}

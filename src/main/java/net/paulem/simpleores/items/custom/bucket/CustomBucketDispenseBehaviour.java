@@ -35,7 +35,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
             bucket.checkExtraContent(null, level, dispensed, target);
 
             return this.consumeWithRemainder(source, dispensed, bucket.getEmpty());
-        } else {
+        } else if(bucket.isEmpty(dispensed)) {
             // Pickup the contents, and return the new item with content inside
             InteractionResult interactionResult = bucket.pickup(level, null, target, dispensed);
             if(interactionResult instanceof InteractionResult.Success success) {
@@ -47,6 +47,8 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
 
             return this.defaultDispenseItemBehavior.dispense(source, dispensed);
         }
+
+        return this.defaultDispenseItemBehavior.dispense(source, dispensed);
     }
 }
 //?}

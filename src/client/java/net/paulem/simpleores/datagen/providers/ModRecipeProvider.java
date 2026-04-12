@@ -60,6 +60,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                          generator, RecipeOutput exporter) {
         scRecipe = new SCRecipe(this, generator, exporter);
 
+        //? if !hasBucketlib && containsBucket {
         // Recipe for milk bucket
         scRecipe.createShaped(RecipeCategory.FOOD, Blocks.CAKE)
                 .define('A', new MilkIngredient().toVanilla())
@@ -71,6 +72,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("CCC")
                 .unlockedBy("has_egg", scRecipe.has(ItemTags.EGGS))
                 .save(exporter);
+        //?}
 
         offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT);

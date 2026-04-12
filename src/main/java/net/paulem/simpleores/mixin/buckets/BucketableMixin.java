@@ -1,10 +1,20 @@
 package net.paulem.simpleores.mixin.buckets;
 
+//? if hasBucketlib || !containsBucket {
+/*
+import org.spongepowered.asm.mixin.Mixin;
+import net.minecraft.world.entity.animal.Bucketable;
+
+@Mixin(Bucketable.class)
+public interface BucketableMixin {}
+ */
+//?} else {
+
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity. //? afterDeobf && <26.2
+import net.minecraft.world.entity. //? <26.2
         //animal.
         Bucketable;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +26,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
+import net.paulem.simpleores.mixin.accessor.BucketItemAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -50,7 +61,7 @@ public interface BucketableMixin {
 
         Fluid fluid = block instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
 
-        if(fluid.isSame(vanillaBucket.getContent()) && !bucketItem.holdsEntity(itemStack) && pickupEntity.isAlive()) {
+        if(fluid.isSame(((BucketItemAccessor) vanillaBucket).getContent()) && !bucketItem.holdsEntity(itemStack) && pickupEntity.isAlive()) {
             pickupEntity.playSound(pickupEntity.getPickupSound(), 1.0F, 1.0F);
 
             ItemStack finalBucket = CustomBucketItem.mix(vanillaBucketStack, itemStack);
@@ -71,3 +82,4 @@ public interface BucketableMixin {
         }
     }
 }
+//?}

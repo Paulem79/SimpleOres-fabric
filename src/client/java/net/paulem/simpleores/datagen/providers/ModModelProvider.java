@@ -8,8 +8,6 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
 import net.paulem.simpleores.furnaces.ModFurnaces;
@@ -32,6 +30,8 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 import org.jspecify.annotations.NonNull;
 //? if 1.21.3
 /*import net.paulem.simpleores.armors.ModEquipmentClientModels;*/
+//? if <1.21.5
+//import net.minecraft.resources.ResourceLocation;
 
 //? hasBucketlib
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/

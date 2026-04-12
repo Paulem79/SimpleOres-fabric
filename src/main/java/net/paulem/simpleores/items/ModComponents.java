@@ -1,5 +1,9 @@
 package net.paulem.simpleores.items;
 
+//? <=1.20.4 {
+//public class ModComponents {}
+//?} else {
+
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,3 +34,4 @@ public class ModComponents {
         );
     }
 }
+//?}

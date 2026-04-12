@@ -1,5 +1,11 @@
 package net.paulem.simpleores.ingredients;
 
+//? if hasBucketlib {
+/*
+public class MilkIngredient {}
+ */
+//?} else {
+
 import com.mojang.serialization.Decoder;
 import com.mojang.serialization.Encoder;
 import com.mojang.serialization.MapCodec;
@@ -41,7 +47,12 @@ public class MilkIngredient implements CustomIngredient {
     }
 
     @Override
-    public Stream<Holder<Item>> items() {
+    public Stream<Holder<Item>> //? if afterDeobf {
+    items
+    //?} else {
+    // getMatchingItems
+    //?}
+            () {
         // Get all milk buckets for the custom buckets
         List<Item> items = new ArrayList<>(ModItems.registeredItems.entrySet()
                 .stream()
@@ -92,7 +103,12 @@ public class MilkIngredient implements CustomIngredient {
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, MilkIngredient> getStreamCodec() {
+        public StreamCodec<RegistryFriendlyByteBuf, MilkIngredient> //? if afterDeobf {
+        getStreamCodec
+        //?} else {
+        // getPacketCodec
+        //?}
+                () {
             return PACKET_CODEC;
         }
 
@@ -104,3 +120,4 @@ public class MilkIngredient implements CustomIngredient {
         }
     }
 }
+//?}

@@ -56,11 +56,13 @@ public class SimpleOres implements ModInitializer {
         configLoader.load();
         CONFIG = configLoader.getConfig();
 
+        //? >1.20.4
         ModComponents.init();
 		ModBlocks.init();
 		ModItems.init();
         ModFurnaces.init();
         ModFurnacesEntities.init();
+        //? !hasBucketlib
         ModIngredients.init();
 
 		// Register custom buckets

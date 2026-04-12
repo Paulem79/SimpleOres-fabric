@@ -22,7 +22,6 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -45,6 +44,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.paulem.simpleores.items.ModComponents;
+import net.paulem.simpleores.mixin.accessor.BucketItemAccessor;
+import net.paulem.simpleores.utils.LevelUtils;
 import org.jspecify.annotations.Nullable;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -94,7 +95,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         ItemStack stack = getDefaultInstance();
         stack.set(ModComponents.BUCKET_FISH_COMPONENT, getItemIdentifier(Items.MILK_BUCKET));
         stack.set(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET);
-        stack.set(DataComponents.USE_REMAINDER, new UseRemainder(ItemStackTemplate.fromNonEmptyStack(getEmpty())));
+        stack.set(DataComponents.USE_REMAINDER, new UseRemainder(//? afterDeobf
+                ItemStackTemplate.fromNonEmptyStack
+                        (getEmpty())));
         //stack.set(DataComponents.MAX_STACK_SIZE, 1);
 
         return stack;
@@ -274,9 +277,19 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     public InteractionResult pickup(@NonNull Level level, @Nullable Player player, BlockPos pos, ItemStack itemStack) {
+        Item item = itemStack.getItem();
+
+        if(!(item instanceof CustomBucketItem customBucketItem)) {
+            return InteractionResult.PASS;
+        }
+
+        if(customBucketItem.isMilkBucket(itemStack)) {
+            return InteractionResult.PASS;
+        }
+
         BlockState blockState = level.getBlockState(pos);
 
-        if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock) {
+        if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock && customBucketItem.isEmpty(itemStack)) {
             ItemStack taken = mix(bucketPickupBlock.pickupBlock(player, level, pos, blockState), itemStack);
             taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
             //taken.set(DataComponents.MAX_STACK_SIZE, 1);
@@ -307,7 +320,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                 return InteractionResult.SUCCESS.heldItemTransformedTo(result);
             }
         }
-        return null;
+
+        return InteractionResult.PASS;
     }
 
     /**
@@ -326,14 +340,14 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             case MobBucketItem vanillaMobBucket when !exchangeWithCustomBucket -> {
                 result.set(ModComponents.BUCKET_FISH_COMPONENT, getItemIdentifier(vanillaMobBucket));
 
-                Fluid fluid = vanillaMobBucket.getContent();
+                Fluid fluid = ((BucketItemAccessor) vanillaMobBucket).getContent();
                 block = fluid.defaultFluidState().createLegacyBlock().getBlock();
             }
 
             case SolidBucketItem vanillaSolidBucket -> block = vanillaSolidBucket.getBlock();
 
             case BucketItem vanillaBucket -> {
-                Fluid fluid = vanillaBucket.getContent();
+                Fluid fluid = ((BucketItemAccessor) vanillaBucket).getContent();
                 block = fluid.defaultFluidState().createLegacyBlock().getBlock();
             }
 
@@ -376,6 +390,10 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     public boolean emptyContents(@Nullable LivingEntity user, Level level, BlockPos pos, @Nullable BlockHitResult hitResult, ItemStack itemStack) {
         Block content = getBlock(itemStack);
 
+        if(isMilkBucket(itemStack)) {
+            return false;
+        }
+
         if (holdsFluid(itemStack) && content instanceof LiquidBlock liquidBlock) {
             Fluid fluid = liquidBlock.fluid;
             if(fluid instanceof FlowingFluid flowingFluid) {
@@ -405,7 +423,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         if (!canPlaceFluidInsideBlock) {
             return hitResult != null && this.emptyContents(user, level, hitResult.getBlockPos().relative(hitResult.getDirection()), null);
-        } else if (level.environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, pos) && flowingFluid.is(FluidTags.WATER)) {
+        } else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.is(FluidTags.WATER)) {
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();

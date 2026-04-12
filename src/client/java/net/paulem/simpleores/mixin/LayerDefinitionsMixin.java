@@ -1,5 +1,14 @@
 package net.paulem.simpleores.mixin;
 
+//? if hasBucketlib || !containsBucket {
+/*
+import net.minecraft.client.model.geom.LayerDefinitions;
+import org.spongepowered.asm.mixin.Mixin;
+
+@Mixin(LayerDefinitions.class)
+public class LayerDefinitionsMixin {}*/
+//?} else {
+
 import com.google.common.collect.ImmutableMap;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.model.geom.LayerDefinitions;
@@ -18,7 +27,14 @@ import java.util.Map;
 public class LayerDefinitionsMixin {
     // Mixin at bottom of method Lnet/minecraft/client/model/geom/LayerDefinitions;createRoots()Ljava/util/Map;
     @Inject(method = "createRoots", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"))
-    private static void onCreateRoots(CallbackInfoReturnable<Map<ModelLayerLocation, LayerDefinition>> info, @Local(name = "result") ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> result) {
+    private static void onCreateRoots(CallbackInfoReturnable<Map<ModelLayerLocation, LayerDefinition>> info,
+                                      @Local(name = //? if afterDeobf {
+                                              "result"
+                                              //?} else {
+                                              // "builder"
+                                              //?}
+                                      ) ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> result) {
         result.put(CopperBucketItemSpecialRenderer.COPPER_BUCKET_MODEL_LAYER, CopperBucketModel.createLayer());
     }
 }
+//?}

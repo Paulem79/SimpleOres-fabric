@@ -1,17 +1,28 @@
 package net.paulem.simpleores.mixin.buckets;
 
+//? if hasBucketlib || !containsBucket {
+/*
+import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.item.Item;
+
+@Mixin(value = Item.class)
+public abstract class ItemMixin {}
+ */
+//?} else {
+
+import net.minecraft.world.item.Item;
+//? if afterDeobf {
 import net.minecraft.world.item.ItemStackTemplate;
+//?} else {
+// import net.minecraft.world.item.ItemStack;
+//?}
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Debug(export = true)
-// This mixin should not be first in HEAD
-@Mixin(value = Item.class, priority = 1500)
+@Mixin(value = Item.class)
 public abstract class ItemMixin {
     @Inject(
             method = "getCraftingRemainder",
@@ -19,12 +30,23 @@ public abstract class ItemMixin {
             cancellable = true
     )
     public void use(
-            CallbackInfoReturnable<ItemStackTemplate> cir
+            CallbackInfoReturnable<//? if afterDeobf {
+                    ItemStackTemplate
+                    //?} else {
+                    // ItemStack
+                    //?}
+                    > cir
     ) {
         Item item = (Item) (Object) this;
 
         if (!(item instanceof CustomBucketItem customBucketItem)) return;
 
-        cir.setReturnValue(ItemStackTemplate.fromNonEmptyStack(customBucketItem.getEmpty()));
+        cir.setReturnValue(//? afterDeobf
+                ItemStackTemplate.fromNonEmptyStack(
+                        customBucketItem.getEmpty()
+                        //? afterDeobf
+                )
+        );
     }
 }
+//?}

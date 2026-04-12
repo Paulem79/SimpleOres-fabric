@@ -1,9 +1,11 @@
 package net.paulem.simpleores;
 
 import net.fabricmc.api.ClientModInitializer;
+//? if containsBucket && !hasBucketlib {
 import net.minecraft.client.renderer.item.ItemModels;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
+//?}
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipItem;
 

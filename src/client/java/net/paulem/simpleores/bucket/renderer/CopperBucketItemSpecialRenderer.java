@@ -1,5 +1,9 @@
 package net.paulem.simpleores.bucket.renderer;
 
+//? if hasBucketlib {
+//public class CopperBucketItemSpecialRenderer {}
+//?} else {
+
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -9,8 +13,11 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+//? if >1.21.8 {
 import net.minecraft.world.entity.ItemOwner;
+//?} else {
+//import net.minecraft.world.entity.LivingEntity;
+//?}
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +42,12 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
     }
 
     @Override
-    public void update(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
+    public void update(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, //? if >1.21.8 {
+                       @Nullable ItemOwner owner,
+                       //?} else {
+                       // LivingEntity owner,
+                       //?}
+                       int seed) {
         if(stack.has(ModComponents.BUCKET_FISH_COMPONENT)) {
             updateForEntity(output, stack, resolver, displayContext, level, owner, seed);
             return;
@@ -66,7 +78,12 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
         }
     }
 
-    public void updateForEntity(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner owner, int seed) {
+    public void updateForEntity(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, //? if >1.21.8 {
+                                @Nullable ItemOwner owner,
+                                //?} else {
+                                // LivingEntity owner,
+                                //?}
+                                int seed) {
         Identifier entityBucketIdentifier = stack.get(ModComponents.BUCKET_FISH_COMPONENT);
         Item vanillaEntityBucketItem = BuiltInRegistries.ITEM.getValue(entityBucketIdentifier);
 
@@ -82,7 +99,9 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
         }
 
         @Override
-        public @NonNull ItemModel bake(@NonNull BakingContext context, @NonNull Matrix4fc transformation) {
+        public @NonNull ItemModel bake(@NonNull BakingContext context //? afterDeobf
+                , @NonNull Matrix4fc transformation
+        ) {
             return CopperBucketItemSpecialRenderer.INSTANCE;
         }
 
@@ -91,3 +110,4 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
         }
     }
 }
+//?}
