@@ -15,15 +15,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.config.Config;
-//? containsBucket && !hasBucketlib
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.material.Fluid;
 import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
+import net.paulem.simpleores.ingredients.ModIngredients;
+import net.paulem.simpleores.items.ModComponents;
+import net.paulem.simpleores.items.TabExcludedItem;
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
@@ -37,7 +36,7 @@ import org.slf4j.LoggerFactory;
 //? hasCopperTools
 import net.paulem.simpleores.migration.CopperMigration;
 //? containsBucket && !hasBucketlib
-import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
+
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.BucketLibApi;
@@ -57,10 +56,14 @@ public class SimpleOres implements ModInitializer {
         configLoader.load();
         CONFIG = configLoader.getConfig();
 
+        //? >1.20.4
+        ModComponents.init();
 		ModBlocks.init();
 		ModItems.init();
         ModFurnaces.init();
         ModFurnacesEntities.init();
+        //? !hasBucketlib
+        ModIngredients.init();
 
 		// Register custom buckets
         //? hasBucketlib {
@@ -69,20 +72,7 @@ public class SimpleOres implements ModInitializer {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-        *///?} else if >1.19.4 {
-        RegistryEntryAddedCallback.allEntries(BuiltInRegistries.FLUID, fluidReference -> {
-            Identifier identifier = fluidReference.key() //$location
-                    .identifier(
-            );
-            Fluid modFluid = fluidReference.value();
-
-            ModItems.registeredItems.values().forEach(item -> {
-                if(item instanceof CustomParentBucketItem bucketItem) {
-                    bucketItem.registerFluid(identifier, modFluid);
-                }
-            });
-        });
-        //?}
+        *///?}
 
 
         //? hasCopperTools
@@ -109,6 +99,8 @@ public class SimpleOres implements ModInitializer {
                 content.accept(new ItemStack(blockItem.asItem()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
             for (Item item : ModItems.registeredItems.values()) {
+                if(item instanceof TabExcludedItem) continue;
+
                 content.accept(new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
 		});

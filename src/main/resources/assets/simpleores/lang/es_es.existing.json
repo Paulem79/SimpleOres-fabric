@@ -11,6 +11,7 @@
     "item.simpleores.onyx_gem": "Onyx",
     "item.simpleores.copper_bucket": "Cubo de cobre",
     "item.simpleores.copper_bucket.filled": "Cubo de cobre con %s",
+    "item.simpleores.copper_bucket.milked": "%s de cobre",
     "item.simpleores.mythril_rod": "Vara de mitrilo",
     "item.simpleores.onyx_rod": "Vara de onyx",
 

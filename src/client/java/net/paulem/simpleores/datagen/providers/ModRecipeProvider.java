@@ -11,14 +11,12 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
@@ -26,6 +24,7 @@ import net.paulem.simpleores.armors.MaterialRecipeContainer;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.furnaces.ModFurnaceBlock;
 import net.paulem.simpleores.furnaces.ModFurnaces;
+import net.paulem.simpleores.ingredients.MilkIngredient;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -35,14 +34,13 @@ import net.paulem.simpleores.tags.ModTags;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 //? if >1.20.1
 import net.minecraft.data.recipes.RecipeOutput;
 import net.paulem.simpleores.utils.MaterialUtils;
 import net.paulem.simpleores.utils.MapUtils;
-import org.jetbrains.annotations.Nullable;
+
 //? if <=1.20.1
 //import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 //? if >1.21
@@ -61,6 +59,20 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                  net.minecraft.data.recipes.RecipeProvider
                                          generator, RecipeOutput exporter) {
         scRecipe = new SCRecipe(this, generator, exporter);
+
+        //? if !hasBucketlib && containsBucket {
+        // Recipe for milk bucket
+        scRecipe.createShaped(RecipeCategory.FOOD, Blocks.CAKE)
+                .define('A', new MilkIngredient().toVanilla())
+                .define('B', Items.SUGAR)
+                .define('C', Items.WHEAT)
+                .define('E', ItemTags.EGGS)
+                .pattern("AAA")
+                .pattern("BEB")
+                .pattern("CCC")
+                .unlockedBy("has_egg", scRecipe.has(ItemTags.EGGS))
+                .save(exporter);
+        //?}
 
         offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT);
@@ -169,7 +181,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ));
 
         for (ModFurnaceBlock furnace : ModFurnaces.getFurnaces()) {
-            @Nullable //$ armorRegistry
+            //$ armorRegistry
             net.minecraft.world.item.equipment.ArmorMaterial
                     material = MapUtils.keys(ModFurnaces.FURNACES, furnace.getSpeedModifier())
                     .findFirst()
@@ -196,7 +208,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         for (Item item : ModItems.registeredItems.values()) {
             if(!(item instanceof AdvancedSpearItem spearItem)) continue;
             
-            @Nullable //$ armorRegistry
+            //$ armorRegistry
             net.minecraft.world.item.equipment.ArmorMaterial
                     material = MaterialUtils.toArmor(spearItem.getMaterial());
 

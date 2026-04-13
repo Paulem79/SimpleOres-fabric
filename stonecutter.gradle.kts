@@ -15,9 +15,7 @@ stonecutter parameters {
     val current = node.metadata
     val afterDeobf = eval(current.version, ">1.21.11")
 
-    // Calcul de containsBucket dynamique pour chaque version
-    // Utilisation de current.version (alias de node.version) pour l'évaluation
-    val containsBucket = eval(current.version, ">1.19.4")
+    val containsBucket = true
 
     constants.put("hasBucketlib", hasBucketlib)
 
@@ -36,7 +34,7 @@ stonecutter parameters {
     swaps["armorRegistry"] = when {
         eval(current.version, "<=1.20.4") -> "net.paulem.simpleores.armors.ModArmorMaterials"
         eval(current.version, "=1.21") -> "net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>"
-        else -> "net.minecraft.world.item.equipment.ArmorMaterial"
+        else -> "net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial"
     }
 
     swaps["tagOrIngredient"] = when {
@@ -52,7 +50,7 @@ stonecutter parameters {
 
     swaps["advancementEntry"] = when {
         eval(current.version, "<=1.20.1") -> "net.minecraft.advancements.Advancement"
-        else -> "net.minecraft.advancements.AdvancementHolder"
+        else -> "net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder"
     }
 
     swaps["location"] = when {
@@ -66,6 +64,21 @@ stonecutter parameters {
     }
 
     replacements {
+        string {
+            direction = afterDeobf
+            replace("org.jetbrains.annotations.NotNull", "org.jspecify.annotations.NonNull")
+        }
+
+        string {
+            direction = afterDeobf
+            replace("org.jetbrains.annotations.Nullable", "org.jspecify.annotations.Nullable")
+        }
+
+        string {
+            direction = afterDeobf
+            replace("@NotNull", "@NonNull")
+        }
+
         string {
             direction = afterDeobf
             replace("FluidRenderHandlerRegistry.INSTANCE.", "FluidRenderingRegistry.")
@@ -118,6 +131,12 @@ stonecutter parameters {
         }
 
         string {
+            direction = eval(current.version, ">1.21.10")
+            replace("RenderType", "RenderTypes")
+            replace("net.minecraft.client.renderer.RenderType", "net.minecraft.client.renderer.rendertype.RenderTypes")
+        }
+
+        string {
             direction = eval(current.version, "<=1.19.4")
             replace("MapColor", "MaterialColor")
         }
@@ -145,6 +164,7 @@ stonecutter parameters {
         string {
             direction = eval(current.version, ">1.21.10")
             replace("ResourceLocation", "Identifier")
+            replace("getIdentifier()", "getIdentifier()") // Don't replace it
         }
 
         string {

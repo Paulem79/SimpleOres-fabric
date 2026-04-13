@@ -1,8 +1,7 @@
 package net.paulem.simpleores.items;
 
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.items.custom.bucket.CustomParentBucketItem;
-import net.paulem.simpleores.items.custom.bucket.CustomChildrenBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.items.custom.MythrilBow;
@@ -15,7 +14,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
@@ -61,11 +59,24 @@ public class ModItems {
                             .milking(Suppliers.ofInstance(SimpleOres.CONFIG.enableCopperBucketMilking()))
             ));
     *///?} else containsBucket {
-    public static final CustomParentBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
-            new CustomParentBucketItem(key, "copper", Fluids.EMPTY, new Item.Properties().stacksTo(16),
-                    (bucketItem, name, fluid) ->
-                            register(name, innerSettings -> new CustomChildrenBucketItem(fluid, innerSettings.craftRemainder(bucketItem).stacksTo(1), bucketItem))
-            )
+    public static final CustomBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
+            new CustomBucketItem(new Item.Properties().stacksTo(1).setId(key))
+    );
+
+    public static final TabExcludedItem BASE_COPPER_BUCKET = registerByKey("copper_bucket_base", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
+    );
+
+    public static final TabExcludedItem COVER_LOWER_COPPER_BUCKET = registerByKey("copper_bucket_cover_lower", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
+    );
+
+    public static final TabExcludedItem COVER_COPPER_BUCKET = registerByKey("copper_bucket_cover", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
+    );
+
+    public static final TabExcludedItem COVER_BLOCK_COPPER_BUCKET = registerByKey("copper_bucket_cover_block", key ->
+            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
     );
     //?}
 
@@ -231,7 +242,7 @@ public class ModItems {
         return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
 
-    private static ResourceKey<Item> keyOf(String id) {
+    public static ResourceKey<Item> keyOf(String id) {
         return ResourceKey.create(BuiltInRegistries.ITEM.key(), SCId.of(SimpleOres.MOD_ID, id));
     }
 

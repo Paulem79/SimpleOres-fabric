@@ -6,6 +6,7 @@
  "item.simpleores.copper_bucket": "Seau en Cuivre",
  "item.simpleores.copper_bucket.entity" : "%s dans un Seau en Cuivre",
  "item.simpleores.copper_bucket.filled" : "Seau de %s en Cuivre",
+ "item.simpleores.copper_bucket.milked" : "%s en Cuivre",
  "item.simpleores.mythril_rod": "Bâton de Mythril",
  "item.simpleores.onyx_rod": "Bâton d'Onyx",
 
