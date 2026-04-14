@@ -9,7 +9,7 @@ public class AdvancedShearsItem extends ShearsItem {
     public AdvancedShearsItem(ToolMaterial material, Properties settings) {
         super(settings
                 .stacksTo(1)
-                //? if >1.20.4 && != 1.21 {
+                //? if >1.20.4 && (!= 1.20.6 && != 1.21) {
                 .durability(material.durability())
                 .repairable(material.repairItems())
                 .enchantable(material.enchantmentValue())

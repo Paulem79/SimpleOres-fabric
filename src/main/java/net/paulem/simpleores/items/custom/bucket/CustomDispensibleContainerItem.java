@@ -1,10 +1,10 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib {
-/*
-public interface CustomDispensibleContainerItem {}
- */
-//?} else {
+
+/*public interface CustomDispensibleContainerItem {}
+ 
+*///?} else {
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;

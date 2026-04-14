@@ -65,7 +65,7 @@ public enum ModToolMaterials implements ToolMaterial {
 	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools(), () -> Ingredient.of(ModTags.Items.Conventional.ADAMANTIUM_INGOTS)),
 	ONYX(SimpleOres.CONFIG.onyxTools(), () -> Ingredient.of(ModTags.Items.Conventional.ONYX_GEMS));
 
-	//? if 1.21 {
+	//? if 1.20.6 || 1.21 {
 	/^private final TagKey<Block> inverseTag;
 	^///?} else {
 	private final int miningLevel;
@@ -77,13 +77,13 @@ public enum ModToolMaterials implements ToolMaterial {
 	private final Supplier<Ingredient> repairIngredient;
 
 	ModToolMaterials(
-	//? if 1.21 {
+	//? if 1.20.6 || 1.21 {
 	/^TagKey<Block> inverseTag
 	^///?} else {
 	MiningLevels miningLevel
 	//?}
 	, int itemDurability, float miningSpeed, float attackDamage, int enchantability, Supplier<Ingredient> repairIngredient) {
-		//? if 1.21 {
+		//? if 1.20.6 || 1.21 {
 		/^this.inverseTag = inverseTag;
 		^///?} else {
 		this.miningLevel = miningLevel.getLevel();
@@ -96,7 +96,7 @@ public enum ModToolMaterials implements ToolMaterial {
 	}
 
 	ModToolMaterials(BaseSimpleOresConfig.ToolsProperties toolsProperties, Supplier<Ingredient> repairIngredient) {
-		//? if 1.21 {
+		//? if 1.20.6 || 1.21 {
 		/^this.inverseTag = switch (toolsProperties.miningLevel()){
 			case WOOD -> BlockTags.INCORRECT_FOR_WOODEN_TOOL;
 			case STONE -> BlockTags.INCORRECT_FOR_STONE_TOOL;
@@ -130,7 +130,7 @@ public enum ModToolMaterials implements ToolMaterial {
 		return this.attackDamage;
 	}
 
-	//? if 1.21 {
+	//? if 1.20.6 || 1.21 {
 	/^@Override
 	public TagKey<Block> getIncorrectBlocksForDrops() {
 		return this.inverseTag;

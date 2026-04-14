@@ -8,7 +8,7 @@ public class AdvancedShovelItem extends ShovelItem implements AdvancedToolItem {
         //? if >=1.21.5 {
         super(material, 1.5F, -3.0F,
                 settings.shovel(material, 1.5F, -3.0F));
-        //?} else if 1.21 {
+        //?} else if 1.20.6 || 1.21 {
         /*super(material, settings.attributes(ShovelItem.createAttributes(material, 1.5F, -3.0F)));
         *///?} else {
         /*super(material, 1.5F, -3.0F, settings);

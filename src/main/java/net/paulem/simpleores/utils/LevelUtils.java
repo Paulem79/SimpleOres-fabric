@@ -8,7 +8,7 @@ public class LevelUtils {
         return //? if >1.21.10 {
                 level.environmentAttributes().getValue(net.minecraft.world.attribute.EnvironmentAttributes.WATER_EVAPORATES, pos);
         //?} else {
-        // level.dimensionType().ultraWarm();
-        //?}
+         /*level.dimensionType().ultraWarm();
+        *///?}
     }
 }

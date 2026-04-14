@@ -18,7 +18,7 @@ public class AdvancedSwordItem extends
     public AdvancedSwordItem(ToolMaterial material, Properties settings) {
         /*? if >=1.21.5 {*/
         super(settings.sword(material, 3, -2.4F));
-        //?} else if 1.21 {
+        //?} else if 1.20.6 || 1.21 {
         /*super(material, settings.attributes(SwordItem.createAttributes(material, 3, -2.4F)));
         *///?} else {
         /*super(material, 3, -2.4F, settings);

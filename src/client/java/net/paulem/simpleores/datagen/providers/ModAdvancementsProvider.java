@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import net.paulem.simpleores.stonecutter.SCId;
 
 import java.util.concurrent.CompletableFuture;
@@ -33,10 +33,10 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
     public void generateAdvancement(//? if >1.20.4
             HolderLookup.Provider registryLookup,
                                     Consumer<//$ advancementEntry
-                                            net.minecraft.advancements.AdvancementHolder
+                                            net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
                                             > consumer) {
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
                 rootAdvancement = buildAdvancement(
                 null,
                 consumer,
@@ -61,7 +61,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
         neitherOrNeitherIron = buildAdvancement(
                 rootAdvancement,
                 consumer,
@@ -73,7 +73,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
         //? if !hasCopperTools {
             /*//$ advancementEntry
-            net.minecraft.advancements.AdvancementHolder
+            net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
              pickaxeCopper = buildAdvancement(
                     neitherOrNeitherIron,
                     consumer,
@@ -85,7 +85,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
         //? if containsBucket {
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
                 copperBucket = buildAdvancement(
                 neitherOrNeitherIron,
                 consumer,
@@ -96,7 +96,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         //?}
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          tinAdvancement = buildAdvancement(
                 neitherOrNeitherIron,
                 consumer,
@@ -107,7 +107,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          tinShearsAdvancement = buildAdvancement(
                 tinAdvancement,
                 consumer,
@@ -117,7 +117,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          mythrilAdvancement = buildAdvancement(
                 tinAdvancement,
                 consumer,
@@ -128,7 +128,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          tinChestplate = buildAdvancement(
                 tinAdvancement,
                 consumer,
@@ -138,7 +138,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          adamantiumAdvancement = buildAdvancement(
                 mythrilAdvancement,
                 consumer,
@@ -149,7 +149,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          bowMythril = buildAdvancement(
                 mythrilAdvancement,
                 consumer,
@@ -159,7 +159,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          axeMythril = buildAdvancement(
                 mythrilAdvancement,
                 consumer,
@@ -169,7 +169,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          shearsAdamantium = buildAdvancement(
                 adamantiumAdvancement,
                 consumer,
@@ -179,7 +179,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          leggingsAdamantium = buildAdvancement(
                 adamantiumAdvancement,
                 consumer,
@@ -189,7 +189,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          onyxAdvancement = buildAdvancement(
                 adamantiumAdvancement,
                 consumer,
@@ -200,7 +200,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          onyxBow = buildAdvancement(
                 onyxAdvancement,
                 consumer,
@@ -210,7 +210,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          onyxSword = buildAdvancement(
                 onyxAdvancement,
                 consumer,
@@ -222,11 +222,11 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
 
     public static //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          buildAdvancement(//$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          parent, Consumer<//$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
         > consumer, @Nullable Item requiredItem,
                                                     Component title,
                                                     Component description) {
@@ -234,11 +234,11 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
     }
 
     public static //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          buildAdvancement(//$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          parent, Consumer<//$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
         > consumer, ItemLike icon,
                                                     Component title,
                                                     Component description,
@@ -247,11 +247,11 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
     }
 
     public static //$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          buildAdvancement(//$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
          parent, Consumer<//$ advancementEntry
-        net.minecraft.advancements.AdvancementHolder
+        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
         > consumer, ItemLike icon,
                                                     Component title,
                                                     Component description,

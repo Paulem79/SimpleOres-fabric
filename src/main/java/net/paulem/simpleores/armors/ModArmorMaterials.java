@@ -18,11 +18,11 @@ import net.minecraft.util.Util;
 import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 *///?}
-//? if 1.21 {
+//? if 1.20.6 || 1.21 {
 /*import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
- */
-//?}
+ 
+*///?}
 //? if >1.21.3
 import net.minecraft.world.item.equipment.EquipmentAsset;
 //? if <=1.21.3
@@ -32,27 +32,27 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 public final class ModArmorMaterials
 {
     public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             COPPER;
     public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             TIN;
     public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             MYTHRIL;
     public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             ADAMANTIUM;
     public static final //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             ONYX;
 
     static {
         COPPER = //? if hasCopperTools {
                 ArmorMaterials.COPPER;
         //?} else {
-        // register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
-        //?}
+         /*register("copper", SimpleOres.CONFIG.copperArmorDurability(), SimpleOres.CONFIG.copperArmorProtection(), SoundEvents.ARMOR_EQUIP_CHAIN);
+        *///?}
 
         TIN = register("tin", SimpleOres.CONFIG.tinArmorDurability(),
                 SimpleOres.CONFIG.tinArmorProtection(),
@@ -66,7 +66,7 @@ public final class ModArmorMaterials
     }
 
     private static //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
     register(String name, int durabilityMultiplier, BaseSimpleOresConfig.ArmorProtection armorProtection, Holder<SoundEvent> equipSound) {
         return register(name, durabilityMultiplier, armorProtection.setProtectionAmount(), armorProtection.enchantability(), equipSound, armorProtection.thoughness(), armorProtection.knockbackProtection(), SCArmor.repairTagOrIngredient(name));
     }
@@ -79,7 +79,7 @@ public final class ModArmorMaterials
      * @return Registered armor material
      */
     private static //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
     register(String name, int durability, SCArmor.EnumProtection typeProtections, int enchantability, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance,
              //$ tagOrIngredient
              net.minecraft.tags.TagKey<net.minecraft.world.item.Item>
@@ -90,7 +90,7 @@ public final class ModArmorMaterials
 
         //? if >1.21.3 {
         return new ArmorMaterial(durability, typeProtections.convert(), enchantability, equipSound, toughness, knockbackResistance, repairIngredient, getAssetKey(name));
-        //?} else if 1.21 {
+        //?} else if 1.20.6 || 1.21 {
         
         /*List<ArmorMaterial.Layer> layers = List.of(new ArmorMaterial.Layer(loc));
 

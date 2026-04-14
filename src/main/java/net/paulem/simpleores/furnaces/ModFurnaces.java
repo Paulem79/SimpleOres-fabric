@@ -20,7 +20,7 @@ public class ModFurnaces {
     private static final List<ModFurnaceBlock> allFurnaces = new ArrayList<>();
 
     public static final ConcurrentFifoMap<//$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+            net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             , Double> FURNACES = new ConcurrentFifoMap<>();
 
     static {
@@ -33,7 +33,7 @@ public class ModFurnaces {
 
     public static void init() {
         for (Map.Entry<//$ armorRegistry
-                net.minecraft.world.item.equipment.ArmorMaterial
+                net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                 , Double> entry : FURNACES.entrySet()) {
             registerFurnace(entry.getKey(), entry.getValue());
         }
@@ -43,7 +43,7 @@ public class ModFurnaces {
         Map<String, String> translates = new HashMap<>();
 
         for (Map.Entry<//$ armorRegistry
-                net.minecraft.world.item.equipment.ArmorMaterial
+                net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                 , Double> entry : FURNACES.entrySet()) {
             String id = getFurnaceName(entry.getKey());
 
@@ -57,13 +57,13 @@ public class ModFurnaces {
     }
 
     public static String getFurnaceName(//$ armorRegistry
-                                        net.minecraft.world.item.equipment.ArmorMaterial
+                                        net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                                                 material) {
         return MaterialUtils.getName(material) + "_furnace";
     }
 
     private static void registerFurnace(//$ armorRegistry
-                                        net.minecraft.world.item.equipment.ArmorMaterial
+                                        net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             material, double speedModifier) {
         Pair<Float, Float> strength = MaterialUtils.getStrength(material);
         String name = getFurnaceName(material);

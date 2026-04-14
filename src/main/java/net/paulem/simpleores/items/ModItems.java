@@ -1,11 +1,10 @@
 package net.paulem.simpleores.items;
 
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.custom.advanced.*;
-import net.paulem.simpleores.items.custom.MythrilBow;
-import net.paulem.simpleores.items.custom.OnyxBow;
+import net.paulem.simpleores.items.custom.bows.MythrilBow;
+import net.paulem.simpleores.items.custom.bows.OnyxBow;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,10 +16,13 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
+//? !hasBucketlib && containsBucket
+ import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
+
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;
-import com.google.common.base.Suppliers;*/
-//?}
+import com.google.common.base.Suppliers;
+*///?}
 
 public class ModItems {
     public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();

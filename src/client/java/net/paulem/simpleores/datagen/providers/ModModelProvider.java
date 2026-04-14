@@ -31,10 +31,10 @@ import org.jspecify.annotations.NonNull;
 //? if 1.21.3
 /*import net.paulem.simpleores.armors.ModEquipmentClientModels;*/
 //? if <1.21.5
-//import net.minecraft.resources.ResourceLocation;
+//import net.minecraft.resources.Identifier;
 
 //? hasBucketlib
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
+//import de.cech12.bucketlib.api.item.UniversalBucketItem;
 
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 

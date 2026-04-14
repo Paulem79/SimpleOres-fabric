@@ -20,14 +20,14 @@ import net.paulem.simpleores.stonecutter.SCAccess;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipBlockItem;
 import net.paulem.simpleores.tooltip.TooltipBlock;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.LinkedHashMap;
 
 public class ModBlocks {
     public static final LinkedHashMap<Identifier, BlockItem> registeredBlockItems = new LinkedHashMap<>();
 
-    private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<@NotNull Block> key, BlockBehaviour.Properties settings) {
+    private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<@NonNull Block> key, BlockBehaviour.Properties settings) {
         return settings
                 //? if >1.21
                 .setId(key)
@@ -180,7 +180,7 @@ public class ModBlocks {
     //? if <1.21 {
     /*public static DoorBlock copper_door = registerBlock("copper_door", key ->
             makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
-                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion()/^Removed push reaction^/));
+                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)));
     *///?}
     public static DoorBlock tin_door = registerBlock("tin_door", key ->
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
@@ -240,10 +240,10 @@ public class ModBlocks {
                     SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                             .noCollision().strength(0.5F).sound(SoundType.STONE)), BlockSetType.STONE));
 
-    public static<T extends Block> T registerBlock(String name, Function<ResourceKey<@NotNull Block>, T> func) {
+    public static<T extends Block> T registerBlock(String name, Function<ResourceKey<@NonNull Block>, T> func) {
         Identifier identifier = SCId.of(SimpleOres.MOD_ID, name);
 
-        ResourceKey<@NotNull Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(), SCId.of(SimpleOres.MOD_ID, name));
+        ResourceKey<@NonNull Block> key = ResourceKey.create(BuiltInRegistries.BLOCK.key(), SCId.of(SimpleOres.MOD_ID, name));
         T block = func.apply(key);
         
         BlockItem blockItem = registerBlockItem(block, identifier);
@@ -252,7 +252,7 @@ public class ModBlocks {
     }
 
     public static<T extends Block> BlockItem registerBlockItem(T block, Identifier identifier) {
-        ResourceKey<@NotNull Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), identifier);
+        ResourceKey<@NonNull Item> key = ResourceKey.create(BuiltInRegistries.ITEM.key(), identifier);
 
         Item.Properties properties = new Item.Properties()
                 //? if >1.21

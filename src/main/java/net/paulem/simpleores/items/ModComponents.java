@@ -9,6 +9,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.paulem.simpleores.SimpleOres;
+import net.paulem.simpleores.stonecutter.SCId;
 
 public class ModComponents {
     public static DataComponentType<Identifier> BUCKET_BLOCK_COMPONENT;
@@ -19,7 +20,7 @@ public class ModComponents {
 
         BUCKET_BLOCK_COMPONENT = Registry.register(
                 BuiltInRegistries.DATA_COMPONENT_TYPE,
-                Identifier.fromNamespaceAndPath(SimpleOres.MOD_ID, "bucket_block"),
+                SCId.of("bucket_block"),
                 DataComponentType.<Identifier>builder()
                         .persistent(Identifier.CODEC)
                         .build()
@@ -27,7 +28,7 @@ public class ModComponents {
 
         BUCKET_FISH_COMPONENT = Registry.register(
                 BuiltInRegistries.DATA_COMPONENT_TYPE,
-                Identifier.fromNamespaceAndPath(SimpleOres.MOD_ID, "bucket_fish"),
+                SCId.of(SimpleOres.MOD_ID, "bucket_fish"),
                 DataComponentType.<Identifier>builder()
                         .persistent(Identifier.CODEC)
                         .build()

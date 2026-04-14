@@ -36,6 +36,6 @@ public interface Config {
 
     int copperBucketMeltTemperature();
 
-    int copperBucketFireTemperature();*/
-    //?}
+    int copperBucketFireTemperature();
+    *///?}
 }

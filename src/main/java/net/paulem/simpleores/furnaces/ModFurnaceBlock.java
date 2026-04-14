@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.paulem.simpleores.tooltip.TooltipBlock;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 //? if >1.20.1 {
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

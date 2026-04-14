@@ -18,7 +18,7 @@ public class AdvancedPickaxeItem extends
     public AdvancedPickaxeItem(ToolMaterial material, Properties settings) {
         //? if >=1.21.5 {
         super(settings.pickaxe(material, 1.0F, -2.8F));
-        //?} else if 1.21 {
+        //?} else if 1.20.6 || 1.21 {
         /*super(material, settings.attributes(PickaxeItem.createAttributes(material, 1.0F, -2.8F)));
         *///?} else if >1.20.4 {
         /*super(material, 1.0F, -2.8F, settings);

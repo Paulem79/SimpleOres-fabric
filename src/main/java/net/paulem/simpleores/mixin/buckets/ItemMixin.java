@@ -1,21 +1,21 @@
 package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
-/*
-import org.spongepowered.asm.mixin.Mixin;
+
+/*import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.item.Item;
 
 @Mixin(value = Item.class)
 public abstract class ItemMixin {}
- */
-//?} else {
+ 
+*///?} else {
 
 import net.minecraft.world.item.Item;
 //? if afterDeobf {
 import net.minecraft.world.item.ItemStackTemplate;
 //?} else {
-// import net.minecraft.world.item.ItemStack;
-//?}
+ /*import net.minecraft.world.item.ItemStack;
+*///?}
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,8 +33,8 @@ public abstract class ItemMixin {
             CallbackInfoReturnable<//? if afterDeobf {
                     ItemStackTemplate
                     //?} else {
-                    // ItemStack
-                    //?}
+                     /*ItemStack
+                    *///?}
                     > cir
     ) {
         Item item = (Item) (Object) this;

@@ -1,8 +1,8 @@
 package net.paulem.simpleores.bucket.renderer;
 
 //? if hasBucketlib {
-//public class CopperEmptyBucketItemSpecialRenderer {}
-//?} else {
+/*public class CopperEmptyBucketItemSpecialRenderer {}
+*///?} else {
 
 import com.mojang.serialization.MapCodec;
 
@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 //? if >1.21.8 {
 import net.minecraft.world.entity.ItemOwner;
 //?} else {
-//import net.minecraft.world.entity.LivingEntity;
-//?}
+/*import net.minecraft.world.entity.LivingEntity;
+*///?}
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -34,8 +34,8 @@ public class CopperEmptyBucketItemSpecialRenderer implements ItemModel {
     public void update(@NonNull ItemStackRenderState output, @NonNull ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, //? if >1.21.8 {
                        @Nullable ItemOwner owner,
                        //?} else {
-                       // LivingEntity owner,
-                       //?}
+                        /*LivingEntity owner,
+                       *///?}
                        int seed) {
         Item item = stack.getItem();
         if (!(item instanceof CustomBucketItem bucketItem)) return;

@@ -8,7 +8,7 @@ public class AdvancedAxeItem extends AxeItem implements AdvancedToolItem {
         //? if >=1.21.5 {
         super(material, attackDamage, attackSpeed,
                 settings.axe(material, attackDamage, attackSpeed));
-        //?} else if 1.21 {
+        //?} else if 1.20.6 || 1.21 {
         /*super(material, settings.attributes(AxeItem.createAttributes(material, attackDamage, attackSpeed)));
         *///?} else {
         /*super(material, attackDamage, attackSpeed, settings);

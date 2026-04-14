@@ -1,7 +1,7 @@
 package net.paulem.simpleores.datagen.providers.tags;
 
 //? hasBucketlib
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;*/
+//import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -185,8 +185,11 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         build(ItemTags.AXES, ModTags.Items.AXES);
 
         // ------------------- MELEE -------------------
-        //? if >1.20.4
+        //? if >1.20.6 {
         build(ConventionalItemTags.MELEE_WEAPON_TOOLS, ModTags.Items.SWORDS, ModTags.Items.AXES);
+        //?} else if >1.20.4 {
+        /*build(ConventionalItemTags.MELEE_WEAPONS_TOOLS, ModTags.Items.SWORDS, ModTags.Items.AXES);
+        *///?}
 
         // ------------------- SHOVELS -------------------
         build(ItemTags.SHOVELS, ModTags.Items.SHOVELS);
@@ -197,13 +200,18 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         // ------------------- PICKAXES -------------------
         build(ItemTags.PICKAXES, ModTags.Items.PICKAXES);
         build(ItemTags.CLUSTER_MAX_HARVESTABLES, ModTags.Items.PICKAXES);
-        //? if >1.20.4
+        //? if >1.20.6 {
         build(ConventionalItemTags.MINING_TOOL_TOOLS, ModTags.Items.PICKAXES);
+        //?} else if >1.20.4 {
+        /*build(ConventionalItemTags.MINING_TOOLS, ModTags.Items.SWORDS, ModTags.Items.AXES);
+        *///?}
 
         // ------------------- SHEARS -------------------
-        build(ConventionalItemTags. //? if >1.20.4 {
+        build(ConventionalItemTags. //? if >1.20.6 {
                 SHEAR_TOOLS
-                //?} else {
+                //?} else if >1.20.4 {
+                /*SHEARS_TOOLS
+                *///?} else {
                  /*SHEARS
                 *///?}
                 , ModTags.Items.SHEARS);
@@ -225,14 +233,19 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         build(ItemTags.DURABILITY_ENCHANTABLE, ModTags.Items.SHEARS, ModTags.Items.BOWS);
 
         // ------------------- BOWS -------------------
-        build(ConventionalItemTags. //? if >1.20.4 {
+        build(ConventionalItemTags. //? if >1.20.6 {
                         BOW_TOOLS
-                //?} else {
+                //?} else if >1.20.4 {
+                /*BOWS_TOOLS
+                *///?} else {
                  /*BOWS
                 *///?}
                 , ModTags.Items.BOWS);
-        //? if >1.20.4
+        //? if >1.20.6 {
         build(ConventionalItemTags.RANGED_WEAPON_TOOLS, ModTags.Items.BOWS);
+        //?} else if >1.20.4 {
+        /*build(ConventionalItemTags.RANGED_WEAPONS_TOOLS, ModTags.Items.BOWS);
+        *///?}
         //? if >1.20.4
         build(ItemTags.BOW_ENCHANTABLE, ModTags.Items.BOWS);
         //? if >1.21.3 {

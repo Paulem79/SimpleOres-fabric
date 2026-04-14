@@ -5,6 +5,8 @@ plugins {
 stonecutter active "26.2"
 
 stonecutter parameters {
+    filters.exclude("**/*.aw")
+
     // Calcul de hasBucketlib dynamique pour chaque sous-projet
     // On vérifie la propriété sur le projet spécifique à la version (node.project)
     val bucketLibProp = node.project.findProperty("deps.bucketlib")
@@ -33,6 +35,7 @@ stonecutter parameters {
 
     swaps["armorRegistry"] = when {
         eval(current.version, "<=1.20.4") -> "net.paulem.simpleores.armors.ModArmorMaterials"
+        eval(current.version, "=1.20.6") -> "net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>"
         eval(current.version, "=1.21") -> "net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>"
         else -> "net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial"
     }

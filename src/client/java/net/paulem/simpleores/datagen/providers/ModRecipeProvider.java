@@ -182,7 +182,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         for (ModFurnaceBlock furnace : ModFurnaces.getFurnaces()) {
             //$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+            net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                     material = MapUtils.keys(ModFurnaces.FURNACES, furnace.getSpeedModifier())
                     .findFirst()
                     .orElse(null);
@@ -209,7 +209,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             if(!(item instanceof AdvancedSpearItem spearItem)) continue;
             
             //$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+            net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                     material = MaterialUtils.toArmor(spearItem.getMaterial());
 
             String materialName = MaterialUtils.getName(material);

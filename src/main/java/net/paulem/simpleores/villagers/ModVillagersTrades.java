@@ -47,8 +47,8 @@ public class ModVillagersTrades {
                 VillagerProfession.ARMORER, 1, "copper_boots_emerald",
                 new ModTradeItem(Items.EMERALD, 2), new ModTradeItem(ModItems.COPPER_BOOTS),
                 12, 1, 0.2F
-        ));*/
-        //? }
+        ));
+        *///? }
 
         // ARMORER - level 2: ingots -> emerald
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(
@@ -157,8 +157,8 @@ public class ModVillagersTrades {
                 VillagerProfession.TOOLSMITH, 2, "copper_pickaxe_emerald",
                 new ModTradeItem(Items.EMERALD, 1), new ModTradeItem(ModItems.COPPER_PICKAXE),
                 12, 1, 0.2F
-        ));*/
-        //? }
+        ));
+        *///? }
 
         // tin tools
         TRADE_DEFINITIONS.add(INSTANCE.createDefinition(

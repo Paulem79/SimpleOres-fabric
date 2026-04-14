@@ -28,8 +28,8 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
         //? if >=1.21.3 {
         TRANSLATION_PREFIX = "item.simpleores.";
         //?} else {
-        //TRANSLATION_PREFIX = "block.simpleores.";
-        //?}
+        /*TRANSLATION_PREFIX = "block.simpleores.";
+        *///?}
     }
 
     public GlobalLangProvider(FabricPackOutput packOutput, String languageCode, CompletableFuture<HolderLookup.Provider> registryLookup) {

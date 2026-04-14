@@ -8,7 +8,7 @@ public class AdvancedHoeItem extends HoeItem implements AdvancedToolItem {
         //? if >=1.21.5 {
         super(material, attackDamage, attackSpeed,
                 settings.hoe(material, attackDamage, attackSpeed));
-        //?} else if 1.21 {
+        //?} else if 1.20.6 || 1.21 {
         /*super(material, settings.attributes(HoeItem.createAttributes(material, attackDamage, attackSpeed)));
         *///?} else if >1.20.4 {
         /*super(material, attackDamage, attackSpeed, settings);

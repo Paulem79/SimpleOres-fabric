@@ -1,13 +1,13 @@
 package net.paulem.simpleores.utils;
 
 import net.paulem.simpleores.armors.ModArmorMaterials;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
 public class TranslateUtils {
     private static final Map<//$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+            net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             , Map<String, String>> MATERIAL_NAMES = Map.of(
             ModArmorMaterials.COPPER, Map.of(
                     "en_us", "Copper",
@@ -32,7 +32,7 @@ public class TranslateUtils {
     );
 
     public static String getTranslatedName(//$ armorRegistry
-                                    net.minecraft.world.item.equipment.ArmorMaterial
+                                    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
             material, String locale) {
         @Nullable String translatedName = MATERIAL_NAMES.get(material).get(locale);
 

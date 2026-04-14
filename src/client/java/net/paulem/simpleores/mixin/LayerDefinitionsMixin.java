@@ -1,13 +1,13 @@
 package net.paulem.simpleores.mixin;
 
 //? if hasBucketlib || !containsBucket {
-/*
-import net.minecraft.client.model.geom.LayerDefinitions;
+
+/*import net.minecraft.client.model.geom.LayerDefinitions;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(LayerDefinitions.class)
-public class LayerDefinitionsMixin {}*/
-//?} else {
+public class LayerDefinitionsMixin {}
+*///?} else {
 
 import com.google.common.collect.ImmutableMap;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -31,8 +31,8 @@ public class LayerDefinitionsMixin {
                                       @Local(name = //? if afterDeobf {
                                               "result"
                                               //?} else {
-                                              // "builder"
-                                              //?}
+                                               /*"builder"
+                                              *///?}
                                       ) ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> result) {
         result.put(CopperBucketItemSpecialRenderer.COPPER_BUCKET_MODEL_LAYER, CopperBucketModel.createLayer());
     }

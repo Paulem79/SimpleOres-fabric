@@ -20,9 +20,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
+//? !hasBucketlib
 import net.paulem.simpleores.ingredients.ModIngredients;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.items.TabExcludedItem;
+//? >1.21
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.world.ModWorldGeneration;
@@ -35,8 +37,6 @@ import org.slf4j.LoggerFactory;
 
 //? hasCopperTools
 import net.paulem.simpleores.migration.CopperMigration;
-//? containsBucket && !hasBucketlib
-
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.BucketLibApi;

@@ -93,7 +93,7 @@ public class SCArmor {
         ONYX(ModArmorMaterials.ONYX);
 
         private final
-        //? if 1.21 {
+        //? if 1.20.6 || 1.21 {
         /*Holder<ArmorMaterial>
         *///?} else if >1.20.4 {
         ArmorMaterial
@@ -103,7 +103,7 @@ public class SCArmor {
                 material;
 
         SOArmorMaterial(
-                //? if 1.21 {
+                //? if 1.20.6 || 1.21 {
                 /*Holder<ArmorMaterial>
                 *///?} else if >1.20.4 {
                 ArmorMaterial
@@ -115,7 +115,7 @@ public class SCArmor {
         }
 
         public
-            //? if 1.21 {
+            //? if 1.20.6 || 1.21 {
             /*Holder<ArmorMaterial>
             *///?} else if >1.20.4 {
         ArmorMaterial

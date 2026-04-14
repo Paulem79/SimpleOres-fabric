@@ -1,14 +1,14 @@
 package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
-/*
-import org.spongepowered.asm.mixin.Mixin;
+
+/*import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.entity.animal.Bucketable;
 
 @Mixin(Bucketable.class)
 public interface BucketableMixin {}
- */
-//?} else {
+ 
+*///?} else {
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;

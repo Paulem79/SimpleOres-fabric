@@ -8,13 +8,13 @@ import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.items.ModItems;
 import net.paulem.simpleores.items.ModToolMaterials;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class MaterialUtils {
     private MaterialUtils(){}
 
     public static Pair<Float, Float> getStrength(//$ armorRegistry
-            net.minecraft.world.item.equipment.ArmorMaterial
+            net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                                                  material
     ) {
         if(material == ModArmorMaterials.TIN) {
@@ -32,7 +32,7 @@ public class MaterialUtils {
 
     @Nullable
     public static String getName(//$ armorRegistry
-                                 net.minecraft.world.item.equipment.ArmorMaterial
+                                 net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
                                          material
     ) {
         if(material == ModArmorMaterials.COPPER) {
@@ -64,7 +64,7 @@ public class MaterialUtils {
     
 
     public static //$ armorRegistry
-    net.minecraft.world.item.equipment.ArmorMaterial
+    net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
     toArmor(ToolMaterial material) {
         if(material == ModToolMaterials.TIN) {
             return ModArmorMaterials.TIN;

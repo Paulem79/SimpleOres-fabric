@@ -1,8 +1,8 @@
 package net.paulem.simpleores.bucket.renderer;
 
 //? if hasBucketlib {
-//public class CopperBucketModel {}
-//?} else {
+/*public class CopperBucketModel {}
+*///?} else {
 
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
@@ -22,8 +22,8 @@ public class CopperBucketModel extends Model //? >1.21.8
         super(root, RenderTypes:: //? if afterDeobf {
                 itemCutout
                 //?} else {
-                // itemEntityTranslucentCull
-                //?}
+                 /*itemEntityTranslucentCull
+                *///?}
         );
     }
 

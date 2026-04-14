@@ -31,8 +31,8 @@ public class AbstractFurnaceEntityMixin extends BlockEntity {
             method = "getTotalCookTime",
             at = @At("RETURN"), cancellable = true)
     private static void modifyCookTime(//? if <=1.21 {
-                                       //Level
-                                       //?} else {
+                                       /*Level
+                                       *///?} else {
                                        ServerLevel
                                                //?}
                                                level, AbstractFurnaceBlockEntity entity, CallbackInfoReturnable<Integer> cir) {
@@ -72,8 +72,8 @@ public class AbstractFurnaceEntityMixin extends BlockEntity {
                     shift = At.Shift.AFTER)
     )
     private static void modifyCookTime(//? if <=1.21 {
-                                       //Level
-                                       //?} else {
+                                       /^Level
+                                       ^///?} else {
                                        ServerLevel
                                                    //?}
             level, BlockPos pos, BlockState state, AbstractFurnaceBlockEntity entity, CallbackInfo ci) {

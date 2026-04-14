@@ -14,11 +14,9 @@ import net.paulem.simpleores.tooltip.TooltipItem;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 *///?} else !afterDeobf {
 /*import net.fabricmc.fabric.api.blockrenderlayer.v1.ChunkSectionLayerMap;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 *///?}
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-//? if containsBucket && !hasBucketlib
-
 
 //? !afterDeobf {
 /*import net.paulem.simpleores.blocks.ModBlocks;
@@ -41,7 +39,7 @@ public class SimpleOresClient implements ClientModInitializer {
 				//? if >=1.21.6 {
 				ChunkSectionLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
 				//?} else {
-				/^ChunkSectionLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
+				/^ChunkSectionLayerMap.INSTANCE.putBlock(block, RenderTypes.cutout());
 				^///?}
 			}
 		});

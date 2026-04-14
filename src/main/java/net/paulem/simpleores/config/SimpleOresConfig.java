@@ -99,8 +99,8 @@ public class SimpleOresConfig extends MidnightConfig implements Config {
     //? if hasBucketlib {
     /*@Entry(category = COPPER_BUCKET) public static boolean enableCopperBucketMilking = new BaseSimpleOresConfig().enableCopperBucketMilking;
     @Entry(category = COPPER_BUCKET) public static int copperBucketMeltTemperature = new BaseSimpleOresConfig().copperBucketMeltTemperature;
-    @Entry(category = COPPER_BUCKET) public static int copperBucketFireTemperature = new BaseSimpleOresConfig().copperBucketFireTemperature;*/
-    //?}
+    @Entry(category = COPPER_BUCKET) public static int copperBucketFireTemperature = new BaseSimpleOresConfig().copperBucketFireTemperature;
+    *///?}
 
     @Override
     public int copperArmorDurability() { return copperArmorDurability; }
@@ -176,8 +176,8 @@ public class SimpleOresConfig extends MidnightConfig implements Config {
     @Override
     public int copperBucketMeltTemperature() { return copperBucketMeltTemperature; }
     @Override
-    public int copperBucketFireTemperature() { return copperBucketFireTemperature; }*/
-    //?}
+    public int copperBucketFireTemperature() { return copperBucketFireTemperature; }
+    *///?}
 }
 //? } else {
   /*public class SimpleOresConfig {}

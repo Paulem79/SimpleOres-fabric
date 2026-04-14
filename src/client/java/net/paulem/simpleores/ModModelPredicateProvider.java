@@ -18,7 +18,7 @@ public class ModModelPredicateProvider {
             if (entity == null) {
                 return 0.0F;
             } else {
-                return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration(//? if >1.20.4
+                return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration(//? if >1.20.6
                         entity
                 ) - entity.getUseItemRemainingTicks()) / 20.0F;
             }

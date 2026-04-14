@@ -1,18 +1,7 @@
 accessWidener v2 official
 
 accessible field net/minecraft/world/level/block/LiquidBlock fluid Lnet/minecraft/world/level/material/FlowingFluid;
-accessible field net/minecraft/world/item/Item$Properties componentInitializer Lnet/minecraft/core/component/DataComponentInitializers$Initializer;
-accessible field net/minecraft/client/renderer/texture/SpriteContents byMipLevel [Lcom/mojang/blaze3d/platform/NativeImage;
-accessible field net/minecraft/client/renderer/texture/SpriteContents animatedTexture Lnet/minecraft/client/renderer/texture/SpriteContents$AnimatedTexture;
 accessible field net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity cookingTotalTime I
-accessible class net/minecraft/client/renderer/texture/SpriteContents$AnimatedTexture
-accessible method net/minecraft/client/renderer/texture/SpriteContents$AnimatedTexture getFrameX (I)I
-accessible method net/minecraft/client/renderer/texture/SpriteContents$AnimatedTexture getFrameY (I)I
-accessible method net/minecraft/client/data/models/ItemModelGenerators generateLayeredItem (Lnet/minecraft/world/item/Item;Lnet/minecraft/client/resources/model/sprite/Material;Lnet/minecraft/client/resources/model/sprite/Material;)Lnet/minecraft/resources/Identifier;
-accessible method net/minecraft/client/model/geom/ModelLayers createLocation (Ljava/lang/String;Ljava/lang/String;)Lnet/minecraft/client/model/geom/ModelLayerLocation;
-accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemProperties (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ClientItem$Properties;
-accessible method net/minecraft/client/renderer/item/ItemModelResolver getItemModel (Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/item/ItemModel;
-accessible method net/minecraft/world/level/block/Block codec ()Lcom/mojang/serialization/MapCodec;
 accessible method net/minecraft/world/item/MobBucketItem playEmptySound (Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)V
 accessible method net/minecraft/world/item/MobBucketItem spawn (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/core/BlockPos;)V
 accessible field net/minecraft/world/item/MobBucketItem type Lnet/minecraft/world/entity/EntityType;

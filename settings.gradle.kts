@@ -23,6 +23,7 @@ stonecutter {
 		match("1.19.4", "mojmaps")
 		match("1.20.1", "mojmaps")
 		match("1.20.4", "mojmaps")
+		match("1.20.6", "mojmaps")
 		match("1.21", "mojmaps")
 		match("1.21.3", "mojmaps")
 		match("1.21.5", "mojmaps")
