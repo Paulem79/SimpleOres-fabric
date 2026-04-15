@@ -5,7 +5,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+//? if >26.1 {
 import net.minecraft.data.tags.TagsProvider;
+//?} else {
+//import net.minecraft.data.tags.KeyTagProvider;
+//?}
+//TODO : fix this idiot
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
@@ -17,7 +22,12 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModVillagersTradesTagProvider extends TagsProvider<VillagerTrade> {
+public class ModVillagersTradesTagProvider extends //? if >26.1 {
+        TagsProvider
+                //?} else {
+                //KeyTagProvider
+                //?}
+        <VillagerTrade> {
 
     public ModVillagersTradesTagProvider(final PackOutput output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.VILLAGER_TRADE, lookupProvider);
