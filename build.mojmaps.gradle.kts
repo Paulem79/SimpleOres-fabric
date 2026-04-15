@@ -76,7 +76,7 @@ tasks.processResources {
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
 	val bucketlibExpansion = "\", \"bucketlib\": \"*"
-	val clientMixinExpansion = "\", \"simpleores_client.mixins.json";
+	val clientMixinExpansion = ""//"\", \"simpleores_client.mixins.json";
 
 	// Check has property version_range
 	val versionRange = if(project.hasProperty("version_range")) {

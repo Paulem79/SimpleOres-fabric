@@ -3,7 +3,6 @@
   "package": "net.paulem.simpleores.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "LayerDefinitionsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

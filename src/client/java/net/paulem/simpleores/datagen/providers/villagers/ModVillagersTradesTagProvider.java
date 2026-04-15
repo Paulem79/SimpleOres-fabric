@@ -5,7 +5,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.KeyTagProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
@@ -17,9 +17,9 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModVillagersTradesTagsProvider extends KeyTagProvider<VillagerTrade> {
+public class ModVillagersTradesTagProvider extends TagsProvider<VillagerTrade> {
 
-    public ModVillagersTradesTagsProvider(final PackOutput output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    public ModVillagersTradesTagProvider(final PackOutput output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.VILLAGER_TRADE, lookupProvider);
     }
 
@@ -49,5 +49,5 @@ public class ModVillagersTradesTagsProvider extends KeyTagProvider<VillagerTrade
 
 }
 //? } else {
-/*public class ModVillagersTradesTagsProvider {}
+/*public class ModVillagersTradesTagProvider {}
 *///? }

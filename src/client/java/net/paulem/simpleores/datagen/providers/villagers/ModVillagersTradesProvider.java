@@ -39,7 +39,7 @@ public class ModVillagersTradesProvider {
 
     public static @NonNull Holder<VillagerTrade> registerFromTradeDefinition(final BootstrapContext<VillagerTrade> context, final TradeDefinition tradeDefinition) {
         ResourceKey<VillagerTrade> key = resourceKey(
-                ModVillagersTradesTagsProvider.getProfessionName(tradeDefinition.profession()) + "/" +
+                ModVillagersTradesTagProvider.getProfessionName(tradeDefinition.profession()) + "/" +
                         tradeDefinition.level() + "/" +
                         tradeDefinition.tradeName()
         );
@@ -48,7 +48,7 @@ public class ModVillagersTradesProvider {
     }
 
     public static ResourceKey<VillagerTrade> createKey(VillagerProfession profession, int level, String name) {
-        String professionName = ModVillagersTradesTagsProvider.getProfessionName(profession);
+        String professionName = ModVillagersTradesTagProvider.getProfessionName(profession);
         return resourceKey(professionName + "/" + level + "/" + name);
     }
 

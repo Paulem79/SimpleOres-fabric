@@ -55,6 +55,12 @@ public class CopperEmptyBucketItemSpecialRenderer implements ItemModel {
             return;
         }
 
+        // If liquid, check if it's melting
+        if(bucketItem.holdsFluid(stack) && bucketItem.shouldMelt(stack)) {
+            resolver.appendItemLayers(output, ModItems.COVER_MELTING_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
+            return;
+        }
+
         // Else, liquid or milk
         resolver.appendItemLayers(output, ModItems.COVER_COPPER_BUCKET.getDefaultInstance(), displayContext, level, owner, seed);
     }

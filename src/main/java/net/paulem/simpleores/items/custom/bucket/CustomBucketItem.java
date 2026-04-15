@@ -6,9 +6,10 @@ package net.paulem.simpleores.items.custom.bucket;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.Identifier;
@@ -23,6 +24,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -54,11 +56,58 @@ import org.jspecify.annotations.NonNull;
 
 // TODO: Fix glitched behaviour in creative mode with buckets when picking up entity
 public class CustomBucketItem extends MobBucketItem implements CustomDispensibleContainerItem {
-    public CustomBucketItem(Properties settings) {
+    private final Properties properties;
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public static class Properties extends Item.Properties {
+        private boolean enabledMilking;
+        private int meltTemperature;
+        private int fireTemperature;
+
+        public Properties() {
+            this.enabledMilking = true;
+            this.meltTemperature = 1000;
+            this.fireTemperature = 1300;
+        }
+
+        public Properties milkingEnabled(boolean enabledMilking) {
+            this.enabledMilking = enabledMilking;
+            return this;
+        }
+
+        public Properties meltTemperature(int meltTemperature) {
+            this.meltTemperature = meltTemperature;
+            return this;
+        }
+
+        public Properties fireTemperature(int fireTemperature) {
+            this.fireTemperature = fireTemperature;
+            return this;
+        }
+
+        public boolean isMilkingEnabled() {
+            return enabledMilking;
+        }
+
+        public int getMeltTemperature() {
+            return meltTemperature;
+        }
+
+        public int getFireTemperature() {
+            return fireTemperature;
+        }
+    }
+
+    public CustomBucketItem(Item.Properties settings) {
         super(null, Fluids.EMPTY, SoundEvents.EMPTY, settings
                         .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
                         //.component(DataComponents.MAX_STACK_SIZE, 16) // TODO: Fix bug with max stack size which duplicates bucket on picking up liquid/block when holding 16 empty buckets
         );
+
+        this.properties = (Properties) settings;
 
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
@@ -257,7 +306,25 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                     }
 
                     player.awardStat(Stats.ITEM_USED.get(this));
-                    ItemStack emptyResult = ItemUtils.createFilledResult(itemStack, player, getEmptySuccessItem(player, itemStack));
+
+                    boolean shouldMelt = shouldMelt(itemStack);
+                    if(shouldMelt && !player.hasInfiniteMaterials()) {
+                        if(!level.isClientSide()) {
+                            // As equipment slot for compat in 1.21.5
+                            EquipmentSlot slot = //? if >=1.21.9 {
+                                    hand.asEquipmentSlot();
+                            //?} else {
+                            //hand == InteractionHand.OFF_HAND ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
+                            //?}
+                            player.onEquippedItemBroken(itemStack.getItem(), slot);
+                            return InteractionResult.SUCCESS.heldItemTransformedTo(ItemStack.EMPTY);
+                        } else {
+                            return InteractionResult.SUCCESS;
+                        }
+                    }
+
+                    ItemStack emptyResult = ItemUtils.createFilledResult(itemStack, player, getEmptySuccessItem(player, itemStack, shouldMelt));
+
                     return InteractionResult.SUCCESS.heldItemTransformedTo(emptyResult);
                 } else {
                     // FOR PICKUP
@@ -274,6 +341,19 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                 return InteractionResult.FAIL;
             }
         }
+    }
+
+    public boolean shouldMelt(ItemStack itemStack) {
+        return getFluidTemperature(itemStack) >= properties.getMeltTemperature();
+    }
+
+    public int getFluidTemperature(ItemStack itemStack) {
+        if(holdsFluid(itemStack)) {
+            Fluid fluid = ((LiquidBlock) getBlock(itemStack)).fluid;
+            return FluidVariantAttributes.getTemperature(FluidVariant.of(fluid));
+        }
+
+        return 0;
     }
 
     public InteractionResult pickup(@NonNull Level level, @Nullable Player player, BlockPos pos, ItemStack itemStack) {
@@ -360,8 +440,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return result;
     }
 
-    public @NonNull ItemStack getEmptySuccessItem(final Player player, final ItemStack itemStack) {
-        return !player.hasInfiniteMaterials() ? getEmpty() : itemStack;
+    public @NonNull ItemStack getEmptySuccessItem(final Player player, final ItemStack itemStack, boolean shouldBreak) {
+        return !player.hasInfiniteMaterials() ? (shouldBreak ? ItemStack.EMPTY : getEmpty()) : itemStack;
     }
 
     @Override
@@ -478,7 +558,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         InteractionResult placeResult = this.place(new BlockPlaceContext(context));
         Player player = context.getPlayer();
         if (placeResult.consumesAction() && player != null) {
-            player.setItemInHand(context.getHand(), getEmptySuccessItem(player, context.getItemInHand()));
+            //TODO: Check for shouldBreak ?
+            player.setItemInHand(context.getHand(), getEmptySuccessItem(player, context.getItemInHand(), false));
         }
 
         return placeResult;

@@ -96,11 +96,11 @@ public class SimpleOresConfig extends MidnightConfig implements Config {
 
     @Entry(category = VILLAGERS) public static boolean enableTrades = new BaseSimpleOresConfig().enableTrades;
 
-    //? if hasBucketlib {
-    /*@Entry(category = COPPER_BUCKET) public static boolean enableCopperBucketMilking = new BaseSimpleOresConfig().enableCopperBucketMilking;
+    //? if containsBucket {
+    @Entry(category = COPPER_BUCKET) public static boolean enableCopperBucketMilking = new BaseSimpleOresConfig().enableCopperBucketMilking;
     @Entry(category = COPPER_BUCKET) public static int copperBucketMeltTemperature = new BaseSimpleOresConfig().copperBucketMeltTemperature;
     @Entry(category = COPPER_BUCKET) public static int copperBucketFireTemperature = new BaseSimpleOresConfig().copperBucketFireTemperature;
-    *///?}
+    //?}
 
     @Override
     public int copperArmorDurability() { return copperArmorDurability; }
@@ -170,14 +170,14 @@ public class SimpleOresConfig extends MidnightConfig implements Config {
     @Override
     public boolean enableTrades() { return enableTrades; }
 
-    //? if hasBucketlib {
-    /*@Override
+    //? if containsBucket {
+    @Override
     public boolean enableCopperBucketMilking() { return enableCopperBucketMilking; }
     @Override
     public int copperBucketMeltTemperature() { return copperBucketMeltTemperature; }
     @Override
     public int copperBucketFireTemperature() { return copperBucketFireTemperature; }
-    *///?}
+    //?}
 }
 //? } else {
   /*public class SimpleOresConfig {}

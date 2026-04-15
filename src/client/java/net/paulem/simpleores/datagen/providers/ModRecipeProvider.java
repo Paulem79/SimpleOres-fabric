@@ -1,7 +1,7 @@
 package net.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -42,7 +42,7 @@ import net.paulem.simpleores.utils.MaterialUtils;
 import net.paulem.simpleores.utils.MapUtils;
 
 //? if <=1.20.1
-//import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+//import net.minecraft.advancements.triggers.InventoryChangeTrigger;
 //? if >1.21
 import static net.minecraft.data.recipes.RecipeProvider.*;
 
@@ -122,7 +122,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 //?}
                 ModItems.COPPER_SHEARS,
                 ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK //? if >=26.2
-                .unaffected()
+                        .weathering().unaffected()
                 , Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
                 null,
                 //? !hasCopperTools {

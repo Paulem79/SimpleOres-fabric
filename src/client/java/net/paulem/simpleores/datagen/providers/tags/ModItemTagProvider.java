@@ -9,6 +9,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 //? if >=1.21.6
 import net.minecraft.data.tags.TagAppender;
+//? if >26.1
+import net.minecraft.tags.BlockItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
@@ -287,11 +289,26 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
             }
 
             if(block instanceof DoorBlock)
-                build(ItemTags.DOORS, blockItem);
+                build(//? if >26.1 {
+                        BlockItemTags.DOORS.item()
+                        //?} else {
+                        //ItemTags.DOORS
+                        //?}
+                        , blockItem);
             else if(block instanceof SlabBlock)
-                build(ItemTags.SLABS, blockItem);
+                build(//? if >26.1 {
+                        BlockItemTags.SLABS.item()
+                        //?} else {
+                        //ItemTags.SLABS
+                        //?}
+                        , blockItem);
             else if(block instanceof StairBlock)
-                build(ItemTags.STAIRS, blockItem);
+                build(//? if >26.1 {
+                        BlockItemTags.STAIRS.item()
+                        //?} else {
+                        //ItemTags.STAIRS
+                        //?}
+                        , blockItem);
         });
     }
 
@@ -332,7 +349,14 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Item>, Item>/*?} else {*//*FabricTagsProvider<Item>.FabricTagBuilder*//*?}*/ get() {
+        public //? if >21.1 {
+        TagAppender<Item>
+        //?} else if >=1.21.6 {
+        //TagAppender<ResourceKey<Item>, Item>
+        //?} else {
+        //FabricTagsProvider<Item>.FabricTagBuilder
+        //?}
+        get() {
             /*? if >=1.21.6 {*/
             return builder(tag);
             /*?} else {*/

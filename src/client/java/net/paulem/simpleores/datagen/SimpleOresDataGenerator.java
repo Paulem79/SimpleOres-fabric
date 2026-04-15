@@ -5,7 +5,7 @@ import net.paulem.simpleores.datagen.providers.langs.*;
 import net.paulem.simpleores.datagen.providers.tags.ModBlockTagProvider;
 import net.paulem.simpleores.datagen.providers.tags.ModItemTagProvider;
 import net.paulem.simpleores.datagen.providers.villagers.ModVillagersTradesProvider;
-import net.paulem.simpleores.datagen.providers.villagers.ModVillagersTradesTagsProvider;
+import net.paulem.simpleores.datagen.providers.villagers.ModVillagersTradesTagProvider;
 import net.paulem.simpleores.world.ModConfiguredFeatures;
 import net.paulem.simpleores.world.ModPlacedFeatures;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -28,7 +28,7 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(LootTableProvider::new);
 		pack.addProvider(ModAdvancementsProvider::new);
 		//? if >1.21.11
-		pack.addProvider(ModVillagersTradesTagsProvider::new);
+		pack.addProvider(ModVillagersTradesTagProvider::new);
 
 		List<FabricDataGenerator.Pack.RegistryDependentFactory<GlobalLangProvider>> langs = Arrays.asList(ChineseSimplifiedLangProvider::new, ChineseTraditionalLangProvider::new,
 				EnglishLangProvider::new, FrenchLangProvider::new, DanishLangProvider::new,

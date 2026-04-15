@@ -168,7 +168,14 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
             this.tag = tag;
         }
 
-        public /*? if >=1.21.6 {*/TagAppender<ResourceKey<Block>, Block>/*?} else {*//*FabricTagsProvider<Block>.FabricTagBuilder*//*?}*/ get() {
+        public //? if >26.1 {
+                TagAppender<Block>
+        //?} else if >=1.21.6 {
+        //TagAppender<ResourceKey<Block>, Block>
+        //?} else {
+        //FabricTagsProvider<Block>.FabricTagBuilder
+        //?}
+        get() {
             /*? if >=1.21.6 {*/
             return builder(tag);
             /*?} else {*/

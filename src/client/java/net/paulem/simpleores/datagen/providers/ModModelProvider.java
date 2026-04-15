@@ -66,7 +66,7 @@ public class ModModelProvider extends FabricModelProvider {
         }
 
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.copper_pressure_plate, Blocks.COPPER_BLOCK //? if >=26.2
-                .unaffected()
+                .weathering().unaffected()
         );
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.tin_pressure_plate, ModBlocks.TIN_BLOCK);
         blockStateModelGenerator.createWeightedPressurePlate(ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BLOCK);

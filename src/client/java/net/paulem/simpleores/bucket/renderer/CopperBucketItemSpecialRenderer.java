@@ -36,8 +36,6 @@ import org.jspecify.annotations.Nullable;
 public class CopperBucketItemSpecialRenderer implements ItemModel {
     private static final ItemModel INSTANCE = new CopperBucketItemSpecialRenderer();
 
-    public static final ModelLayerLocation COPPER_BUCKET_MODEL_LAYER = new ModelLayerLocation(SCId.of("copper_bucket"), "");
-
     public CopperBucketItemSpecialRenderer() {
     }
 

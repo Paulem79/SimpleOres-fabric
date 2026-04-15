@@ -34,7 +34,7 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         if (bucket.emptyContents(null, level, target, null, dispensed)) {
             bucket.checkExtraContent(null, level, dispensed, target);
 
-            return this.consumeWithRemainder(source, dispensed, bucket.getEmpty());
+            return this.consumeWithRemainder(source, dispensed, bucket.shouldMelt(dispensed) ? ItemStack.EMPTY : bucket.getEmpty());
         } else if(bucket.isEmpty(dispensed)) {
             // Pickup the contents, and return the new item with content inside
             InteractionResult interactionResult = bucket.pickup(level, null, target, dispensed);

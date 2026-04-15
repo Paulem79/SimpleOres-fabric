@@ -68,6 +68,18 @@ stonecutter parameters {
 
     replacements {
         string {
+            direction = eval(current.version, ">26.1")
+            replace("net.minecraft.advancements.CriteriaTriggers", "net.minecraft.advancements.triggers.CriteriaTriggers")
+            replace("net.minecraft.advancements.critereon.InventoryChangeTrigger", "net.minecraft.advancements.triggers.InventoryChangeTrigger")
+            replace("net.minecraft.advancements.Criterion", "net.minecraft.advancements.triggers.Criterion")
+        }
+
+        string {
+            direction = eval(current.version, ">26.1")
+            replace("net.minecraft.advancements.critereon.ItemPredicate", "net.minecraft.advancements.predicates.ItemPredicate")
+        }
+
+        string {
             direction = afterDeobf
             replace("org.jetbrains.annotations.NotNull", "org.jspecify.annotations.NonNull")
         }
@@ -205,7 +217,10 @@ stonecutter parameters {
             replace("net.minecraft.client.data.models", "net.minecraft.data.models")
         }
 
-        for (cls in listOf(Pair("EquipmentClientInfo", Pair("EquipmentModel", "=1.21.3")))) {
+        for (cls in listOf(
+            Pair("EquipmentClientInfo", Pair("EquipmentModel", "=1.21.3")),
+            Pair("KeyTagProvider", Pair("TagsProvider", ">26.1"))
+        )) {
             string {
                 direction = eval(node.metadata.version, cls.second.second)
                 replace("${cls.first};", "${cls.second.first};")
