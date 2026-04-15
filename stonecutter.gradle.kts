@@ -70,13 +70,15 @@ stonecutter parameters {
         string {
             direction = eval(current.version, ">26.1")
             replace("net.minecraft.advancements.CriteriaTriggers", "net.minecraft.advancements.triggers.CriteriaTriggers")
-            replace("net.minecraft.advancements.critereon.InventoryChangeTrigger", "net.minecraft.advancements.triggers.InventoryChangeTrigger")
+            replace("net.minecraft.advancements.criterion.InventoryChangeTrigger", "net.minecraft.advancements.triggers.InventoryChangeTrigger")
             replace("net.minecraft.advancements.Criterion", "net.minecraft.advancements.triggers.Criterion")
+            replace("net.minecraft.advancements.criterion.ItemPredicate", "net.minecraft.advancements.predicates.ItemPredicate")
         }
 
         string {
-            direction = eval(current.version, ">26.1")
-            replace("net.minecraft.advancements.critereon.ItemPredicate", "net.minecraft.advancements.predicates.ItemPredicate")
+            direction = eval(current.version, ">1.21.10")
+            replace("net.minecraft.advancements.critereon.ItemPredicate", "net.minecraft.advancements.criterion.ItemPredicate")
+            replace("net.minecraft.advancements.critereon.InventoryChangeTrigger", "net.minecraft.advancements.criterion.InventoryChangeTrigger")
         }
 
         string {
