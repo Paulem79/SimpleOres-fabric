@@ -349,7 +349,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
             this.tag = tag;
         }
 
-        public //? if >21.1 {
+        public //? if >26.1 {
         TagAppender<Item>
         //?} else if >=1.21.6 {
         //TagAppender<ResourceKey<Item>, Item>
