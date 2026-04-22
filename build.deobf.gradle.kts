@@ -183,10 +183,14 @@ dependencies {
 				exclude(group = "net.fabricmc.fabric-api")
 			}
 		}
-		implementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
+		implementation("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}") {
+			exclude(group = "net.fabricmc.fabric-api")
+		}
 
 		if(includesBucketlib)
-			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}")
+			include("com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}") {
+				exclude(group = "net.fabricmc.fabric-api")
+			}
 	}
 }
 

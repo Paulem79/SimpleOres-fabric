@@ -93,14 +93,14 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 //? >1.21.10
                 build(ItemTags.NAUTILUS_BUCKET_FOOD, item);
 
-                build(ConventionalItemTags.MILK_BUCKETS, item);
+                build(ConventionalItemTags.BUCKETS, item);
+                /*build(ConventionalItemTags.MILK_BUCKETS, item);
                 build(ConventionalItemTags.DRINK_CONTAINING_BUCKET, item);
                 build(ConventionalItemTags.MILK_DRINKS, item);
                 build(ConventionalItemTags.WATER_BUCKETS, item);
                 build(ConventionalItemTags.LAVA_BUCKETS, item);
-                build(ConventionalItemTags.BUCKETS, item);
                 build(ConventionalItemTags.POWDER_SNOW_BUCKETS, item);
-                build(ConventionalItemTags.ENTITY_WATER_BUCKETS, item);
+                build(ConventionalItemTags.ENTITY_WATER_BUCKETS, item);*/
                 //?}
             }
             else if (item instanceof BowItem) {
