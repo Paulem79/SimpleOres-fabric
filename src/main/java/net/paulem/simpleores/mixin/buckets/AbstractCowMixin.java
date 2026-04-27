@@ -2,9 +2,20 @@ package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
 /*import org.spongepowered.asm.mixin.Mixin;
-import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.animal //? if >1.21.10
+        .cow
+        //? if <1.21.5 {
+        .Cow;
+        //?} else {
+        .AbstractCow;
+        //?}
 
-@Mixin(Cow.class)
+@Mixin(//? if <1.21.5 {
+        Cow
+        //?} else {
+        AbstractCow
+        //?}
+.class)
 public abstract class AbstractCowMixin {}
 *///?} else {
 

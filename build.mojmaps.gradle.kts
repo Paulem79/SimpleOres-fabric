@@ -220,8 +220,6 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 java {
-	withSourcesJar()
-
 	sourceCompatibility = javaversion
 	targetCompatibility = javaversion
 }
@@ -254,7 +252,7 @@ publishing {
 	repositories {
 		maven {
 			name = "paulem"
-			url = uri("https://maven.paulem.ovh/releases")
+			url = uri("https://maven.paulem.net/releases")
 			credentials(PasswordCredentials::class)
 			authentication {
 				create<BasicAuthentication>("basic")
