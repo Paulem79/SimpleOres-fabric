@@ -44,6 +44,7 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.mixin.accessor.BucketItemAccessor;
@@ -483,7 +484,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         } else if(holdsBlock(itemStack)) {
             // TODO: Might duplicate behaviour with "use", migrate code to "use" if possible
-            InteractionResult interactionResult = useOn(new UseOnContext(level, (Player) user, InteractionHand.MAIN_HAND, itemStack, hitResult != null ? hitResult : new BlockHitResult(pos.getCenter(), Direction.DOWN, pos, false)));
+            InteractionResult interactionResult = useOn(new UseOnContext(level, (Player) user, InteractionHand.MAIN_HAND, itemStack, hitResult != null ? hitResult : new BlockHitResult(Vec3.atCenterOf(pos), Direction.DOWN, pos, false)));
             return interactionResult.consumesAction();
         } else if(holdsEntity(itemStack)) {
             return true;

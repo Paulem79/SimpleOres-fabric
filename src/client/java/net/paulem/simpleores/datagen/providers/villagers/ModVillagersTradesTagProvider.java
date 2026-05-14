@@ -8,7 +8,7 @@ import net.minecraft.data.PackOutput;
 //? if >26.1 {
 import net.minecraft.data.tags.TagsProvider;
 //?} else {
-//import net.minecraft.data.tags.KeyTagProvider;
+//import net.minecraft.data.tags.TagsProvider;
 //?}
 //TODO : fix this idiot
 import net.minecraft.resources.Identifier;

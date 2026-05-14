@@ -1,9 +1,9 @@
 package net.paulem.simpleores.config;
 
-//? !hasMidnightlib {
- /*public class ModMenuCompat {}
-*///?} else {
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+//? !hasMidnightlib || !hasModmenu {
+ public class ModMenuCompat {}
+//?} else {
+/*import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.EnvType;
@@ -17,4 +17,4 @@ public class ModMenuCompat implements ModMenuApi {
         return parent -> MidnightConfig.getScreen(parent, SimpleOres.MOD_ID);
     }
 }
-//?}
+*///?}
