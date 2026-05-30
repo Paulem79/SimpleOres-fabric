@@ -20,7 +20,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.14.0")
     implementation("com.github.zafarkhaja:java-semver:0.10.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
