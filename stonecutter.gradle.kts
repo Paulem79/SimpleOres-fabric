@@ -13,7 +13,7 @@ stonecutter parameters {
     val hasBucketlib = bucketLibProp != null && bucketLibProp != "[VERSIONED]"
     val hasMidnightLib: Boolean = node.project.findProperty("deps.midnightlib")?.takeIf { it != "[VERSIONED]" } != null
     val isLegacyMidnightLib: Boolean = hasMidnightLib && node.project.findProperty("deps.midnightlib").toString().endsWith("-fabric") && !node.project.findProperty("deps.midnightlib").toString().contains("+")
-    val hasModmenu: Boolean = node.project.findProperty("deps.modmenu")?.takeIf { it != "[VERSIONED]" } != null
+    val hasModmenu: Boolean = node.project.findProperty("deps.mod_menu")?.takeIf { it != "[VERSIONED]" } != null
 
     val current = node.metadata
     val afterDeobf = eval(current.version, ">1.21.11")
