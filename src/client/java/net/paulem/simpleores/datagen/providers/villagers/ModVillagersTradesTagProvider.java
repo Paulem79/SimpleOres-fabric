@@ -1,35 +1,41 @@
 package net.paulem.simpleores.datagen.providers.villagers;
 
 //? if afterDeobf {
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
-//? if >26.1 {
-import net.minecraft.data.tags.TagsProvider;
-//?} else {
-//import net.minecraft.data.tags.TagsProvider;
-//?}
-//TODO : fix this idiot
-import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
-//? afterDeobf
-import net.minecraft.world.item.trading.VillagerTrade;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.villagers.TradeDefinition;
 import net.paulem.simpleores.villagers.ModVillagersTrades;
 import org.jspecify.annotations.NonNull;
+//? afterDeobf
+import net.minecraft.world.item.trading.VillagerTrade;
+//? if >26.1 {
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+//?} else {
+//import net.minecraft.data.PackOutput;
+//import net.minecraft.data.tags.TagsProvider;
+//?}
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModVillagersTradesTagProvider extends //? if >26.1 {
-        TagsProvider
-                //?} else {
-                //KeyTagProvider
-                //?}
-        <VillagerTrade> {
+        FabricTagsProvider
+                        //?} else {
+                        //KeyTagProvider
+                        //?}
+                <VillagerTrade> {
 
-    public ModVillagersTradesTagProvider(final PackOutput output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    public ModVillagersTradesTagProvider(final //? if >26.1 {
+                                         FabricPackOutput
+                                         //?} else {
+                                         //PackOutput
+            //?}
+                                                 output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.VILLAGER_TRADE, lookupProvider);
     }
 
@@ -48,7 +54,7 @@ public class ModVillagersTradesTagProvider extends //? if >26.1 {
      * Get the tag key for the given profession and level.
      */
     public static TagKey<VillagerTrade> getKey(VillagerProfession profession, int level) {
-        return TagKey.create(Registries.VILLAGER_TRADE, Identifier.withDefaultNamespace(
+        return TagKey.create(Registries.VILLAGER_TRADE, SCId.ofVanilla(
                 getProfessionName(profession).toLowerCase().replace(" ", "_") + "/level_" + level
         ));
     }
@@ -59,5 +65,6 @@ public class ModVillagersTradesTagProvider extends //? if >26.1 {
 
 }
 //? } else {
+
 /*public class ModVillagersTradesTagProvider {}
-*///? }
+*///?}
