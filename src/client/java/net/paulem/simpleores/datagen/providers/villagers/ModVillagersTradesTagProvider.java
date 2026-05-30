@@ -5,6 +5,8 @@ package net.paulem.simpleores.datagen.providers.villagers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.paulem.simpleores.stonecutter.SCId;
@@ -13,7 +15,7 @@ import net.paulem.simpleores.villagers.ModVillagersTrades;
 import org.jspecify.annotations.NonNull;
 //? afterDeobf
 import net.minecraft.world.item.trading.VillagerTrade;
-//? if >26.1 {
+//? if >=26.1 {
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 //?} else {
@@ -23,18 +25,18 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModVillagersTradesTagProvider extends //? if >26.1 {
+public class ModVillagersTradesTagProvider extends //? if >=26.1 {
         FabricTagsProvider
                         //?} else {
                         //KeyTagProvider
                         //?}
                 <VillagerTrade> {
 
-    public ModVillagersTradesTagProvider(final //? if >26.1 {
+    public ModVillagersTradesTagProvider(final //? if >=26.1 {
                                          FabricPackOutput
                                          //?} else {
                                          //PackOutput
-            //?}
+                                        //?}
                                                  output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.VILLAGER_TRADE, lookupProvider);
     }
@@ -47,7 +49,14 @@ public class ModVillagersTradesTagProvider extends //? if >26.1 {
     }
 
     public void registerTrade(VillagerProfession profession, int level, String tradeName) {
-        this.tag(getKey(profession, level)).add(ModVillagersTradesProvider.createKey(profession, level, tradeName));
+        this.customTag(getKey(profession, level)).add(ModVillagersTradesProvider.createKey(profession, level, tradeName));
+    }
+
+    protected TagAppender<//? if 26.1
+            // net.minecraft.resources.ResourceKey<VillagerTrade>,
+            VillagerTrade> customTag(final TagKey<VillagerTrade> tag) {
+        TagBuilder builder = this.getOrCreateRawBuilder(tag);
+        return TagAppender.forBuilder(builder);
     }
 
     /**
