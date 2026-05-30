@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation("org.kohsuke:github-api:1.330")
-    implementation("com.google.code.gson:gson:2.13.2")
+    implementation("com.google.code.gson:gson:2.14.0")
     implementation("com.github.zafarkhaja:java-semver:0.10.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
