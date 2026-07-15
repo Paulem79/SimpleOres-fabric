@@ -18,12 +18,11 @@ public interface TypedInstanceMixin<T> {
     ) {
         TypedInstance<?> instance = (TypedInstance<?>) this;
 
+        // Intellij says always false, it's not
         if(instance instanceof ItemStack self && rawType instanceof Item item) {
             if (item == Items.SHEARS && self.getItem() instanceof AdvancedShearsItem) {
                 cir.setReturnValue(true);
             }
         }
-
-
     }
 }
