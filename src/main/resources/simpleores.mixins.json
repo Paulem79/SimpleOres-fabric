@@ -5,6 +5,7 @@
   "mixins": [
     "ItemStackMixin",
     "MatchToolConditionMixin",
+    "TypedInstanceMixin",
     "accessor.HolderSetDirectAccessor",
     "accessor.ItemPredicateAccessor",
     "accessor.WeightedPressurePlateBlockAccessor",
