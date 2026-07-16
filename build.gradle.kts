@@ -317,11 +317,11 @@ publishMods {
 
     val versions = VersionRangeParser.parseVersionRange(project.properties)
 
-    github {
+    /*github {
         accessToken.set(githubToken)
         repository.set("Paulem79/SimpleOres-fabric")
         commitish.set("stonecutter") // This is the branch the release tag will be created from
-    }
+    }*/
 
     modrinth {
         projectId.set("Boe3chj8")
