@@ -72,12 +72,10 @@ jobs:
           --max-workers=$PARALLELISM \
           --build-cache
 
-      - name: 🔨 Dist Jar Build
+      - name: 📂 Gather Artifacts
         run: |
-          PARALLELISM=$(($(nproc) * 2))
-          ./gradlew distJar --stacktrace --parallel \
-          --max-workers=$PARALLELISM \
-          --build-cache
+          mkdir -p dist
+          find . -type f -name "*.jar" -not -path "*/build/tmp/*" -not -path "*/build/resources/*" -exec cp {} dist/ \;
 
       - name: 📦 Upload build artifacts
         uses: actions/upload-artifact@v7

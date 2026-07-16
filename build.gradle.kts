@@ -279,8 +279,9 @@ publishing {
     }
 }
 
-val githubTokenName = "GITHUB_COMMIT_TOKEN"
-val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), System.getenv(githubTokenName) ?: (project.findProperty(githubTokenName) as String?))
+val githubToken = (findProperty("GITHUB_COMMIT_TOKEN") as String?)
+    ?: System.getenv("GITHUB_COMMIT_TOKEN")
+val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), githubToken)
 
 val curseforgeToken =
     (findProperty("CURSEFORGE_TOKEN") as String?)
@@ -315,7 +316,12 @@ publishMods {
     modLoaders.addAll("fabric", "quilt")
 
     val versions = VersionRangeParser.parseVersionRange(project.properties)
-    //TODO: Implement github publish: https://modmuss50.github.io/mod-publish-plugin/platforms/github/
+
+    github {
+        accessToken.set(githubToken)
+        repository.set("Paulem79/SimpleOres-fabric")
+        commitish.set("stonecutter") // This is the branch the release tag will be created from
+    }
 
     modrinth {
         projectId.set("Boe3chj8")
