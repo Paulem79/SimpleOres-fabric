@@ -70,15 +70,8 @@ jobs:
           --max-workers=$PARALLELISM \
           --build-cache
 
-      - name: 🔨 Dist Jar Build
-        run: |
-          PARALLELISM=$(($(nproc) * 2))
-          ./gradlew distJar --stacktrace --parallel \
-          --max-workers=$PARALLELISM \
-          --build-cache
-
       - name: ⬆️ Upload to Modrinth/CurseForge
-        run: ./gradlew publishUnified
+        run: ./gradlew publishMods
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}

@@ -1,10 +1,10 @@
 package net.paulem.simpleores.ingredients;
 
 //? if hasBucketlib {
-/*public class ModIngredients {}
-*///?} else {
+public class ModIngredients {}
+//?} else {
 
-import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
+/*import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.paulem.simpleores.SimpleOres;
 
 public class ModIngredients {
@@ -14,4 +14,4 @@ public class ModIngredients {
         CustomIngredientSerializer.register(MilkIngredient.Serializer.INSTANCE);
     }
 }
-//?}
+*///?}

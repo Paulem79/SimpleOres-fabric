@@ -1,6 +1,7 @@
 import net.paulem.buildscript.NewGithubChangelog
 import net.paulem.buildscript.VersionRangeParser
 import org.gradle.api.artifacts.ExternalModuleDependency
+import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
     // Déclaration des plugins Loom sans les appliquer immédiatement (technique YACL)
@@ -8,7 +9,7 @@ plugins {
     id("net.fabricmc.fabric-loom-remap") version "1.17-SNAPSHOT" apply false
 
     `maven-publish`
-    id("me.shedaniel.unified-publishing") version "0.1.+"
+    id("me.modmuss50.mod-publish-plugin") version "2.1.1"
 
     id("dev.kikugie.stonecutter")
 }
@@ -281,105 +282,89 @@ publishing {
 val githubTokenName = "GITHUB_COMMIT_TOKEN"
 val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), System.getenv(githubTokenName) ?: (project.findProperty(githubTokenName) as String?))
 
-val projectName = project.base.archivesName.get()
-val versionName = project.version.toString()
-val distFileName = "${projectName}-${versionName}.jar"
+val curseforgeToken =
+    (findProperty("CURSEFORGE_TOKEN") as String?)
+        ?: System.getenv("CURSEFORGE_TOKEN")
+val modrinthToken =
+    (findProperty("MODRINTH_TOKEN") as String?)
+        ?: System.getenv("MODRINTH_TOKEN")
 
-tasks.register<Copy>("distJar") {
-    group = "build"
-    dependsOn(tasks.build)
-    val jarFile = file("build/libs/${distFileName}")
-    if (!jarFile.exists()) {
-        println("Jar file $jarFile does not exist. Please build the project first.")
-    }
-    from(jarFile)
-    doFirst {
-        file("$rootDir/dist").mkdirs()
-    }
-    into("$rootDir/dist")
-}
+publishMods {
+    file.set(
+        if (isDeobf) {
+            tasks.named<Jar>("jar").flatMap { it.archiveFile }
+        } else {
+            tasks.named<RemapJarTask>("remapJar").flatMap { it.archiveFile }
+        }
+    )
 
-tasks.publishUnified {
-    dependsOn(tasks.getByName("distJar"))
-}
+    if(isMojmaps)
+        modLoaders.add("fabric")
 
-unifiedPublishing {
-    project {
-        displayName = "SimpleOres Fabric ${project.property("mod.version")}"
-        version = project.version.toString()
-        changelog = githubChangelog
-        releaseType = if(!hasBucketlib) "beta" else "release"
+    displayName.set("SimpleOres Fabric ${project.property("mod.version")}")
+    version.set(project.version.toString())
+    changelog.set(githubChangelog)
 
-        gameVersions = VersionRangeParser.parseVersionRange(project.properties)
-        gameLoaders = listOf("fabric", "quilt")
+    type.set(
+        if (!hasBucketlib) BETA
+        else STABLE
+    )
 
-        mainPublication.set(project.rootDir.toPath().resolve("dist").resolve(distFileName).toFile())
+    modLoaders.addAll("fabric", "quilt")
 
-        relations {
-            depends {
-                modrinth = "fabric-api"
-                curseforge = "fabric-api"
-            }
-            optional {
-                modrinth = "midnightlib"
-                curseforge = "midnightlib"
-            }
-            optional {
-                modrinth = "modmenu"
-                curseforge = "modmenu"
-            }
-            optional {
-                modrinth = "energized-power"
-                curseforge = "energized-power"
-            }
+    val versions = VersionRangeParser.parseVersionRange(project.properties)
+    //TODO: Implement github publish: https://modmuss50.github.io/mod-publish-plugin/platforms/github/
 
-            if(hasBucketlib) {
-                if(includesBucketlib) {
-                    includes {
-                        modrinth = "bucketlib"
-                        curseforge = "bucketlib"
-                    }
-                } else {
-                    depends {
-                        modrinth = "bucketlib"
-                        curseforge = "bucketlib"
-                    }
-                }
+    modrinth {
+        projectId.set("Boe3chj8")
+        accessToken.set(modrinthToken)
+
+        minecraftVersions.addAll(versions)
+
+        requires("fabric-api")
+
+        optional("midnightlib")
+        optional("modmenu")
+        optional("energized-power")
+
+        if (hasBucketlib) {
+            if (includesBucketlib) {
+                embeds("bucketlib")
+            } else {
+                requires("bucketlib")
             }
         }
+    }
 
-        // 4. J'ai unifié le comportement d'erreur (runCatching) pour Modrinth ET Curseforge
-        // pour rendre l'intégration CI/CD totalement robuste dans tous les environnements
-        val modrinthToken = (project.findProperty("MODRINTH_TOKEN") ?: System.getenv("MODRINTH_TOKEN")) as String?
-        if (modrinthToken != null) {
-            runCatching {
-                modrinth {
-                    token = modrinthToken
-                    id = "Boe3chj8"
-                }
-            }.onFailure { ex ->
-                logger.warn("Failed to configure Modrinth publishing - continuing: ${ex.message}")
+    curseforge {
+        projectId.set("1092987")
+        accessToken.set(curseforgeToken)
+
+        client.set(true)
+        server.set(true)
+
+        minecraftVersions.addAll(
+            if (isSnapshot) {
+                listOf(stonecutter.current.project)
+            } else {
+                VersionRangeParser.parseVersionRange(
+                    project.properties,
+                    VersionRangeParser.CompiledVersions.VersionType.RELEASE
+                )
             }
-        }
+        )
 
-        val curseforgeToken = (project.findProperty("CURSEFORGE_TOKEN") ?: System.getenv("CURSEFORGE_TOKEN")) as String?
-        if (curseforgeToken != null) {
-            runCatching {
-                curseforge {
-                    token = curseforgeToken
-                    id = "1092987"
+        requires("fabric-api")
 
-                    gameVersions = if(isSnapshot) {
-                        listOf(stonecutter.current.project)
-                    } else {
-                        VersionRangeParser.parseVersionRange(
-                            project.properties,
-                            VersionRangeParser.CompiledVersions.VersionType.RELEASE
-                        )
-                    }
-                }
-            }.onFailure { ex ->
-                logger.warn("Failed to configure CurseForge publishing - continuing with other publishers: ${ex.message}")
+        optional("midnightlib")
+        optional("modmenu")
+        optional("energized-power")
+
+        if (hasBucketlib) {
+            if (includesBucketlib) {
+                embeds("bucketlib")
+            } else {
+                requires("bucketlib")
             }
         }
     }
