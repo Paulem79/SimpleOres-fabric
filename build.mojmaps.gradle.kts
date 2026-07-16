@@ -338,13 +338,15 @@ unifiedPublishing {
 				token = curseforgeToken
 				id = "1092987" // Required, must be a string, ID of CurseForge project
 
+				val environments = listOf("Client", "Server")
+
 				gameVersions = if(isSnapshot) {
-					listOf(stonecutter.current.project)
+					listOf(stonecutter.current.project) + environments
 				} else {
 					VersionRangeParser.parseVersionRange(
 						project.properties,
 						VersionRangeParser.CompiledVersions.VersionType.RELEASE
-					)
+					) + environments
 				}
 			}
 		}
