@@ -17,7 +17,7 @@ import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
 //? !hasBucketlib && containsBucket
- import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 
 //? hasBucketlib {
 /*import de.cech12.bucketlib.api.item.UniversalBucketItem;
@@ -152,8 +152,8 @@ public class ModItems {
 
     // shears
     public static final AdvancedShearsItem COPPER_SHEARS = register(
-            "copper_shears", settings -> 
-            new AdvancedShearsItem(ModToolMaterials.COPPER, settings)
+            "copper_shears", settings ->
+                    new AdvancedShearsItem(ModToolMaterials.COPPER, settings)
     );
     public static final AdvancedShearsItem TIN_SHEARS = register(
             "tin_shears", settings ->

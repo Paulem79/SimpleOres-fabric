@@ -1,7 +1,9 @@
 package net.paulem.simpleores.villagers;
 
-//? if >21.6 {
-public class ModLegacyVillagersTrades {public static void registerCustomTrades() {}}
+//? if >26.1 {
+public class ModLegacyVillagersTrades {
+    public static void registerCustomTrades() {}
+}
 //?} else {
 
 /*import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
