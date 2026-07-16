@@ -19,13 +19,12 @@ base {
 
 repositories {
 	mavenCentral()
+	mavenLocal()
+	maven {
+		url = uri("https://api.modrinth.com/maven")
+	}
 	maven { url = uri("https://jitpack.io") }
 	maven { url = uri("https://maven.shedaniel.me/") }
-	maven {
-		name = "Terraformers"
-		url = uri("https://maven.terraformersmc.com/")
-	}
-	maven { url = uri("https://maven.terraformersmc.com/releases/") }
 	maven { url = uri("https://maven.architectury.dev/") }
 	maven {
 		name = "paulemReleases"
@@ -33,8 +32,6 @@ repositories {
 	}
 	maven("https://maven.nucleoid.xyz/") { name = "Nucleoid" }
 	maven("https://maven.midnightdust.eu/releases")
-	maven("https://api.modrinth.com/maven")
-	mavenLocal()
 }
 
 // If this version has BucketLib
@@ -174,13 +171,15 @@ dependencies {
 
 		modImplementation(midnightlib) {
 			exclude(group = "net.fabricmc.fabric-api")
+			exclude(group = "com.terraformersmc", module = "modmenu")
 		}
 		include(midnightlib) {
 			exclude(group = "net.fabricmc.fabric-api")
+			exclude(group = "com.terraformersmc", module = "modmenu")
 		}
 	}
 	if(checkSpecified("mod_menu"))
-		modImplementation("com.terraformersmc:modmenu:${property("deps.mod_menu")}")
+		modImplementation("maven.modrinth:modmenu:${property("deps.mod_menu")}")
 
 	if(checkSpecified("bucketlib")) {
 		// cloth config required
