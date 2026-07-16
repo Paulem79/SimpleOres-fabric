@@ -1,15 +1,12 @@
 package net.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.*;
-import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -21,7 +18,6 @@ import net.paulem.simpleores.armors.MaterialRecipeContainer;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.furnaces.ModFurnaceBlock;
 import net.paulem.simpleores.furnaces.ModFurnaces;
-import net.paulem.simpleores.ingredients.MilkIngredient;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -33,9 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-//? if >1.20.1
 import net.paulem.simpleores.utils.MaterialUtils;
 import net.paulem.simpleores.utils.MapUtils;
+
+//? if !hasBucketlib && containsBucket {
+import net.minecraft.tags.ItemTags;
+import net.paulem.simpleores.ingredients.MilkIngredient;
+//?}
+
+//? if >26.2 {
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.advancements.Advancement;
+//?}
 
 //? if <=1.20.1
 //import net.minecraft.advancements.triggers.InventoryChangeTrigger;
@@ -252,8 +257,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 extracted(this, output);
             }
         };
-    }*/
-    //?}
+    }
+    *///?}
 
     @Override
     public String getName() {

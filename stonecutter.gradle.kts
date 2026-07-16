@@ -174,11 +174,6 @@ stonecutter parameters {
 
         string {
             direction = eval(current.version, "<=1.19.4")
-            replace(".pushReaction(PushReaction.DESTROY)", "/*Removed push reaction*/")
-        }
-
-        string {
-            direction = eval(current.version, "<=1.19.4")
             replace(").mapColor(", "net.minecraft.world.level.material.Material.STONE, ")
         }
 

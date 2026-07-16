@@ -86,6 +86,7 @@ public class SCArmor {
     }
 
     public enum SOArmorMaterial {
+        //? !hasCopperTools
         COPPER(ModArmorMaterials.COPPER),
         TIN(ModArmorMaterials.TIN),
         MYTHRIL(ModArmorMaterials.MYTHRIL),

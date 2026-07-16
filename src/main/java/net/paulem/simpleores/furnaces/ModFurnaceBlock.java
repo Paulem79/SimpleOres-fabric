@@ -24,8 +24,8 @@ import org.jspecify.annotations.Nullable;
 //? if >1.20.1 && <=26.2 {
 /*import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;*/
-//?}
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+*///?}
 
 public class ModFurnaceBlock extends AbstractFurnaceBlock implements TooltipBlock {
     private final double speedModifier;
@@ -43,8 +43,8 @@ public class ModFurnaceBlock extends AbstractFurnaceBlock implements TooltipBloc
     @Override
     public MapCodec<ModFurnaceBlock> codec() {
         return CODEC;
-    }*/
-    //?}
+    }
+    *///?}
 
     public ModFurnaceBlock(final BlockBehaviour.Properties properties, final double speedModifier) {
         super(properties);

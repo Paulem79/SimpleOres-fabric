@@ -41,7 +41,7 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(108), VerticalAnchor.belowTop(236)))
         );
 
-        Holder<Feature> tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
+        Holder<Feature> tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_VEIN_KEY);
 
         PlacementUtils.register(
                 context,
@@ -93,7 +93,7 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(108), VerticalAnchor.belowTop(236)))
         );
 
-        Holder<ConfiguredFeature<?, ?>> tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
+        Holder<ConfiguredFeature<?, ?>> tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_VEIN_KEY);
 
         PlacementUtils.register(
                 context,

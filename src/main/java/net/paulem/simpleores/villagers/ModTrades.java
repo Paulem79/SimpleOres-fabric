@@ -25,7 +25,7 @@ import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ModTrades {
     //? afterDeobf {
@@ -88,6 +88,7 @@ public class ModTrades {
         *///? }
     }
 
+    //? afterDeobf {
     public static VillagerTrade makeTrade(
             final TradeCost wants,
             final ItemStackTemplate gives,
@@ -98,8 +99,8 @@ public class ModTrades {
                     //? if >26.2 {
             List<Holder<LootItemFunction>>
                     //?} else {
-                    //List<LootItemFunction>
-                    //?}
+                    /*List<LootItemFunction>
+                    *///?}
                     givenItemModifiers) {
         //? if >26.2 {
         VillagerTrade.Builder builder = VillagerTrade.builder(wants, gives, maxUses, xp, reputationDiscount);
@@ -115,8 +116,9 @@ public class ModTrades {
                 reputationDiscount,
                 Optional.empty(),
                 givenItemModifiers != null ? givenItemModifiers : List.of()
-        );*/
-        //?}
+        );
+        *///?}
     }
+    //?}
 
 }
