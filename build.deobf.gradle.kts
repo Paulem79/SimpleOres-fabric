@@ -1,12 +1,6 @@
 import net.paulem.buildscript.NewGithubChangelog
 import net.paulem.buildscript.VersionRangeParser
 
-buildscript {
-	repositories {
-		maven { url = uri("https://maven.paulem.net/releases") }
-	}
-}
-
 plugins {
 	id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
 
