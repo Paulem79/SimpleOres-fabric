@@ -279,9 +279,15 @@ publishing {
     }
 }
 
-val githubToken = (findProperty("GITHUB_COMMIT_TOKEN") as String?)
-    ?: System.getenv("GITHUB_COMMIT_TOKEN")
-val githubChangelog: String = NewGithubChangelog.getChangelog(project.rootDir.toPath(), githubToken)
+val githubToken = (findProperty("GITHUB_TOKEN") as String?)
+    ?: System.getenv("GITHUB_TOKEN")
+val githubChangelog: String = try {
+    NewGithubChangelog.getChangelog(project.rootDir.toPath(), githubToken)
+} catch (e: Exception) {
+    // Si l'API GitHub est en panne, on utilise une chaîne vide au lieu de faire échouer le build
+    project.logger.warn("Impossible de récupérer le changelog de GitHub : ${e.message}")
+    "Changelog indisponible pour le moment."
+}
 
 val curseforgeToken =
     (findProperty("CURSEFORGE_TOKEN") as String?)
@@ -317,11 +323,11 @@ publishMods {
 
     val versions = VersionRangeParser.parseVersionRange(project.properties)
 
-    /*github {
+    github {
         accessToken.set(githubToken)
         repository.set("Paulem79/SimpleOres-fabric")
         commitish.set("stonecutter") // This is the branch the release tag will be created from
-    }*/
+    }
 
     modrinth {
         projectId.set("Boe3chj8")
