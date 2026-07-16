@@ -16,9 +16,16 @@ plugins {
 }
 
 stonecutter {
+	// Activation de la logique centralisée comme YACL
+	kotlinController = true
+	centralScript = "build.gradle.kts"
+
 	create(rootProject) {
-		fun match(version: String, vararg loaders: String) = loaders
-			.forEach { version(version, version).buildscript = "build.$it.gradle.kts" }
+		// Le nom du projet devient "version-mapping" (ex: "26.1-deobf")
+		// alors que la version cible Minecraft reste "version"
+		fun match(version: String, mapping: String) {
+			version("$version-$mapping", version)
+		}
 
 		match("1.19.4", "mojmaps")
 		match("1.20.1", "mojmaps")
@@ -34,6 +41,7 @@ stonecutter {
 		match("26.1", "deobf")
 		match("26.2", "deobf")
 
-		vcsVersion = "1.21.6"
+		// IMPORTANT : La version VCS doit correspondre exactement au nouveau format de nom
+		vcsVersion = "1.21.6-mojmaps"
 	}
 }

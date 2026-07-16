@@ -2,31 +2,44 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-stonecutter active "26.2"
+// L'état actif doit maintenant inclure le mapping !
+stonecutter active "26.2-deobf"
 
 stonecutter parameters {
     filters.exclude("**/*.aw")
 
-    // Calcul de hasBucketlib dynamique pour chaque sous-projet
-    // On vérifie la propriété sur le projet spécifique à la version (node.project)
-    val bucketLibProp = node.project.findProperty("deps.bucketlib")
+    // 1. Récupération sécurisée du projet Gradle courant (technique YACL)
+    val prj = project(node.metadata.project)
+
+    // Calcul de hasBucketlib dynamique
+    val bucketLibProp = prj.findProperty("deps.bucketlib")
     val hasBucketlib = bucketLibProp != null && bucketLibProp != "[VERSIONED]"
-    val hasMidnightLib: Boolean = node.project.findProperty("deps.midnightlib")?.takeIf { it != "[VERSIONED]" } != null
-    val isLegacyMidnightLib: Boolean = hasMidnightLib && node.project.findProperty("deps.midnightlib").toString().endsWith("-fabric") && !node.project.findProperty("deps.midnightlib").toString().contains("+")
-    val hasModmenu: Boolean = node.project.findProperty("deps.mod_menu")?.takeIf { it != "[VERSIONED]" } != null
+
+    val midnightLibProp = prj.findProperty("deps.midnightlib")
+    val hasMidnightLib: Boolean = midnightLibProp?.takeIf { it != "[VERSIONED]" } != null
+    val isLegacyMidnightLib: Boolean = hasMidnightLib && midnightLibProp.toString().endsWith("-fabric") && !midnightLibProp.toString().contains("+")
+
+    val modMenuProp = prj.findProperty("deps.mod_menu")
+    val hasModmenu: Boolean = modMenuProp?.takeIf { it != "[VERSIONED]" } != null
 
     val current = node.metadata
     val afterDeobf = eval(current.version, ">1.21.11")
 
     val containsBucket = true
 
-    constants.put("hasBucketlib", hasBucketlib)
+    // 2. Détection du mapping (très utile pour tes mixins ou ton code Java)
+    val isDeobf = node.metadata.project.contains("deobf", ignoreCase = true)
 
+    constants.put("isDeobf", isDeobf)
+    constants.put("isMojmaps", !isDeobf)
+
+    constants.put("hasBucketlib", hasBucketlib)
     constants.put("hasMidnightlib", hasMidnightLib)
     constants.put("hasModmenu", hasModmenu)
     constants.put("isLegacyMidnightLib", isLegacyMidnightLib)
 
-    constants.put("hasCopperTools", afterDeobf || eval(node.project.findProperty("max_version_range") as String, ">1.21.8"))
+    val maxVersionRange = prj.findProperty("max_version_range") as String? ?: "1.21.8"
+    constants.put("hasCopperTools", afterDeobf || eval(maxVersionRange, ">1.21.8"))
     constants.put("containsBucket", containsBucket)
     constants.put("afterDeobf", afterDeobf)
 
@@ -144,7 +157,6 @@ stonecutter parameters {
         }
 
         string {
-            // After 1.21.11
             direction = afterDeobf
             replace("level.random", "level.getRandom()")
         }
