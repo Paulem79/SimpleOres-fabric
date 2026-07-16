@@ -1,6 +1,6 @@
 package net.paulem.simpleores.villagers;
 
-//? if >26.1 {
+//? if >=26.1 {
 public class ModLegacyVillagersTrades {
     public static void registerCustomTrades() {}
 }
