@@ -289,6 +289,11 @@ val modrinthToken =
     (findProperty("MODRINTH_TOKEN") as String?)
         ?: System.getenv("MODRINTH_TOKEN")
 
+fun formatPublishVersion(): String {
+    val subs = project.version.toString().split('-')
+    return subs[0] + "-" + subs[1]
+}
+
 publishMods {
     file.set(
         if (isDeobf) {
@@ -298,11 +303,8 @@ publishMods {
         }
     )
 
-    if(isMojmaps)
-        modLoaders.add("fabric")
-
     displayName.set("SimpleOres Fabric ${project.property("mod.version")}")
-    version.set(project.version.toString())
+    version.set(formatPublishVersion())
     changelog.set(githubChangelog)
 
     type.set(
