@@ -13,13 +13,13 @@ public abstract class ConfigLoader<T extends Config> {
 
     public static ConfigLoader<? extends Config> getLoader(boolean condition) {
         //? if hasMidnightlib {
-        if (condition) {
+        /*if (condition) {
             return new MidnightLibLoader();
         } else {
             return new BaseConfigLoader();
         }
-        //? } else {
-             /*return new BaseConfigLoader();
-        *///?}
+        *///? } else {
+             return new BaseConfigLoader();
+        //?}
     }
 }

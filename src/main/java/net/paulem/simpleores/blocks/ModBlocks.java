@@ -180,20 +180,30 @@ public class ModBlocks {
     //? if <1.21 {
     /*public static DoorBlock copper_door = registerBlock("copper_door", key ->
             makeDoor(BlockSetType.IRON, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
-                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY)));
+                    .requiresCorrectToolForDrops().strength(3.0F).noOcclusion().pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
+                        PushReaction.DESTROY
+                    )));
     *///?}
     public static DoorBlock tin_door = registerBlock("tin_door", key ->
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
-                    .requiresCorrectToolForDrops().strength(4.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
+                    .requiresCorrectToolForDrops().strength(4.0F).noOcclusion().pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
+                            PushReaction.POPPED
+                    ))));
     public static DoorBlock adamantium_door = registerBlock("adamantium_door", key ->
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                    .requiresCorrectToolForDrops().strength(7.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
+                    .requiresCorrectToolForDrops().strength(7.0F).noOcclusion().pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
+                            PushReaction.POPPED
+                    ))));
     public static DoorBlock onyx_door = registerBlock("onyx_door", key ->
             makeDoor(BlockSetType.STONE, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL)
-                    .requiresCorrectToolForDrops().strength(20.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
+                    .requiresCorrectToolForDrops().strength(20.0F).noOcclusion().pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
+                            PushReaction.POPPED
+                    ))));
     public static DoorBlock mythril_door = registerBlock("mythril_door", key ->
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
-                    .requiresCorrectToolForDrops().strength(7.0F).noOcclusion().pushReaction(PushReaction.DESTROY))));
+                    .requiresCorrectToolForDrops().strength(7.0F).noOcclusion().pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
+                            PushReaction.POPPED
+                    ))));
 
     // Blocks - bars - simpleores
     //? if !hasCopperTools {

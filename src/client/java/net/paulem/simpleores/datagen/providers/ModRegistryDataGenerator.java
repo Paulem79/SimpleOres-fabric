@@ -14,7 +14,9 @@ public class ModRegistryDataGenerator extends FabricDynamicRegistryProvider {
 
     @Override
     protected void configure(HolderLookup.Provider registries, Entries entries) {
-        entries.addAll(registries.lookupOrThrow(Registries.CONFIGURED_FEATURE));
+        entries.addAll(registries.lookupOrThrow(//$ if >=26.2 'Registries.FEATURE' else 'Registries.CONFIGURED_FEATURE'
+                Registries.FEATURE
+        ));
         entries.addAll(registries.lookupOrThrow(Registries.PLACED_FEATURE));
 
         //? if >1.21.11

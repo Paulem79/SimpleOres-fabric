@@ -40,8 +40,8 @@ stonecutter {
 		match("1.21.11", "mojmaps")
 		match("26.1", "deobf")
 		match("26.2", "deobf")
+		match("26.3-snapshot", "deobf")
 
-		// IMPORTANT : La version VCS doit correspondre exactement au nouveau format de nom
-		vcsVersion = "1.21.6-mojmaps"
+		vcsVersion = "26.2-deobf"
 	}
 }

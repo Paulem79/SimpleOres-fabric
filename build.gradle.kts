@@ -154,7 +154,7 @@ val isSnapshot = stonecutter.current.version.contains("snapshot", true)
 val minecraftVersion = if(isSnapshot || (findProperty("deps.minecraft") != null && findProperty("deps.minecraft") != "[VERSIONED]")) {
     property("deps.minecraft")
 } else {
-    stonecutter.current.version // <-- Correction ici !
+    stonecutter.current.version
 }
 
 dependencies {

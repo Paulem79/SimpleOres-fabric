@@ -1,10 +1,10 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
-public class CustomBucketItem {}
-//?} else {
+/*public class CustomBucketItem {}
+*///?} else {
 
-/*import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -240,16 +240,16 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return block.getName();
     }
 
-    /^*
+    /**
      * @return The block corresponding to the bucket. Can be LiquidBlock or BucketPickup implementation.
-     ^/
+     */
     public Block getBlock(ItemStack stack) {
         return fromIdentifier(stack.get(ModComponents.BUCKET_BLOCK_COMPONENT));
     }
 
-    /^*
+    /**
      * @return The entity vanilla bucket item inside the bucket. Can be null if no entity is inside.
-     ^/
+     */
     public Item getVanillaEntityBucket(ItemStack stack) {
         return itemFromIdentifier(stack.get(ModComponents.BUCKET_FISH_COMPONENT));
     }
@@ -405,9 +405,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return InteractionResult.PASS;
     }
 
-    /^*
+    /**
      * Mix a custom bucket item with a vanilla bucket item
-     ^/
+     */
     public static @NonNull ItemStack mix(ItemStack vanillaBucketStack, ItemStack customBucketStack) {
         ItemStack result = customBucketStack.copy();
 
@@ -664,4 +664,4 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
 }
-*///?}
+//?}

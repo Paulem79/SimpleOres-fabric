@@ -1,7 +1,7 @@
 package net.paulem.simpleores.config;
 
 //? if hasMidnightlib {
-import eu.midnightdust.lib.config.MidnightConfig;
+/*import eu.midnightdust.lib.config.MidnightConfig;
 import net.paulem.simpleores.items.ModToolMaterials;
 
 public class SimpleOresConfig extends MidnightConfig implements Config {
@@ -179,6 +179,6 @@ public class SimpleOresConfig extends MidnightConfig implements Config {
     public int copperBucketFireTemperature() { return copperBucketFireTemperature; }
     //?}
 }
-//? } else {
-  /*public class SimpleOresConfig {}
-*///? }
+*///? } else {
+  public class SimpleOresConfig {}
+//? }

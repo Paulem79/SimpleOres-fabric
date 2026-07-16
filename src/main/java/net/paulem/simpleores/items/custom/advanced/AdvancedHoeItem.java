@@ -1,19 +1,27 @@
 package net.paulem.simpleores.items.custom.advanced;
 
-import net.minecraft.world.item.HoeItem;
+//? if <26.2 {
+/*import net.minecraft.world.item.HoeItem;
+ *///?} else {
+import net.minecraft.world.item.Item;
+//?}
 import net.minecraft.world.item.ToolMaterial;
 
-public class AdvancedHoeItem extends HoeItem implements AdvancedToolItem {
+public class AdvancedHoeItem extends //$ if >=26.2 'Item' else 'HoeItem'
+        Item
+        implements AdvancedToolItem {
     public AdvancedHoeItem(ToolMaterial material, float attackDamage, float attackSpeed, Properties settings) {
-        //? if >=1.21.5 {
-        super(material, attackDamage, attackSpeed,
+        //? if >=26.2 {
+        super(settings.hoe(material, attackDamage, attackSpeed));
+        //?} else if >=1.21.5 {
+        /*super(material, attackDamage, attackSpeed,
                 settings.hoe(material, attackDamage, attackSpeed));
-        //?} else if 1.20.6 || 1.21 {
+        *///?} else if 1.20.6 || 1.21 {
         /*super(material, settings.attributes(HoeItem.createAttributes(material, attackDamage, attackSpeed)));
-        *///?} else if >1.20.4 {
+         *///?} else if >1.20.4 {
         /*super(material, attackDamage, attackSpeed, settings);
-        *///?} else {
+         *///?} else {
         /*super(material, (int) attackDamage, attackSpeed, settings);
-        *///?}
+         *///?}
     }
 }

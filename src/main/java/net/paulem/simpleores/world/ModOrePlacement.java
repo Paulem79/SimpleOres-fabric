@@ -1,6 +1,5 @@
 package net.paulem.simpleores.world;
 
-import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;

@@ -1,16 +1,13 @@
 package net.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.RecipeBuilder;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
-import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.data.recipes.*;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -37,7 +34,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 //? if >1.20.1
-import net.minecraft.data.recipes.RecipeOutput;
 import net.paulem.simpleores.utils.MaterialUtils;
 import net.paulem.simpleores.utils.MapUtils;
 
@@ -61,7 +57,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         scRecipe = new SCRecipe(this, generator, exporter);
 
         //? if !hasBucketlib && containsBucket {
-        /*// Recipe for milk bucket
+        // Recipe for milk bucket
         scRecipe.createShaped(RecipeCategory.FOOD, Blocks.CAKE)
                 .define('A', new MilkIngredient().toVanilla())
                 .define('B', Items.SUGAR)
@@ -72,7 +68,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern("CCC")
                 .unlockedBy("has_egg", scRecipe.has(ItemTags.EGGS))
                 .save(exporter);
-        *///?}
+        //?}
 
         offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT);
@@ -237,8 +233,18 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         extracted(recipeExporter, recipeExporter);
     }
      
-    *///?} else {
+    *///?} else >26.2 {
     @Override
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        return new net.minecraft.data.recipes.RecipeProvider(recipeOutput, advancementOutput) {
+            @Override
+            public void buildRecipes() {
+                extracted(this, output);
+            }
+        };
+    }
+    //?} else if <=26.2 {
+    /*@Override
     protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
         return new net.minecraft.data.recipes.RecipeProvider(wrapperLookup, recipeExporter) {
             @Override
@@ -246,7 +252,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 extracted(this, output);
             }
         };
-    }
+    }*/
     //?}
 
     @Override

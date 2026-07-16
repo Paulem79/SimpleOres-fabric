@@ -1,10 +1,10 @@
 package net.paulem.simpleores.bucket.renderer;
 
 //? if hasBucketlib {
-public class CopperBucketModel {}
-//?} else {
+/*public class CopperBucketModel {}
+*///?} else {
 
-/*import net.minecraft.client.model.Model;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -22,8 +22,8 @@ public class CopperBucketModel extends Model //? >1.21.8
         super(root, RenderTypes:: //? if afterDeobf {
                 itemCutout
                 //?} else {
-                 /^itemEntityTranslucentCull
-                ^///?}
+                 /*itemEntityTranslucentCull
+                *///?}
         );
     }
 
@@ -40,4 +40,4 @@ public class CopperBucketModel extends Model //? >1.21.8
         return LayerDefinition.create(mesh, 16, 16);
     }
 }
-*///?}
+//?}

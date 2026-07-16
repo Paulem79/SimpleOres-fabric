@@ -31,10 +31,11 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
         sameDropWithSilkTouch(ModBlocks.ONYX_ORE, ModItems.ONYX_GEM);
 
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
-            if(blockItem.getBlock() instanceof DoorBlock doorBlock) {
-                add(doorBlock, block -> createDoorTable(doorBlock));
+            Block block = blockItem.getBlock();
+            if(block instanceof DoorBlock) {
+                add(block, this::createDoorTable);
             } else if(!identifier.getPath().contains("ore")) {
-                dropSelf(blockItem.getBlock());
+                dropSelf(block);
             }
         });
     }

@@ -1,11 +1,14 @@
 package net.paulem.simpleores.villagers;
 
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 //? afterDeobf {
 
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.trading.TradeCost;
 import net.minecraft.world.item.trading.VillagerTrade;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -13,11 +16,16 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static net.minecraft.world.item.trading.VillagerTrades.enchantedItem;
 //? }
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
+import org.jetbrains.annotations.Nullable;
 
 public class ModTrades {
     //? afterDeobf {
@@ -52,27 +60,25 @@ public class ModTrades {
         
         VillagerTrade trade;
         if (enchanted) {
-            trade = new VillagerTrade(
+            trade = makeTrade(
                     from.getWants(),
                     to.getGives(),
                     maxUses,
                     xp,
                     reputationDiscount,
-                    Optional.empty(),
                     enchantedItem(items, enchantmentsForTradedEquipment
                             //? if >=26.2
                             .get()
                             , to.item())
             );
         } else {
-            trade = new VillagerTrade(
+            trade = makeTrade(
                     from.getWants(),
                     to.getGives(),
                     maxUses,
                     xp,
                     reputationDiscount,
-                    Optional.empty(),
-                    List.of()
+                    null
             );
         }
 
@@ -80,6 +86,37 @@ public class ModTrades {
          //? } else {
         /*return new TradeDefinition(profession, level, id, from, to, maxUses, xp, reputationDiscount, enchanted);
         *///? }
+    }
+
+    public static VillagerTrade makeTrade(
+            final TradeCost wants,
+            final ItemStackTemplate gives,
+            final int maxUses,
+            final int xp,
+            final float reputationDiscount,
+            @Nullable
+                    //? if >26.2 {
+            List<Holder<LootItemFunction>>
+                    //?} else {
+                    //List<LootItemFunction>
+                    //?}
+                    givenItemModifiers) {
+        //? if >26.2 {
+        VillagerTrade.Builder builder = VillagerTrade.builder(wants, gives, maxUses, xp, reputationDiscount);
+        return builder
+                .addModifiers(givenItemModifiers != null ? givenItemModifiers : List.of())
+                .build();
+        //?} else {
+        /*return new VillagerTrade(
+                wants,
+                gives,
+                maxUses,
+                xp,
+                reputationDiscount,
+                Optional.empty(),
+                givenItemModifiers != null ? givenItemModifiers : List.of()
+        );*/
+        //?}
     }
 
 }

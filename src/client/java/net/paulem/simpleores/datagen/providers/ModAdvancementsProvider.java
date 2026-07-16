@@ -281,6 +281,11 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         else builder
                 .addCriterion("crafting_table", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CRAFTING_TABLE));
 
-        return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
+
+        //? if <=26.2 {
+        //return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
+        //?} else {
+        return builder.save(consumer, SCId.of(path));
+        //?}
     }
 }

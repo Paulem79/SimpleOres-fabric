@@ -21,7 +21,7 @@ import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
 //? !hasBucketlib
-//import net.paulem.simpleores.ingredients.ModIngredients;
+import net.paulem.simpleores.ingredients.ModIngredients;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.items.TabExcludedItem;
 //? >1.21
@@ -39,9 +39,9 @@ import org.slf4j.LoggerFactory;
 import net.paulem.simpleores.migration.CopperMigration;
 
 //? hasBucketlib {
-import de.cech12.bucketlib.api.BucketLibApi;
+/*import de.cech12.bucketlib.api.BucketLibApi;
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
-//?}
+*///?}
 
 public class SimpleOres implements ModInitializer {
 	public static final String MOD_ID = "simpleores";
@@ -63,16 +63,16 @@ public class SimpleOres implements ModInitializer {
         ModFurnaces.init();
         ModFurnacesEntities.init();
         //? !hasBucketlib
-        //ModIngredients.init();
+        ModIngredients.init();
 
 		// Register custom buckets
         //? hasBucketlib {
-		ModItems.registeredItems.forEach((identifier, item) -> {
+		/*ModItems.registeredItems.forEach((identifier, item) -> {
 			if(item instanceof UniversalBucketItem) {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-        //?}
+        *///?}
 
 
         //? hasCopperTools
