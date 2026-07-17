@@ -168,14 +168,14 @@ dependencies {
     }
 
     // 3. Fonction locale pour traduire modImplementation -> implementation si deobf
-    fun dep(configuration: String, dependencyNotation: String, action: ExternalModuleDependency.() -> Unit = {}) {
+    fun dep(configuration: String, dependencyNotation: Any, action: ExternalModuleDependency.() -> Unit = {}) {
         val configName = if (isDeobf && configuration.startsWith("mod")) {
             configuration.substring(3).replaceFirstChar { it.lowercase() }
         } else {
             configuration
         }
         add(configName, dependencyNotation)?.apply {
-            (this as ExternalModuleDependency).action()
+            (this as? ExternalModuleDependency)?.action()
         }
     }
 
