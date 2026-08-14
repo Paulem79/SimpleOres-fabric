@@ -284,8 +284,15 @@ publishing {
     }
 }
 
-val githubToken = (findProperty("GITHUB_TOKEN") as String?)
-    ?: System.getenv("GITHUB_TOKEN")
+// Le GITHUB_TOKEN d'Actions est un jeton d'installation : son quota (partagé par dépôt et par
+// heure) est bien plus vite épuisé que celui d'un PAT utilisateur. La création des releases passe
+// donc par GH_RELEASE_TOKEN quand il est fourni, et retombe sur GITHUB_TOKEN sinon.
+// Un secret Actions non défini est injecté comme chaîne vide, pas comme variable absente :
+// on ignore donc explicitement les valeurs vides pour que le repli fonctionne.
+fun secret(name: String): String? =
+    ((findProperty(name) as String?) ?: System.getenv(name))?.takeIf { it.isNotBlank() }
+
+val githubToken = secret("GH_RELEASE_TOKEN") ?: secret("GITHUB_TOKEN")
 val githubChangelog: String = try {
     NewGithubChangelog.getChangelog(project.rootDir.toPath(), githubToken)
 } catch (e: Exception) {

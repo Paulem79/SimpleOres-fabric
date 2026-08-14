@@ -84,4 +84,7 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
           GITHUB_EVENT_RAW_PATH: ${{ github.event_path }}
+          # PAT au quota plus large que le GITHUB_TOKEN d'installation ; si le secret est absent,
+          # la valeur est vide et build.gradle.kts retombe sur GITHUB_TOKEN.
+          GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
         continue-on-error: true
