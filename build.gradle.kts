@@ -298,7 +298,7 @@ val githubChangelog: String = try {
 } catch (e: Exception) {
     // Si l'API GitHub est en panne, on utilise une chaîne vide au lieu de faire échouer le build
     project.logger.warn("Impossible de récupérer le changelog de GitHub : ${e.message}")
-    "Changelog indisponible pour le moment."
+    "Changelog is currently unavailable."
 }
 
 val curseforgeToken =

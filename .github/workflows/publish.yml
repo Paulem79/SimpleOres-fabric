@@ -87,4 +87,3 @@ jobs:
           # PAT au quota plus large que le GITHUB_TOKEN d'installation ; si le secret est absent,
           # la valeur est vide et build.gradle.kts retombe sur GITHUB_TOKEN.
           GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-        continue-on-error: true

@@ -249,7 +249,7 @@ public final class NewGithubChangelog {
         });
 
         if (diffUrl != null) {
-            changelog.append("\n**Diff complet :** ").append(diffUrl).append("\n");
+            changelog.append("\n**Full diff:** ").append(diffUrl).append("\n");
         }
 
         return truncate(changelog.toString().stripTrailing(), diffUrl);
@@ -258,8 +258,8 @@ public final class NewGithubChangelog {
     private static String truncate(String changelog, String diffUrl) {
         if (changelog.length() <= MAX_LENGTH) return changelog;
 
-        String footer = "\n\n… changelog tronqué"
-                + (diffUrl != null ? ", voir le diff complet : " + diffUrl : ".");
+        String footer = "\n\n… changelog truncated"
+                + (diffUrl != null ? ", see the full diff: " + diffUrl : ".");
         int cut = changelog.lastIndexOf('\n', MAX_LENGTH - footer.length());
         if (cut < 0) cut = MAX_LENGTH - footer.length();
         return changelog.substring(0, cut).stripTrailing() + footer;
@@ -267,14 +267,14 @@ public final class NewGithubChangelog {
 
     /** Catégories de <a href="https://www.conventionalcommits.org">conventional commits</a>. */
     private enum Category {
-        FEATURE("✨ Nouveautés", "feat", "feature"),
-        FIX("🐛 Corrections", "fix", "bugfix", "hotfix"),
-        PERFORMANCE("⚡ Performances", "perf"),
-        REFACTOR("♻️ Refactorisation", "refactor", "style"),
+        FEATURE("✨ Features", "feat", "feature"),
+        FIX("🐛 Bug fixes", "fix", "bugfix", "hotfix"),
+        PERFORMANCE("⚡ Performance", "perf"),
+        REFACTOR("♻️ Refactoring", "refactor", "style"),
         DOCUMENTATION("📚 Documentation", "docs", "doc"),
         TEST("🧪 Tests", "test", "tests"),
         CHORE("🔧 Maintenance", "chore", "build", "ci", "deps"),
-        OTHER("📦 Divers");
+        OTHER("📦 Miscellaneous");
 
         private final String title;
         private final Set<String> prefixes;
