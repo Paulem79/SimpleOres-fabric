@@ -18,6 +18,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+//? if afterDeobf
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.paulem.simpleores.items.ModItems;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import net.paulem.simpleores.stonecutter.SCId;
@@ -53,20 +56,44 @@ public class MilkIngredient implements CustomIngredient {
      /*getMatchingItems
     *///?}
             () {
-        // Get all milk buckets for the custom buckets
-        List<Item> items = new ArrayList<>(ModItems.registeredItems.entrySet()
+        // Only the vanilla milk bucket can be matched at the item level: a custom bucket holds its content
+        // in its components, so advertising it here would let an empty or a lava filled one match instead.
+        return Stream.of(Items.MILK_BUCKET.builtInRegistryHolder());
+    }
+
+    /**
+     * @return what is shown in the recipe book for this ingredient: the vanilla milk bucket and every custom
+     * milk bucket, even though only {@link #test(ItemStack)} decides what actually matches.
+     */
+    @Override
+    public SlotDisplay //? if afterDeobf {
+    display
+    //?} else {
+     /*toDisplay
+    *///?}
+            () {
+        List<SlotDisplay> displays = new ArrayList<>();
+        displays.add(displayOf(new ItemStack(Items.MILK_BUCKET)));
+
+        ModItems.registeredItems.values()
                 .stream()
-                .map(Map.Entry::getValue)
                 .filter(item -> item instanceof CustomBucketItem)
                 .map(item -> (CustomBucketItem) item)
                 .map(CustomBucketItem::getMilkBucket)
-                .map(ItemStack::getItem)
-                .toList()
+                .forEach(stack -> displays.add(displayOf(stack)));
+
+        return new SlotDisplay.Composite(displays);
+    }
+
+    private static SlotDisplay displayOf(ItemStack stack) {
+        return new SlotDisplay.ItemStackSlotDisplay(//? if afterDeobf {
+                ItemStackTemplate.fromNonEmptyStack(
+                        stack
+                )
+                //?} else {
+                /*stack
+                *///?}
         );
-
-        items.add(Items.MILK_BUCKET);
-
-        return items.stream().map(Holder::direct);
     }
 
     @Override

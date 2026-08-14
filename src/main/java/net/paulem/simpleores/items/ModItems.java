@@ -66,7 +66,7 @@ public class ModItems {
                     .meltTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature())
                     .fireTemperature(SimpleOres.CONFIG.copperBucketFireTemperature())
                     .milkingEnabled(SimpleOres.CONFIG.enableCopperBucketMilking())
-                    .stacksTo(1)
+                    .stacksTo(16)
                     .setId(key))
     );
 

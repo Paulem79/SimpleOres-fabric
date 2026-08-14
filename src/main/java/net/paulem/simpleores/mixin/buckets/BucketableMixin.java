@@ -24,13 +24,9 @@ import net.minecraft.world.entity. //? <26.2
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
-import net.paulem.simpleores.mixin.accessor.BucketItemAccessor;
+import net.paulem.simpleores.utils.BucketFluids;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -57,33 +53,32 @@ public interface BucketableMixin {
 
         if (!(item instanceof CustomBucketItem bucketItem)) return;
 
-        Block block = bucketItem.getBlock(itemStack);
-
         ItemStack vanillaBucketStack = pickupEntity.getBucketItemStack();
-        Item vanillaBucketItem = vanillaBucketStack.getItem();
-        if(!(vanillaBucketItem instanceof BucketItem vanillaBucket)) return;
 
-        Fluid fluid = block instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
+        // Modded bucketable entities may not use a vanilla BucketItem for their bucket
+        Fluid requiredFluid = BucketFluids.contentOf(vanillaBucketStack);
+        if(requiredFluid == null) return;
 
-        if(fluid.isSame(((BucketItemAccessor) vanillaBucket).getContent()) && !bucketItem.holdsEntity(itemStack) && pickupEntity.isAlive()) {
-            pickupEntity.playSound(pickupEntity.getPickupSound(), 1.0F, 1.0F);
+        Fluid fluid = bucketItem.getFluid(itemStack);
 
-            ItemStack finalBucket = CustomBucketItem.mix(vanillaBucketStack, itemStack);
+        // Anything else is left to vanilla and to the other mods, we must not cancel it
+        if(!fluid.isSame(requiredFluid) || bucketItem.holdsEntity(itemStack) || !pickupEntity.isAlive()) return;
 
-            pickupEntity.saveToBucketTag(finalBucket);
-            ItemStack result = ItemUtils.createFilledResult(itemStack, player, finalBucket, false);
+        pickupEntity.playSound(pickupEntity.getPickupSound(), 1.0F, 1.0F);
 
-            player.setItemInHand(hand, result);
-            Level level = pickupEntity.level();
-            if (!level.isClientSide()) {
-                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, finalBucket);
-            }
+        // mix() returns a new stack of one, the held stack is decremented by createFilledResult
+        ItemStack finalBucket = CustomBucketItem.mix(vanillaBucketStack, itemStack);
 
-            pickupEntity.discard();
-            cir.setReturnValue(Optional.of(InteractionResult.SUCCESS));
-        } else {
-            cir.setReturnValue(Optional.empty());
+        pickupEntity.saveToBucketTag(finalBucket);
+        ItemStack result = ItemUtils.createFilledResult(itemStack, player, finalBucket, false);
+
+        player.setItemInHand(hand, result);
+        if (player instanceof ServerPlayer serverPlayer) {
+            CriteriaTriggers.FILLED_BUCKET.trigger(serverPlayer, finalBucket);
         }
+
+        pickupEntity.discard();
+        cir.setReturnValue(Optional.of(InteractionResult.SUCCESS));
     }
 }
 //?}

@@ -23,6 +23,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -47,7 +48,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.paulem.simpleores.items.ModComponents;
-import net.paulem.simpleores.mixin.accessor.BucketItemAccessor;
+import net.paulem.simpleores.utils.BucketFluids;
+import net.paulem.simpleores.utils.BucketPickupUtils;
 import net.paulem.simpleores.utils.LevelUtils;
 import org.jspecify.annotations.Nullable;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -55,7 +57,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
-// TODO: Fix glitched behaviour in creative mode with buckets when picking up entity
+/**
+ * A bucket which stores its content inside data components instead of having one item per content.
+ * <p>
+ * Invariants kept by every method of this class:
+ * <ul>
+ *     <li>A <b>filled</b> bucket is always a freshly created stack of count 1 carrying a per stack
+ *     {@link DataComponents#MAX_STACK_SIZE} of 1.</li>
+ *     <li>An <b>empty</b> bucket is always a pristine {@code new ItemStack(this)} without any component patch,
+ *     so that it stacks with every other empty bucket.</li>
+ *     <li>No method ever mutates a stack it did not create itself.</li>
+ * </ul>
+ */
 public class CustomBucketItem extends MobBucketItem implements CustomDispensibleContainerItem {
     private final Properties properties;
 
@@ -105,7 +118,6 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     public CustomBucketItem(Item.Properties settings) {
         super(null, Fluids.EMPTY, SoundEvents.EMPTY, settings
                         .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
-                        //.component(DataComponents.MAX_STACK_SIZE, 16) // TODO: Fix bug with max stack size which duplicates bucket on picking up liquid/block when holding 16 empty buckets
         );
 
         this.properties = (Properties) settings;
@@ -113,28 +125,40 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
-    public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, Block block) {
+    /**
+     * @return a copy of {@code source} of count 1 which may hold a content. Never returns the given stack.
+     */
+    private static ItemStack single(ItemStack source) {
+        ItemStack copy = source.copyWithCount(1);
+        copy.set(DataComponents.MAX_STACK_SIZE, 1);
+        return copy;
+    }
+
+    /**
+     * Removes every content marker of a stack we own. Must never be called on a stack held by someone else.
+     */
+    private static void clearContents(ItemStack owned) {
+        owned.remove(ModComponents.BUCKET_FISH_COMPONENT);
+        owned.remove(DataComponents.CONSUMABLE);
+        owned.remove(DataComponents.USE_REMAINDER);
+    }
+
+    /**
+     * @param itemStack the stack to base the result on. It is <b>never</b> modified.
+     * @return a new bucket stack of count 1 holding the given block.
+     */
+    public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, @Nullable Block block) {
+        if(itemStack != null && holdsEntity(itemStack)) return itemStack.copy();
         if(block == null || block == Blocks.AIR) return getEmpty();
 
-        Identifier identifier = getBlockIdentifier(block);
-
-        ItemStack stack = itemStack != null ? itemStack : getDefaultInstance();
-
-        stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, identifier);
-        if(stack.has(ModComponents.BUCKET_FISH_COMPONENT)) {
-            stack.remove(ModComponents.BUCKET_FISH_COMPONENT);
-        }
-        if(stack.has(DataComponents.CONSUMABLE) && stack.has(DataComponents.USE_REMAINDER)) {
-            stack.remove(DataComponents.CONSUMABLE);
-            stack.remove(DataComponents.USE_REMAINDER);
-        }
-
-        //stack.set(DataComponents.MAX_STACK_SIZE, 1);
+        ItemStack stack = single(itemStack != null ? itemStack : getDefaultInstance());
+        clearContents(stack);
+        stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(block));
 
         return stack;
     }
 
-    public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, Fluid modFluid) {
+    public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, @Nullable Fluid modFluid) {
         if(modFluid == null || modFluid == Fluids.EMPTY) return getEmpty();
 
         Block block = modFluid.defaultFluidState().createLegacyBlock().getBlock();
@@ -142,25 +166,22 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     public ItemStack getMilkBucket() {
-        ItemStack stack = getDefaultInstance();
+        ItemStack stack = new ItemStack(this);
         stack.set(ModComponents.BUCKET_FISH_COMPONENT, getItemIdentifier(Items.MILK_BUCKET));
         stack.set(DataComponents.CONSUMABLE, Consumables.MILK_BUCKET);
         stack.set(DataComponents.USE_REMAINDER, new UseRemainder(//? afterDeobf
                 ItemStackTemplate.fromNonEmptyStack
                         (getEmpty())));
-        //stack.set(DataComponents.MAX_STACK_SIZE, 1);
+        stack.set(DataComponents.MAX_STACK_SIZE, 1);
 
         return stack;
     }
 
+    /**
+     * @return a pristine empty bucket, without any component patch so that it stacks with the other empty buckets.
+     */
     public ItemStack getEmpty() {
-        Identifier identifier = getBlockIdentifier(Blocks.AIR);
-
-        ItemStack stack = getDefaultInstance();
-        stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, identifier);
-        //stack.set(DataComponents.MAX_STACK_SIZE, 16);
-
-        return stack;
+        return new ItemStack(this);
     }
 
     public boolean isEmpty(ItemStack stack) {
@@ -168,11 +189,18 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     public boolean isMilkBucket(ItemStack stack) {
-        return holdsEntity(stack) && stack.get(ModComponents.BUCKET_FISH_COMPONENT).equals(getItemIdentifier(Items.MILK_BUCKET));
+        return getItemIdentifier(Items.MILK_BUCKET).equals(stack.get(ModComponents.BUCKET_FISH_COMPONENT));
     }
 
     public boolean holdsFluid(ItemStack stack) {
         return getBlock(stack) instanceof LiquidBlock;
+    }
+
+    /**
+     * @return the fluid held by the bucket, or {@link Fluids#EMPTY} if it holds no fluid.
+     */
+    public Fluid getFluid(ItemStack stack) {
+        return getBlock(stack) instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
     }
 
     public boolean holdsBlock(ItemStack stack) {
@@ -190,6 +218,11 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         Identifier mobBucketIdentifier = stack.get(ModComponents.BUCKET_FISH_COMPONENT);
         Item vanillaBucket = itemFromIdentifier(mobBucketIdentifier);
 
+        if(holdsEntity(stack) && isMilkBucket(stack)) { // Milk
+            return Component.translatable(this.getDescriptionId() + ".milked",
+                    Component.translatable(Items.MILK_BUCKET.getDescriptionId()));
+        }
+
         if(holdsEntity(stack) && vanillaBucket instanceof MobBucketItem mobBucketItem) {
             EntityType<?> entityType = mobBucketItem.type;
 
@@ -199,36 +232,23 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             argument = entityType.getDescription();
 
             return Component.translatable(descriptionId, argument);
-        } else if(holdsEntity(stack)) { // Milk
-            String descriptionId = this.getDescriptionId();
-            Component argument;
-            descriptionId += ".milked";
-            argument = Component.translatable(Items.MILK_BUCKET.getDescriptionId());
-            return Component.translatable(descriptionId, argument);
+        } else if(holdsEntity(stack)) {
+            // Unknown entity bucket: the mod which added it is most likely not loaded anymore
+            return defaultEmpty;
         }
 
         Block block = getBlock(stack);
 
         if(block == Blocks.AIR) return defaultEmpty;
 
-        if(block instanceof LiquidBlock liquidBlock) {
-            Fluid fluid = liquidBlock.fluid;
+        Fluid fluid = getFluid(stack);
 
-            if(fluid == Fluids.EMPTY) return defaultEmpty;
-
-            String descriptionId = this.getDescriptionId();
-            Component argument;
-            descriptionId += ".filled";
-            argument = getFluidDescription(fluid);
-
-            return Component.translatable(descriptionId, argument);
-        } else { // TODO: Assume it's a BucketPickup
-            String descriptionId = this.getDescriptionId();
-            Component argument;
-            descriptionId += ".filled";
-            argument = getBlockDescription(block);
-
-            return Component.translatable(descriptionId, argument);
+        if(fluid != Fluids.EMPTY) {
+            return Component.translatable(this.getDescriptionId() + ".filled", getFluidDescription(fluid));
+        } else if(block instanceof LiquidBlock) {
+            return defaultEmpty;
+        } else { // Assume it's a BucketPickup
+            return Component.translatable(this.getDescriptionId() + ".filled", getBlockDescription(block));
         }
     }
 
@@ -250,16 +270,17 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     /**
      * @return The entity vanilla bucket item inside the bucket. Can be null if no entity is inside.
      */
-    public Item getVanillaEntityBucket(ItemStack stack) {
+    public @Nullable Item getVanillaEntityBucket(ItemStack stack) {
         return itemFromIdentifier(stack.get(ModComponents.BUCKET_FISH_COMPONENT));
     }
 
-    public static Block fromIdentifier(Identifier identifier) {
-        return BuiltInRegistries.BLOCK.getValue(identifier);
+    public static Block fromIdentifier(@Nullable Identifier identifier) {
+        // The component is missing on stacks given by other mods, commands or older saves
+        return identifier == null ? Blocks.AIR : BuiltInRegistries.BLOCK.getValue(identifier);
     }
 
-    public static Item itemFromIdentifier(Identifier identifier) {
-        return BuiltInRegistries.ITEM.getValue(identifier);
+    public static @Nullable Item itemFromIdentifier(@Nullable Identifier identifier) {
+        return identifier == null ? null : BuiltInRegistries.ITEM.getValue(identifier);
     }
 
     public static Identifier getBlockIdentifier(Block block) {
@@ -279,8 +300,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             return super.use(level, player, hand);
         }
 
-        Block blockContent = getBlock(itemStack);
-        Fluid content = blockContent instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
+        Fluid content = getFluid(itemStack);
 
         BlockHitResult hitResult = getPlayerPOVHitResult(
                 level, player, content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
@@ -300,13 +320,13 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                 BlockPos placePos = clicked.getBlock() instanceof LiquidBlockContainer && content == Fluids.WATER ? pos : directionOffsetPos;
 
                 // FOR PLACEMENT
-                if (this.emptyContents(player, level, placePos, hitResult)) {
+                if (this.emptyContents(player, level, placePos, hitResult, itemStack)) {
                     this.checkExtraContent(player, level, itemStack, placePos);
                     if (player instanceof ServerPlayer && content != Fluids.EMPTY) {
                         CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, placePos, itemStack);
                     }
 
-                    player.awardStat(Stats.ITEM_USED.get(this));
+                    player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
 
                     boolean shouldMelt = shouldMelt(itemStack);
                     if(shouldMelt && !player.hasInfiniteMaterials()) {
@@ -324,9 +344,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                         }
                     }
 
-                    ItemStack emptyResult = ItemUtils.createFilledResult(itemStack, player, getEmptySuccessItem(player, itemStack, shouldMelt));
-
-                    return InteractionResult.SUCCESS.heldItemTransformedTo(emptyResult);
+                    // A filled bucket is always a stack of one, so the whole held stack is replaced
+                    return InteractionResult.SUCCESS.heldItemTransformedTo(getEmptySuccessItem(player, itemStack, shouldMelt));
                 } else {
                     // FOR PICKUP
                     if (content == Fluids.EMPTY) {
@@ -349,12 +368,20 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     public int getFluidTemperature(ItemStack itemStack) {
-        if(holdsFluid(itemStack)) {
-            Fluid fluid = ((LiquidBlock) getBlock(itemStack)).fluid;
-            return FluidVariantAttributes.getTemperature(FluidVariant.of(fluid));
+        Fluid fluid = getFluid(itemStack);
+
+        if(fluid == Fluids.EMPTY) {
+            // Modded blocks picked up by a bucket may not be backed by a LiquidBlock
+            Block block = getBlock(itemStack);
+            if(block == Blocks.AIR) return 0;
+
+            Item bucket = BucketPickupUtils.getBucketForBlock(block);
+            fluid = bucket == null ? Fluids.EMPTY : BucketFluids.contentOf(bucket.getDefaultInstance());
         }
 
-        return 0;
+        if(fluid == null || fluid == Fluids.EMPTY) return 0;
+
+        return FluidVariantAttributes.getTemperature(FluidVariant.of(fluid));
     }
 
     public InteractionResult pickup(@NonNull Level level, @Nullable Player player, BlockPos pos, ItemStack itemStack) {
@@ -371,13 +398,17 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         BlockState blockState = level.getBlockState(pos);
 
         if (blockState.getBlock() instanceof BucketPickup bucketPickupBlock && customBucketItem.isEmpty(itemStack)) {
-            ItemStack taken = mix(bucketPickupBlock.pickupBlock(player, level, pos, blockState), itemStack);
-            taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()));
-            //taken.set(DataComponents.MAX_STACK_SIZE, 1);
+            ItemStack pickedUp = bucketPickupBlock.pickupBlock(player, level, pos, blockState);
+            if (pickedUp.isEmpty()) return InteractionResult.PASS;
+
+            // mix() always returns a fresh stack of one, the held one is only decremented by createFilledResult
+            ItemStack taken = mix(pickedUp, itemStack);
+            taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(blockState.getBlock()));
+            taken.set(DataComponents.MAX_STACK_SIZE, 1);
 
             if (!taken.isEmpty()) {
                 if(player != null) {
-                    player.awardStat(Stats.ITEM_USED.get(this));
+                    player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
                 }
 
                 bucketPickupBlock.getPickupSound().ifPresent(soundEvent -> {
@@ -406,10 +437,16 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     /**
-     * Mix a custom bucket item with a vanilla bucket item
+     * Mix a custom bucket item with a vanilla (or modded) bucket item.
+     *
+     * @param customBucketStack the held stack. It is <b>never</b> modified.
+     * @return a new custom bucket stack of count one holding the content of the given bucket,
+     * or a pristine empty bucket if that content could not be resolved.
      */
     public static @NonNull ItemStack mix(ItemStack vanillaBucketStack, ItemStack customBucketStack) {
-        ItemStack result = customBucketStack.copy();
+        ItemStack result = single(customBucketStack);
+        // The held bucket may still hold a previous content (mob, milk...) which must not survive
+        clearContents(result);
 
         Item vanillaBucketItem = vanillaBucketStack.getItem();
 
@@ -421,24 +458,90 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             case MobBucketItem vanillaMobBucket when !exchangeWithCustomBucket -> {
                 result.set(ModComponents.BUCKET_FISH_COMPONENT, getItemIdentifier(vanillaMobBucket));
 
-                Fluid fluid = ((BucketItemAccessor) vanillaMobBucket).getContent();
-                block = fluid.defaultFluidState().createLegacyBlock().getBlock();
+                block = blockOf(BucketFluids.contentOf(vanillaBucketStack));
             }
 
             case SolidBucketItem vanillaSolidBucket -> block = vanillaSolidBucket.getBlock();
 
-            case BucketItem vanillaBucket -> {
-                Fluid fluid = ((BucketItemAccessor) vanillaBucket).getContent();
-                block = fluid.defaultFluidState().createLegacyBlock().getBlock();
-            }
+            case BucketItem vanillaBucket when !exchangeWithCustomBucket ->
+                    block = blockOf(BucketFluids.contentOf(vanillaBucketStack));
+
+            case BlockItem moddedSolidBucket when !exchangeWithCustomBucket -> block = moddedSolidBucket.getBlock();
 
             default -> {
+                // Any other modded bucket item: ask the Fabric transfer API for its content
+                if(!exchangeWithCustomBucket) block = blockOf(BucketFluids.contentOf(vanillaBucketStack));
             }
         }
 
+        if(block == Blocks.AIR && !result.has(ModComponents.BUCKET_FISH_COMPONENT)) {
+            // Nothing could be resolved, keep an empty bucket which stacks with the other ones
+            return customBucketStack.getItem() instanceof CustomBucketItem customBucketItem
+                    ? customBucketItem.getEmpty()
+                    : result;
+        }
+
         result.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(block));
-        //result.set(DataComponents.MAX_STACK_SIZE, block == Blocks.AIR ? 16 : 1);
         return result;
+    }
+
+    private static Block blockOf(@Nullable Fluid fluid) {
+        if(fluid == null || fluid == Fluids.EMPTY) return Blocks.AIR;
+        return fluid.defaultFluidState().createLegacyBlock().getBlock();
+    }
+
+    /**
+     * Stack aware crafting remainder: only a bucket which held something gives an empty bucket back,
+     * and a bucket holding something else than milk keeps its content instead of losing it.
+     */
+    //? if afterDeobf {
+    @Override
+    public @Nullable ItemStackTemplate getCraftingRemainder(ItemStack stack) {
+        if(isEmpty(stack)) return null;
+        if(isMilkBucket(stack)) return ItemStackTemplate.fromNonEmptyStack(getEmpty());
+        return ItemStackTemplate.fromNonEmptyStack(stack.copyWithCount(1));
+    }
+    //?} else {
+    /*@Override
+    public ItemStack getRecipeRemainder(ItemStack stack) {
+        if(isEmpty(stack)) return ItemStack.EMPTY;
+        if(isMilkBucket(stack)) return getEmpty();
+        return stack.copyWithCount(1);
+    }
+    *///?}
+
+    /**
+     * Temperature used as a reference for an entity which is burning without standing in a hot fluid.
+     */
+    public static final int FIRE_TEMPERATURE = 1000;
+
+    /**
+     * Burns the bucket when its holder stands in a fluid (or a fire) hotter than the bucket can bear.
+     * This mirrors the {@code burningTemperature} behaviour of the BucketLib flavour of this bucket.
+     */
+    @Override
+    public void inventoryTick(final @NonNull ItemStack stack, final @NonNull ServerLevel level, final @NonNull Entity entity, final @Nullable EquipmentSlot slot) {
+        super.inventoryTick(stack, level, entity, slot);
+
+        if(!shouldBurn(entity)) return;
+
+        level.playSound(null, entity.blockPosition(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.5F, 2.0F);
+        stack.setCount(0);
+    }
+
+    public boolean shouldBurn(Entity entity) {
+        if(entity instanceof Player player && player.hasInfiniteMaterials()) return false;
+
+        int temperature;
+        if(entity.isInLava()) {
+            temperature = FluidVariantAttributes.getTemperature(FluidVariant.of(Fluids.LAVA));
+        } else if(entity.isOnFire()) {
+            temperature = FIRE_TEMPERATURE;
+        } else {
+            return false;
+        }
+
+        return properties.getFireTemperature() <= temperature;
     }
 
     public @NonNull ItemStack getEmptySuccessItem(final Player player, final ItemStack itemStack, boolean shouldBreak) {
@@ -452,39 +555,57 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         if (level instanceof ServerLevel && holdsEntity(itemStack) && item instanceof MobBucketItem mobBucketItem) {
             mobBucketItem.spawn((ServerLevel)level, itemStack, pos);
             level.gameEvent(user, GameEvent.ENTITY_PLACE, pos);
-
-            // Remove if dispenser or smth like that, or not creative mode
-            if(user == null || !user.hasInfiniteMaterials()) {
-                itemStack.remove(ModComponents.BUCKET_FISH_COMPONENT);
-            }
-            //itemStack.set(DataComponents.MAX_STACK_SIZE, 16);
+            // The held stack is never modified here: the callers replace it with an empty bucket,
+            // or keep it untouched in creative mode.
         }
     }
 
+    /**
+     * @deprecated the held stack cannot be guessed from the user, use
+     * {@link #emptyContents(LivingEntity, Level, BlockPos, BlockHitResult, ItemStack)} instead.
+     */
+    @Deprecated
     @Override
     public boolean emptyContents(@Nullable final LivingEntity user, final Level level, final BlockPos pos, @Nullable final BlockHitResult hitResult) {
-        ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
+        ItemStack itemStack = user == null ? ItemStack.EMPTY : getHeldBucket(user);
         return emptyContents(user, level, pos, hitResult, itemStack);
+    }
+
+    /**
+     * @return the hand holding the given stack, main hand by default.
+     */
+    private static InteractionHand getHandFor(@Nullable LivingEntity user, ItemStack itemStack) {
+        return user != null && user.getItemInHand(InteractionHand.OFF_HAND) == itemStack
+                ? InteractionHand.OFF_HAND
+                : InteractionHand.MAIN_HAND;
+    }
+
+    private static ItemStack getHeldBucket(LivingEntity user) {
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack held = user.getItemInHand(hand);
+            if(held.getItem() instanceof CustomBucketItem) return held;
+        }
+        return ItemStack.EMPTY;
     }
 
     @Override
     public boolean emptyContents(@Nullable LivingEntity user, Level level, BlockPos pos, @Nullable BlockHitResult hitResult, ItemStack itemStack) {
-        Block content = getBlock(itemStack);
-
         if(isMilkBucket(itemStack)) {
             return false;
         }
 
-        if (holdsFluid(itemStack) && content instanceof LiquidBlock liquidBlock) {
-            Fluid fluid = liquidBlock.fluid;
+        Fluid fluid = getFluid(itemStack);
+
+        if (fluid != Fluids.EMPTY) {
             if(fluid instanceof FlowingFluid flowingFluid) {
-                return emptyContentsFluid(flowingFluid, user, level, pos, hitResult);
+                return emptyContentsFluid(flowingFluid, user, level, pos, hitResult, itemStack);
             }
             return false;
 
         } else if(holdsBlock(itemStack)) {
             // TODO: Might duplicate behaviour with "use", migrate code to "use" if possible
-            InteractionResult interactionResult = useOn(new UseOnContext(level, (Player) user, InteractionHand.MAIN_HAND, itemStack, hitResult != null ? hitResult : new BlockHitResult(Vec3.atCenterOf(pos), Direction.DOWN, pos, false)));
+            Player player = user instanceof Player p ? p : null;
+            InteractionResult interactionResult = useOn(new UseOnContext(level, player, getHandFor(user, itemStack), itemStack, hitResult != null ? hitResult : new BlockHitResult(Vec3.atCenterOf(pos), Direction.DOWN, pos, false)));
             return interactionResult.consumesAction();
         } else if(holdsEntity(itemStack)) {
             return true;
@@ -493,7 +614,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return false;
     }
 
-    public boolean emptyContentsFluid(@NonNull FlowingFluid flowingFluid, @Nullable final LivingEntity user, final Level level, final BlockPos pos, @Nullable final BlockHitResult hitResult) {
+    public boolean emptyContentsFluid(@NonNull FlowingFluid flowingFluid, @Nullable final LivingEntity user, final Level level, final BlockPos pos, @Nullable final BlockHitResult hitResult, final ItemStack itemStack) {
         BlockState blockState = level.getBlockState(pos);
         Block block = blockState.getBlock();
 
@@ -503,7 +624,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         boolean canPlaceFluidInsideBlock = blockState.isAir() || placeLiquid && (!shiftKeyDown || hitResult == null);
 
         if (!canPlaceFluidInsideBlock) {
-            return hitResult != null && this.emptyContents(user, level, hitResult.getBlockPos().relative(hitResult.getDirection()), null);
+            return hitResult != null && this.emptyContents(user, level, hitResult.getBlockPos().relative(hitResult.getDirection()), null, itemStack);
         } else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.is(FluidTags.WATER)) {
             int x = pos.getX();
             int y = pos.getY();
@@ -518,7 +639,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             return true;
         } else if (block instanceof LiquidBlockContainer containerx && flowingFluid == Fluids.WATER) {
             containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource(false));
-            this.playEmptySound(user, level, pos);
+            this.playEmptySound(user, level, pos, itemStack);
             return true;
         } else {
             if (!level.isClientSide() && mayReplace && !blockState.liquid()) {
@@ -528,23 +649,20 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             if (!level.setBlock(pos, flowingFluid.defaultFluidState().createLegacyBlock(), 11) && !blockState.getFluidState().isSource()) {
                 return false;
             } else {
-                this.playEmptySound(user, level, pos);
+                this.playEmptySound(user, level, pos, itemStack);
                 return true;
             }
         }
     }
 
-    public void playEmptySound(@Nullable final LivingEntity user, final LevelAccessor level, final BlockPos pos) {
-        ItemStack itemStack = user == null ? ItemStack.EMPTY : user.getItemInHand(InteractionHand.MAIN_HAND);
-
+    public void playEmptySound(@Nullable final LivingEntity user, final LevelAccessor level, final BlockPos pos, final ItemStack itemStack) {
         Item vanillaMobBucket = itemFromIdentifier(itemStack.get(ModComponents.BUCKET_FISH_COMPONENT));
         if(holdsEntity(itemStack) && vanillaMobBucket instanceof MobBucketItem mobBucketItem) {
             mobBucketItem.playEmptySound(user, level, pos);
             return;
         }
 
-        Block blockContent = getBlock(itemStack);
-        Fluid content = blockContent instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
+        Fluid content = getFluid(itemStack);
 
         SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
         level.playSound(user, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -558,9 +676,12 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         InteractionResult placeResult = this.place(new BlockPlaceContext(context));
         Player player = context.getPlayer();
-        if (placeResult.consumesAction() && player != null) {
-            //TODO: Check for shouldBreak ?
-            player.setItemInHand(context.getHand(), getEmptySuccessItem(player, context.getItemInHand(), false));
+        if (placeResult.consumesAction()) {
+            // Single accounting point: place() must not consume the stack itself
+            if (player != null) {
+                player.setItemInHand(context.getHand(), ItemUtils.createFilledResult(context.getItemInHand(), player, getEmpty()));
+            }
+            // Without a player (dispenser), the remainder is handled by CustomBucketDispenseBehaviour
         }
 
         return placeResult;
@@ -609,7 +730,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                     );
 
                     level.gameEvent(GameEvent.BLOCK_PLACE, pos, GameEvent.Context.of(player, placedState));
-                    itemStack.consume(1, player);
+                    // The stack is consumed by useOn(), which is the single accounting point
                     return InteractionResult.SUCCESS;
                 }
             }

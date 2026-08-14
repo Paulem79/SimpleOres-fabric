@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -26,11 +26,15 @@ public abstract class FluidMixin {
 
     @Unique
     private ItemStack getCorrespondingBucket(FlowingFluid fluid, @Nullable LivingEntity drainer, LevelAccessor world, BlockPos pos, BlockState state, CallbackInfoReturnable<ItemStack> cir) {
-        ItemStack hand = drainer == null ? null : drainer.getMainHandItem();
-        Item handItem = hand == null ? null : hand.getItem();
+        if(drainer == null) return cir.getReturnValue();
 
-        if(handItem instanceof CustomBucketItem bucketItem) {
-            return bucketItem.getCorrespondingBucket(hand, fluid);
+        // Both hands are checked, the custom bucket can be used from the off hand as well
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack held = drainer.getItemInHand(hand);
+
+            if(held.getItem() instanceof CustomBucketItem bucketItem && bucketItem.isEmpty(held)) {
+                return bucketItem.getCorrespondingBucket(held, fluid);
+            }
         }
 
         return cir.getReturnValue();

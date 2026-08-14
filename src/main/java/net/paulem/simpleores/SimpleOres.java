@@ -24,6 +24,10 @@ import net.paulem.simpleores.furnaces.ModFurnacesEntities;
 import net.paulem.simpleores.ingredients.ModIngredients;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.items.TabExcludedItem;
+//? if !hasBucketlib && containsBucket {
+import net.paulem.simpleores.items.custom.bucket.BucketTabVariants;
+import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
+//?}
 //? >1.21
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
@@ -102,6 +106,15 @@ public class SimpleOres implements ModInitializer {
                 if(item instanceof TabExcludedItem) continue;
 
                 content.accept(new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+
+                //? if !hasBucketlib && containsBucket {
+                // Every filled variant of the bucket goes right after the empty one
+                if(item instanceof CustomBucketItem customBucket) {
+                    for (ItemStack variant : BucketTabVariants.build(customBucket)) {
+                        content.accept(variant, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    }
+                }
+                //?}
             }
 		});
 

@@ -39,9 +39,10 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
             // Pickup the contents, and return the new item with content inside
             InteractionResult interactionResult = bucket.pickup(level, null, target, dispensed);
             if(interactionResult instanceof InteractionResult.Success success) {
-                ItemStack stack = success.heldItemTransformedTo();
-                if(stack != null) {
-                    return stack;
+                ItemStack filled = success.heldItemTransformedTo();
+                if(filled != null && !filled.isEmpty()) {
+                    // Only one bucket of the dispensed stack is filled
+                    return this.consumeWithRemainder(source, dispensed, filled);
                 }
             }
 

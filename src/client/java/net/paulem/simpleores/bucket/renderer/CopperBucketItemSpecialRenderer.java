@@ -53,27 +53,25 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
 
         Identifier blockIdentifier = stack.get(ModComponents.BUCKET_BLOCK_COMPONENT);
 
+        // Nothing to add: the empty bucket layer of the composite model is still rendered
         if(blockIdentifier == null) return;
 
         Block block = BuiltInRegistries.BLOCK.getValue(blockIdentifier);
 
+        Item vanillaBucket = null;
+
         if(block instanceof LiquidBlock liquidBlock) {
             Fluid fluid = liquidBlock.fluid;
 
-            if(fluid == Fluids.EMPTY) {
-                resolver.appendItemLayers(output, stack, displayContext, level, owner, seed);
-                return;
-            }
-
-            Item vanillaBucket = fluid.getBucket();
-            resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
+            if(fluid != Fluids.EMPTY) vanillaBucket = fluid.getBucket();
         } else if(block instanceof BucketPickup) {
-            Item vanillaBucket = BucketPickupUtils.getBucketForBlock(block);
-
-            if(vanillaBucket == null) return;
-
-            resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
+            vanillaBucket = BucketPickupUtils.getBucketForBlock(block);
         }
+
+        // Unknown content: only the empty bucket layer of the composite model is rendered
+        if(vanillaBucket == null) return;
+
+        resolver.appendItemLayers(output, vanillaBucket.getDefaultInstance(), displayContext, level, owner, seed);
     }
 
     public void updateForEntity(@NonNull ItemStackRenderState output, ItemStack stack, @NonNull ItemModelResolver resolver, @NonNull ItemDisplayContext displayContext, @Nullable ClientLevel level, //? if >1.21.8 {
@@ -83,7 +81,13 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
                                 *///?}
                                 int seed) {
         Identifier entityBucketIdentifier = stack.get(ModComponents.BUCKET_FISH_COMPONENT);
+
+        // The bucket of a mod which is not loaded anymore: only the empty bucket layer is rendered
+        if(entityBucketIdentifier == null) return;
+
         Item vanillaEntityBucketItem = BuiltInRegistries.ITEM.getValue(entityBucketIdentifier);
+
+        if(vanillaEntityBucketItem == null) return;
 
         resolver.appendItemLayers(output, vanillaEntityBucketItem.getDefaultInstance(), displayContext, level, owner, seed);
     }

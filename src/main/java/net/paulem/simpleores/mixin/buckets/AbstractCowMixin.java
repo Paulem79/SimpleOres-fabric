@@ -23,25 +23,19 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal //? if >1.21.10
         .cow
         .AbstractCow;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
+import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractCow.class)
-public abstract class AbstractCowMixin extends Animal {
-
-    private AbstractCowMixin(EntityType<? extends Animal> type, Level level) {
-        super(type, level);
-    }
+public abstract class AbstractCowMixin {
 
     @Inject(
             method = "mobInteract",
@@ -56,15 +50,18 @@ public abstract class AbstractCowMixin extends Animal {
 
         if (!(item instanceof CustomBucketItem bucketItem)) return;
 
+        if (!SimpleOres.CONFIG.enableCopperBucketMilking()) return;
+
         AbstractCow cow = (AbstractCow) (Object) this;
-        if (bucketItem.isEmpty(itemStack) && !cow.isBaby()) {
-            player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
-            ItemStack bucketOrMilkBucket = ItemUtils.createFilledResult(itemStack, player, bucketItem.getMilkBucket());
-            player.setItemInHand(hand, bucketOrMilkBucket);
-            cir.setReturnValue(InteractionResult.SUCCESS);
-        } else {
-            cir.setReturnValue(super.mobInteract(player, hand));
-        }
+
+        // Anything else is left to vanilla and to the other mods, we must not cancel it
+        if (!bucketItem.isEmpty(itemStack) || cow.isBaby()) return;
+
+        player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
+        // getMilkBucket() is a new stack of one, the held stack is decremented by createFilledResult
+        ItemStack bucketOrMilkBucket = ItemUtils.createFilledResult(itemStack, player, bucketItem.getMilkBucket());
+        player.setItemInHand(hand, bucketOrMilkBucket);
+        cir.setReturnValue(InteractionResult.SUCCESS);
     }
 }
 //?}
