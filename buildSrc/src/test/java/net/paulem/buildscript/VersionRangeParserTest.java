@@ -85,4 +85,34 @@ class VersionRangeParserTest {
         assertTrue(Version.parse(VersionRangeParser.normalize("26.2-snapshot-1"), false)
                 .satisfies(">=26.1 & <26.2"));
     }
+
+    private static VersionRangeParser.CompiledVersions versions(String... ids) {
+        List<VersionRangeParser.MinecraftVersion> list = new java.util.ArrayList<>();
+        for (String id : ids) {
+            String type = VersionRangeParser.isSnapshotId(id) ? "snapshot" : "release";
+            list.add(new VersionRangeParser.MinecraftVersion(id, type, null, null, null, null, 0));
+        }
+        return new VersionRangeParser.CompiledVersions(list);
+    }
+
+    /** Un cycle encore en développement ({@code ~26.3-}) ne doit pas produire une liste vide. */
+    @Test
+    void testVersionLineKeepsSnapshotsOnlyCycle() {
+        assertEquals(
+                List.of("26.3-snapshot-1", "26.3-snapshot-8"),
+                VersionRangeParser.commonVersionExtract(
+                        "~26.3-",
+                        versions("26.2", "26.2-rc-1", "26.3-snapshot-1", "26.3-snapshot-8")));
+    }
+
+    /** {@code ~26.1-} couvre 26.1, ses correctifs et leurs préversions, jamais le cycle suivant. */
+    @Test
+    void testVersionLineCoversPatchesAndPreReleases() {
+        assertEquals(
+                List.of("26.1-snapshot-1", "26.1-rc-1", "26.1", "26.1.1-rc-1", "26.1.1", "26.1.2"),
+                VersionRangeParser.commonVersionExtract(
+                        "~26.1-",
+                        versions("1.21.11", "26.1-snapshot-1", "26.1-rc-1", "26.1",
+                                "26.1.1-rc-1", "26.1.1", "26.1.2", "26.2-snapshot-1", "26.2")));
+    }
 }

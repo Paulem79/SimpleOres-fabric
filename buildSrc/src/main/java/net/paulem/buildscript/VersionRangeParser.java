@@ -111,7 +111,8 @@ public class VersionRangeParser {
     private static final java.util.regex.Pattern VERSION_LINE =
             java.util.regex.Pattern.compile("^~(\\d+\\.\\d+)-$");
 
-    private static List<String> commonVersionExtract(String rangeExpression, VersionRangeParser.CompiledVersions allVersions) {
+    // Visible pour les tests : permet de vérifier le filtrage sans contacter le manifeste Mojang.
+    static List<String> commonVersionExtract(String rangeExpression, VersionRangeParser.CompiledVersions allVersions) {
         if (rangeExpression == null || rangeExpression.isEmpty()) {
             return new ArrayList<>();
         }
