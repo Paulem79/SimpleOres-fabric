@@ -1,10 +1,20 @@
 {
   "type": "energizedpower:pulverizer",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "energizedpower"
+      ]
+    }
+  ],
   "ingredient": "simpleores:mythril_ingot",
   "result": {
     "result": {
       "id": "simpleores:mythril_dust"
     },
-    "percentages": [ 1.0 ]
+    "percentages": [
+      1.0
+    ]
   }
 }

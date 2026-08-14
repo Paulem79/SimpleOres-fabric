@@ -1,5 +1,13 @@
 {
   "type": "energizedpower:pulverizer",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "energizedpower"
+      ]
+    }
+  ],
   "ingredient": {
     "item": "simpleores:raw_tin_block"
   },
@@ -7,6 +15,19 @@
     "output": {
       "item": "simpleores:tin_dust"
     },
-    "percentages": [ 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.25 ]
+    "percentages": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.5,
+      0.5,
+      0.25
+    ]
   }
 }

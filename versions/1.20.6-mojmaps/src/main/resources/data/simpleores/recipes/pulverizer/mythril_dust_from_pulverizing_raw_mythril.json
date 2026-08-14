@@ -1,5 +1,13 @@
 {
   "type": "energizedpower:pulverizer",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "energizedpower"
+      ]
+    }
+  ],
   "ingredient": {
     "item": "simpleores:raw_mythril"
   },
@@ -7,6 +15,9 @@
     "output": {
       "item": "simpleores:mythril_dust"
     },
-    "percentages": [ 1.0, 0.25 ]
+    "percentages": [
+      1.0,
+      0.25
+    ]
   }
 }
