@@ -65,4 +65,24 @@ class VersionRangeParserTest {
         assertTrue(Version.parse("1.21.8").satisfies(">=1.21.6 & <=1.21.8"));
         assertFalse(Version.parse("1.21.9").satisfies(">=1.21.6 & <=1.21.8"));
     }
+
+    /**
+     * Documente pourquoi {@code ~X.Y-} est traité à part dans le parseur : la bibliothèque ne
+     * connaît pas cette convention et lève une exception, ce qui vidait silencieusement la liste
+     * des versions publiées (CurseForge répondait alors « You must select at least one version »).
+     */
+    @Test
+    void testTrailingHyphenIsNotSupportedBySemver() {
+        assertThrows(Exception.class, () -> Version.parse("26.1.2", false).satisfies("~26.1-"));
+    }
+
+    /**
+     * Un encadrement semver ne peut pas remplacer {@code ~X.Y-} : les préversions du cycle suivant
+     * sont inférieures à sa version stable, donc {@code <26.2} les ramènerait à tort.
+     */
+    @Test
+    void testNextCycleSnapshotsSortBelowTheirRelease() {
+        assertTrue(Version.parse(VersionRangeParser.normalize("26.2-snapshot-1"), false)
+                .satisfies(">=26.1 & <26.2"));
+    }
 }

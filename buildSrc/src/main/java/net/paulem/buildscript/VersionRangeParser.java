@@ -104,9 +104,30 @@ public class VersionRangeParser {
         return commonVersionExtract(combinedRange, allVersions);
     }
 
+    /**
+     * Ligne de versions complète : {@code ~26.1-} désigne 26.1 et tous ses correctifs, y compris
+     * leurs préversions ({@code 26.1.1-rc-1}), mais jamais celles du cycle suivant.
+     */
+    private static final java.util.regex.Pattern VERSION_LINE =
+            java.util.regex.Pattern.compile("^~(\\d+\\.\\d+)-$");
+
     private static List<String> commonVersionExtract(String rangeExpression, VersionRangeParser.CompiledVersions allVersions) {
         if (rangeExpression == null || rangeExpression.isEmpty()) {
             return new ArrayList<>();
+        }
+
+        // java-semver ignore la convention « -» (inclure les préversions) et lève une exception,
+        // ce qui faisait retomber le filtre sur une égalité stricte d'identifiant, donc sur une
+        // liste vide. Un encadrement semver ne convient pas non plus ici : 26.2-snapshot-1 étant
+        // inférieur à 26.2, « <26.2 » ramènerait les snapshots du cycle suivant. On compare donc
+        // directement le préfixe de la ligne de versions.
+        java.util.regex.Matcher versionLine = VERSION_LINE.matcher(rangeExpression.trim());
+        if (versionLine.matches()) {
+            String line = versionLine.group(1);
+            return allVersions.stream()
+                    .map(MinecraftVersion::id)
+                    .filter(id -> id.equals(line) || id.startsWith(line + ".") || id.startsWith(line + "-"))
+                    .collect(Collectors.toList());
         }
 
         // Nettoyage de l'expression de range pour SemVer

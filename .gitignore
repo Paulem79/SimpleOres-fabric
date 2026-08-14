@@ -1,3 +1,4 @@
+.vtout
 changelog.txt
 versions/*/src/main/generated
 versions/*/src/main/generated/.cache
