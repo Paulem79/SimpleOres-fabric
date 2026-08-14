@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
 
+    # Le changelog est récupéré pendant la phase de configuration de Gradle : sans ce token
+    # au niveau du job, les tâches interrogent l'API GitHub anonymement (60 req/h partagées).
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: ✅ Checkout repository
         uses: actions/checkout@v6

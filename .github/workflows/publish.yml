@@ -7,6 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
 
+    # Le changelog est récupéré pendant la phase de configuration de Gradle : sans ce token
+    # au niveau du job, `runDatagen` et `build` interrogent l'API GitHub anonymement (60 req/h
+    # partagées) et épuisent le quota avant même l'étape de publication.
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: ✅ Checkout repository
         uses: actions/checkout@v6
@@ -71,10 +77,11 @@ jobs:
           --build-cache
 
       - name: ⬆️ Upload to Modrinth/CurseForge
-        run: ./gradlew publishMods
+        # Publication en série : les 14 versions créent chacune une release GitHub, et un envoi
+        # parallèle déclenche la limite de débit de l'API (403 "rate limit exceeded").
+        run: ./gradlew publishMods --no-parallel --max-workers=1
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
           GITHUB_EVENT_RAW_PATH: ${{ github.event_path }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
