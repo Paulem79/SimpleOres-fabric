@@ -9,7 +9,7 @@ plugins {
     id("net.fabricmc.fabric-loom-remap") version "1.17-SNAPSHOT" apply false
 
     `maven-publish`
-    id("me.modmuss50.mod-publish-plugin") version "2.1.1"
+    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
 
     id("dev.kikugie.stonecutter")
 }
