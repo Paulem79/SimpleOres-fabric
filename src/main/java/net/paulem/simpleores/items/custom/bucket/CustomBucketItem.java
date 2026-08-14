@@ -30,6 +30,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlockItemStateProperties;
+//? if afterDeobf {
+import net.minecraft.world.item.component.BrewingFuel;
+import net.minecraft.world.item.component.CookingFuel;
+//?}
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.UseRemainder;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -141,6 +145,34 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         owned.remove(ModComponents.BUCKET_FISH_COMPONENT);
         owned.remove(DataComponents.CONSUMABLE);
         owned.remove(DataComponents.USE_REMAINDER);
+        //? if afterDeobf {
+        owned.remove(DataComponents.COOKING_FUEL);
+        owned.remove(DataComponents.BREWING_FUEL);
+        //?}
+    }
+
+    /**
+     * Copies the behaviour the matching vanilla bucket gets from its own components onto a bucket we own,
+     * so that a bucket of lava burns in a furnace exactly like the vanilla one.
+     * Older versions do not store the fuels in components, they are handled by {@code FuelValuesMixin}.
+     */
+    private static void applyVanillaComponents(ItemStack owned) {
+        //? if afterDeobf {
+        if(!(owned.getItem() instanceof CustomBucketItem bucketItem)) return;
+
+        ItemStack vanillaBucket = bucketItem.toVanillaBucket(owned);
+        if(vanillaBucket.isEmpty()) return;
+
+        CookingFuel cookingFuel = vanillaBucket.get(DataComponents.COOKING_FUEL);
+        if(cookingFuel != null && !owned.has(DataComponents.COOKING_FUEL)) {
+            owned.set(DataComponents.COOKING_FUEL, cookingFuel);
+        }
+
+        BrewingFuel brewingFuel = vanillaBucket.get(DataComponents.BREWING_FUEL);
+        if(brewingFuel != null && !owned.has(DataComponents.BREWING_FUEL)) {
+            owned.set(DataComponents.BREWING_FUEL, brewingFuel);
+        }
+        //?}
     }
 
     /**
@@ -154,6 +186,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         ItemStack stack = single(itemStack != null ? itemStack : getDefaultInstance());
         clearContents(stack);
         stack.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(block));
+        applyVanillaComponents(stack);
 
         return stack;
     }
@@ -405,6 +438,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             ItemStack taken = mix(pickedUp, itemStack);
             taken.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(blockState.getBlock()));
             taken.set(DataComponents.MAX_STACK_SIZE, 1);
+            applyVanillaComponents(taken);
 
             if (!taken.isEmpty()) {
                 if(player != null) {
@@ -482,6 +516,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         }
 
         result.set(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(block));
+        applyVanillaComponents(result);
         return result;
     }
 
@@ -491,22 +526,64 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     /**
-     * Stack aware crafting remainder: only a bucket which held something gives an empty bucket back,
-     * and a bucket holding something else than milk keeps its content instead of losing it.
+     * The exact opposite of {@link #mix(ItemStack, ItemStack)}: gives back the vanilla (or modded) bucket
+     * matching the content of this bucket. It is what makes the custom bucket usable in every recipe
+     * asking for a vanilla bucket.
+     *
+     * @return a new vanilla bucket stack of count one, or {@link ItemStack#EMPTY} if the content is unknown.
      */
+    public ItemStack toVanillaBucket(ItemStack stack) {
+        if(holdsEntity(stack)) {
+            Item entityBucket = getVanillaEntityBucket(stack);
+            if(entityBucket == null) return ItemStack.EMPTY;
+
+            ItemStack vanilla = entityBucket.getDefaultInstance();
+            // Keeps the entity data (custom name, health...) so that placing it back gives the same mob
+            vanilla.applyComponents(stack.getComponentsPatch());
+            vanilla.remove(ModComponents.BUCKET_BLOCK_COMPONENT);
+            vanilla.remove(ModComponents.BUCKET_FISH_COMPONENT);
+            vanilla.remove(DataComponents.MAX_STACK_SIZE);
+            return vanilla;
+        }
+
+        Block block = getBlock(stack);
+
+        if(block == Blocks.AIR) return Items.BUCKET.getDefaultInstance();
+
+        Fluid fluid = getFluid(stack);
+        if(fluid != Fluids.EMPTY) return fluid.getBucket().getDefaultInstance();
+
+        Item solidBucket = BucketPickupUtils.getBucketForBlock(block);
+        return solidBucket == null ? ItemStack.EMPTY : solidBucket.getDefaultInstance();
+    }
+
+    /**
+     * Stack aware crafting remainder, mirroring what the matching vanilla bucket gives back: an empty bucket
+     * for a milk, water or lava bucket, and nothing for an empty bucket (which would otherwise be duplicated)
+     * or for an entity bucket, exactly like the vanilla ones.
+     */
+    public boolean leavesEmptyBucketWhenCrafted(ItemStack stack) {
+        if(isEmpty(stack)) return false;
+
+        ItemStack vanilla = toVanillaBucket(stack);
+        if(vanilla.isEmpty()) return false;
+
+        //? if afterDeobf {
+        return vanilla.getItem().getCraftingRemainder() != null;
+        //?} else {
+        /*return !vanilla.getItem().getCraftingRemainder().isEmpty();
+        *///?}
+    }
+
     //? if afterDeobf {
     @Override
     public @Nullable ItemStackTemplate getCraftingRemainder(ItemStack stack) {
-        if(isEmpty(stack)) return null;
-        if(isMilkBucket(stack)) return ItemStackTemplate.fromNonEmptyStack(getEmpty());
-        return ItemStackTemplate.fromNonEmptyStack(stack.copyWithCount(1));
+        return leavesEmptyBucketWhenCrafted(stack) ? ItemStackTemplate.fromNonEmptyStack(getEmpty()) : null;
     }
     //?} else {
     /*@Override
     public ItemStack getRecipeRemainder(ItemStack stack) {
-        if(isEmpty(stack)) return ItemStack.EMPTY;
-        if(isMilkBucket(stack)) return getEmpty();
-        return stack.copyWithCount(1);
+        return leavesEmptyBucketWhenCrafted(stack) ? getEmpty() : ItemStack.EMPTY;
     }
     *///?}
 
@@ -522,6 +599,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     @Override
     public void inventoryTick(final @NonNull ItemStack stack, final @NonNull ServerLevel level, final @NonNull Entity entity, final @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, level, entity, slot);
+
+        // Heals the buckets filled before this behaviour existed
+        if(!isEmpty(stack)) applyVanillaComponents(stack);
 
         if(!shouldBurn(entity)) return;
 

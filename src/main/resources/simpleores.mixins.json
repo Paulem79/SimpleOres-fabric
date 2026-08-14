@@ -14,6 +14,11 @@
     "buckets.BucketableMixin",
     "buckets.AbstractCowMixin",
     "buckets.BucketItemMixin",
+    "buckets.IngredientMixin",
+    "buckets.StackedItemContentsMixin",
+    "buckets.InventoryMixin",
+    "buckets.FuelValuesMixin",
+    "buckets.FurnaceFuelSlotMixin",
     "furnaces.AbstractFurnaceEntityMixin"
   ],
   "injectors": {

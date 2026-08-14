@@ -20,8 +20,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
-//? !hasBucketlib
-import net.paulem.simpleores.ingredients.ModIngredients;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.items.TabExcludedItem;
 //? if !hasBucketlib && containsBucket {
@@ -66,8 +64,6 @@ public class SimpleOres implements ModInitializer {
 		ModItems.init();
         ModFurnaces.init();
         ModFurnacesEntities.init();
-        //? !hasBucketlib
-        ModIngredients.init();
 
 		// Register custom buckets
         //? hasBucketlib {

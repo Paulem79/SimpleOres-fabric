@@ -32,10 +32,6 @@ import java.util.concurrent.CompletableFuture;
 import net.paulem.simpleores.utils.MaterialUtils;
 import net.paulem.simpleores.utils.MapUtils;
 
-//? if !hasBucketlib && containsBucket {
-import net.minecraft.tags.ItemTags;
-import net.paulem.simpleores.ingredients.MilkIngredient;
-//?}
 
 //? if >26.2 {
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -61,19 +57,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                          generator, RecipeOutput exporter) {
         scRecipe = new SCRecipe(this, generator, exporter);
 
-        //? if !hasBucketlib && containsBucket {
-        // Recipe for milk bucket
-        scRecipe.createShaped(RecipeCategory.FOOD, Blocks.CAKE)
-                .define('A', new MilkIngredient().toVanilla())
-                .define('B', Items.SUGAR)
-                .define('C', Items.WHEAT)
-                .define('E', ItemTags.EGGS)
-                .pattern("AAA")
-                .pattern("BEB")
-                .pattern("CCC")
-                .unlockedBy("has_egg", scRecipe.has(ItemTags.EGGS))
-                .save(exporter);
-        //?}
+        // No cake recipe here: the custom bucket is accepted by the vanilla one thanks to IngredientMixin
 
         offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT);
