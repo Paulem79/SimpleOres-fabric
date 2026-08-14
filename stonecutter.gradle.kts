@@ -3,7 +3,7 @@ plugins {
 }
 
 // L'état actif doit maintenant inclure le mapping !
-stonecutter active "26.3-snapshot-deobf"
+stonecutter active "26.3-deobf"
 
 stonecutter parameters {
     filters.exclude("**/*.aw")

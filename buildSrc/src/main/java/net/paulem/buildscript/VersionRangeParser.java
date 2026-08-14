@@ -18,6 +18,45 @@ import java.util.stream.Stream;
 
 public class VersionRangeParser {
 
+    /** Snapshots hebdomadaires historiques : {@code 25w14a}, {@code 24w14potato}. */
+    private static final java.util.regex.Pattern WEEKLY_SNAPSHOT =
+            java.util.regex.Pattern.compile("^\\d{2}w\\d{2}[a-z~].*$", java.util.regex.Pattern.CASE_INSENSITIVE);
+
+    /** Pré-versions : {@code 26.3-snapshot-8}, {@code 1.21.6-pre1}, {@code 26.2-rc-2}, {@code 1.20-exp1}. */
+    private static final java.util.regex.Pattern PRE_RELEASE =
+            java.util.regex.Pattern.compile("^.+-(snapshot|pre|rc|exp|alpha|beta)[-.]?\\d*$",
+                    java.util.regex.Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Indique si un identifiant Mojang désigne une version de développement, sans contacter
+     * le manifeste. Permet de déduire l'état « snapshot » de {@code deps.minecraft} plutôt
+     * que du nom du dossier Stonecutter.
+     */
+    public static boolean isSnapshotId(String id) {
+        if (id == null || id.isBlank()) return false;
+        String trimmed = id.trim();
+        return WEEKLY_SNAPSHOT.matcher(trimmed).matches() || PRE_RELEASE.matcher(trimmed).matches();
+    }
+
+    /**
+     * Traduit un identifiant Mojang vers le nom utilisé par CurseForge, qui ne référence pas
+     * chaque snapshot individuellement mais un unique {@code <version>-snapshot} par cycle :
+     * {@code 26.3-snapshot-8} et {@code 26.3-rc-1} deviennent tous deux {@code 26.3-snapshot}.
+     *
+     * <p>Les snapshots hebdomadaires historiques ({@code 25w14a}) et les versions stables sont
+     * renvoyés tels quels.</p>
+     */
+    public static String toCurseforgeVersion(String id) {
+        if (!isSnapshotId(id)) return id;
+
+        String trimmed = id.trim();
+        int separator = trimmed.indexOf('-');
+        // Ancien schéma (25w14a) : pas de préfixe de version, CurseForge utilise l'id brut.
+        if (separator <= 0) return trimmed;
+
+        return trimmed.substring(0, separator) + "-snapshot";
+    }
+
     public static List<String> parseVersionRange(String range) {
         CompiledVersions allVersions = new CompiledVersions(getAllMinecraftVersions());
         return commonVersionExtract(range, allVersions);

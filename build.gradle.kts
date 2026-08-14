@@ -149,19 +149,24 @@ if (fabricApiExt != null) {
 }
 
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
-// On utilise .version pour éviter que le "-mojmaps" ou "-deobf" ne s'infiltre ici
-val isSnapshot = stonecutter.current.version.contains("snapshot", true)
-val minecraftVersion = if(isSnapshot || (findProperty("deps.minecraft") != null && findProperty("deps.minecraft") != "[VERSIONED]")) {
-    property("deps.minecraft")
-} else {
-    stonecutter.current.version
-}
+
+// Identifiant Mojang réel de la version ciblée. "deps.minecraft" prime sur le nom du dossier
+// Stonecutter : le dossier peut donc s'appeler "26.3-deobf" tout en compilant contre
+// "26.3-snapshot-8". On utilise .version pour éviter que "-mojmaps"/"-deobf" ne s'infiltre ici.
+val minecraftVersion: String = findProperty("deps.minecraft")
+    ?.takeIf { it != "[VERSIONED]" }
+    ?.toString()
+    ?: stonecutter.current.version
+
+// Déduit de l'identifiant Mojang (26.3-snapshot-8, 1.21.6-pre1, 25w14a…) et non du nom du
+// dossier, ce qui permet de retirer le "-snapshot" des noms de versions Stonecutter.
+val isSnapshot = VersionRangeParser.isSnapshotId(minecraftVersion)
 
 dependencies {
     add("minecraft", "com.mojang:minecraft:${minecraftVersion}")
 
     // Résolution des mappings uniquement sur Mojmaps et versions compatibles
-    if(isMojmaps && stonecutter.eval(minecraftVersion.toString(), "<=1.21.11")) {
+    if(isMojmaps && stonecutter.eval(minecraftVersion, "<=1.21.11")) {
         val loomExt = project.extensions.getByName("loom") as net.fabricmc.loom.api.LoomGradleExtensionAPI
         // Utilisation de add() au lieu de l'accesseur dynamique mappings(...)
         add("mappings", loomExt.officialMojangMappings())
@@ -296,9 +301,32 @@ val modrinthToken =
     (findProperty("MODRINTH_TOKEN") as String?)
         ?: System.getenv("MODRINTH_TOKEN")
 
-fun formatPublishVersion(): String {
-    val subs = project.version.toString().split('-')
-    return subs[0] + "-" + subs[1]
+// Basé sur l'identifiant Mojang plutôt que sur le nom du dossier : deux snapshots successifs
+// (26.3-snapshot-7 et -8) produisent ainsi des numéros de version distincts, exigés par
+// Modrinth et CurseForge.
+fun formatPublishVersion(): String = "${project.property("mod.version")}-$minecraftVersion"
+
+// Versions de jeu déclarées sur CurseForge. CurseForge ne référence pas chaque snapshot
+// individuellement mais un unique "<version>-snapshot" par cycle : 26.3-snapshot-8 est donc
+// publié sous "26.3-snapshot". La propriété "curseforge_versions" (liste séparée par des
+// virgules) permet de forcer la liste si CurseForge nomme la version autrement.
+fun curseforgeVersions(): List<String> {
+    val override = (findProperty("curseforge_versions") as String?)
+        ?.split(',')
+        ?.map(String::trim)
+        ?.filter(String::isNotEmpty)
+        ?: emptyList()
+
+    if (override.isNotEmpty()) return override
+
+    return if (isSnapshot) {
+        listOf(VersionRangeParser.toCurseforgeVersion(minecraftVersion))
+    } else {
+        VersionRangeParser.parseVersionRange(
+            project.properties,
+            VersionRangeParser.CompiledVersions.VersionType.RELEASE
+        )
+    }
 }
 
 publishMods {
@@ -310,12 +338,13 @@ publishMods {
         }
     )
 
-    displayName.set("SimpleOres Fabric ${project.property("mod.version")}")
+    displayName.set("SimpleOres Fabric ${project.property("mod.version")} for $minecraftVersion")
     version.set(formatPublishVersion())
     changelog.set(githubChangelog)
 
     type.set(
-        if (!hasBucketlib) BETA
+        // Une version compilée contre un snapshot ne peut pas être marquée stable.
+        if (isSnapshot || !hasBucketlib) BETA
         else STABLE
     )
 
@@ -357,16 +386,7 @@ publishMods {
         client.set(true)
         server.set(true)
 
-        minecraftVersions.addAll(
-            if (isSnapshot) {
-                listOf(stonecutter.current.project)
-            } else {
-                VersionRangeParser.parseVersionRange(
-                    project.properties,
-                    VersionRangeParser.CompiledVersions.VersionType.RELEASE
-                )
-            }
-        )
+        minecraftVersions.addAll(curseforgeVersions())
 
         requires("fabric-api")
 
