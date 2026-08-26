@@ -6,7 +6,7 @@ import net.fabricmc.loom.task.RemapJarTask
 plugins {
     // Déclaration des plugins Loom sans les appliquer immédiatement (technique YACL)
     id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT" apply false
-    id("net.fabricmc.fabric-loom-remap") version "1.17-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom-remap") version "1.17.20" apply false
 
     `maven-publish`
     id("me.modmuss50.mod-publish-plugin") version "2.2.0"
