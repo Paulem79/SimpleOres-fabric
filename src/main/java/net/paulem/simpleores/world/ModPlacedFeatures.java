@@ -14,10 +14,10 @@ import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.stonecutter.SCId;
 
 //? if >26.2 {
-import net.minecraft.world.level.levelgen.feature.Feature;
-//?} else {
-/*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
- *///?}
+/*import net.minecraft.world.level.levelgen.feature.Feature;
+*///?} else {
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+ //?}
 
 // TODO : More affiliated to base gen
 public class ModPlacedFeatures {
@@ -29,7 +29,7 @@ public class ModPlacedFeatures {
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         //? if >26.2 {
-        HolderGetter<Feature> HolderLookup = context.lookup(Registries.FEATURE);
+        /*HolderGetter<Feature> HolderLookup = context.lookup(Registries.FEATURE);
 
         Holder<Feature> tinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
 
@@ -80,8 +80,8 @@ public class ModPlacedFeatures {
                 ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(10), VerticalAnchor.belowTop(10)))
         );
-        //?} else {
-        /*HolderGetter<ConfiguredFeature<?, ?>> HolderLookup = context.lookup(Registries.CONFIGURED_FEATURE);
+        *///?} else {
+        HolderGetter<ConfiguredFeature<?, ?>> HolderLookup = context.lookup(Registries.CONFIGURED_FEATURE);
 
         Holder<ConfiguredFeature<?, ?>> tinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
 
@@ -132,7 +132,7 @@ public class ModPlacedFeatures {
                 ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(10), VerticalAnchor.belowTop(10)))
         );
-        *///?}
+        //?}
     }
 
     public static ResourceKey<PlacedFeature> registerKey(String name) {

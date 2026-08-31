@@ -2,16 +2,16 @@ package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
 
-/*import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 
 // StackedItemContents does not exist on the versions without the custom bucket
 @Mixin(Item.class)
 public abstract class StackedItemContentsMixin {}
 
-*///?} else {
+//?} else {
 
-import net.minecraft.world.entity.player.StackedItemContents;
+/*import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.item.ItemStack;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,11 +19,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
+/^*
  * The recipe book counts what the player owns by item, ignoring the components. A filled custom bucket is
  * therefore counted as the vanilla bucket it stands for, so that a recipe asking for a lava bucket is shown
  * as craftable when the player only carries a copper bucket filled with lava.
- */
+ ^/
 @Mixin(StackedItemContents.class)
 public abstract class StackedItemContentsMixin {
 
@@ -46,4 +46,4 @@ public abstract class StackedItemContentsMixin {
         ((StackedItemContents) (Object) this).accountStack(vanillaBucket, maxCount);
     }
 }
-//?}
+*///?}

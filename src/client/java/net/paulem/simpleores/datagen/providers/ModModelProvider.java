@@ -1,9 +1,9 @@
 package net.paulem.simpleores.datagen.providers;
 
 //? if containsBucket && !hasBucketlib {
-import net.minecraft.client.data.models.model.ItemModelUtils;
+/*import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.renderer.item.ItemModel;
-//?}
+*///?}
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.models.*;
 import net.minecraft.client.data.models.blockstates.*;
@@ -25,8 +25,8 @@ import net.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import net.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 //? if >1.21.3 && <=26.2 {
-/*import net.minecraft.world.item.equipment.EquipmentAsset;
-import net.minecraft.resources.ResourceKey;*/
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.resources.ResourceKey;
 //?}
 import org.jspecify.annotations.NonNull;
 //? if 1.21.3
@@ -35,7 +35,7 @@ import org.jspecify.annotations.NonNull;
 //import net.minecraft.resources.Identifier;
 
 //? hasBucketlib
-//import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
 
 import java.util.Map;
 
@@ -95,23 +95,23 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateItemModels(@NonNull ItemModelGenerators itemModelGenerator) {
         for (Item item : ModItems.registeredItems.values()) {
             //? if hasBucketlib {
-            /*if(item instanceof UniversalBucketItem) continue;
-            *///?} else containsBucket {
-            if(item instanceof CustomBucketItem bucketItem) {
+            if(item instanceof UniversalBucketItem) continue;
+            //?} else containsBucket {
+            /*if(item instanceof CustomBucketItem bucketItem) {
                 generateCopperBucket(itemModelGenerator, bucketItem);
                 continue;
             }
-            //?}
+            *///?}
 
             if (item instanceof BowItem bowItem) {
                 //? if >1.21.3
                 itemModelGenerator.generateBow(bowItem);
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 //? if >26.2 {
-                itemModelGenerator.generateTrimmableItem(item, ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName()),
+                /*itemModelGenerator.generateTrimmableItem(item, ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName()),
                         false, Map.of());
-                //?} else if >1.21.3 {
-                /*ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
+                *///?} else if >1.21.3 {
+                ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
                 itemModelGenerator.generateTrimmableItem(item, identifier,
                         //? if >=1.21.5 {
                         ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName())
@@ -119,7 +119,7 @@ public class ModModelProvider extends FabricModelProvider {
                         //armorItem.getType().getName()
                         //?}
                         , false);
-                *///?} else if >1.21 {
+                //?} else if >1.21 {
                 /*Identifier identifier = armorItem.getMaterial().modelId();
                 itemModelGenerator.generateArmorTrims(item, identifier, ModEquipmentClientModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getSlot());
                 *///?} else {
@@ -136,7 +136,7 @@ public class ModModelProvider extends FabricModelProvider {
     }
 
     //? if containsBucket && !hasBucketlib {
-    public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item bucketItem) {
+    /*public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item bucketItem) {
         ItemModel.Unbaked bucketModel = ItemModelUtils.composite(
                 new CopperBucketItemSpecialRenderer.Unbaked(),
                 new CopperEmptyBucketItemSpecialRenderer.Unbaked()
@@ -144,7 +144,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         itemModelGenerator.itemModelOutput.accept(bucketItem, bucketModel);
     }
-    //?}
+    *///?}
 
     /*? if >=1.21.5 {*/
     private void registerBars(BlockModelGenerators generator, Block barBlock) {

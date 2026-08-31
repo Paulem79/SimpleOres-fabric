@@ -17,12 +17,12 @@ import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
 //? !hasBucketlib && containsBucket
-import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
+//import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 
 //? hasBucketlib {
-/*import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import com.google.common.base.Suppliers;
-*///?}
+//?}
 
 public class ModItems {
     public static final ConcurrentFifoMap<Identifier, Item> registeredItems = new ConcurrentFifoMap<>();
@@ -51,7 +51,7 @@ public class ModItems {
     public static final Item ONYX_ROD = register("onyx_rod", Item::new);
 
     //? hasBucketlib {
-    /*// buckets
+    // buckets
     public static final UniversalBucketItem COPPER_BUCKET = registerByKey("copper_bucket",
             key -> new UniversalBucketItem(//? if >1.21
                     key,
@@ -60,8 +60,8 @@ public class ModItems {
                             .burningTemperature(SimpleOres.CONFIG.copperBucketFireTemperature())
                             .milking(() -> SimpleOres.CONFIG.enableCopperBucketMilking())
             ));
-    *///?} else containsBucket {
-    public static final CustomBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
+    //?} else containsBucket {
+    /*public static final CustomBucketItem COPPER_BUCKET = registerByKey("copper_bucket", key ->
             new CustomBucketItem(new CustomBucketItem.Properties()
                     .meltTemperature(SimpleOres.CONFIG.copperBucketMeltTemperature())
                     .fireTemperature(SimpleOres.CONFIG.copperBucketFireTemperature())
@@ -89,7 +89,7 @@ public class ModItems {
     public static final TabExcludedItem COVER_MELTING_COPPER_BUCKET = registerByKey("copper_bucket_melting_cover", key ->
             new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
     );
-    //?}
+    *///?}
 
 
     // TOOLS & WEAPONS

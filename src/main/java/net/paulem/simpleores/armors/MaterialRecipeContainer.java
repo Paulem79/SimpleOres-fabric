@@ -9,8 +9,8 @@ import net.minecraft.tags.TagKey;
 //? if <26.2 {
 /*import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ShovelItem;*/
-//?}
+import net.minecraft.world.item.ShovelItem;
+*///?}
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;

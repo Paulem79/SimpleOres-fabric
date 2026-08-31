@@ -1,10 +1,10 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
-/*public class CustomBucketItem {}
-*///?} else {
+public class CustomBucketItem {}
+//?} else {
 
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+/*import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -61,7 +61,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
-/**
+/^*
  * A bucket which stores its content inside data components instead of having one item per content.
  * <p>
  * Invariants kept by every method of this class:
@@ -72,7 +72,7 @@ import org.jspecify.annotations.NonNull;
  *     so that it stacks with every other empty bucket.</li>
  *     <li>No method ever mutates a stack it did not create itself.</li>
  * </ul>
- */
+ ^/
 public class CustomBucketItem extends MobBucketItem implements CustomDispensibleContainerItem {
     private final Properties properties;
 
@@ -129,18 +129,18 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 
-    /**
+    /^*
      * @return a copy of {@code source} of count 1 which may hold a content. Never returns the given stack.
-     */
+     ^/
     private static ItemStack single(ItemStack source) {
         ItemStack copy = source.copyWithCount(1);
         copy.set(DataComponents.MAX_STACK_SIZE, 1);
         return copy;
     }
 
-    /**
+    /^*
      * Removes every content marker of a stack we own. Must never be called on a stack held by someone else.
-     */
+     ^/
     private static void clearContents(ItemStack owned) {
         owned.remove(ModComponents.BUCKET_FISH_COMPONENT);
         owned.remove(DataComponents.CONSUMABLE);
@@ -151,11 +151,11 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         //?}
     }
 
-    /**
+    /^*
      * Copies the behaviour the matching vanilla bucket gets from its own components onto a bucket we own,
      * so that a bucket of lava burns in a furnace exactly like the vanilla one.
      * Older versions do not store the fuels in components, they are handled by {@code FuelValuesMixin}.
-     */
+     ^/
     private static void applyVanillaComponents(ItemStack owned) {
         //? if afterDeobf {
         if(!(owned.getItem() instanceof CustomBucketItem bucketItem)) return;
@@ -175,10 +175,10 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         //?}
     }
 
-    /**
+    /^*
      * @param itemStack the stack to base the result on. It is <b>never</b> modified.
      * @return a new bucket stack of count 1 holding the given block.
-     */
+     ^/
     public ItemStack getCorrespondingBucket(@Nullable ItemStack itemStack, @Nullable Block block) {
         if(itemStack != null && holdsEntity(itemStack)) return itemStack.copy();
         if(block == null || block == Blocks.AIR) return getEmpty();
@@ -210,9 +210,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return stack;
     }
 
-    /**
+    /^*
      * @return a pristine empty bucket, without any component patch so that it stacks with the other empty buckets.
-     */
+     ^/
     public ItemStack getEmpty() {
         return new ItemStack(this);
     }
@@ -229,9 +229,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return getBlock(stack) instanceof LiquidBlock;
     }
 
-    /**
+    /^*
      * @return the fluid held by the bucket, or {@link Fluids#EMPTY} if it holds no fluid.
-     */
+     ^/
     public Fluid getFluid(ItemStack stack) {
         return getBlock(stack) instanceof LiquidBlock liquidBlock ? liquidBlock.fluid : Fluids.EMPTY;
     }
@@ -293,16 +293,16 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return block.getName();
     }
 
-    /**
+    /^*
      * @return The block corresponding to the bucket. Can be LiquidBlock or BucketPickup implementation.
-     */
+     ^/
     public Block getBlock(ItemStack stack) {
         return fromIdentifier(stack.get(ModComponents.BUCKET_BLOCK_COMPONENT));
     }
 
-    /**
+    /^*
      * @return The entity vanilla bucket item inside the bucket. Can be null if no entity is inside.
-     */
+     ^/
     public @Nullable Item getVanillaEntityBucket(ItemStack stack) {
         return itemFromIdentifier(stack.get(ModComponents.BUCKET_FISH_COMPONENT));
     }
@@ -368,8 +368,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                             EquipmentSlot slot = //? if >=1.21.9 {
                                     hand.asEquipmentSlot();
                             //?} else {
-                            //hand == InteractionHand.OFF_HAND ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-                            //?}
+                            /^hand == InteractionHand.OFF_HAND ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
+                            ^///?}
                             player.onEquippedItemBroken(itemStack.getItem(), slot);
                             return InteractionResult.SUCCESS.heldItemTransformedTo(ItemStack.EMPTY);
                         } else {
@@ -470,13 +470,13 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return InteractionResult.PASS;
     }
 
-    /**
+    /^*
      * Mix a custom bucket item with a vanilla (or modded) bucket item.
      *
      * @param customBucketStack the held stack. It is <b>never</b> modified.
      * @return a new custom bucket stack of count one holding the content of the given bucket,
      * or a pristine empty bucket if that content could not be resolved.
-     */
+     ^/
     public static @NonNull ItemStack mix(ItemStack vanillaBucketStack, ItemStack customBucketStack) {
         ItemStack result = single(customBucketStack);
         // The held bucket may still hold a previous content (mob, milk...) which must not survive
@@ -525,13 +525,13 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return fluid.defaultFluidState().createLegacyBlock().getBlock();
     }
 
-    /**
+    /^*
      * The exact opposite of {@link #mix(ItemStack, ItemStack)}: gives back the vanilla (or modded) bucket
      * matching the content of this bucket. It is what makes the custom bucket usable in every recipe
      * asking for a vanilla bucket.
      *
      * @return a new vanilla bucket stack of count one, or {@link ItemStack#EMPTY} if the content is unknown.
-     */
+     ^/
     public ItemStack toVanillaBucket(ItemStack stack) {
         if(holdsEntity(stack)) {
             Item entityBucket = getVanillaEntityBucket(stack);
@@ -557,11 +557,11 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return solidBucket == null ? ItemStack.EMPTY : solidBucket.getDefaultInstance();
     }
 
-    /**
+    /^*
      * Stack aware crafting remainder, mirroring what the matching vanilla bucket gives back: an empty bucket
      * for a milk, water or lava bucket, and nothing for an empty bucket (which would otherwise be duplicated)
      * or for an entity bucket, exactly like the vanilla ones.
-     */
+     ^/
     public boolean leavesEmptyBucketWhenCrafted(ItemStack stack) {
         if(isEmpty(stack)) return false;
 
@@ -571,8 +571,8 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         //? if afterDeobf {
         return vanilla.getItem().getCraftingRemainder() != null;
         //?} else {
-        /*return !vanilla.getItem().getCraftingRemainder().isEmpty();
-        *///?}
+        /^return !vanilla.getItem().getCraftingRemainder().isEmpty();
+        ^///?}
     }
 
     //? if afterDeobf {
@@ -581,21 +581,21 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return leavesEmptyBucketWhenCrafted(stack) ? ItemStackTemplate.fromNonEmptyStack(getEmpty()) : null;
     }
     //?} else {
-    /*@Override
+    /^@Override
     public ItemStack getRecipeRemainder(ItemStack stack) {
         return leavesEmptyBucketWhenCrafted(stack) ? getEmpty() : ItemStack.EMPTY;
     }
-    *///?}
+    ^///?}
 
-    /**
+    /^*
      * Temperature used as a reference for an entity which is burning without standing in a hot fluid.
-     */
+     ^/
     public static final int FIRE_TEMPERATURE = 1000;
 
-    /**
+    /^*
      * Burns the bucket when its holder stands in a fluid (or a fire) hotter than the bucket can bear.
      * This mirrors the {@code burningTemperature} behaviour of the BucketLib flavour of this bucket.
-     */
+     ^/
     @Override
     public void inventoryTick(final @NonNull ItemStack stack, final @NonNull ServerLevel level, final @NonNull Entity entity, final @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, level, entity, slot);
@@ -640,10 +640,10 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         }
     }
 
-    /**
+    /^*
      * @deprecated the held stack cannot be guessed from the user, use
      * {@link #emptyContents(LivingEntity, Level, BlockPos, BlockHitResult, ItemStack)} instead.
-     */
+     ^/
     @Deprecated
     @Override
     public boolean emptyContents(@Nullable final LivingEntity user, final Level level, final BlockPos pos, @Nullable final BlockHitResult hitResult) {
@@ -651,9 +651,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return emptyContents(user, level, pos, hitResult, itemStack);
     }
 
-    /**
+    /^*
      * @return the hand holding the given stack, main hand by default.
-     */
+     ^/
     private static InteractionHand getHandFor(@Nullable LivingEntity user, ItemStack itemStack) {
         return user != null && user.getItemInHand(InteractionHand.OFF_HAND) == itemStack
                 ? InteractionHand.OFF_HAND
@@ -865,4 +865,4 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
 }
-//?}
+*///?}

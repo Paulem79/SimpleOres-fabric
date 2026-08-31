@@ -1,10 +1,10 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
-/*public class BucketTabVariants {}
-*///?} else {
+public class BucketTabVariants {}
+//?} else {
 
-import net.minecraft.core.registries.BuiltInRegistries;
+/*import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,11 +14,11 @@ import net.minecraft.world.item.SolidBucketItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/^*
  * Builds every filled variant of a {@link CustomBucketItem} to show them in the creative tab,
  * right after the empty bucket. Every bucket like item of the registry is used, so the buckets
  * added by the other mods get their variant too.
- */
+ ^/
 public class BucketTabVariants {
 
     private BucketTabVariants() {}
@@ -50,4 +50,4 @@ public class BucketTabVariants {
         return variants;
     }
 }
-//?}
+*///?}

@@ -22,16 +22,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.paulem.simpleores.tooltip.TooltipBlock;
 import org.jspecify.annotations.Nullable;
 //? if >1.20.1 && <=26.2 {
-/*import com.mojang.serialization.Codec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-*///?}
+//?}
 
 public class ModFurnaceBlock extends AbstractFurnaceBlock implements TooltipBlock {
     private final double speedModifier;
 
     //? if >1.20.1 && <=26.2 {
-    /*public static final MapCodec<ModFurnaceBlock> CODEC = RecordCodecBuilder.mapCodec(i ->
+    public static final MapCodec<ModFurnaceBlock> CODEC = RecordCodecBuilder.mapCodec(i ->
             i.group(propertiesCodec())
                     .and(Codec.DOUBLE
                             .fieldOf("speed_modifier")
@@ -44,7 +44,7 @@ public class ModFurnaceBlock extends AbstractFurnaceBlock implements TooltipBloc
     public MapCodec<ModFurnaceBlock> codec() {
         return CODEC;
     }
-    *///?}
+    //?}
 
     public ModFurnaceBlock(final BlockBehaviour.Properties properties, final double speedModifier) {
         super(properties);

@@ -1,7 +1,7 @@
 package net.paulem.simpleores.config.loader;
 
 //? if hasMidnightlib {
-/*import eu.midnightdust.lib.config.MidnightConfig;
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.SimpleOresConfig;
 
@@ -14,12 +14,12 @@ public class MidnightLibLoader extends ConfigLoader<SimpleOresConfig> {
 
 		MidnightConfig.init(SimpleOres.MOD_ID, SimpleOresConfig.class);
         this.config = //? isLegacyMidnightLib {
-                 /^new SimpleOresConfig();
-                ^///?} else {
+                 /*new SimpleOresConfig();
+                *///?} else {
                 (SimpleOresConfig) MidnightConfig.configInstances.get(SimpleOres.MOD_ID);
                 //?}
     }
 }
-*///? } else {
- public class MidnightLibLoader {}
-//? }
+//? } else {
+ /*public class MidnightLibLoader {}
+*///? }

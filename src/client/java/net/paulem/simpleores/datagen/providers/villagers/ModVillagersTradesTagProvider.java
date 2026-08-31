@@ -19,24 +19,24 @@ import net.minecraft.world.item.trading.VillagerTrade;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 //?} else {
-//import net.minecraft.data.PackOutput;
-//import net.minecraft.data.tags.TagsProvider;
-//?}
+/*import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.TagsProvider;
+*///?}
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModVillagersTradesTagProvider extends //? if >=26.1 {
         FabricTagsProvider
                         //?} else {
-                        //KeyTagProvider
-                        //?}
+                        /*KeyTagProvider
+                        *///?}
                 <VillagerTrade> {
 
     public ModVillagersTradesTagProvider(final //? if >=26.1 {
                                          FabricPackOutput
                                          //?} else {
-                                         //PackOutput
-                                        //?}
+                                         /*PackOutput
+                                        *///?}
                                                  output, final CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.VILLAGER_TRADE, lookupProvider);
     }

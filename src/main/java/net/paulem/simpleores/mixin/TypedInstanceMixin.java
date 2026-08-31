@@ -2,9 +2,9 @@ package net.paulem.simpleores.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 //? if <=1.21.11 {
-// @Mixin
-// public interface TypedInstanceMixin {}
-//?} else {
+ /*@Mixin
+ public interface TypedInstanceMixin {}
+*///?} else {
 import net.minecraft.core.TypedInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

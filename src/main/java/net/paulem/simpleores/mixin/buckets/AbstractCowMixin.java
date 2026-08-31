@@ -1,25 +1,25 @@
 package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
-/*import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.entity.animal //? if >1.21.10
         .cow
         //? if <1.21.5 {
-        /^.Cow;
-        ^///?} else {
+        /*.Cow;
+        *///?} else {
         .AbstractCow;
         //?}
 
 @Mixin(//? if <1.21.5 {
-        /^Cow
-        ^///?} else {
+        /*Cow
+        *///?} else {
         AbstractCow
         //?}
 .class)
 public abstract class AbstractCowMixin {}
-*///?} else {
+//?} else {
 
-import org.spongepowered.asm.mixin.Mixin;
+/*import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -64,4 +64,4 @@ public abstract class AbstractCowMixin {
         cir.setReturnValue(InteractionResult.SUCCESS);
     }
 }
-//?}
+*///?}

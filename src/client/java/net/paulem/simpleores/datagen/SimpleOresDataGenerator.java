@@ -48,7 +48,7 @@ public class SimpleOresDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void buildRegistry(RegistrySetBuilder registryBuilder) {
 		registryBuilder.add( //$ if >26.2 'Registries.FEATURE' else 'Registries.CONFIGURED_FEATURE'
-				Registries.FEATURE
+				Registries.CONFIGURED_FEATURE
 				, ModConfiguredFeatures::bootstrap);
 		registryBuilder.add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap);
 		//? if >1.21.11

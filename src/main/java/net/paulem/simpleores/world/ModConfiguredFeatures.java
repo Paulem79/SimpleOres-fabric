@@ -18,39 +18,39 @@ import net.paulem.simpleores.stonecutter.SCId;
 import java.util.List;
 
 //? if >26.2 {
-import net.minecraft.world.level.levelgen.feature.BlockReplacement;
+/*import net.minecraft.world.level.levelgen.feature.BlockReplacement;
 import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.HeightMatchTest;
-//?} else {
-/*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+*///?} else {
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-*///?}
+//?}
 
 public class ModConfiguredFeatures {
     public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             >
             TIN_ORE_KEY = registerKey("ore_tin");
     public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             >
             TIN_VEIN_KEY = registerKey("tin_vein");
     public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             >
             MYTHRIL_ORE_KEY = registerKey("ore_mythril");
     public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             >
             ADAMANTIUM_ORE_KEY = registerKey("ore_adamantium");
     public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             >
             ONYX_ORE_KEY = registerKey("ore_onyx");
 
     public static void bootstrap(BootstrapContext< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             > context) {
         addOre(context, TIN_ORE_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinOreBlocksPerVeins);
         addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinVeinBlocksPerVeins);
@@ -60,7 +60,7 @@ public class ModConfiguredFeatures {
     }
 
     //? if >26.2 {
-    private static void addOre(BootstrapContext<Feature> context, ResourceKey<Feature> key, Block stoneOre, Block deepslateOre, int count) {
+    /*private static void addOre(BootstrapContext<Feature> context, ResourceKey<Feature> key, Block stoneOre, Block deepslateOre, int count) {
         RuleTest stoneReplaceables = RuleTest.either(
                 new TagMatchTest(BlockTags.HEIGHT_SPECIFIC_ORE_REPLACEABLES), HeightMatchTest.min(0), new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES)
         );
@@ -85,8 +85,8 @@ public class ModConfiguredFeatures {
 
         context.register(key, new OreFeature(netherrackOres, count));
     }
-    //?} else {
-    /*private static void addOre(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, Block deepslateOre, int count){
+    *///?} else {
+    private static void addOre(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, Block deepslateOre, int count){
         RuleTest stoneReplaceables = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest deepslateReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
 
@@ -110,13 +110,13 @@ public class ModConfiguredFeatures {
                                                                                           ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
     }
-    *///?}
+    //?}
 
     public static ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-            Feature
+            ConfiguredFeature<?, ?>
             > registerKey(String name) {
         return ResourceKey.create( //$ if >26.2 'Registries.FEATURE' else 'Registries.CONFIGURED_FEATURE'
-                Registries.FEATURE
+                Registries.CONFIGURED_FEATURE
                 , SCId.of(SimpleOres.MOD_ID, name));
     }
 }

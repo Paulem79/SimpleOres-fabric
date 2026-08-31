@@ -15,6 +15,8 @@ plugins {
 	id("dev.kikugie.stonecutter") version "0.9.7"
 }
 
+rootProject.name = "SimpleOres-fabric"
+
 stonecutter {
 	kotlinController = true
 	centralScript = "build.gradle.kts"
@@ -39,6 +41,6 @@ stonecutter {
 		match("26.2", "deobf")
 		match("26.3", "deobf")
 
-		vcsVersion = "1.21.6-mojmaps"
+		vcsVersion = "26.2-deobf"
 	}
 }

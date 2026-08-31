@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.concurrent.CompletableFuture;
 
 //? if >26.2 {
-import net.minecraft.advancements.predicates.DataComponentMatchers;
+/*import net.minecraft.advancements.predicates.DataComponentMatchers;
 import net.minecraft.advancements.predicates.EnchantmentPredicate;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.predicates.MinMaxBounds;
@@ -27,7 +27,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import java.util.List;
-//?}
+*///?}
 
 public class LootTableProvider extends FabricBlockLootSubProvider {
     public LootTableProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
@@ -60,11 +60,11 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
     }
 
     //? if <=26.2 {
-    /*public void sameDropWithSilkTouch(Block block, Item drop) {
+    public void sameDropWithSilkTouch(Block block, Item drop) {
         add(block, createOreDrop(block, drop));
-    }*/
+    }
     //?} else {
-    // FIXME: This might be a bug in this 26.3 snapshot i guess, because this is not the good way for silk touch imo, fix this when possible
+    /*// FIXME: This might be a bug in this 26.3 snapshot i guess, because this is not the good way for silk touch imo, fix this when possible
     // Manually builds the Silk Touch predicate, avoiding the broken Vanilla registry wrapper
     private LootItemCondition.Builder customHasSilkTouch() {
         return MatchTool.toolMatches(
@@ -95,5 +95,5 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
                 )
         );
     }
-    //?}
+    *///?}
 }

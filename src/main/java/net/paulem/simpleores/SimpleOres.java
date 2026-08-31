@@ -23,9 +23,9 @@ import net.paulem.simpleores.furnaces.ModFurnacesEntities;
 import net.paulem.simpleores.items.ModComponents;
 import net.paulem.simpleores.items.TabExcludedItem;
 //? if !hasBucketlib && containsBucket {
-import net.paulem.simpleores.items.custom.bucket.BucketTabVariants;
+/*import net.paulem.simpleores.items.custom.bucket.BucketTabVariants;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
-//?}
+*///?}
 //? >1.21
 import net.paulem.simpleores.migration.CopperDoorMigration;
 import net.paulem.simpleores.stonecutter.SCId;
@@ -41,9 +41,9 @@ import org.slf4j.LoggerFactory;
 import net.paulem.simpleores.migration.CopperMigration;
 
 //? hasBucketlib {
-/*import de.cech12.bucketlib.api.BucketLibApi;
+import de.cech12.bucketlib.api.BucketLibApi;
 import de.cech12.bucketlib.api.item.UniversalBucketItem;
-*///?}
+//?}
 
 public class SimpleOres implements ModInitializer {
 	public static final String MOD_ID = "simpleores";
@@ -67,12 +67,12 @@ public class SimpleOres implements ModInitializer {
 
 		// Register custom buckets
         //? hasBucketlib {
-		/*ModItems.registeredItems.forEach((identifier, item) -> {
+		ModItems.registeredItems.forEach((identifier, item) -> {
 			if(item instanceof UniversalBucketItem) {
 				BucketLibApi.registerBucket(identifier);
 			}
 		});
-        *///?}
+        //?}
 
 
         //? hasCopperTools
@@ -104,13 +104,13 @@ public class SimpleOres implements ModInitializer {
                 content.accept(new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
                 //? if !hasBucketlib && containsBucket {
-                // Every filled variant of the bucket goes right after the empty one
+                /*// Every filled variant of the bucket goes right after the empty one
                 if(item instanceof CustomBucketItem customBucket) {
                     for (ItemStack variant : BucketTabVariants.build(customBucket)) {
                         content.accept(variant, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                     }
                 }
-                //?}
+                *///?}
             }
 		});
 

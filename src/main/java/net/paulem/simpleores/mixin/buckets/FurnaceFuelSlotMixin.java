@@ -2,15 +2,15 @@ package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
 
-/*import net.minecraft.world.inventory.FurnaceFuelSlot;
+import net.minecraft.world.inventory.FurnaceFuelSlot;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(FurnaceFuelSlot.class)
 public abstract class FurnaceFuelSlotMixin {}
 
-*///?} else {
+//?} else {
 
-import net.minecraft.world.inventory.FurnaceFuelSlot;
+/*import net.minecraft.world.inventory.FurnaceFuelSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
@@ -19,10 +19,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/**
+/^*
  * The fuel slot of a furnace accepts an empty vanilla bucket, so it accepts an empty custom bucket too.
  * This is what lets the empty bucket left by a burnt bucket of lava stay in the slot.
- */
+ ^/
 @Mixin(FurnaceFuelSlot.class)
 public abstract class FurnaceFuelSlotMixin {
 
@@ -35,4 +35,4 @@ public abstract class FurnaceFuelSlotMixin {
         }
     }
 }
-//?}
+*///?}

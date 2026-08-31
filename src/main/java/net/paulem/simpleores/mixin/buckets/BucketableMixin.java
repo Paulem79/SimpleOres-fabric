@@ -2,7 +2,7 @@ package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
 
-/*import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mixin;
 //? if >=26.2 {
 import net.minecraft.world.entity.Bucketable;
 //?} else {
@@ -12,9 +12,9 @@ import net.minecraft.world.entity.Bucketable;
 @Mixin(Bucketable.class)
 public interface BucketableMixin {}
  
-*///?} else {
+//?} else {
 
-import net.minecraft.advancements.triggers.CriteriaTriggers;
+/*import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -81,4 +81,4 @@ public interface BucketableMixin {
         cir.setReturnValue(Optional.of(InteractionResult.SUCCESS));
     }
 }
-//?}
+*///?}

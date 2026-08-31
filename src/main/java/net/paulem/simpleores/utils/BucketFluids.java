@@ -1,10 +1,10 @@
 package net.paulem.simpleores.utils;
 
 //? if hasBucketlib || !containsBucket {
-/*public class BucketFluids {}
-*///?} else {
+public class BucketFluids {}
+//?} else {
 
-import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+/*import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -17,18 +17,18 @@ import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.mixin.accessor.BucketItemAccessor;
 import org.jspecify.annotations.Nullable;
 
-/**
+/^*
  * Resolves the fluid held by any bucket like item, including the modded ones which do not extend
  * {@link BucketItem} but expose their content through the Fabric transfer API.
- */
+ ^/
 public class BucketFluids {
 
     private BucketFluids() {}
 
-    /**
+    /^*
      * @return the fluid contained in the given stack, {@link Fluids#EMPTY} if it holds none,
      * or {@code null} if the content could not be resolved at all.
-     */
+     ^/
     public static @Nullable Fluid contentOf(ItemStack stack) {
         if(stack.isEmpty()) return Fluids.EMPTY;
 
@@ -50,4 +50,4 @@ public class BucketFluids {
         return Fluids.EMPTY;
     }
 }
-//?}
+*///?}

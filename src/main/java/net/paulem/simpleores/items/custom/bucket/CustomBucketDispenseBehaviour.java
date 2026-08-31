@@ -1,9 +1,9 @@
 package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
-/*public class CustomBucketDispenseBehaviour {}
- *///?} else {
-import net.minecraft.core.BlockPos;
+public class CustomBucketDispenseBehaviour {}
+ //?} else {
+/*import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.world.InteractionResult;
@@ -52,4 +52,4 @@ public class CustomBucketDispenseBehaviour extends DefaultDispenseItemBehavior {
         return this.defaultDispenseItemBehavior.dispense(source, dispensed);
     }
 }
-//?}
+*///?}

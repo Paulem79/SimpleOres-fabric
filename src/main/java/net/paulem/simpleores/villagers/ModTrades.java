@@ -97,18 +97,18 @@ public class ModTrades {
             final float reputationDiscount,
             @Nullable
                     //? if >26.2 {
-            List<Holder<LootItemFunction>>
-                    //?} else {
-                    /*List<LootItemFunction>
-                    *///?}
+            /*List<Holder<LootItemFunction>>
+                    *///?} else {
+                    List<LootItemFunction>
+                    //?}
                     givenItemModifiers) {
         //? if >26.2 {
-        VillagerTrade.Builder builder = VillagerTrade.builder(wants, gives, maxUses, xp, reputationDiscount);
+        /*VillagerTrade.Builder builder = VillagerTrade.builder(wants, gives, maxUses, xp, reputationDiscount);
         return builder
                 .addModifiers(givenItemModifiers != null ? givenItemModifiers : List.of())
                 .build();
-        //?} else {
-        /*return new VillagerTrade(
+        *///?} else {
+        return new VillagerTrade(
                 wants,
                 gives,
                 maxUses,
@@ -117,7 +117,7 @@ public class ModTrades {
                 Optional.empty(),
                 givenItemModifiers != null ? givenItemModifiers : List.of()
         );
-        *///?}
+        //?}
     }
     //?}
 

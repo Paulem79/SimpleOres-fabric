@@ -1,7 +1,7 @@
 package net.paulem.simpleores.datagen.providers.tags;
 
 //? hasBucketlib
-//import de.cech12.bucketlib.api.item.UniversalBucketItem;
+import de.cech12.bucketlib.api.item.UniversalBucketItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
@@ -82,26 +82,26 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 build(ItemTags.SPEARS, item);
             //?}
             } //? if hasBucketlib {
-            /*else if (item instanceof UniversalBucketItem) {
-            *///?} else {
-            else if (item instanceof CustomBucketItem) {
-            //?}
+            else if (item instanceof UniversalBucketItem) {
+            //?} else {
+            /*else if (item instanceof CustomBucketItem) {
+            *///?}
                 // Buckets
                 build(ModTags.Items.BUCKETS, item);
 
                 //? !hasBucketlib && containsBucket {
-                //? >1.21.10
+                /*//? >1.21.10
                 build(ItemTags.NAUTILUS_BUCKET_FOOD, item);
 
                 build(ConventionalItemTags.BUCKETS, item);
-                /*build(ConventionalItemTags.MILK_BUCKETS, item);
+                /^build(ConventionalItemTags.MILK_BUCKETS, item);
                 build(ConventionalItemTags.DRINK_CONTAINING_BUCKET, item);
                 build(ConventionalItemTags.MILK_DRINKS, item);
                 build(ConventionalItemTags.WATER_BUCKETS, item);
                 build(ConventionalItemTags.LAVA_BUCKETS, item);
                 build(ConventionalItemTags.POWDER_SNOW_BUCKETS, item);
-                build(ConventionalItemTags.ENTITY_WATER_BUCKETS, item);*/
-                //?}
+                build(ConventionalItemTags.ENTITY_WATER_BUCKETS, item);^/
+                *///?}
             }
             else if (item instanceof BowItem) {
                 // Bows
@@ -292,22 +292,22 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 build(//? if >26.1 {
                         BlockItemTags.DOORS.item()
                         //?} else {
-                        //ItemTags.DOORS
-                        //?}
+                        /*ItemTags.DOORS
+                        *///?}
                         , blockItem);
             else if(block instanceof SlabBlock)
                 build(//? if >26.1 {
                         BlockItemTags.SLABS.item()
                         //?} else {
-                        //ItemTags.SLABS
-                        //?}
+                        /*ItemTags.SLABS
+                        *///?}
                         , blockItem);
             else if(block instanceof StairBlock)
                 build(//? if >26.1 {
                         BlockItemTags.STAIRS.item()
                         //?} else {
-                        //ItemTags.STAIRS
-                        //?}
+                        /*ItemTags.STAIRS
+                        *///?}
                         , blockItem);
         });
     }
@@ -352,8 +352,8 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         public //? if >26.1 {
         TagAppender<Item>
         //?} else if >=1.21.6 {
-        //TagAppender<ResourceKey<Item>, Item>
-        //?} else {
+        /*TagAppender<ResourceKey<Item>, Item>
+        *///?} else {
         //FabricTagsProvider<Item>.FabricTagBuilder
         //?}
         get() {

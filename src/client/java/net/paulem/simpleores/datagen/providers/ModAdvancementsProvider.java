@@ -283,9 +283,9 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
 
         //? if <=26.2 {
-        /*return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
-        *///?} else {
-        return builder.save(consumer, SCId.of(path));
-        //?}
+        return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
+        //?} else {
+        /*return builder.save(consumer, SCId.of(path));
+        *///?}
     }
 }

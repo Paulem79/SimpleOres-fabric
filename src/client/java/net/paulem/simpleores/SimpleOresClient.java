@@ -2,10 +2,10 @@ package net.paulem.simpleores;
 
 import net.fabricmc.api.ClientModInitializer;
 //? if containsBucket && !hasBucketlib {
-import net.minecraft.client.renderer.item.ItemModels;
+/*import net.minecraft.client.renderer.item.ItemModels;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
-//?}
+*///?}
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tooltip.TooltipItem;
 
@@ -59,7 +59,7 @@ public class SimpleOresClient implements ClientModInitializer {
 		});
 
 		//? if containsBucket && !hasBucketlib {
-		ItemModels.ID_MAPPER.put(
+		/*ItemModels.ID_MAPPER.put(
 				SCId.of(SimpleOres.MOD_ID, "copper_bucket_renderer"),
 				CopperBucketItemSpecialRenderer.Unbaked.MAP_CODEC
 		);
@@ -67,6 +67,6 @@ public class SimpleOresClient implements ClientModInitializer {
 				SCId.of(SimpleOres.MOD_ID, "empty_copper_bucket_renderer"),
 				CopperEmptyBucketItemSpecialRenderer.Unbaked.MAP_CODEC
 		);
-		//?}
+		*///?}
 	}
 }

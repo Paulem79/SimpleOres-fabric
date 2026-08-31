@@ -30,7 +30,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         //? if >1.20.4
         TagBuilder storageBlocksTag = new TagBuilder(ConventionalBlockTags.STORAGE_BLOCKS);
         TagBuilder carverReplaceables = new TagBuilder(//$ if >26.2 'BlockTags.ORES' else 'BlockTags.OVERWORLD_CARVER_REPLACEABLES'
-                BlockTags.ORES
+                BlockTags.OVERWORLD_CARVER_REPLACEABLES
         );
 
         // ------------------- BLOCKS BREAK -------------------
@@ -173,8 +173,8 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         public //? if >26.1 {
                 TagAppender<Block>
         //?} else if >=1.21.6 {
-        //TagAppender<ResourceKey<Block>, Block>
-        //?} else {
+        /*TagAppender<ResourceKey<Block>, Block>
+        *///?} else {
         //FabricTagsProvider<Block>.FabricTagBuilder
         //?}
         get() {

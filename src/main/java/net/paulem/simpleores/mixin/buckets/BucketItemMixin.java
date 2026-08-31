@@ -2,15 +2,15 @@ package net.paulem.simpleores.mixin.buckets;
 
 //? if hasBucketlib || !containsBucket {
 
-/*import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.world.item.BucketItem;
 
 @Mixin(value = BucketItem.class, priority = 1500)
 public abstract class BucketItemMixin {}
  
-*///?} else {
+//?} else {
 
-import net.minecraft.world.InteractionHand;
+/*import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -46,4 +46,4 @@ public abstract class BucketItemMixin extends Item {
         cir.setReturnValue(super.use(level, player, hand));
     }
 }
-//?}
+*///?}
