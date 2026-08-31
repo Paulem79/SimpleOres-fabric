@@ -28,7 +28,11 @@ public class AbstractFurnaceEntityMixin extends BlockEntity {
     //@Unique private static boolean skipSecondModifier = false;
 
     @Inject(
+            //? if <=1.21 {
+            /*method = "getTotalCookTime(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity;)I",
+            *///?} else {
             method = "getTotalCookTime(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity;)I",
+            //?}
             at = @At("RETURN"), cancellable = true)
     private static void modifyCookTime(//? if <=1.21 {
                                        /*Level
