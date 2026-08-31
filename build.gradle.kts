@@ -356,8 +356,6 @@ publishMods {
 
     modLoaders.addAll("fabric", "quilt")
 
-    dryRun.set(true)
-
     val versions = VersionRangeParser.parseVersionRange(versionRangeProperties)
 
     github {
