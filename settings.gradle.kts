@@ -7,12 +7,16 @@ pluginManagement {
 			url = uri("https://maven.fabricmc.net/")
 		}
 		maven { url = uri("https://maven.architectury.dev/") }
+		maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
 		maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" }
 	}
 }
 
 plugins {
 	id("dev.kikugie.stonecutter") version "0.9.7"
+	// Applique automatiquement le bon variant de Loom (mappings officiels ou Mojmaps) selon la
+	// version ciblée : plus besoin de choisir/switcher entre fabric-loom et fabric-loom-remap.
+	id("dev.kikugie.loom-back-compat") version "0.4.2"
 }
 
 rootProject.name = "SimpleOres-fabric"

@@ -80,7 +80,7 @@ jobs:
       - name: 📂 Gather Artifacts
         run: |
           mkdir -p dist
-          find . -type f -name "*.jar" -not -path "*/build/tmp/*" -not -path "*/build/resources/*" -exec cp {} dist/ \;
+          find versions -maxdepth 4 -type f -name "*.jar" -path "*/build/libs/*" -exec cp {} dist/ \;
 
       - name: 📦 Upload build artifacts
         uses: actions/upload-artifact@v7

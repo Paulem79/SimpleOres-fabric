@@ -1,12 +1,12 @@
 import net.paulem.buildscript.NewGithubChangelog
 import net.paulem.buildscript.VersionRangeParser
 import org.gradle.api.artifacts.ExternalModuleDependency
-import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
-    // Déclaration des plugins Loom sans les appliquer immédiatement (technique YACL)
-    id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT" apply false
-    id("net.fabricmc.fabric-loom-remap") version "1.17-SNAPSHOT" apply false
+    // loom-back-compat applique automatiquement le bon variant de Loom (Mojmaps ou mappings
+    // officiels) selon la version : plus besoin de choisir/switcher entre fabric-loom et
+    // fabric-loom-remap nous-mêmes.
+    id("dev.kikugie.loom-back-compat")
 
     `maven-publish`
     id("me.modmuss50.mod-publish-plugin") version "2.2.0"
@@ -14,22 +14,16 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-// 1. Définition du contexte d'exécution
+// 1. Définition du contexte d'exécution (encore utile pour nos propres branches, indépendant
+// du plugin Loom utilisé en interne par loom-back-compat)
 val isDeobf = stonecutter.current.project.contains("deobf", ignoreCase = true)
 val isMojmaps = !isDeobf
 
-// Application dynamique du plugin selon le contexte
-if (isDeobf) {
-    apply(plugin = "net.fabricmc.fabric-loom")
-} else {
-    apply(plugin = "net.fabricmc.fabric-loom-remap")
-}
-
-version = "${project.property("mod.version")}-${stonecutter.current.project}"
-group = project.property("maven_group") as String
+version = "${stonecutter.properties.get<String>("mod.version")}-${stonecutter.current.project}"
+group = stonecutter.properties.get<String>("maven_group")
 
 base {
-    archivesName.set(project.property("mod.id") as String)
+    archivesName.set(stonecutter.properties.get<String>("mod.id"))
 }
 
 repositories {
@@ -47,7 +41,7 @@ repositories {
     maven("https://maven.midnightdust.eu/releases")
 }
 
-val hasBucketlib: Boolean = findProperty("deps.bucketlib")?.takeIf { it != "[VERSIONED]" } != null
+val hasBucketlib: Boolean = stonecutter.properties.getOrNull<String>("deps.bucketlib") != null
 val containsBucket = stonecutter.eval(stonecutter.current.project, ">1.19.4")
 
 // 2. Interpolation conditionnelle du nom de l'Access Widener
@@ -58,8 +52,9 @@ val accesswidener = when {
     else -> "nobucket$awSuffix"
 }
 
-// Utilisation de configure pour garder le typage sûr après une application de plugin dynamique
-configure<net.fabricmc.loom.api.LoomGradleExtensionAPI> {
+// Un seul variant de Loom étant appliqué (via loom-back-compat), plus besoin du contournement
+// "configure<LoomGradleExtensionAPI>" : le bloc "loom" se résout directement.
+loom {
     splitEnvironmentSourceSets()
 
     mods {
@@ -87,21 +82,22 @@ tasks.processResources {
     val bucketlibExpansion = "\", \"bucketlib\": \"*"
     val clientMixinExpansion = "" //"\", \"simpleores_client.mixins.json"
 
-    val versionRange = if(project.hasProperty("version_range")) {
-        preToBeta("version_range")
+    val versionRangeProp = stonecutter.properties.getOrNull<String>("version_range")
+    val versionRange = if (versionRangeProp != null) {
+        preToBeta(versionRangeProp)
     } else {
-        ">=${preToBeta("min_version_range")} <=${preToBeta("max_version_range")}"
+        ">=${preToBeta(stonecutter.properties.get<String>("min_version_range"))} <=${preToBeta(stonecutter.properties.get<String>("max_version_range"))}"
     }
 
     val expandProps = mapOf(
         "version" to version,
         "version_range" to versionRange,
-        "fabricloader_version" to project.property("deps.fabricloader_version") as String,
+        "fabricloader_version" to stonecutter.properties.get<String>("deps.fabricloader_version"),
         "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
         "aw_file" to accesswidener,
         "client_mixin_expansion" to if (hasBucketlib) "" else clientMixinExpansion,
         "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
-        "fabric_api_breaks_version" to project.property("breaks.fabric_api") as String
+        "fabric_api_breaks_version" to stonecutter.properties.get<String>("breaks.fabric_api")
     )
 
     filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
@@ -149,14 +145,12 @@ if (fabricApiExt != null) {
 }
 
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
-val hasClothConfig: Boolean = hasBucketlib && findProperty("deps.cloth_config")?.takeIf { it != "[VERSIONED]" } != null
+val hasClothConfig: Boolean = hasBucketlib && stonecutter.properties.getOrNull<String>("deps.cloth_config") != null
 
 // Identifiant Mojang réel de la version ciblée. "deps.minecraft" prime sur le nom du dossier
 // Stonecutter : le dossier peut donc s'appeler "26.3-deobf" tout en compilant contre
 // "26.3-snapshot-8". On utilise .version pour éviter que "-mojmaps"/"-deobf" ne s'infiltre ici.
-val minecraftVersion: String = findProperty("deps.minecraft")
-    ?.takeIf { it != "[VERSIONED]" }
-    ?.toString()
+val minecraftVersion: String = stonecutter.properties.getOrNull<String>("deps.minecraft")
     ?: stonecutter.current.version
 
 // Déduit de l'identifiant Mojang (26.3-snapshot-8, 1.21.6-pre1, 25w14a…) et non du nom du
@@ -166,12 +160,9 @@ val isSnapshot = VersionRangeParser.isSnapshotId(minecraftVersion)
 dependencies {
     add("minecraft", "com.mojang:minecraft:${minecraftVersion}")
 
-    // Résolution des mappings uniquement sur Mojmaps et versions compatibles
-    if(isMojmaps && stonecutter.eval(minecraftVersion, "<=1.21.11")) {
-        val loomExt = project.extensions.getByName("loom") as net.fabricmc.loom.api.LoomGradleExtensionAPI
-        // Utilisation de add() au lieu de l'accesseur dynamique mappings(...)
-        add("mappings", loomExt.officialMojangMappings())
-    }
+    // loomx applique les mappings Mojang officiels quand c'est pertinent pour la version
+    // ciblée, et ne fait rien sinon : plus besoin de le déterminer nous-mêmes.
+    loomx.applyMojangMappings()
 
     // 3. Fonction locale pour traduire modImplementation -> implementation si deobf
     fun dep(configuration: String, dependencyNotation: Any, action: ExternalModuleDependency.() -> Unit = {}) {
@@ -185,18 +176,20 @@ dependencies {
         }
     }
 
-    if(checkSpecified("fabric_loader"))
-        dep("modImplementation", "net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+    depOrNull("fabric_loader")?.let {
+        dep("modImplementation", "net.fabricmc:fabric-loader:$it")
+    }
 
-    if(checkSpecified("fabric_api"))
-        dep("modImplementation", "net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
+    depOrNull("fabric_api")?.let {
+        dep("modImplementation", "net.fabricmc.fabric-api:fabric-api:$it")
+    }
 
-    if(checkSpecified("midnightlib")) {
-        val isLegacyMidnightLib = isMojmaps && property("deps.midnightlib").toString().endsWith("-fabric") && !property("deps.midnightlib").toString().contains("+")
+    depOrNull("midnightlib")?.let { midnightlibVersion ->
+        val isLegacyMidnightLib = isMojmaps && midnightlibVersion.endsWith("-fabric") && !midnightlibVersion.contains("+")
         val midnightlib: String = if(isLegacyMidnightLib) {
-            "maven.modrinth:midnightlib:${property("deps.midnightlib")}"
+            "maven.modrinth:midnightlib:$midnightlibVersion"
         } else {
-            "eu.midnightdust:midnightlib:${property("deps.midnightlib")}"
+            "eu.midnightdust:midnightlib:$midnightlibVersion"
         }
 
         dep("modImplementation", midnightlib) {
@@ -209,31 +202,31 @@ dependencies {
         }
     }
 
-    if(checkSpecified("mod_menu"))
-        dep("modImplementation", "maven.modrinth:modmenu:${property("deps.mod_menu")}")
+    depOrNull("mod_menu")?.let {
+        dep("modImplementation", "maven.modrinth:modmenu:$it")
+    }
 
-    if(checkSpecified("bucketlib")) {
-        if(checkSpecified("cloth_config")) {
-            dep("modApi", "me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth_config")}") {
+    depOrNull("bucketlib")?.let { bucketlibVersion ->
+        depOrNull("cloth_config")?.let {
+            dep("modApi", "me.shedaniel.cloth:cloth-config-fabric:$it") {
                 exclude(group = "net.fabricmc.fabric-api")
             }
         }
-        dep("modImplementation", "com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}") {
+        dep("modImplementation", "com.github.cech12.BucketLib:fabric:$bucketlibVersion") {
             exclude(group = "net.fabricmc.fabric-api")
         }
 
         if(includesBucketlib) {
-            dep("include", "com.github.cech12.BucketLib:fabric:${property("deps.bucketlib")}") {
+            dep("include", "com.github.cech12.BucketLib:fabric:$bucketlibVersion") {
                 exclude(group = "net.fabricmc.fabric-api")
             }
         }
     }
 }
 
-fun checkSpecified(depName: String): Boolean {
-    val property = findProperty("deps.$depName")
-    return property != null && property != "[VERSIONED]"
-}
+// Une dépendance absente du nœud courant dans stonecutter.properties.toml signifie qu'elle
+// n'est pas utilisée pour cette version (remplace l'ancien sentinel "[VERSIONED]").
+fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull<String>("deps.$depName")
 
 tasks.withType<JavaCompile>().configureEach {
     options.release.set(javaversion.toString().toInt())
@@ -244,8 +237,8 @@ java {
     targetCompatibility = javaversion
 }
 
-fun preToBeta(versionProperty: String): String? {
-    val version = project.findProperty(versionProperty) as? String ?: return null
+fun preToBeta(version: String?): String? {
+    version ?: return null
     return version
         .replace(Regex("-rc(\\d+)"), "-rc.$1")
         .replace(Regex("-pre(\\d+)"), "-beta.$1")
@@ -309,17 +302,26 @@ val modrinthToken =
     (findProperty("MODRINTH_TOKEN") as String?)
         ?: System.getenv("MODRINTH_TOKEN")
 
+// Reconstitue la vue "gradle.properties" qu'attend VersionRangeParser à partir des propriétés
+// centralisées de stonecutter.properties.toml (version_range/min/max ne sont plus exposées
+// comme propriétés Gradle classiques).
+val versionRangeProperties: Map<String, String> = buildMap {
+    stonecutter.properties.getOrNull<String>("version_range")?.let { put("version_range", it) }
+    stonecutter.properties.getOrNull<String>("min_version_range")?.let { put("min_version_range", it) }
+    stonecutter.properties.getOrNull<String>("max_version_range")?.let { put("max_version_range", it) }
+}
+
 // Basé sur l'identifiant Mojang plutôt que sur le nom du dossier : deux snapshots successifs
 // (26.3-snapshot-7 et -8) produisent ainsi des numéros de version distincts, exigés par
 // Modrinth et CurseForge.
-fun formatPublishVersion(): String = "${project.property("mod.version")}-$minecraftVersion"
+fun formatPublishVersion(): String = "${stonecutter.properties.get<String>("mod.version")}-$minecraftVersion"
 
 // Versions de jeu déclarées sur CurseForge. CurseForge ne référence pas chaque snapshot
 // individuellement mais un unique "<version>-snapshot" par cycle : 26.3-snapshot-8 est donc
 // publié sous "26.3-snapshot". La propriété "curseforge_versions" (liste séparée par des
 // virgules) permet de forcer la liste si CurseForge nomme la version autrement.
 fun curseforgeVersions(): List<String> {
-    val override = (findProperty("curseforge_versions") as String?)
+    val override = stonecutter.properties.getOrNull<String>("curseforge_versions")
         ?.split(',')
         ?.map(String::trim)
         ?.filter(String::isNotEmpty)
@@ -331,22 +333,18 @@ fun curseforgeVersions(): List<String> {
         listOf(VersionRangeParser.toCurseforgeVersion(minecraftVersion))
     } else {
         VersionRangeParser.parseVersionRange(
-            project.properties,
+            versionRangeProperties,
             VersionRangeParser.CompiledVersions.VersionType.RELEASE
         )
     }
 }
 
 publishMods {
-    file.set(
-        if (isDeobf) {
-            tasks.named<Jar>("jar").flatMap { it.archiveFile }
-        } else {
-            tasks.named<RemapJarTask>("remapJar").flatMap { it.archiveFile }
-        }
-    )
+    // loomx.modJar pointe vers le bon jar (remappé ou non) quel que soit le variant de Loom
+    // appliqué en interne par loom-back-compat.
+    file.set(loomx.modJar.flatMap { it.archiveFile })
 
-    displayName.set("SimpleOres Fabric ${project.property("mod.version")} for $minecraftVersion")
+    displayName.set("SimpleOres Fabric ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
     version.set(formatPublishVersion())
     changelog.set(githubChangelog)
 
@@ -358,7 +356,9 @@ publishMods {
 
     modLoaders.addAll("fabric", "quilt")
 
-    val versions = VersionRangeParser.parseVersionRange(project.properties)
+    dryRun.set(true)
+
+    val versions = VersionRangeParser.parseVersionRange(versionRangeProperties)
 
     github {
         accessToken.set(githubToken)

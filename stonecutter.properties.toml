@@ -1,0 +1,160 @@
+# Propriétés centralisées Stonecutter. Chaque version a sa propre table, identifiée par le
+# nom exact du dossier sous versions/. Une clé absente dans une table de version signifie
+# simplement que cette dépendance n'est pas utilisée pour cette version (remplace l'ancien
+# sentinel "[VERSIONED]" des gradle.properties par sous-projet).
+maven_group = "net.paulem.simpleores"
+
+mod.id = "simpleores"
+mod.version = "1.9.11"
+
+deps.fabric_loader = "0.19.3"
+deps.fabricloader_version = "*"
+
+# Version de Loom que loom-back-compat doit appliquer en interne (Mojmaps ou remap selon la
+# version ciblée) — remplace les déclarations manuelles de fabric-loom / fabric-loom-remap.
+loomx.loom_version = "1.17-SNAPSHOT"
+
+breaks.fabric_api = "<0.1"
+
+
+["1.19.4-mojmaps"]
+min_version_range = "1.19.4"
+max_version_range = "1.19.4"
+deps.fabric_api = "0.87.2+1.19.4"
+deps.midnightlib = "1.3.0-fabric"
+deps.cloth_config = "10.1.135"
+deps.mod_menu = "6.3.1"
+deps.bucketlib = "1.19.4-3.2.1.3"
+
+
+["1.20.1-mojmaps"]
+min_version_range = "1.20.1"
+max_version_range = "1.20.1"
+deps.fabric_api = "0.92.6+1.20.1"
+deps.midnightlib = "1.9.2+1.20.1-fabric"
+deps.cloth_config = "11.1.136"
+deps.mod_menu = "7.2.2"
+deps.bucketlib = "1.20.1-3.2.1.3"
+
+
+["1.20.4-mojmaps"]
+min_version_range = "1.20.4"
+max_version_range = "1.20.4"
+deps.fabric_api = "0.97.2+1.20.4"
+deps.midnightlib = "1.5.3-fabric"
+deps.cloth_config = "13.0.138"
+deps.mod_menu = "9.2.0"
+deps.bucketlib = "1.20.4-3.2.4.1"
+
+
+["1.20.6-mojmaps"]
+min_version_range = "1.20.5"
+max_version_range = "1.20.6"
+deps.fabric_api = "0.100.8+1.20.6"
+deps.midnightlib = "1.5.5-fabric"
+deps.cloth_config = "14.0.139"
+deps.mod_menu = "10.0.0"
+deps.bucketlib = "1.20.6-3.3.4.0"
+
+
+["1.21-mojmaps"]
+min_version_range = "1.21"
+max_version_range = "1.21.1"
+deps.fabric_api = "0.102.0+1.21"
+deps.midnightlib = "1.9.2+1.21.1-fabric"
+deps.cloth_config = "15.0.140"
+deps.mod_menu = "11.0.3"
+deps.bucketlib = "1.21-4.1.6.0"
+
+
+["1.21.3-mojmaps"]
+min_version_range = "1.21.3"
+max_version_range = "1.21.3"
+deps.fabric_api = "0.114.1+1.21.3"
+deps.midnightlib = "1.6.4-fabric"
+deps.cloth_config = "16.0.143"
+deps.mod_menu = "12.0.1"
+deps.bucketlib = "1.21.3-4.2.4.0"
+
+
+["1.21.5-mojmaps"]
+min_version_range = "1.21.5"
+max_version_range = "1.21.5"
+deps.fabric_api = "0.128.1+1.21.5"
+deps.midnightlib = "1.9.2+1.21.5-fabric"
+deps.cloth_config = "18.0.145"
+deps.mod_menu = "14.0.0-rc.2"
+deps.bucketlib = "1.21.5-4.4.0.3"
+
+
+["1.21.6-mojmaps"]
+min_version_range = "1.21.6"
+max_version_range = "1.21.6"
+deps.fabric_api = "0.128.2+1.21.6"
+deps.midnightlib = "1.9.2+1.21.8-fabric"
+deps.cloth_config = "19.0.147"
+deps.mod_menu = "15.0.0-beta.3"
+# Pas de build BucketLib pour 1.21.6.
+
+
+["1.21.7-mojmaps"]
+min_version_range = "1.21.6"
+max_version_range = "1.21.8"
+deps.fabric_api = "0.129.0+1.21.7"
+deps.midnightlib = "1.9.2+1.21.8-fabric"
+deps.cloth_config = "19.0.147"
+deps.mod_menu = "15.0.0-beta.3"
+deps.bucketlib = "1.21.7-4.5.0.3"
+
+
+["1.21.9-mojmaps"]
+min_version_range = "1.21.9"
+max_version_range = "1.21.10"
+deps.minecraft = "1.21.9"
+deps.fabric_api = "0.134.1+1.21.9"
+deps.midnightlib = "1.9.2+1.21.10-fabric"
+deps.cloth_config = "20.0.149"
+deps.mod_menu = "16.0.0-rc.1"
+deps.bucketlib = "1.21.9-4.6.1.0"
+
+
+["1.21.11-mojmaps"]
+min_version_range = "1.21.11"
+max_version_range = "1.21.11"
+deps.fabric_api = "0.141.3+1.21.11"
+deps.midnightlib = "1.9.2+1.21.11-fabric"
+deps.cloth_config = "21.11.153"
+deps.mod_menu = "17.0.0"
+deps.bucketlib = "1.21.11-4.7.2.0"
+
+
+["26.1-deobf"]
+version_range = "~26.1-"
+deps.minecraft = "26.1.2"
+deps.fabric_api = "0.152.1+26.1.2"
+deps.midnightlib = "1.9.3+26.1-fabric"
+deps.cloth_config = "26.1.154"
+deps.mod_menu = "18.0.0-beta.1"
+deps.bucketlib = "26.1.2-5.1.0.0"
+# La 26.1 nécessite une Fabric API plus récente que le défaut global.
+breaks.fabric_api = "<0.143.12"
+
+
+["26.2-deobf"]
+version_range = "~26.2-"
+deps.minecraft = "26.2"
+deps.fabric_api = "0.157.0+26.2"
+deps.midnightlib = "1.9.3+26.2-fabric"
+deps.cloth_config = "26.2.155"
+deps.mod_menu = "20.0.1"
+deps.bucketlib = "26.2-5.2.0.1"
+
+
+["26.3-deobf"]
+version_range = "~26.3-"
+deps.minecraft = "26.3-snapshot-8"
+deps.fabric_api = "0.157.1+26.3"
+# MidnightLib/ModMenu/ClothConfig/BucketLib pas encore disponibles pour 26.3.
+# CurseForge reçoit automatiquement "26.3-snapshot" (déduit de deps.minecraft) ;
+# décommenter uniquement si CurseForge nomme la version autrement.
+# curseforge_versions = "26.3-snapshot"

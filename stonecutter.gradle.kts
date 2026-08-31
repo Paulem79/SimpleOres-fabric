@@ -8,19 +8,18 @@ stonecutter active "26.2-deobf"
 stonecutter parameters {
     filters.exclude("**/*.aw")
 
-    // 1. Récupération sécurisée du projet Gradle courant (technique YACL)
-    val prj = project(node.metadata.project)
+    // Les propriétés du mod et les dépendances versionnées vivent désormais dans
+    // stonecutter.properties.toml. Une clé absente pour la version courante signifie
+    // simplement qu'elle n'est pas utilisée (remplace l'ancien sentinel "[VERSIONED]").
+    val bucketLibProp = properties.getOrNull<String>("deps.bucketlib")
+    val hasBucketlib = bucketLibProp != null
 
-    // Calcul de hasBucketlib dynamique
-    val bucketLibProp = prj.findProperty("deps.bucketlib")
-    val hasBucketlib = bucketLibProp != null && bucketLibProp != "[VERSIONED]"
+    val midnightLibProp = properties.getOrNull<String>("deps.midnightlib")
+    val hasMidnightLib: Boolean = midnightLibProp != null
+    val isLegacyMidnightLib: Boolean = hasMidnightLib && midnightLibProp!!.endsWith("-fabric") && !midnightLibProp.contains("+")
 
-    val midnightLibProp = prj.findProperty("deps.midnightlib")
-    val hasMidnightLib: Boolean = midnightLibProp?.takeIf { it != "[VERSIONED]" } != null
-    val isLegacyMidnightLib: Boolean = hasMidnightLib && midnightLibProp.toString().endsWith("-fabric") && !midnightLibProp.toString().contains("+")
-
-    val modMenuProp = prj.findProperty("deps.mod_menu")
-    val hasModmenu: Boolean = modMenuProp?.takeIf { it != "[VERSIONED]" } != null
+    val modMenuProp = properties.getOrNull<String>("deps.mod_menu")
+    val hasModmenu: Boolean = modMenuProp != null
 
     val current = node.metadata
     val afterDeobf = eval(current.version, ">1.21.11")
@@ -38,7 +37,7 @@ stonecutter parameters {
     constants.put("hasModmenu", hasModmenu)
     constants.put("isLegacyMidnightLib", isLegacyMidnightLib)
 
-    val maxVersionRange = prj.findProperty("max_version_range") as String? ?: "1.21.8"
+    val maxVersionRange = properties.getOrNull<String>("max_version_range") ?: "1.21.8"
     constants.put("hasCopperTools", afterDeobf || eval(maxVersionRange, ">1.21.8"))
     constants.put("containsBucket", containsBucket)
     constants.put("afterDeobf", afterDeobf)
