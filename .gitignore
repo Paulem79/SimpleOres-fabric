@@ -5,6 +5,7 @@ versions/*/src/main/generated/.cache
 dist
 src/main/generated
 src/main/resources/data/simpleores/recipe/pulverizer
+sc-doc
 
 # gradle
 
