@@ -1,19 +1,14 @@
 package net.paulem.simpleores.items.custom.advanced;
 
-//?if <1.21.5
-//import net.minecraft.world.item.SwordItem;
+//? if <1.21.5 {
+/*import net.minecraft.world.item.SwordItem;
+ *///?} else {
 import net.minecraft.world.item.Item;
+//?}
 import net.minecraft.world.item.ToolMaterial;
 
-/**
- * Placeholder class just for checks and compatibility.
- */
-public class AdvancedSwordItem extends
-        //? if >=1.21.5 {
+public class AdvancedSwordItem extends //$ if >=1.21.5 'Item' else 'SwordItem'
         Item
-        //?} else {
-        /*SwordItem
-        *///?}
 {
     public AdvancedSwordItem(ToolMaterial material, Properties settings) {
         /*? if >=1.21.5 {*/

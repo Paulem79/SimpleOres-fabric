@@ -1,19 +1,14 @@
 package net.paulem.simpleores.items.custom.advanced;
 
-//?if <1.21.5
-//import net.minecraft.world.item.PickaxeItem;
+//? if <1.21.5 {
+/*import net.minecraft.world.item.PickaxeItem;
+ *///?} else {
 import net.minecraft.world.item.Item;
+//?}
 import net.minecraft.world.item.ToolMaterial;
 
-/**
- * Placeholder class just for checks and compatibility.
- */
-public class AdvancedPickaxeItem extends
-        //? if >=1.21.5 {
+public class AdvancedPickaxeItem extends //$ if >=1.21.5 'Item' else 'PickaxeItem'
         Item
-        //?} else {
-        /*PickaxeItem
-        *///?}
         implements AdvancedToolItem {
     public AdvancedPickaxeItem(ToolMaterial material, Properties settings) {
         //? if >=1.21.5 {
