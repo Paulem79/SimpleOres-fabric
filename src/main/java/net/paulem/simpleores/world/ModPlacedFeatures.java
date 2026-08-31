@@ -28,10 +28,15 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> ONYX_ORE_PLACED_KEY = registerKey("ore_onyx");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
-        //? if >26.2 {
-        /*HolderGetter<Feature> HolderLookup = context.lookup(Registries.FEATURE);
+        HolderGetter< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+                ConfiguredFeature<?, ?>
+                > HolderLookup = context.lookup( //$ if >26.2 'Registries.FEATURE' else 'Registries.CONFIGURED_FEATURE'
+                Registries.CONFIGURED_FEATURE
+        );
 
-        Holder<Feature> tinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
+        Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+                ConfiguredFeature<?, ?>
+                > tinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
 
         PlacementUtils.register(
                 context,
@@ -41,7 +46,9 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(108), VerticalAnchor.belowTop(236)))
         );
 
-        Holder<Feature> tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_VEIN_KEY);
+        Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+                ConfiguredFeature<?, ?>
+                > tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_VEIN_KEY);
 
         PlacementUtils.register(
                 context,
@@ -51,7 +58,9 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(24), VerticalAnchor.aboveBottom(64)))
         );
 
-        Holder<Feature> mythrilEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.MYTHRIL_ORE_KEY);
+        Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+                ConfiguredFeature<?, ?>
+                > mythrilEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.MYTHRIL_ORE_KEY);
 
         PlacementUtils.register(
                 context,
@@ -61,7 +70,9 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(1), VerticalAnchor.aboveBottom(96)))
         );
 
-        Holder<Feature> adamantiumEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.ADAMANTIUM_ORE_KEY);
+        Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+                ConfiguredFeature<?, ?>
+                > adamantiumEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.ADAMANTIUM_ORE_KEY);
 
         PlacementUtils.register(
                 context,
@@ -71,7 +82,9 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(1), VerticalAnchor.aboveBottom(48)))
         );
 
-        Holder<Feature> onyxEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.ONYX_ORE_KEY);
+        Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+                ConfiguredFeature<?, ?>
+                > onyxEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.ONYX_ORE_KEY);
 
         PlacementUtils.register(
                 context,
@@ -80,59 +93,6 @@ public class ModPlacedFeatures {
                 ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
                         HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(10), VerticalAnchor.belowTop(10)))
         );
-        *///?} else {
-        HolderGetter<ConfiguredFeature<?, ?>> HolderLookup = context.lookup(Registries.CONFIGURED_FEATURE);
-
-        Holder<ConfiguredFeature<?, ?>> tinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
-
-        PlacementUtils.register(
-                context,
-                TIN_ORE_PLACED_KEY,
-                tinEntry,
-                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.tinOreVeinPerChunks, // Vein per chunk
-                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(108), VerticalAnchor.belowTop(236)))
-        );
-
-        Holder<ConfiguredFeature<?, ?>> tinVeinEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.TIN_VEIN_KEY);
-
-        PlacementUtils.register(
-                context,
-                TIN_VEIN_PLACED_KEY,
-                tinVeinEntry,
-                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.tinVeinVeinPerChunks, // Vein per chunk
-                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(24), VerticalAnchor.aboveBottom(64)))
-        );
-
-        Holder<ConfiguredFeature<?, ?>> mythrilEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.MYTHRIL_ORE_KEY);
-
-        PlacementUtils.register(
-                context,
-                MYTHRIL_ORE_PLACED_KEY,
-                mythrilEntry,
-                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.mythrilVeinPerChunks, // Vein per chunk
-                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(1), VerticalAnchor.aboveBottom(96)))
-        );
-
-        Holder<ConfiguredFeature<?, ?>> adamantiumEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.ADAMANTIUM_ORE_KEY);
-
-        PlacementUtils.register(
-                context,
-                ADAMANTIUM_ORE_PLACED_KEY,
-                adamantiumEntry,
-                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.adamantiumVeinPerChunks, // Vein per chunk
-                        HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(1), VerticalAnchor.aboveBottom(48)))
-        );
-
-        Holder<ConfiguredFeature<?, ?>> onyxEntry = HolderLookup.getOrThrow(ModConfiguredFeatures.ONYX_ORE_KEY);
-
-        PlacementUtils.register(
-                context,
-                ONYX_ORE_PLACED_KEY,
-                onyxEntry,
-                ModOrePlacement.modifiersWithCount(BaseSimpleOresConfig.NotEditable.onyxVeinPerChunks, // Vein per chunk
-                        HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(10), VerticalAnchor.belowTop(10)))
-        );
-        //?}
     }
 
     public static ResourceKey<PlacedFeature> registerKey(String name) {

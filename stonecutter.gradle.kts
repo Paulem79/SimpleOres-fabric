@@ -47,6 +47,12 @@ stonecutter parameters {
         else -> "net.minecraft.world.item.equipment.ArmorType"
     }
 
+    swaps["armorMaterialType"] = when {
+        eval(current.version, "1.20.6") || eval(current.version, "1.21") -> "Holder<ArmorMaterial>"
+        eval(current.version, ">1.20.4") -> "ArmorMaterial"
+        else -> "ModArmorMaterials"
+    }
+
     swaps["armorRegistry"] = when {
         eval(current.version, "<=1.20.4") -> "net.paulem.simpleores.armors.ModArmorMaterials"
         eval(current.version, "=1.20.6") -> "net.minecraft.core.Holder<net.minecraft.world.item.ArmorMaterial>"

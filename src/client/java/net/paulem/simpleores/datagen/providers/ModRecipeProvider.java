@@ -222,7 +222,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         extracted(recipeExporter, recipeExporter);
     }
      
-    *///?} else >26.2 {
+    *///?} else if >26.2 {
     /*@Override
     protected RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
         return new net.minecraft.data.recipes.RecipeProvider(recipeOutput, advancementOutput) {

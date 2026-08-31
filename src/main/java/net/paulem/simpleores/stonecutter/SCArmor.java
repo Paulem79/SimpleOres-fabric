@@ -93,36 +93,18 @@ public class SCArmor {
         ADAMANTIUM(ModArmorMaterials.ADAMANTIUM),
         ONYX(ModArmorMaterials.ONYX);
 
-        private final
-        //? if 1.20.6 || 1.21 {
-        /*Holder<ArmorMaterial>
-        *///?} else if >1.20.4 {
+        private final //$ armorMaterialType
         ArmorMaterial
-        //?} else if <=1.20.4 {
-        /*ModArmorMaterials
-        *///?}
                 material;
 
-        SOArmorMaterial(
-                //? if 1.20.6 || 1.21 {
-                /*Holder<ArmorMaterial>
-                *///?} else if >1.20.4 {
-                ArmorMaterial
-                        //?} else if <=1.20.4 {
-                        /*ModArmorMaterials
-                        *///?}
+        SOArmorMaterial(//$ armorMaterialType
+                        ArmorMaterial
                 material) {
             this.material = material;
         }
 
-        public
-            //? if 1.20.6 || 1.21 {
-            /*Holder<ArmorMaterial>
-            *///?} else if >1.20.4 {
+        public //$ armorMaterialType
         ArmorMaterial
-        //?} else if <=1.20.4 {
-        /*ModArmorMaterials
-        *///?}
         getMaterial() {
             return material;
         }
