@@ -340,8 +340,6 @@ fun curseforgeVersions(): List<String> {
 }
 
 publishMods {
-    // loomx.modJar pointe vers le bon jar (remappé ou non) quel que soit le variant de Loom
-    // appliqué en interne par loom-back-compat.
     file.set(loomx.modJar.flatMap { it.archiveFile })
 
     displayName.set("SimpleOres Fabric ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
