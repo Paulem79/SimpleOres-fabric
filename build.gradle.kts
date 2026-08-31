@@ -149,6 +149,7 @@ if (fabricApiExt != null) {
 }
 
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
+val hasClothConfig: Boolean = hasBucketlib && findProperty("deps.cloth_config")?.takeIf { it != "[VERSIONED]" } != null
 
 // Identifiant Mojang réel de la version ciblée. "deps.minecraft" prime sur le nom du dossier
 // Stonecutter : le dossier peut donc s'appeler "26.3-deobf" tout en compilant contre
@@ -384,6 +385,10 @@ publishMods {
                 requires("bucketlib")
             }
         }
+
+        if (hasClothConfig) {
+            requires("cloth-config")
+        }
     }
 
     curseforge {
@@ -407,6 +412,10 @@ publishMods {
             } else {
                 requires("bucketlib")
             }
+        }
+
+        if (hasClothConfig) {
+            requires("cloth-config")
         }
     }
 }
