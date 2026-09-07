@@ -13,7 +13,7 @@ pluginManagement {
 }
 
 plugins {
-	id("dev.kikugie.stonecutter") version "0.9.7"
+	id("dev.kikugie.stonecutter") version "0.9.8"
 	// Applique automatiquement le bon variant de Loom (mappings officiels ou Mojmaps) selon la
 	// version ciblée : plus besoin de choisir/switcher entre fabric-loom et fabric-loom-remap.
 	id("dev.kikugie.loom-back-compat") version "0.4.2"
