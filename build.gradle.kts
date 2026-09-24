@@ -141,6 +141,30 @@ if (fabricApiExt != null) {
         configureDataGeneration {
             client = true
         }
+
+        // Les gametests vérifient l'intégration à la Fabric Advancement API, qui n'existe qu'à partir de 26.2.
+        // Loom crée le source set "gametest" et la tâche "runGameTest", à lancer manuellement.
+        if (stonecutter.eval(stonecutter.current.version, ">=26.2")) {
+            configureTests {
+                createSourceSet = true
+                modId = "simpleores-gametest"
+                enableGameTests = true
+                enableClientGameTests = false
+                eula = true
+            }
+
+            // Loom rattache "runGameTest" à "check" : on le retire pour ne pas lancer de serveur à chaque build
+            tasks.named("check") {
+                setDependsOn(dependsOn.filterNot { dep ->
+                    val name = when (dep) {
+                        is Task -> dep.name
+                        is TaskProvider<*> -> dep.name
+                        else -> dep.toString()
+                    }
+                    name == "runGameTest"
+                })
+            }
+        }
     }
 }
 

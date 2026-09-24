@@ -1,0 +1,17 @@
+{
+	"schemaVersion": 1,
+	"id": "simpleores-gametest",
+	"version": "1.0.0",
+	"name": "SimpleOres Game Tests",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-gametest": [
+			"net.paulem.simpleores.gametest.BucketAdvancementsTest"
+		]
+	},
+	"depends": {
+		"simpleores": "*",
+		"fabric-gametest-api-v1": "*",
+		"fabric-advancement-api-v1": "*"
+	}
+}

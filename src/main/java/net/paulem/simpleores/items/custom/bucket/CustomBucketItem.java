@@ -457,12 +457,15 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
                 level.gameEvent(player, GameEvent.FLUID_PICKUP, pos);
 
+                // In creative, createFilledResult moves taken into the inventory, which empties it
+                ItemStack filledBucket = taken.copy();
+
                 // Manage for player inventory if not dispenser
                 ItemStack result = player != null ? ItemUtils.createFilledResult(itemStack, player, taken) : taken;
 
                 // Also checks if not null at the same time
                 if (!level.isClientSide() && player instanceof ServerPlayer) {
-                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, taken);
+                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, filledBucket);
                 }
 
                 return InteractionResult.SUCCESS.heldItemTransformedTo(result);

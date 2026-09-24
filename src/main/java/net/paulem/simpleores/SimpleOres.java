@@ -13,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.paulem.simpleores.advancements.ModVanillaAdvancements;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.config.Config;
 import net.minecraft.core.Registry;
@@ -112,6 +113,8 @@ public class SimpleOres implements ModInitializer {
 		});
 
 		ModWorldGeneration.generateModWorldGen();
+
+		ModVanillaAdvancements.init();
 
 		// If trades are enabled
 		if(SimpleOres.CONFIG.enableTrades()) {

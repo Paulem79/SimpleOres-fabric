@@ -70,11 +70,13 @@ public interface BucketableMixin {
         ItemStack finalBucket = CustomBucketItem.mix(vanillaBucketStack, itemStack);
 
         pickupEntity.saveToBucketTag(finalBucket);
+        // In creative, createFilledResult moves finalBucket into the inventory, which empties it
+        ItemStack filledBucket = finalBucket.copy();
         ItemStack result = ItemUtils.createFilledResult(itemStack, player, finalBucket, false);
 
         player.setItemInHand(hand, result);
         if (player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.FILLED_BUCKET.trigger(serverPlayer, finalBucket);
+            CriteriaTriggers.FILLED_BUCKET.trigger(serverPlayer, filledBucket);
         }
 
         pickupEntity.discard();
