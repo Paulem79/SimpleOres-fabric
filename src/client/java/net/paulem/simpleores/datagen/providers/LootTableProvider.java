@@ -25,7 +25,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import java.util.List;
 *///?}
 
@@ -84,7 +84,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
         // Manually assemble the Ore Drop Loot Table to avoid Vanilla's crash-prone helper methods
         this.add(block, LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(ContextIntProviders.exactly(1))
                         .add(LootItem.lootTableItem(block)
                                 .when(customHasSilkTouch()) // If Silk Touch -> drop block
                                 .otherwise(                 // Otherwise -> apply Fortune & Explosion Decay to raw item

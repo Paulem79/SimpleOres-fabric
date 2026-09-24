@@ -370,7 +370,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                             //?} else {
                             /^hand == InteractionHand.OFF_HAND ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
                             ^///?}
-                            player.onEquippedItemBroken(itemStack.getItem(), slot);
+                            player.onEquippedItemBroken(itemStack //? if <=26.2
+                                    .getItem()
+                                    , slot);
                             return InteractionResult.SUCCESS.heldItemTransformedTo(ItemStack.EMPTY);
                         } else {
                             return InteractionResult.SUCCESS;

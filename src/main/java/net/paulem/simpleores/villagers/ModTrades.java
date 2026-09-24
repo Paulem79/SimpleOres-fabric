@@ -23,8 +23,6 @@ import static net.minecraft.world.item.trading.VillagerTrades.enchantedItem;
 //? }
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import org.jspecify.annotations.Nullable;
 
 public class ModTrades {

@@ -265,6 +265,13 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         if(parent != null) builder
                 .parent(parent);
 
+        //? if >26.2 {
+        /*// The background is now only accepted on a root advancement
+        if(background != null) builder
+                .rootDisplay(icon.asItem(), title, description, background, frame, showToast, announceToChat, hidden);
+        else builder
+                .display(icon.asItem(), title, description, frame, showToast, announceToChat, hidden);
+        *///?} else {
         builder.display(
                 icon,
                 title,
@@ -275,6 +282,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
                 announceToChat,
                 hidden
         );
+        //?}
 
         if(requiredItem != null) builder
                 .addCriterion(path, InventoryChangeTrigger.TriggerInstance.hasItems(requiredItem));

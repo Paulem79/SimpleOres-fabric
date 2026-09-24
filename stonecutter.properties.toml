@@ -1,7 +1,3 @@
-# Propriétés centralisées Stonecutter. Chaque version a sa propre table, identifiée par le
-# nom exact du dossier sous versions/. Une clé absente dans une table de version signifie
-# simplement que cette dépendance n'est pas utilisée pour cette version (remplace l'ancien
-# sentinel "[VERSIONED]" des gradle.properties par sous-projet).
 maven_group = "net.paulem.simpleores"
 
 mod.id = "simpleores"
@@ -10,9 +6,7 @@ mod.version = "1.9.12"
 deps.fabric_loader = "0.19.3"
 deps.fabricloader_version = "*"
 
-# Version de Loom que loom-back-compat doit appliquer en interne (Mojmaps ou remap selon la
-# version ciblée) — remplace les déclarations manuelles de fabric-loom / fabric-loom-remap.
-loomx.loom_version = "1.17-SNAPSHOT"
+loomx.loom_version = "1.18-SNAPSHOT"
 
 breaks.fabric_api = "<0.1"
 
@@ -152,9 +146,8 @@ deps.bucketlib = "26.2-5.2.0.1"
 
 ["26.3-deobf"]
 version_range = "~26.3-"
-deps.minecraft = "26.3-snapshot-8"
-deps.fabric_api = "0.157.1+26.3"
-# MidnightLib/ModMenu/ClothConfig/BucketLib pas encore disponibles pour 26.3.
-# CurseForge reçoit automatiquement "26.3-snapshot" (déduit de deps.minecraft) ;
-# décommenter uniquement si CurseForge nomme la version autrement.
-# curseforge_versions = "26.3-snapshot"
+deps.minecraft = "26.3"
+deps.fabric_api = "0.161.0+26.3"
+deps.midnightlib = "1.9.3+26.3-fabric"
+deps.cloth_config = "26.3.159"
+deps.mod_menu = "21.0.0"
