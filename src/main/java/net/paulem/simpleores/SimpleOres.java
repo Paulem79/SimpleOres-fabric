@@ -21,7 +21,6 @@ import net.paulem.simpleores.config.loader.ConfigLoader;
 import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.furnaces.ModFurnacesEntities;
 import net.paulem.simpleores.items.ModComponents;
-import net.paulem.simpleores.items.TabExcludedItem;
 //? if !hasBucketlib && containsBucket {
 /*import net.paulem.simpleores.items.custom.bucket.BucketTabVariants;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
@@ -99,8 +98,6 @@ public class SimpleOres implements ModInitializer {
                 content.accept(new ItemStack(blockItem.asItem()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
             for (Item item : ModItems.registeredItems.values()) {
-                if(item instanceof TabExcludedItem) continue;
-
                 content.accept(new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
                 //? if !hasBucketlib && containsBucket {

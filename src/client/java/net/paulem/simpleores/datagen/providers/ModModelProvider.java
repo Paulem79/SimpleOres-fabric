@@ -3,6 +3,11 @@ package net.paulem.simpleores.datagen.providers;
 //? if containsBucket && !hasBucketlib {
 /*import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.resources.Identifier;
+import net.paulem.simpleores.SimpleOres;
+import net.paulem.simpleores.stonecutter.SCId;
+//? if >26.2
+import net.minecraft.client.resources.model.sprite.Material;
 *///?}
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.client.data.models.*;
@@ -139,10 +144,28 @@ public class ModModelProvider extends FabricModelProvider {
     /*public final void generateCopperBucket(ItemModelGenerators itemModelGenerator, final Item bucketItem) {
         ItemModel.Unbaked bucketModel = ItemModelUtils.composite(
                 new CopperBucketItemSpecialRenderer.Unbaked(),
-                new CopperEmptyBucketItemSpecialRenderer.Unbaked()
+                new CopperEmptyBucketItemSpecialRenderer.Unbaked(
+                        generateBucketLayer(itemModelGenerator, "copper_bucket_base"),
+                        generateBucketLayer(itemModelGenerator, "copper_bucket_cover_lower"),
+                        generateBucketLayer(itemModelGenerator, "copper_bucket_cover_block"),
+                        generateBucketLayer(itemModelGenerator, "copper_bucket_melting_cover"),
+                        generateBucketLayer(itemModelGenerator, "copper_bucket_cover")
+                )
         );
 
         itemModelGenerator.itemModelOutput.accept(bucketItem, bucketModel);
+    }
+
+    // Flat model of a bucket layer, only used by the bucket renderer (no item behind it)
+    private static ItemModel.Unbaked generateBucketLayer(ItemModelGenerators itemModelGenerator, String texture) {
+        Identifier model = SCId.of(SimpleOres.MOD_ID, "item/" + texture);
+        return ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(model, TextureMapping.layer0(
+                //? if >26.2 {
+                new Material(model)
+                //?} else {
+                /^model
+                ^///?}
+        ), itemModelGenerator.modelOutput));
     }
     *///?}
 

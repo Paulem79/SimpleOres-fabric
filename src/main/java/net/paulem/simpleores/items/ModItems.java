@@ -69,26 +69,6 @@ public class ModItems {
                     .stacksTo(16)
                     .setId(key))
     );
-
-    public static final TabExcludedItem BASE_COPPER_BUCKET = registerByKey("copper_bucket_base", key ->
-            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
-    );
-
-    public static final TabExcludedItem COVER_LOWER_COPPER_BUCKET = registerByKey("copper_bucket_cover_lower", key ->
-            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
-    );
-
-    public static final TabExcludedItem COVER_COPPER_BUCKET = registerByKey("copper_bucket_cover", key ->
-            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
-    );
-
-    public static final TabExcludedItem COVER_BLOCK_COPPER_BUCKET = registerByKey("copper_bucket_cover_block", key ->
-            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
-    );
-
-    public static final TabExcludedItem COVER_MELTING_COPPER_BUCKET = registerByKey("copper_bucket_melting_cover", key ->
-            new TabExcludedItem(new Item.Properties().stacksTo(1).setId(key))
-    );
     *///?}
 
 
