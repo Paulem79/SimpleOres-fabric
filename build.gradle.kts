@@ -9,7 +9,7 @@ plugins {
     id("dev.kikugie.loom-back-compat")
 
     `maven-publish`
-    id("me.modmuss50.mod-publish-plugin") version "2.2.0"
+    id("me.modmuss50.mod-publish-plugin") version "2.2.1"
 
     id("dev.kikugie.stonecutter")
 }
