@@ -1,0 +1,37 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "CC0-1.0"
+issueTrackerURL = "https://github.com/Paulem79/SimpleOres-fabric/issues"
+
+[[mods]]
+modId = "simpleores"
+version = "${version}"
+displayName = "SimpleOres NeoForge"
+displayURL = "https://paulem.net"
+logoFile = "assets/simpleores/icon.png"
+authors = "Paulem"
+description = '''An unofficial port of SimpleOres for NeoForge'''
+
+[[mixins]]
+config = "simpleores.mixins.json"
+
+[[mixins]]
+config = "simpleores.neoforge.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
+
+[[dependencies.simpleores]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neoforge_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.simpleores]]
+modId = "minecraft"
+type = "required"
+versionRange = "${mc_range}"
+ordering = "NONE"
+side = "BOTH"
+${optional_dependencies}

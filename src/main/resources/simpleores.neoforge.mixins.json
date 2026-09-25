@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.paulem.simpleores.neoforge.mixin",
+  "compatibilityLevel": "${compatibility_level}",
+  "mixins": [
+    "ServerAdvancementManagerMixin",
+    "ReloadableServerResourcesMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
