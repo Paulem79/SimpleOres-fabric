@@ -20,6 +20,7 @@ public class UkrainianLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "Адамантова руда");
         add(translationBuilder, "adamantium_block", "Блок адамантію");
         add(translationBuilder, "onyx_ore", "Оніксова руда");
+        add(translationBuilder, "basalt_onyx_ore", "Базальтова оніксова руда");
         add(translationBuilder, "onyx_block", "Блок оніксу");
 
         add(translationBuilder, "copper_bricks", "Мідна цегла");

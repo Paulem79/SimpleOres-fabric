@@ -19,6 +19,10 @@ import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
+import net.paulem.simpleores.stonecutter.SCId;
+//? if >=26.2
+import net.minecraft.client.resources.model.sprite.Material;
+import net.paulem.simpleores.stonecutter.SCId;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.item.BowItem;
@@ -47,6 +51,19 @@ import java.util.Map;
 import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
 public class ModModelProvider extends FabricModelProvider {
+    // Basalt-like column: basalt top on the ends, the onyx-in-basalt texture on the sides (same as the base mod)
+    private static final TexturedModel.Provider BASALT_ONYX_ORE_MODEL = TexturedModel.createDefault(
+            block -> basaltOnyxOreTextures(),
+            ModelTemplates.CUBE_COLUMN);
+
+    private static TextureMapping basaltOnyxOreTextures() {
+        //? if >=26.2 {
+        return TextureMapping.column(new Material(SCId.of("block/onyx_ore_basalt_side")), new Material(SCId.ofVanilla("block/basalt_top")));
+        //?} else {
+        /*return TextureMapping.column(SCId.of("block/onyx_ore_basalt_side"), SCId.ofVanilla("block/basalt_top"));
+        *///?}
+    }
+
     public ModModelProvider(FabricPackOutput generator) {
         super(generator);
     }
@@ -91,6 +108,8 @@ public class ModModelProvider extends FabricModelProvider {
             }
             else if(block instanceof DoorBlock)
                 blockStateModelGenerator.createDoor(block);
+            else if(block == ModBlocks.BASALT_ONYX_ORE)
+                blockStateModelGenerator.createTrivialBlock(block, BASALT_ONYX_ORE_MODEL);
             else if(path.contains("ore") || path.contains("block"))
                 blockStateModelGenerator.createTrivialCube(block);
         });

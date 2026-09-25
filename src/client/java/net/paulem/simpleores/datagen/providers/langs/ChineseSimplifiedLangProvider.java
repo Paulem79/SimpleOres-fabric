@@ -26,6 +26,7 @@ public class ChineseSimplifiedLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_block", "精金块");
         add(translationBuilder, "raw_adamantium_block", "粗精金块");
         add(translationBuilder, "onyx_ore", "缟玛瑙矿石");
+        add(translationBuilder, "basalt_onyx_ore", "玄武岩缟玛瑙矿石");
         add(translationBuilder, "onyx_block", "缟玛瑙块");
 
         add(translationBuilder, "copper_bricks", "铜砖块");

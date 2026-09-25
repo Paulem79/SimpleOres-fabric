@@ -29,6 +29,7 @@ public class EnglishLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_block", "Block of Adamantium");
         add(translationBuilder, "raw_adamantium_block", "Block of Raw Adamantium");
         add(translationBuilder, "onyx_ore", "Onyx Ore");
+        add(translationBuilder, "basalt_onyx_ore", "Basalt Onyx Ore");
         add(translationBuilder, "onyx_block", "Block of Onyx");
 
         add(translationBuilder, "copper_bricks", "Copper Bricks");

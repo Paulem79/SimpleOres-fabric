@@ -48,6 +48,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
         sameDropWithSilkTouch(ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, ModItems.RAW_ADAMANTIUM);
 
         sameDropWithSilkTouch(ModBlocks.ONYX_ORE, ModItems.ONYX_GEM);
+        sameDropWithSilkTouch(ModBlocks.BASALT_ONYX_ORE, ModItems.ONYX_GEM);
 
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
             Block block = blockItem.getBlock();

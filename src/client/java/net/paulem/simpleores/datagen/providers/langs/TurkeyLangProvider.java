@@ -20,6 +20,7 @@ public class TurkeyLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "Adamantiyum Cevheri");
         add(translationBuilder, "adamantium_block", "Adamantiyum Bloğu");
         add(translationBuilder, "onyx_ore", "Oniks Cevheri");
+        add(translationBuilder, "basalt_onyx_ore", "Bazalt Oniks Cevheri");
         add(translationBuilder, "onyx_block", "Oniks Bloğu");
     }
 }

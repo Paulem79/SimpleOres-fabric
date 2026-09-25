@@ -20,6 +20,7 @@ public class DanishLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "Adamantiummalm");
         add(translationBuilder, "adamantium_block", "Adamantiumblok");
         add(translationBuilder, "onyx_ore", "Onyxmalm");
+        add(translationBuilder, "basalt_onyx_ore", "Basalt-onyxmalm");
         add(translationBuilder, "onyx_block", "Onyxblok");
     }
 }

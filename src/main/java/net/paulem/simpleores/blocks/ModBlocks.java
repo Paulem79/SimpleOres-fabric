@@ -120,7 +120,13 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(7.0F, 3.0F)
             )));
-    
+    public static final DropExperienceBlock BASALT_ONYX_ORE = registerBlock("basalt_onyx_ore", key ->
+            makeExperienceDroppingBlock(UniformInt.of(9, 14), SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .sound(SoundType.BASALT)
+                    .requiresCorrectToolForDrops()
+                    .strength(7.0F, 3.0F)
+            )));
+
     private static final SCAccess<Block, BlockBehaviour.Properties> copyAccess = new SCAccess<>(//? if >1.20.1 {
             BlockBehaviour.Properties::ofFullCopy
     //?} else {

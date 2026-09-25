@@ -280,7 +280,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
             if(identifier.getPath().contains("_ore")) {
                 // MOD COMPAT
-                String material = identifier.getPath().replace("deepslate_", "").replace("_ore", "");
+                String material = identifier.getPath().replace("deepslate_", "").replace("basalt_", "").replace("_ore", "");
 
                 TagKey<Item> tag = SCTag.forOre(material);
                 build(tag, blockItem);

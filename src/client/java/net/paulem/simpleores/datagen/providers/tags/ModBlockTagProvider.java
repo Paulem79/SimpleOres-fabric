@@ -82,7 +82,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 build(ModTags.Blocks.SIMPLEORES_ORES, block);
 
                 // MOD COMPAT
-                String material = identifier.getPath().replace("_ore", "");
+                String material = identifier.getPath().replace("basalt_", "").replace("_ore", "");
 
                 TagKey<Block> tag = SCTag.forOres(material);
                 build(tag, block);

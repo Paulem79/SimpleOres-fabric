@@ -24,6 +24,7 @@ public class FrenchLangProvider extends GlobalLangProvider {
         add(translationBuilder, "deepslate_adamantium_ore", "Minerai d'Adamantium des âbimes");
         add(translationBuilder, "adamantium_block", "Bloc d'Adamantium");
         add(translationBuilder, "onyx_ore", "Minerai d'Onyx");
+        add(translationBuilder, "basalt_onyx_ore", "Minerai d'Onyx de Basalte");
         add(translationBuilder, "onyx_block", "Bloc d'Onyx");
 
         add(translationBuilder, "raw_tin_block", "Bloc d'Étain brut");

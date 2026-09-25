@@ -20,6 +20,7 @@ public class ChineseTraditionalLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "精金礦石");
         add(translationBuilder, "adamantium_block", "精金磚");
         add(translationBuilder, "onyx_ore", "縞瑪瑙礦石");
+        add(translationBuilder, "basalt_onyx_ore", "玄武岩縞瑪瑙礦石");
         add(translationBuilder, "onyx_block", "縞瑪瑙磚");
         add(translationBuilder, "mythril_furnace", "秘銀熔爐");
         add(translationBuilder, "mythril_furnace_lit", "秘銀熔爐");

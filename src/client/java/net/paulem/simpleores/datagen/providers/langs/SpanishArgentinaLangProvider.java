@@ -20,6 +20,7 @@ public class SpanishArgentinaLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "Mineral de Adamantio");
         add(translationBuilder, "adamantium_block", "Bloque de Adamantio");
         add(translationBuilder, "onyx_ore", "Mineral de Onix");
+        add(translationBuilder, "basalt_onyx_ore", "Mineral de Onix de Basalto");
         add(translationBuilder, "onyx_block", "Bloque de Onix");
     }
 }

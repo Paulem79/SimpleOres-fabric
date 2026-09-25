@@ -20,6 +20,7 @@ public class PortugueseBresilianLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "Minério de adamântio");
         add(translationBuilder, "adamantium_block", "Bloco de adamântio");
         add(translationBuilder, "onyx_ore", "Minério de ônix");
+        add(translationBuilder, "basalt_onyx_ore", "Minério de ônix de basalto");
         add(translationBuilder, "onyx_block", "Bloco de ônix");
     }
 }

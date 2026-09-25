@@ -20,6 +20,7 @@ public class SpanishSpainLangProvider extends GlobalLangProvider {
         add(translationBuilder, "adamantium_ore", "Mena de adamantio");
         add(translationBuilder, "adamantium_block", "Bloque de adamantio");
         add(translationBuilder, "onyx_ore", "Mena de onyx");
+        add(translationBuilder, "basalt_onyx_ore", "Mena de onyx de basalto");
         add(translationBuilder, "onyx_block", "Bloque de Onyx");
     }
 }
