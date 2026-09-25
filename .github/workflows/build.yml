@@ -63,6 +63,7 @@ jobs:
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      # Le datagen ne tourne que sur les nœuds Fabric : les jars NeoForge réutilisent sa sortie
       - name: runDatagen
         run: |
           PARALLELISM=$(($(nproc) * 2))
