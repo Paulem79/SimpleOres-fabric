@@ -59,9 +59,15 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         // No cake recipe here: the custom bucket is accepted by the vanilla one thanks to IngredientMixin
 
+        offerDustFurnace(ModTags.Items.Conventional.COPPER_DUSTS, Items.COPPER_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.TIN_DUSTS, ModItems.TIN_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.MYTHRIL_DUSTS, ModItems.MYTHRIL_INGOT);
         offerDustFurnace(ModTags.Items.Conventional.ADAMANTIUM_DUSTS, ModItems.ADAMANTIUM_INGOT);
+
+        offerCrushedOreFurnace(ModItems.CRUSHED_COPPER_ORE, Items.COPPER_INGOT);
+        offerCrushedOreFurnace(ModItems.CRUSHED_TIN_ORE, ModItems.TIN_INGOT);
+        offerCrushedOreFurnace(ModItems.CRUSHED_MYTHRIL_ORE, ModItems.MYTHRIL_INGOT);
+        offerCrushedOreFurnace(ModItems.CRUSHED_ADAMANTIUM_ORE, ModItems.ADAMANTIUM_INGOT);
 
         scRecipe.createShaped(RecipeCategory.MISC, ModItems.MYTHRIL_BOW)
                 .pattern(" RS")
@@ -108,7 +114,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 ModItems.COPPER_SHEARS,
                 ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK //? if >=26.2
                         .weathering().unaffected()
-                , Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER, null,
+                , Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER,
+                //? if hasCopperTools {
+                Items.COPPER_NUGGET,
+                //?} else {
+                /*ModItems.COPPER_NUGGET,
+                *///?}
                 null,
                 //? !hasCopperTools {
                 /*ModBlocks.copper_bars,
@@ -247,6 +258,13 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     @Override
     public String getName() {
         return "Simple Ores Recipes";
+    }
+
+    private static void offerCrushedOreFurnace(ItemLike crushedOre, ItemLike output) {
+        scRecipe.oreSmelting(List.of(crushedOre), RecipeCategory.MISC, output,
+                0.7f, 200, null);
+        scRecipe.oreBlasting(List.of(crushedOre), RecipeCategory.MISC, output,
+                0.7f, 100, null);
     }
 
     private static void offerDustFurnace(TagKey<Item> dustTag, ItemLike output) {
@@ -398,7 +416,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .save(exporter);
         }
 
-        if(container.nugget() != null) {
+        // The vanilla copper nugget already comes with its own ingot conversions
+        boolean vanillaNugget = false;
+        //? if hasCopperTools
+        vanillaNugget = container.nugget() == Items.COPPER_NUGGET;
+
+        if(container.nugget() != null && !vanillaNugget) {
             scRecipe.createShapeless(RecipeCategory.MISC, container.nugget(), 9)
                     .requires(tag)
                     .unlockedBy(hasTag(tag), scRecipe.has(tag))

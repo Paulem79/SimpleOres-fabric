@@ -110,6 +110,7 @@ public class ModTags {
             public static TagKey<Item> ADAMANTIUM_ORES = SCTag.forOre("adamantium");
             public static TagKey<Item> ONYX_ORES = SCTag.forOre("onyx");
 
+            public static TagKey<Item> COPPER_DUSTS = SCTag.forDust("copper");
             public static TagKey<Item> TIN_DUSTS = SCTag.forDust("tin");
             public static TagKey<Item> MYTHRIL_DUSTS = SCTag.forDust("mythril");
             public static TagKey<Item> ADAMANTIUM_DUSTS = SCTag.forDust("adamantium");

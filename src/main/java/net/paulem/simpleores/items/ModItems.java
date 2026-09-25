@@ -36,6 +36,10 @@ public class ModItems {
     public static final Item RAW_ADAMANTIUM = register("raw_adamantium", Item::new);
     public static final Item ONYX_GEM = register("onyx_gem", Item::new);
 
+    //? if !hasCopperTools
+    //public static final Item COPPER_NUGGET = register("copper_nugget", Item::new);
+    public static final Item COPPER_DUST = register("copper_dust", Item::new);
+    public static final Item CRUSHED_COPPER_ORE = register("crushed_copper_ore", Item::new);
     public static final Item TIN_NUGGET = register("tin_nugget", Item::new);
     public static final Item TIN_DUST = register("tin_dust", Item::new);
     public static final Item CRUSHED_TIN_ORE = register("crushed_tin_ore", Item::new);
