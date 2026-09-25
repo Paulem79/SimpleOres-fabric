@@ -4,9 +4,7 @@ package net.paulem.simpleores.items.custom.bucket;
 public class CustomBucketItem {}
 //?} else {
 
-/*import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
+/*import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -286,7 +284,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     protected Component getFluidDescription(Fluid fluid) {
-        return FluidVariantAttributes.getName(FluidVariant.of(fluid));
+        return BucketFluids.nameOf(fluid);
     }
 
     protected Component getBlockDescription(Block block) {
@@ -416,7 +414,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         if(fluid == null || fluid == Fluids.EMPTY) return 0;
 
-        return FluidVariantAttributes.getTemperature(FluidVariant.of(fluid));
+        return BucketFluids.temperatureOf(fluid);
     }
 
     public InteractionResult pickup(@NonNull Level level, @Nullable Player player, BlockPos pos, ItemStack itemStack) {
@@ -508,7 +506,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             case BlockItem moddedSolidBucket when !exchangeWithCustomBucket -> block = moddedSolidBucket.getBlock();
 
             default -> {
-                // Any other modded bucket item: ask the Fabric transfer API for its content
+                // Any other modded bucket item: ask the fluid API of the loader for its content
                 if(!exchangeWithCustomBucket) block = blockOf(BucketFluids.contentOf(vanillaBucketStack));
             }
         }
@@ -580,14 +578,24 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         ^///?}
     }
 
-    //? if afterDeobf {
+    //? if afterDeobf && fabric {
     @Override
     public @Nullable ItemStackTemplate getCraftingRemainder(ItemStack stack) {
         return leavesEmptyBucketWhenCrafted(stack) ? ItemStackTemplate.fromNonEmptyStack(getEmpty()) : null;
     }
-    //?} else {
+    //?} else if afterDeobf {
+    /^@Override
+    public @Nullable ItemStackTemplate getCraftingRemainder(ItemInstance stack) {
+        return stack instanceof ItemStack itemStack && leavesEmptyBucketWhenCrafted(itemStack) ? ItemStackTemplate.fromNonEmptyStack(getEmpty()) : null;
+    }
+    ^///?} else if fabric {
     /^@Override
     public ItemStack getRecipeRemainder(ItemStack stack) {
+        return leavesEmptyBucketWhenCrafted(stack) ? getEmpty() : ItemStack.EMPTY;
+    }
+    ^///?} else {
+    /^@Override
+    public ItemStack getCraftingRemainder(ItemStack stack) {
         return leavesEmptyBucketWhenCrafted(stack) ? getEmpty() : ItemStack.EMPTY;
     }
     ^///?}
@@ -619,7 +627,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         int temperature;
         if(entity.isInLava()) {
-            temperature = FluidVariantAttributes.getTemperature(FluidVariant.of(Fluids.LAVA));
+            temperature = BucketFluids.temperatureOf(Fluids.LAVA);
         } else if(entity.isOnFire()) {
             temperature = FIRE_TEMPERATURE;
         } else {

@@ -2,7 +2,6 @@ package net.paulem.simpleores.items;
 
 import net.minecraft.tags.BlockTags;
 //? if >1.21 {
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
@@ -12,7 +11,7 @@ import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.tags.ModTags;
 
 public final class ModToolMaterials {
-	public static final ToolMaterial COPPER = material(SimpleOres.CONFIG.copperTools(), ConventionalItemTags.COPPER_INGOTS);
+	public static final ToolMaterial COPPER = material(SimpleOres.CONFIG.copperTools(), ModTags.Items.Conventional.COPPER_INGOTS);
 	public static final ToolMaterial TIN = material(SimpleOres.CONFIG.tinTools(), ModTags.Items.REPAIRS_TIN_ITEMS);
 	public static final ToolMaterial MYTHRIL = material(SimpleOres.CONFIG.mythrilTools(), ModTags.Items.REPAIRS_MYTHRIL_ITEMS);
 	public static final ToolMaterial ADAMANTIUM = material(SimpleOres.CONFIG.adamantiumTools(), ModTags.Items.REPAIRS_ADAMANTIUM_ITEMS);
@@ -45,8 +44,7 @@ public final class ModToolMaterials {
 }
 //?} else {
 
-/*import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.paulem.simpleores.SimpleOres;
+/*import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.config.SimpleOresConfig;
 import net.minecraft.world.item.Items;
@@ -59,7 +57,7 @@ import net.minecraft.tags.TagKey;
 import java.util.function.Supplier;
 
 public enum ModToolMaterials implements ToolMaterial {
-	COPPER(SimpleOres.CONFIG.copperTools(), () -> Ingredient.of(ConventionalItemTags.COPPER_INGOTS)),
+	COPPER(SimpleOres.CONFIG.copperTools(), () -> Ingredient.of(ModTags.Items.Conventional.COPPER_INGOTS)),
 	TIN(SimpleOres.CONFIG.tinTools(), () -> Ingredient.of(ModTags.Items.Conventional.TIN_INGOTS)),
 	MYTHRIL(SimpleOres.CONFIG.mythrilTools(), () -> Ingredient.of(ModTags.Items.Conventional.MYTHRIL_INGOTS)),
 	ADAMANTIUM(SimpleOres.CONFIG.adamantiumTools(), () -> Ingredient.of(ModTags.Items.Conventional.ADAMANTIUM_INGOTS)),

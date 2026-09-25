@@ -4,7 +4,6 @@ package net.paulem.simpleores.stonecutter;
 /*import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.core.Holder;
 *///?}
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.paulem.simpleores.armors.ModArmorMaterials;
@@ -44,7 +43,7 @@ public class SCArmor {
             case "copper" -> {
                 return //? if <=1.21
                         //() -> Ingredient.of(
-                        ConventionalItemTags.COPPER_INGOTS
+                        ModTags.Items.Conventional.COPPER_INGOTS
                         //? if <=1.21
                         //)
                         ;

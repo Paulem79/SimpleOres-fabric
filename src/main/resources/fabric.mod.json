@@ -17,13 +17,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-          "net.paulem.simpleores.SimpleOres"
+          "net.paulem.simpleores.fabric.SimpleOresFabric"
 		],
 		"modmenu": [
           "net.paulem.simpleores.config.ModMenuCompat"
 		],
 		"client": [
-          "net.paulem.simpleores.SimpleOresClient"
+          "net.paulem.simpleores.fabric.SimpleOresFabricClient"
 		],
 		"fabric-datagen": [
 			"net.paulem.simpleores.datagen.SimpleOresDataGenerator"

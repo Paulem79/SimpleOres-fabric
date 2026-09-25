@@ -18,5 +18,20 @@ public record TradeDefinition(ResourceKey<VillagerProfession>
         ResourceKey<VillagerProfession>
         profession, int level, String id,
                               ModTradeItem from, ModTradeItem to, int maxUses, int xp,
-                              float reputationDiscount, boolean enchanted) {}
+                              float reputationDiscount, boolean enchanted) {
+    /^*
+     * @return whether the given profession of the villager is the one of this trade
+     ^/
+    public boolean matches(Object type) {
+        //? if >=1.21.5 {
+        // Depending on the version, the loaders give either the key or the profession itself
+        if (type instanceof ResourceKey<?> key) return key.equals(profession);
+
+        return type instanceof VillagerProfession villagerProfession
+                && net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION.getResourceKey(villagerProfession).filter(profession::equals).isPresent();
+        //?} else {
+        /^return type == profession;
+        ^///?}
+    }
+}
 *///? }

@@ -1,21 +1,23 @@
 package net.paulem.simpleores.items;
 
 import net.paulem.simpleores.SimpleOres;
-//? if afterDeobf {
+//? if fabric && afterDeobf {
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
-//? } else {
+//?} else if fabric {
 /*import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-*///? }
+*///?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemGroups {
-    public static final CreativeModeTab SIMPLEORES = //? if afterDeobf {
+    public static final CreativeModeTab SIMPLEORES = //? if neoforge {
+            /*CreativeModeTab
+            *///?} else if afterDeobf {
             FabricCreativeModeTab
-            //? } else {
+            //?} else {
             /*FabricItemGroup
-            *///? }
+            *///?}
             .builder(//? if <=1.19.4
             //net.paulem.simpleores.stonecutter.SCId.of("itemgroup.global")
             )

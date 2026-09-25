@@ -1,6 +1,5 @@
 package net.paulem.simpleores.tags;
 
-import net.fabricmc.fabric.impl.tag.convention.v2.TagRegistration;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -21,11 +20,8 @@ public class ModTags {
         public static class Conventional {
 
             public static TagKey<Block> createTag(String name) {
-                //? if <1.20.5 {
-                /*return TagRegistration.BLOCK_TAG_REGISTRATION.registerCommon(name);
-                *///?} else {
-                return TagRegistration.BLOCK_TAG.registerC(name);
-                //?}
+                // Both loaders share the "c" namespace of the conventional tags
+                return TagKey.create(Registries.BLOCK, SCId.of("c", name));
             }
         }
     }
@@ -101,6 +97,8 @@ public class ModTags {
             public static TagKey<Item> MYTHRIL_RODS = SCTag.forRod("mythril");
             public static TagKey<Item> ONYX_RODS = SCTag.forRod("onyx");
 
+            public static TagKey<Item> COPPER_INGOTS = SCTag.forIngot("copper");
+
             public static TagKey<Item> RAW_COPPER_ORES = SCTag.forRawOre("copper");
             public static TagKey<Item> RAW_TIN_ORES = SCTag.forRawOre("tin");
             public static TagKey<Item> RAW_MYTHRIL_ORES = SCTag.forRawOre("mythril");
@@ -117,11 +115,8 @@ public class ModTags {
             public static TagKey<Item> ADAMANTIUM_DUSTS = SCTag.forDust("adamantium");
 
             public static TagKey<Item> createTag(String name) {
-                //? if <1.20.5 {
-                /*return TagRegistration.ITEM_TAG_REGISTRATION.registerCommon(name);
-                *///?} else {
-                return TagRegistration.ITEM_TAG.registerC(name);
-                //?}
+                // Both loaders share the "c" namespace of the conventional tags
+                return TagKey.create(Registries.ITEM, SCId.of("c", name));
             }
         }
     }

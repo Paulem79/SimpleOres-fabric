@@ -1,5 +1,6 @@
 package net.paulem.simpleores.furnaces;
 
+//? if fabric
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,9 +12,18 @@ import net.paulem.simpleores.stonecutter.SCId;
 public class ModFurnacesEntities {
     public static BlockEntityType<ModFurnaceBlockEntity> FABRIC_FURNACE = register(
             "fabric_furnace",
+            //? if fabric {
             FabricBlockEntityTypeBuilder.create(ModFurnaceBlockEntity::new,
                     ModFurnaces.getFurnaces().toArray(new Block[0])
             ).build());
+            //?} else if >=1.21.3 {
+            /*new BlockEntityType<>(ModFurnaceBlockEntity::new,
+                    java.util.Set.copyOf(ModFurnaces.getFurnaces())));
+            *///?} else {
+            /*BlockEntityType.Builder.of(ModFurnaceBlockEntity::new,
+                    ModFurnaces.getFurnaces().toArray(new Block[0])
+            ).build(null));
+            *///?}
 
     public static void init() {
         // no-op

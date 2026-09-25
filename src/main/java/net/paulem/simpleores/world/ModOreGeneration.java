@@ -1,10 +1,13 @@
 package net.paulem.simpleores.world;
 
+//? if fabric {
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.world.level.levelgen.GenerationStep;
+//?}
 
 public class ModOreGeneration {
+    //? if fabric {
     public static void generateOres() {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
                 GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.TIN_ORE_PLACED_KEY);
@@ -15,4 +18,5 @@ public class ModOreGeneration {
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(),
                 GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.ONYX_ORE_PLACED_KEY);
     }
+    //?}
 }

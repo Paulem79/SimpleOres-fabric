@@ -1,6 +1,8 @@
-package net.paulem.simpleores;
+package net.paulem.simpleores.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.paulem.simpleores.ModModelPredicateProvider;
+import net.paulem.simpleores.SimpleOres;
 //? if containsBucket && !hasBucketlib {
 /*import net.minecraft.client.renderer.item.ItemModels;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
@@ -25,7 +27,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 *///?}
 
-public class SimpleOresClient implements ClientModInitializer {
+public class SimpleOresFabricClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		ModModelPredicateProvider.registerModModels();
