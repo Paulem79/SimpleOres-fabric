@@ -70,16 +70,26 @@ jobs:
       - name: runDatagen
         run: |
           PARALLELISM=$(($(nproc) * 2))
-          ./gradlew runDatagen --stacktrace --parallel \
-          --max-workers=$PARALLELISM \
-          --build-cache
+          # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work
+          for attempt in 1 2 3; do
+            ./gradlew runDatagen --stacktrace --parallel \
+            --max-workers=$PARALLELISM \
+            --build-cache && break
+            [ "$attempt" = 3 ] && exit 1
+            echo "Attempt $attempt failed, retrying"
+          done
 
       - name: 🔨 Build project
         run: |
           PARALLELISM=$(($(nproc) * 2))
-          ./gradlew build --stacktrace --parallel \
-          --max-workers=$PARALLELISM \
-          --build-cache
+          # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work
+          for attempt in 1 2 3; do
+            ./gradlew build --stacktrace --parallel \
+            --max-workers=$PARALLELISM \
+            --build-cache && break
+            [ "$attempt" = 3 ] && exit 1
+            echo "Attempt $attempt failed, retrying"
+          done
 
       - name: 📂 Gather Artifacts
         run: |
