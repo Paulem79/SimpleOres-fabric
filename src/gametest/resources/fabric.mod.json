@@ -6,7 +6,8 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-gametest": [
-			"net.paulem.simpleores.gametest.BucketAdvancementsTest"
+			"net.paulem.simpleores.gametest.BucketAdvancementsTest",
+			"net.paulem.simpleores.gametest.WorldGenAndLootTest"
 		]
 	},
 	"depends": {
