@@ -48,6 +48,14 @@ public class ModConfiguredFeatures {
             ConfiguredFeature<?, ?>
             >
             ONYX_ORE_KEY = registerKey("ore_onyx");
+    public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+            ConfiguredFeature<?, ?>
+            >
+            ONYX_BLACKSTONE_KEY = registerKey("ore_onyx_blackstone");
+    public static final ResourceKey< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
+            ConfiguredFeature<?, ?>
+            >
+            ONYX_BASALT_KEY = registerKey("ore_onyx_basalt");
 
     public static void bootstrap(BootstrapContext< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
             ConfiguredFeature<?, ?>
@@ -56,7 +64,9 @@ public class ModConfiguredFeatures {
         addOre(context, TIN_VEIN_KEY, ModBlocks.TIN_ORE, ModBlocks.DEEPSLATE_TIN_ORE, BaseSimpleOresConfig.NotEditable.tinVeinBlocksPerVeins);
         addOre(context, MYTHRIL_ORE_KEY, ModBlocks.MYTHRIL_ORE, ModBlocks.DEEPSLATE_MYTHRIL_ORE, BaseSimpleOresConfig.NotEditable.mythrilBlocksPerVeins);
         addOre(context, ADAMANTIUM_ORE_KEY, ModBlocks.ADAMANTIUM_ORE, ModBlocks.DEEPSLATE_ADAMANTIUM_ORE, BaseSimpleOresConfig.NotEditable.adamantiumBlocksPerVeins);
-        addOreNether(context, ONYX_ORE_KEY, ModBlocks.ONYX_ORE, BaseSimpleOresConfig.NotEditable.onyxBlocksPerVeins);
+        addOreNether(context, ONYX_ORE_KEY, Blocks.NETHERRACK, ModBlocks.ONYX_ORE, BaseSimpleOresConfig.NotEditable.onyxBlocksPerVeins);
+        addOreNether(context, ONYX_BLACKSTONE_KEY, Blocks.BLACKSTONE, ModBlocks.ONYX_ORE, BaseSimpleOresConfig.NotEditable.onyxBlocksPerVeins);
+        addOreNether(context, ONYX_BASALT_KEY, Blocks.BASALT, ModBlocks.BASALT_ONYX_ORE, BaseSimpleOresConfig.NotEditable.onyxBlocksPerVeins);
     }
 
     //? if >26.2 {
@@ -76,11 +86,11 @@ public class ModConfiguredFeatures {
         context.register(key, new OreFeature(overworldOres, count));
     }
 
-    private static void addOreNether(BootstrapContext<Feature> context, ResourceKey<Feature> key, Block stoneOre, int count) {
-        RuleTest netherrackReplaceables = new BlockMatchTest(Blocks.NETHERRACK);
+    private static void addOreNether(BootstrapContext<Feature> context, ResourceKey<Feature> key, Block replaced, Block ore, int count) {
+        RuleTest netherrackReplaceables = new BlockMatchTest(replaced);
 
         List<BlockReplacement> netherrackOres = List.of(
-                BlockReplacement.replace(netherrackReplaceables, stoneOre.defaultBlockState())
+                BlockReplacement.replace(netherrackReplaceables, ore.defaultBlockState())
         );
 
         context.register(key, new OreFeature(netherrackOres, count));
@@ -97,11 +107,11 @@ public class ModConfiguredFeatures {
         register(context, key, Feature.ORE, new OreConfiguration(overworldOres, count));
     }
 
-    private static void addOreNether(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block stoneOre, int count){
-        RuleTest netherrackReplaceables = new BlockMatchTest(Blocks.NETHERRACK);
+    private static void addOreNether(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block replaced, Block ore, int count){
+        RuleTest netherrackReplaceables = new BlockMatchTest(replaced);
 
         List<OreConfiguration.TargetBlockState> netherrackOres =
-                List.of(OreConfiguration.target(netherrackReplaceables, stoneOre.defaultBlockState()));
+                List.of(OreConfiguration.target(netherrackReplaceables, ore.defaultBlockState()));
 
         register(context, key, Feature.ORE, new OreConfiguration(netherrackOres, count));
     }

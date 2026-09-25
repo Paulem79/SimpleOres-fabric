@@ -18,12 +18,15 @@ public class BaseSimpleOresConfig implements Config {
         protected NotEditable() {}
         // ores. Sadly, they are datapack-driven :'( (so not editable in the config)
         public static final int tinOreVeinPerChunks = 10;
+        public static final int tinIntrusionVeinPerChunks = 10;
         public static final int tinOreBlocksPerVeins = 7;
         public static final int tinVeinVeinPerChunks = 4;
         public static final int tinVeinBlocksPerVeins = 16;
         public static final int mythrilVeinPerChunks = 8;
+        public static final int mythrilIntrusionVeinPerChunks = 4;
         public static final int mythrilBlocksPerVeins = 4;
         public static final int adamantiumVeinPerChunks = 4;
+        public static final int adamantiumIntrusionVeinPerChunks = 4;
         public static final int adamantiumBlocksPerVeins = 4;
         public static final int onyxVeinPerChunks = 5;
         public static final int onyxBlocksPerVeins = 4;
