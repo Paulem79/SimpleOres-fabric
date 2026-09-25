@@ -20,7 +20,7 @@ import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
 import net.paulem.simpleores.stonecutter.SCId;
-//? if >=26.2
+//? if >=26.1
 import net.minecraft.client.resources.model.sprite.Material;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -57,7 +57,7 @@ public class ModModelProvider extends FabricModelProvider {
             ModelTemplates.CUBE_COLUMN);
 
     private static TextureMapping basaltOnyxOreTextures() {
-        //? if >=26.2 {
+        //? if >=26.1 {
         return TextureMapping.column(new Material(SCId.of("block/onyx_ore_basalt_side")), new Material(SCId.ofVanilla("block/basalt_top")));
         //?} else {
         /*return TextureMapping.column(SCId.of("block/onyx_ore_basalt_side"), SCId.ofVanilla("block/basalt_top"));
