@@ -36,6 +36,8 @@ public class SimpleOresFabric implements ModInitializer {
 
 		ModWorldGeneration.generateModWorldGen();
 
+		ModChestLoot.register();
+
 		ModVanillaAdvancements.init();
 
 		// If trades are enabled

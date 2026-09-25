@@ -86,6 +86,21 @@ sourceSets {
     }
 }
 
+// Chest loot of the base mod: one template set, adapted to the version (folder name and copper equipment)
+val chestLootDir = layout.buildDirectory.dir("generated/chest-loot")
+val generateChestLoot by tasks.registering(Copy::class) {
+    val singularFolder = stonecutter.eval(stonecutter.current.version, ">=1.21")
+    val maxVersionRange = stonecutter.properties.getOrNull<String>("max_version_range") ?: "1.21.8"
+    val vanillaCopperTools = afterDeobf || stonecutter.eval(maxVersionRange, ">1.21.8")
+    val copperTools = Regex("simpleores:copper_(axe|boots|chestplate|helmet|leggings|pickaxe|shovel|sword)")
+
+    from(rootProject.file("sc-resources/chest-loot"))
+    into(chestLootDir.map { it.dir("data/simpleores/${if (singularFolder) "loot_table" else "loot_tables"}/chest") })
+    if (vanillaCopperTools) filter { line -> copperTools.replace(line, "minecraft:copper_$1") }
+}
+sourceSets.main { resources.srcDir(chestLootDir) }
+tasks.processResources { dependsOn(generateChestLoot) }
+
 // NeoForm consomme beaucoup de mémoire : un seul nœud NeoForge crée ses artefacts Minecraft à la fois
 val neoForgeMutex = gradle.sharedServices.registerIfAbsent("neoforge-mutex", NeoForgeMutex::class.java) {
     maxParallelUsages.set(1)

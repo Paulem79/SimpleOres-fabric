@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "entries": [
+    "simpleores:chests/abandoned_mineshaft",
+    "simpleores:chests/bastion_bridge",
+    "simpleores:chests/bastion_hoglin_stable",
+    "simpleores:chests/bastion_other",
+    "simpleores:chests/bastion_treasure",
+    "simpleores:chests/nether_bridge",
+    "simpleores:chests/buried_treasure",
+    "simpleores:chests/desert_pyramid",
+    "simpleores:chests/igloo_chest",
+    "simpleores:chests/jungle_temple",
+    "simpleores:chests/ruined_portal",
+    "simpleores:chests/simple_dungeon",
+    "simpleores:chests/shipwreck_map",
+    "simpleores:chests/shipwreck_supply",
+    "simpleores:chests/shipwreck_treasure",
+    "simpleores:chests/stronghold_corridor",
+    "simpleores:chests/stronghold_crossing",
+    "simpleores:chests/underwater_ruin_big",
+    "simpleores:chests/underwater_ruin_small",
+    "simpleores:chests/spawn_bonus_chest",
+    "simpleores:chests/village_armorer",
+    "simpleores:chests/village_fletcher",
+    "simpleores:chests/village_mason",
+    "simpleores:chests/village_shepherd",
+    "simpleores:chests/village_toolsmith",
+    "simpleores:chests/village_weaponsmith"
+  ]
+}
