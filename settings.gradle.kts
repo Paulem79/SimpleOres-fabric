@@ -7,6 +7,7 @@ pluginManagement {
 			url = uri("https://maven.fabricmc.net/")
 		}
 		maven { url = uri("https://maven.architectury.dev/") }
+		maven("https://maven.neoforged.net/releases/") { name = "NeoForged" }
 		maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
 		maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" }
 	}
@@ -19,32 +20,34 @@ plugins {
 	id("dev.kikugie.loom-back-compat") version "0.4.2"
 }
 
-rootProject.name = "SimpleOres-fabric"
+rootProject.name = "SimpleOres"
 
 stonecutter {
 	kotlinController = true
-	centralScript = "build.gradle.kts"
 
 	create(rootProject) {
-		fun match(version: String, mapping: String) {
-			version("$version-$mapping", version)
+		// Chaque version est déclinée par loader : "<version>-<loader>", avec son propre script de build
+		fun match(version: String, vararg loaders: String) {
+			for (loader in loaders) {
+				version("$version-$loader", version).buildscript("build.$loader.gradle.kts")
+			}
 		}
 
-		match("1.19.4", "mojmaps")
-		match("1.20.1", "mojmaps")
-		match("1.20.4", "mojmaps")
-		match("1.20.6", "mojmaps")
-		match("1.21", "mojmaps")
-		match("1.21.3", "mojmaps")
-		match("1.21.5", "mojmaps")
-		match("1.21.6", "mojmaps")
-		match("1.21.7", "mojmaps")
-		match("1.21.9", "mojmaps")
-		match("1.21.11", "mojmaps")
-		match("26.1", "deobf")
-		match("26.2", "deobf")
-		match("26.3", "deobf")
+		match("1.19.4", "fabric")
+		match("1.20.1", "fabric")
+		match("1.20.4", "fabric")
+		match("1.20.6", "fabric")
+		match("1.21", "fabric", "neoforge")
+		match("1.21.3", "fabric", "neoforge")
+		match("1.21.5", "fabric", "neoforge")
+		match("1.21.6", "fabric", "neoforge")
+		match("1.21.7", "fabric", "neoforge")
+		match("1.21.9", "fabric", "neoforge")
+		match("1.21.11", "fabric", "neoforge")
+		match("26.1", "fabric", "neoforge")
+		match("26.2", "fabric", "neoforge")
+		match("26.3", "fabric", "neoforge")
 
-		vcsVersion = "26.2-deobf"
+		vcsVersion = "26.2-fabric"
 	}
 }

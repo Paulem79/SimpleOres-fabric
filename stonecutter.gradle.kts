@@ -2,11 +2,21 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-// L'état actif doit maintenant inclure le mapping !
-stonecutter active "26.2-deobf"
+// L'état actif inclut le loader : "<version>-<loader>"
+stonecutter active "26.2-fabric"
 
 stonecutter parameters {
     filters.exclude("**/*.aw")
+
+    // "1.21.11-neoforge" -> version = "1.21.11", loader = "neoforge"
+    val loader = node.metadata.project.substringAfterLast('-')
+    val tagVersion = node.metadata.project.substringBeforeLast('-')
+
+    // Active les sections [fabric."<version>"] / [neoforge."<version>"] de stonecutter.properties.toml
+    properties { tags(tagVersion, loader) }
+
+    constants.put("fabric", loader == "fabric")
+    constants.put("neoforge", loader == "neoforge")
 
     // Les propriétés du mod et les dépendances versionnées vivent désormais dans
     // stonecutter.properties.toml. Une clé absente pour la version courante signifie
@@ -16,7 +26,7 @@ stonecutter parameters {
 
     val midnightLibProp = properties.getOrNull<String>("deps.midnightlib")
     val hasMidnightLib: Boolean = midnightLibProp != null
-    val isLegacyMidnightLib: Boolean = hasMidnightLib && midnightLibProp!!.endsWith("-fabric") && !midnightLibProp.contains("+")
+    val isLegacyMidnightLib: Boolean = hasMidnightLib && !midnightLibProp!!.contains("+")
 
     val modMenuProp = properties.getOrNull<String>("deps.mod_menu")
     val hasModmenu: Boolean = modMenuProp != null
@@ -26,8 +36,8 @@ stonecutter parameters {
 
     val containsBucket = true
 
-    // 2. Détection du mapping (très utile pour tes mixins ou ton code Java)
-    val isDeobf = node.metadata.project.contains("deobf", ignoreCase = true)
+    // 2. Détection du mapping : les versions >1.21.11 (26.x) ne sont plus obfusquées
+    val isDeobf = afterDeobf
 
     constants.put("isDeobf", isDeobf)
     constants.put("isMojmaps", !isDeobf)

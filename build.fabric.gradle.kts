@@ -16,7 +16,7 @@ plugins {
 
 // 1. Définition du contexte d'exécution (encore utile pour nos propres branches, indépendant
 // du plugin Loom utilisé en interne par loom-back-compat)
-val isDeobf = stonecutter.current.project.contains("deobf", ignoreCase = true)
+val isDeobf = stonecutter.eval(stonecutter.current.version, ">1.21.11")
 val isMojmaps = !isDeobf
 
 version = "${stonecutter.properties.get<String>("mod.version")}-${stonecutter.current.project}"
@@ -42,7 +42,7 @@ repositories {
 }
 
 val hasBucketlib: Boolean = stonecutter.properties.getOrNull<String>("deps.bucketlib") != null
-val containsBucket = stonecutter.eval(stonecutter.current.project, ">1.19.4")
+val containsBucket = stonecutter.eval(stonecutter.current.version, ">1.19.4")
 
 // 2. Interpolation conditionnelle du nom de l'Access Widener
 val awSuffix = if (isDeobf) "-deobf.accesswidener" else ".accesswidener"
@@ -100,6 +100,9 @@ tasks.processResources {
         "fabric_api_breaks_version" to stonecutter.properties.get<String>("breaks.fabric_api")
     )
 
+    // Les fichiers propres à NeoForge ne doivent pas se retrouver dans le jar Fabric
+    exclude("META-INF/neoforge.mods.toml", "META-INF/accesstransformer.cfg", "*.neoforge.mixins.json")
+
     filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
         expand(expandProps)
     }
@@ -107,6 +110,11 @@ tasks.processResources {
 }
 
 sourceSets {
+    all {
+        // Le code propre à NeoForge n'est compilé que par les nœuds NeoForge
+        java.exclude("**/neoforge/**")
+    }
+
     main {
         resources {
             srcDirs(
@@ -364,6 +372,9 @@ fun curseforgeVersions(): List<String> {
 }
 
 publishMods {
+    // ./gradlew publishMods -PpublishDryRun : génère les requêtes sans rien envoyer
+    dryRun = providers.gradleProperty("publishDryRun").isPresent
+
     file.set(loomx.modJar.flatMap { it.archiveFile })
 
     displayName.set("SimpleOres Fabric ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
