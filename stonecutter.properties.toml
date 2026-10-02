@@ -1,7 +1,7 @@
 maven_group = "net.paulem.simpleores"
 
 mod.id = "simpleores"
-mod.version = "2.1.0"
+mod.version = "2.1.1"
 
 deps.fabric_loader = "0.19.3"
 deps.fabricloader_version = "*"
