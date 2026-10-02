@@ -341,7 +341,11 @@ publishMods {
     version.set("${stonecutter.properties.get<String>("mod.version")}-neoforge-$minecraftVersion")
     changelog.set(githubChangelog)
 
-    type.set(if (isSnapshot || !hasBucketlib) BETA else STABLE)
+
+    type.set(
+        if (isSnapshot || !hasBucketlib) BETA
+        else STABLE
+    )
 
     modLoaders.add("neoforge")
 

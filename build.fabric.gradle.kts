@@ -397,7 +397,6 @@ publishMods {
     changelog.set(githubChangelog)
 
     type.set(
-        // Une version compilée contre un snapshot ne peut pas être marquée stable.
         if (isSnapshot || !hasBucketlib) BETA
         else STABLE
     )
