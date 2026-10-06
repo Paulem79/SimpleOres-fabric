@@ -3,7 +3,7 @@ plugins {
 }
 
 // L'état actif inclut le loader : "<version>-<loader>"
-stonecutter active "26.2-fabric"
+stonecutter active "26.3-fabric"
 
 stonecutter parameters {
     filters.exclude("**/*.aw")
@@ -94,6 +94,11 @@ stonecutter parameters {
     swaps["villagerProfession"] = when {
         eval(current.version, ">=1.21.5") -> "ResourceKey<VillagerProfession>"
         else -> "VillagerProfession"
+    }
+
+    swaps["soundType"] = when {
+        eval(current.version, ">=26.4") -> "net.minecraft.world.level.block.sounds.BlockSoundSet"
+        else -> "SoundType"
     }
 
     replacements {
@@ -291,6 +296,11 @@ stonecutter parameters {
         string {
             direction = eval(current.version, "<=1.21.3")
             replace("net.minecraft.client.data.models.MultiVariant", "net.minecraft.client.renderer.block.model.MultiVariant")
+        }
+
+        string {
+            direction = eval(current.version, ">=26.4")
+            replace("SoundType.", "net.minecraft.world.level.block.sounds.BlockSoundSets.")
         }
 
         for (cls in listOf("TagRegistration")) {

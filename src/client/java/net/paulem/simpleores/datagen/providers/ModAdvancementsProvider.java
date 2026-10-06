@@ -266,13 +266,13 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
                 .parent(parent);
 
         //? if >26.2 {
-        /*// The background is now only accepted on a root advancement
+        // The background is now only accepted on a root advancement
         if(background != null) builder
                 .rootDisplay(icon.asItem(), title, description, background, frame, showToast, announceToChat, hidden);
         else builder
                 .display(icon.asItem(), title, description, frame, showToast, announceToChat, hidden);
-        *///?} else {
-        builder.display(
+        //?} else {
+        /*builder.display(
                 icon,
                 title,
                 description,
@@ -282,7 +282,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
                 announceToChat,
                 hidden
         );
-        //?}
+        *///?}
 
         if(requiredItem != null) builder
                 .addCriterion(path, InventoryChangeTrigger.TriggerInstance.hasItems(requiredItem));
@@ -291,9 +291,9 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
 
 
         //? if <=26.2 {
-        return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
-        //?} else {
-        /*return builder.save(consumer, SCId.of(path));
-        *///?}
+        /*return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
+        *///?} else {
+        return builder.save(consumer, SCId.of(path));
+        //?}
     }
 }

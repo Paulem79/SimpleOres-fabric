@@ -14,10 +14,10 @@ import net.paulem.simpleores.config.BaseSimpleOresConfig;
 import net.paulem.simpleores.stonecutter.SCId;
 
 //? if >26.2 {
-/*import net.minecraft.world.level.levelgen.feature.Feature;
-*///?} else {
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
- //?}
+import net.minecraft.world.level.levelgen.feature.Feature;
+//?} else {
+/*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+ *///?}
 
 // TODO : More affiliated to base gen
 public class ModPlacedFeatures {
@@ -34,31 +34,31 @@ public class ModPlacedFeatures {
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         HolderGetter< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > holderLookup = context.lookup( //$ if >26.2 'Registries.FEATURE' else 'Registries.CONFIGURED_FEATURE'
-                Registries.CONFIGURED_FEATURE
+                Registries.FEATURE
         );
 
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > tinEntry = holderLookup.getOrThrow(ModConfiguredFeatures.TIN_ORE_KEY);
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > tinVeinEntry = holderLookup.getOrThrow(ModConfiguredFeatures.TIN_VEIN_KEY);
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > mythrilEntry = holderLookup.getOrThrow(ModConfiguredFeatures.MYTHRIL_ORE_KEY);
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > adamantiumEntry = holderLookup.getOrThrow(ModConfiguredFeatures.ADAMANTIUM_ORE_KEY);
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > onyxEntry = holderLookup.getOrThrow(ModConfiguredFeatures.ONYX_ORE_KEY);
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > onyxBlackstoneEntry = holderLookup.getOrThrow(ModConfiguredFeatures.ONYX_BLACKSTONE_KEY);
         Holder< //$ if >26.2 'Feature' else 'ConfiguredFeature<?, ?>'
-                ConfiguredFeature<?, ?>
+                Feature
                 > onyxBasaltEntry = holderLookup.getOrThrow(ModConfiguredFeatures.ONYX_BASALT_KEY);
 
         // Same values as the base mod (SimpleOres2)

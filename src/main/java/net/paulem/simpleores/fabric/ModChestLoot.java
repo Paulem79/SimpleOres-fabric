@@ -83,11 +83,11 @@ public class ModChestLoot {
                     //? if <=1.20.4 {
                     /*.add(LootTableReference.lootTableReference(tableId))
                     *///?} else if >26.2 {
-                    /*.add(NestedLootTable.lootTableReference(registries.lookupOrThrow(Registries.LOOT_TABLE)
+                    .add(NestedLootTable.lootTableReference(registries.lookupOrThrow(Registries.LOOT_TABLE)
                             .getOrThrow(ResourceKey.create(Registries.LOOT_TABLE, tableId))))
-                    *///?} else {
-                    .add(NestedLootTable.lootTableReference(ResourceKey.create(Registries.LOOT_TABLE, tableId)))
-                    //?}
+                    //?} else {
+                    /*.add(NestedLootTable.lootTableReference(ResourceKey.create(Registries.LOOT_TABLE, tableId)))
+                    *///?}
                     .build());
         });
     }

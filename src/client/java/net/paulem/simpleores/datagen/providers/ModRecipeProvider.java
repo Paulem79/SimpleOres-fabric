@@ -34,9 +34,9 @@ import net.paulem.simpleores.utils.MapUtils;
 
 
 //? if >26.2 {
-/*import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.advancements.Advancement;
-*///?}
+//?}
 
 //? if <=1.20.1
 //import net.minecraft.advancements.triggers.InventoryChangeTrigger;
@@ -234,7 +234,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
      
     *///?} else if >26.2 {
-    /*@Override
+    @Override
     protected RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
         return new net.minecraft.data.recipes.RecipeProvider(recipeOutput, advancementOutput) {
             @Override
@@ -243,8 +243,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             }
         };
     }
-    *///?} else if <=26.2 {
-    @Override
+    //?} else if <=26.2 {
+    /*@Override
     protected net.minecraft.data.recipes.RecipeProvider createRecipeProvider(HolderLookup.Provider wrapperLookup, RecipeOutput recipeExporter) {
         return new net.minecraft.data.recipes.RecipeProvider(wrapperLookup, recipeExporter) {
             @Override
@@ -253,7 +253,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             }
         };
     }
-    //?}
+    *///?}
 
     @Override
     public String getName() {

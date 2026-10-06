@@ -1,7 +1,7 @@
 package net.paulem.simpleores.gametest;
 
 //? if >=26.2 && <=26.2 {
-import net.fabricmc.fabric.api.gametest.v1.GameTest;
+/*import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -29,9 +29,9 @@ import net.paulem.simpleores.world.ModPlacedFeatures;
 
 import java.util.List;
 
-/**
+/^*
  * Checks the world generation and the chest loot against the base mod (SimpleOres2).
- */
+ ^/
 public class WorldGenAndLootTest {
     private static final int ORES = GenerationStep.Decoration.UNDERGROUND_ORES.ordinal();
     private static final int DECORATION = GenerationStep.Decoration.UNDERGROUND_DECORATION.ordinal();
@@ -126,7 +126,7 @@ public class WorldGenAndLootTest {
                 + " in step " + step + " of " + biomeKey.identifier());
     }
 
-    /** Places the feature in a cube of the block it replaces and expects at least one ore. */
+    /^* Places the feature in a cube of the block it replaces and expects at least one ore. ^/
     private static void assertOre(GameTestHelper helper, ResourceKey<net.minecraft.world.level.levelgen.feature.ConfiguredFeature<?, ?>> key, Block base, Block ore) {
         ServerLevel level = helper.getLevel();
         BlockPos center = helper.absolutePos(new BlockPos(0, 20, 0));
@@ -150,8 +150,8 @@ public class WorldGenAndLootTest {
         helper.assertTrue(count > 0, key.identifier() + " should place " + ore + " into " + base);
     }
 }
-//?} else {
-/*// Only checked on 26.2, see BucketAdvancementsTest
+*///?} else {
+// Only checked on 26.2, see BucketAdvancementsTest
 public class WorldGenAndLootTest {
 }
-*///?}
+//?}

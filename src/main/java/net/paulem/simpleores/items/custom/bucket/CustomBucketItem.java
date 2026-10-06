@@ -118,7 +118,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     public CustomBucketItem(Item.Properties settings) {
-        super(null, Fluids.EMPTY, SoundEvents.EMPTY, settings
+        super(null, Fluids.EMPTY, SoundEvents.EMPTY //? if >=26.4
+                        //.value()
+                , settings
                         .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
         );
 
@@ -369,7 +371,7 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                             /^hand == InteractionHand.OFF_HAND ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
                             ^///?}
                             player.onEquippedItemBroken(itemStack //? if <=26.2
-                                    .getItem()
+                                    //.getItem()
                                     , slot);
                             return InteractionResult.SUCCESS.heldItemTransformedTo(ItemStack.EMPTY);
                         } else {
@@ -812,14 +814,21 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                         BlockItem.updateCustomBlockEntityTag(level, player, pos, itemStack);
                         updateBlockEntityComponents(level, pos, itemStack);
                         placedState.getBlock().setPlacedBy(level, pos, placedState, player, itemStack);
-                        if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, pos, itemStack);
+                        if (player instanceof ServerPlayer serverPlayer) {
+                            CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, pos, itemStack);
                         }
                     }
 
-                    SoundType soundType = placedState.getSoundType();
+
+                    //$ soundType
+                    SoundType
+                            soundType = placedState.getSounds(level);
+                    float volume = soundType //$ if >=26.4 '.volume();' else '.getVolume();'
+                            .getVolume();
+                    float pitch = soundType //$ if >=26.4 '.pitch();' else 'getPitch();'
+                            getPitch();
                     bucketPickup.getPickupSound().ifPresent(soundEvent ->
-                            level.playSound(player, pos, soundEvent, SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F)
+                            level.playSound(player, pos, soundEvent, SoundSource.BLOCKS, (volume + 1.0F) / 2.0F, pitch * 0.8F)
                     );
 
                     level.gameEvent(GameEvent.BLOCK_PLACE, pos, GameEvent.Context.of(player, placedState));

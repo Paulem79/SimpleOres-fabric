@@ -34,9 +34,9 @@ import net.paulem.simpleores.items.custom.advanced.AdvancedSwordItem;
 import net.paulem.simpleores.items.custom.advanced.AdvancedToolItem;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 //? if >1.21.3 && <=26.2 {
-import net.minecraft.world.item.equipment.EquipmentAsset;
+/*import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.resources.ResourceKey;
-//?}
+*///?}
 import org.jspecify.annotations.NonNull;
 //? if 1.21.3
 /*import net.paulem.simpleores.armors.ModEquipmentClientModels;*/
@@ -132,10 +132,10 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.generateBow(bowItem);
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 //? if >26.2 {
-                /*itemModelGenerator.generateTrimmableItem(item, ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName()),
+                itemModelGenerator.generateTrimmableItem(item, ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName()),
                         false, Map.of());
-                *///?} else if >1.21.3 {
-                ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
+                //?} else if >1.21.3 {
+                /*ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
                 itemModelGenerator.generateTrimmableItem(item, identifier,
                         //? if >=1.21.5 {
                         ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName())
@@ -143,7 +143,7 @@ public class ModModelProvider extends FabricModelProvider {
                         //armorItem.getType().getName()
                         //?}
                         , false);
-                //?} else if >1.21 {
+                *///?} else if >1.21 {
                 /*Identifier identifier = armorItem.getMaterial().modelId();
                 itemModelGenerator.generateArmorTrims(item, identifier, ModEquipmentClientModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getSlot());
                 *///?} else {

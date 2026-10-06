@@ -195,7 +195,7 @@ public class ModBlocks {
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                     .requiresCorrectToolForDrops().strength(4.0F).noOcclusion() //? if >1.19.4 {
                             .pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
-                                    PushReaction.DESTROY
+                                    PushReaction.POPPED
                             )
                     //?}
             )));
@@ -203,7 +203,7 @@ public class ModBlocks {
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
                     .requiresCorrectToolForDrops().strength(7.0F).noOcclusion() //? if >1.19.4 {
                     .pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
-                            PushReaction.DESTROY
+                            PushReaction.POPPED
                     )
                     //?}
             )));
@@ -211,7 +211,7 @@ public class ModBlocks {
             makeDoor(BlockSetType.STONE, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.PODZOL)
                     .requiresCorrectToolForDrops().strength(20.0F).noOcclusion() //? if >1.19.4 {
                             .pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
-                                    PushReaction.DESTROY
+                                    PushReaction.POPPED
                             )
                     //?}
             )));
@@ -219,7 +219,7 @@ public class ModBlocks {
             makeDoor(BlockSetType.IRON, SCBlockSettings(key, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
                     .requiresCorrectToolForDrops().strength(7.0F).noOcclusion() //? if >1.19.4 {
                             .pushReaction(//$ if >26.2 'PushReaction.POPPED' else 'PushReaction.DESTROY'
-                                    PushReaction.DESTROY
+                                    PushReaction.POPPED
                             )
                     //?}
             )));

@@ -1,0 +1,20 @@
+{
+  "type": "energizedpower:pulverizer",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "energizedpower"
+      ]
+    }
+  ],
+  "ingredient": "simpleores:tin_ingot",
+  "result": {
+    "result": {
+      "id": "simpleores:tin_dust"
+    },
+    "percentages": [
+      1.0
+    ]
+  }
+}
