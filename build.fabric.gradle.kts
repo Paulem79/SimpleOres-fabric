@@ -386,11 +386,16 @@ fun curseforgeVersions(): List<String> {
     }
 }
 
+// CI : -PprebuiltJarsDir=<dossier> publie des jars déjà construits (artefacts d'un build précédent ou d'une
+// release) sans passer par la compilation. Le jar attendu porte le nom que Gradle lui aurait donné.
+val prebuiltJar: File? = providers.gradleProperty("prebuiltJarsDir").orNull
+    ?.let { File(it, "${base.archivesName.get()}-${project.version}.jar") }
+
 publishMods {
     // ./gradlew publishMods -PpublishDryRun : génère les requêtes sans rien envoyer
     dryRun = providers.gradleProperty("publishDryRun").isPresent
 
-    file.set(loomx.modJar.flatMap { it.archiveFile })
+    file.set(prebuiltJar?.let { layout.file(provider { it }) } ?: loomx.modJar.flatMap { it.archiveFile })
 
     displayName.set("SimpleOres Fabric ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
     version.set(formatPublishVersion())

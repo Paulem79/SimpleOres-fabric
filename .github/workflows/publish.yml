@@ -1,56 +1,62 @@
 name: 🚀 Publish
 on:
   workflow_dispatch:
+    inputs:
+      source:
+        description: "D'où viennent les jars à publier"
+        type: choice
+        default: build
+        options:
+          - build            # reconstruit tout (datagen + build)
+          - last-build-run   # jars du dernier run « Build » réussi sur stonecutter
+          - last-release     # jars de la dernière release GitHub « release-<sha> »
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
+  # Une version de Minecraft par job, comme build.yml. Chaque job publie ses jars Fabric et NeoForge
+  # sur Modrinth/CurseForge ; la release GitHub unique est créée à la fin par le job « release ».
   publish:
+    name: 🚀 ${{ matrix.version }}
     runs-on: ubuntu-latest
     permissions: write-all
+    timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      # Ménage maven.paulem.net (auto-hébergé) ainsi que les API Modrinth et CurseForge
+      max-parallel: 4
+      matrix:
+        include:
+          - { version: "1.19.4", neoforge: false }
+          - { version: "1.20.1", neoforge: false }
+          - { version: "1.20.4", neoforge: false }
+          - { version: "1.20.6", neoforge: false }
+          - { version: "1.21", neoforge: true }
+          - { version: "1.21.3", neoforge: true }
+          - { version: "1.21.5", neoforge: true }
+          - { version: "1.21.6", neoforge: true }
+          - { version: "1.21.7", neoforge: true }
+          - { version: "1.21.9", neoforge: true }
+          - { version: "1.21.11", neoforge: true }
+          - { version: "26.1", neoforge: true }
+          - { version: "26.2", neoforge: true }
+          - { version: "26.3", neoforge: true }
+          - { version: "26.4", neoforge: false }
 
     # Le changelog est récupéré pendant la phase de configuration de Gradle : sans ce token
-    # au niveau du job, `runDatagen` et `build` interrogent l'API GitHub anonymement (60 req/h
-    # partagées) et épuisent le quota avant même l'étape de publication.
+    # au niveau du job, les tâches interrogent l'API GitHub anonymement (60 req/h partagées).
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: ✅ Checkout repository
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
-      - name: 🪄 Cache gradle
-        uses: actions/cache@v6
-        with:
-          path: |
-            ~/.gradle/caches/modules-2
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/transforms-*
-            ~/.gradle/wrapper
-            ~/.gradle/build-cache-*
-            ~/.gradle/configuration-cache-*
-            .gradle/patchCache
-            .gradle/patched
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'patches/**/*.patch') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: 🪄 Gradle Cache Cleanup
-        run: |
-          mkdir -p ~/.gradle/caches/modules-2
-          [ -f ~/.gradle/caches/modules-2/modules-2.lock ] && rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          find ~/.gradle/caches -name "*.lock" -type f -delete || echo "No lock files found"
-
-      - name: Configure Gradle Properties
-        run: |
-          mkdir -p ~/.gradle
-          echo "org.gradle.caching=true" >> ~/.gradle/gradle.properties
-          echo "org.gradle.jvmargs=-Xmx2048M -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
-          echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
-          echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
-          # The NeoForged maven sometimes answers 502, retry the downloads a few more times
-          echo "systemProp.org.gradle.internal.repository.max.retries=6" >> ~/.gradle/gradle.properties
-          echo "systemProp.org.gradle.internal.repository.initial.backoff=2000" >> ~/.gradle/gradle.properties
 
       - name: 🛠️ Setup jdk 25
         uses: actions/setup-java@v6
@@ -62,52 +68,136 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 🪄 Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/stonecutter' }}
+
+      - name: Configure Gradle Properties
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.caching=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx3G -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
+          echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.workers.max=$(nproc)" >> ~/.gradle/gradle.properties
+          # The NeoForged maven sometimes answers 502, retry the downloads a few more times
+          echo "systemProp.org.gradle.internal.repository.max.retries=6" >> ~/.gradle/gradle.properties
+          echo "systemProp.org.gradle.internal.repository.initial.backoff=2000" >> ~/.gradle/gradle.properties
+          echo "systemProp.org.gradle.internal.http.connectionTimeout=60000" >> ~/.gradle/gradle.properties
+          echo "systemProp.org.gradle.internal.http.socketTimeout=60000" >> ~/.gradle/gradle.properties
+          echo "MOD_VERSION=$(sed -n 's/^mod.version *= *"\(.*\)"/\1/p' stonecutter.properties.toml | head -1)" >> "$GITHUB_ENV"
+
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # Le datagen ne tourne que sur les nœuds Fabric : les jars NeoForge réutilisent sa sortie
+      # --- source = build : on reconstruit ---
+
+      # Le datagen ne tourne que sur le nœud Fabric : le jar NeoForge réutilise sa sortie, il doit donc
+      # être terminé avant les builds (deux invocations, le daemon est réutilisé).
       - name: runDatagen
+        if: ${{ inputs.source == 'build' }}
         run: |
-          PARALLELISM=$(($(nproc) * 2))
           # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work
           for attempt in 1 2 3; do
-            ./gradlew runDatagen --stacktrace --parallel \
-            --max-workers=$PARALLELISM \
-            --build-cache && break
+            ./gradlew ":${{ matrix.version }}-fabric:runDatagen" --stacktrace && break
             [ "$attempt" = 3 ] && exit 1
             echo "Attempt $attempt failed, retrying"
           done
 
       - name: 🔨 Build project
+        if: ${{ inputs.source == 'build' }}
         run: |
-          PARALLELISM=$(($(nproc) * 2))
-          # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work
+          TASKS=":${{ matrix.version }}-fabric:build"
+          if [ "${{ matrix.neoforge }}" = "true" ]; then
+            TASKS="$TASKS :${{ matrix.version }}-neoforge:build"
+          fi
           for attempt in 1 2 3; do
-            ./gradlew build --stacktrace --parallel \
-            --max-workers=$PARALLELISM \
-            --build-cache && break
+            ./gradlew $TASKS --stacktrace && break
             [ "$attempt" = 3 ] && exit 1
             echo "Attempt $attempt failed, retrying"
           done
 
-      - name: ⬆️ Upload to Modrinth/CurseForge
-        # Publication en série : les versions (Fabric et NeoForge) créent chacune une release GitHub, et un envoi
-        # parallèle déclenche la limite de débit de l'API (403 "rate limit exceeded").
-        run: ./gradlew publishMods --no-parallel --max-workers=1
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
-          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
-          GITHUB_EVENT_RAW_PATH: ${{ github.event_path }}
-          # PAT au quota plus large que le GITHUB_TOKEN d'installation ; si le secret est absent,
-          # la valeur est vide et build.gradle.kts retombe sur GITHUB_TOKEN.
-          GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
-
-      # Une seule release GitHub pour toutes les versions : un tag, tous les jars (Fabric et NeoForge)
-      - name: 📂 Gather Artifacts
+      - name: 📂 Gather built jars
+        if: ${{ inputs.source == 'build' }}
         run: |
           mkdir -p dist
           find versions -maxdepth 4 -type f -name "*.jar" -path "*/build/libs/*" -exec cp {} dist/ \;
-          echo "MOD_VERSION=$(sed -n 's/^mod.version *= *"\(.*\)"/\1/p' stonecutter.properties.toml | head -1)" >> "$GITHUB_ENV"
+
+      # --- source = last-build-run / last-release : on réutilise des jars existants ---
+
+      - name: 📥 Fetch jars from the last successful Build run
+        if: ${{ inputs.source == 'last-build-run' }}
+        run: |
+          RUN_ID=$(gh run list --workflow build.yml --branch stonecutter --status success --limit 1 --json databaseId --jq '.[0].databaseId')
+          [ -n "$RUN_ID" ] || { echo "Aucun run Build réussi sur stonecutter"; exit 1; }
+          echo "Jars du run Build $RUN_ID"
+          gh run download "$RUN_ID" --name "dist-${{ matrix.version }}" --dir dist
+
+      - name: 📥 Fetch jars from the last GitHub release
+        if: ${{ inputs.source == 'last-release' }}
+        run: |
+          TAG=$(gh release list --limit 50 --json tagName --jq '[.[] | select(.tagName | startswith("release-"))][0].tagName')
+          [ -n "$TAG" ] || { echo "Aucune release release-<sha> trouvée"; exit 1; }
+          echo "Jars de la release $TAG"
+          PATTERNS=(-p "simpleores-${MOD_VERSION}-${{ matrix.version }}-fabric.jar")
+          if [ "${{ matrix.neoforge }}" = "true" ]; then
+            PATTERNS+=(-p "simpleores-${MOD_VERSION}-${{ matrix.version }}-neoforge.jar")
+          fi
+          gh release download "$TAG" "${PATTERNS[@]}" --dir dist
+
+      - name: 🔎 Check jars
+        run: |
+          ls -l dist
+          for loader in fabric $([ "${{ matrix.neoforge }}" = "true" ] && echo neoforge); do
+            JAR="dist/simpleores-${MOD_VERSION}-${{ matrix.version }}-$loader.jar"
+            [ -f "$JAR" ] || { echo "Jar manquant : $JAR (la version du mod a-t-elle changé depuis la source ?)"; exit 1; }
+          done
+
+      - name: ⬆️ Upload to Modrinth/CurseForge
+        run: |
+          TASKS=":${{ matrix.version }}-fabric:publishMods"
+          if [ "${{ matrix.neoforge }}" = "true" ]; then
+            TASKS="$TASKS :${{ matrix.version }}-neoforge:publishMods"
+          fi
+          # Publication en série dans le job ; les jars déjà construits (dist/) sont publiés tels quels
+          ./gradlew $TASKS --stacktrace --no-parallel --max-workers=1 -PprebuiltJarsDir="$PWD/dist"
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
+          # PAT au quota plus large que le GITHUB_TOKEN d'installation ; si le secret est absent,
+          # la valeur est vide et build.gradle.kts retombe sur GITHUB_TOKEN (changelog).
+          GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+
+      - name: 📂 Keep the changelog for the release
+        run: cp changelog.txt dist/ || echo "Pas de changelog.txt"
+
+      - name: 📦 Upload jars
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-${{ matrix.version }}
+          if-no-files-found: error
+          path: dist/
+
+  # Une seule release GitHub (un tag) pour toutes les versions : tous les jars Fabric et NeoForge
+  release:
+    name: 📦 Release
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: ✅ Checkout repository
+        uses: actions/checkout@v7
+
+      - name: 📥 Download jars
+        uses: actions/download-artifact@v8
+        with:
+          pattern: dist-*
+          merge-multiple: true
+          path: dist/
+
+      - name: 🏷️ Read the mod version
+        run: echo "MOD_VERSION=$(sed -n 's/^mod.version *= *"\(.*\)"/\1/p' stonecutter.properties.toml | head -1)" >> "$GITHUB_ENV"
 
       - name: 📦 Create GitHub Release
         uses: softprops/action-gh-release@v3
@@ -115,7 +205,7 @@ jobs:
           name: SimpleOres ${{ env.MOD_VERSION }}
           tag_name: ${{ env.MOD_VERSION }}
           target_commitish: ${{ github.sha }}
-          body_path: changelog.txt
-          files: dist/**
+          body_path: dist/changelog.txt
+          files: dist/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
