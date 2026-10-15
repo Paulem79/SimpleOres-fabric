@@ -118,9 +118,13 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     }
 
     public CustomBucketItem(Item.Properties settings) {
-        super(null, Fluids.EMPTY, SoundEvents.EMPTY //? if >=26.4
-                        //.value()
-                , settings
+        super(null, Fluids.EMPTY,
+                //? if >=26.4 {
+                SoundEvents.BUCKET_EMPTY,
+                //?} else {
+                //SoundEvents.EMPTY,
+                //?}
+                settings
                         .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
         );
 
@@ -715,12 +719,20 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         boolean mayReplace = blockState.canBeReplaced(flowingFluid);
         boolean shiftKeyDown = user != null && user.isShiftKeyDown();
-        boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid);
+        //? if >=26.4 {
+        boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid.getSource());
+        //?} else {
+        //boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid);
+        //?}
         boolean canPlaceFluidInsideBlock = blockState.isAir() || placeLiquid && (!shiftKeyDown || hitResult == null);
 
         if (!canPlaceFluidInsideBlock) {
             return hitResult != null && this.emptyContents(user, level, hitResult.getBlockPos().relative(hitResult.getDirection()), null, itemStack);
-        } else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.is(FluidTags.WATER)) {
+        //? if >=26.4 {
+        } else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.builtInRegistryHolder().is(FluidTags.WATER)) {
+        //?} else {
+        //} else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.is(FluidTags.WATER)) {
+        //?}
             int x = pos.getX();
             int y = pos.getY();
             int z = pos.getZ();
@@ -733,7 +745,11 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
             return true;
         } else if (block instanceof LiquidBlockContainer containerx && flowingFluid == Fluids.WATER) {
-            containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource(false));
+            //? if >=26.4 {
+            containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource());
+            //?} else {
+            //containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource(false));
+            //?}
             this.playEmptySound(user, level, pos, itemStack);
             return true;
         } else {
@@ -759,7 +775,11 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
         Fluid content = getFluid(itemStack);
 
-        SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        //? if >=26.4 {
+        SoundEvent soundEvent = content.builtInRegistryHolder().is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        //?} else {
+        //SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        //?}
         level.playSound(user, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
         level.gameEvent(user, GameEvent.FLUID_PLACE, pos);
     }

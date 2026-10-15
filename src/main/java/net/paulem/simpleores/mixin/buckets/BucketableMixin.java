@@ -62,7 +62,7 @@ public interface BucketableMixin {
         Fluid fluid = bucketItem.getFluid(itemStack);
 
         // Anything else is left to vanilla and to the other mods, we must not cancel it
-        if(!fluid.isSame(requiredFluid) || bucketItem.holdsEntity(itemStack) || !pickupEntity.isAlive()) return;
+        if(fluid != requiredFluid || bucketItem.holdsEntity(itemStack) || !pickupEntity.isAlive()) return;
 
         pickupEntity.playSound(pickupEntity.getPickupSound(), 1.0F, 1.0F);
 
