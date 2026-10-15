@@ -21,6 +21,9 @@ jobs:
 
     strategy:
       fail-fast: false
+      # maven.paulem.net est auto-hébergé : trop de jobs simultanés (chacun configure les 25 nœuds
+      # et résout BucketLib) provoquent des timeouts de connexion.
+      max-parallel: 6
       matrix:
         include:
           - { version: "1.19.4", neoforge: false }
@@ -77,6 +80,8 @@ jobs:
           # The NeoForged maven sometimes answers 502, retry the downloads a few more times
           echo "systemProp.org.gradle.internal.repository.max.retries=6" >> ~/.gradle/gradle.properties
           echo "systemProp.org.gradle.internal.repository.initial.backoff=2000" >> ~/.gradle/gradle.properties
+          echo "systemProp.org.gradle.internal.http.connectionTimeout=60000" >> ~/.gradle/gradle.properties
+          echo "systemProp.org.gradle.internal.http.socketTimeout=60000" >> ~/.gradle/gradle.properties
 
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
