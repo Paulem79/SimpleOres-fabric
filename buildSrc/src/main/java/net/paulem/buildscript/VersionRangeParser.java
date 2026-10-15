@@ -22,15 +22,14 @@ public class VersionRangeParser {
     private static final java.util.regex.Pattern WEEKLY_SNAPSHOT =
             java.util.regex.Pattern.compile("^\\d{2}w\\d{2}[a-z~].*$", java.util.regex.Pattern.CASE_INSENSITIVE);
 
-    /** Pré-versions : {@code 26.3-snapshot-8}, {@code 1.21.6-pre1}, {@code 26.2-rc-2}, {@code 1.20-exp1}. */
+    /** Pre-versions: {@code 26.3-snapshot-8}, {@code 1.21.6-pre1}, {@code 26.2-rc-2}, {@code 1.20-exp1}. */
     private static final java.util.regex.Pattern PRE_RELEASE =
             java.util.regex.Pattern.compile("^.+-(snapshot|pre|rc|exp|alpha|beta)[-.]?\\d*$",
                     java.util.regex.Pattern.CASE_INSENSITIVE);
 
     /**
-     * Indique si un identifiant Mojang désigne une version de développement, sans contacter
-     * le manifeste. Permet de déduire l'état « snapshot » de {@code deps.minecraft} plutôt
-     * que du nom du dossier Stonecutter.
+     * Tells whether a Mojang id is a development version, without contacting the manifest.
+     * Lets the "snapshot" state come from {@code deps.minecraft} instead of the Stonecutter folder name.
      */
     public static boolean isSnapshotId(String id) {
         if (id == null || id.isBlank()) return false;
@@ -39,19 +38,17 @@ public class VersionRangeParser {
     }
 
     /**
-     * Traduit un identifiant Mojang vers le nom utilisé par CurseForge, qui ne référence pas
-     * chaque snapshot individuellement mais un unique {@code <version>-snapshot} par cycle :
-     * {@code 26.3-snapshot-8} et {@code 26.3-rc-1} deviennent tous deux {@code 26.3-snapshot}.
+     * Maps a Mojang id to the name CurseForge uses, which has a single {@code <version>-snapshot} per cycle:
+     * {@code 26.3-snapshot-8} and {@code 26.3-rc-1} both become {@code 26.3-snapshot}.
      *
-     * <p>Les snapshots hebdomadaires historiques ({@code 25w14a}) et les versions stables sont
-     * renvoyés tels quels.</p>
+     * <p>Old weekly snapshots ({@code 25w14a}) and stable versions are returned as they are.</p>
      */
     public static String toCurseforgeVersion(String id) {
         if (!isSnapshotId(id)) return id;
 
         String trimmed = id.trim();
         int separator = trimmed.indexOf('-');
-        // Ancien schéma (25w14a) : pas de préfixe de version, CurseForge utilise l'id brut.
+        // Old scheme (25w14a): no version prefix, CurseForge uses the raw id
         if (separator <= 0) return trimmed;
 
         return trimmed.substring(0, separator) + "-snapshot";
@@ -105,23 +102,22 @@ public class VersionRangeParser {
     }
 
     /**
-     * Ligne de versions complète : {@code ~26.1-} désigne 26.1 et tous ses correctifs, y compris
-     * leurs préversions ({@code 26.1.1-rc-1}), mais jamais celles du cycle suivant.
+     * A whole version line: {@code ~26.1-} means 26.1 and all its hotfixes, including their pre-versions
+     * ({@code 26.1.1-rc-1}), but never the ones of the next cycle.
      */
     private static final java.util.regex.Pattern VERSION_LINE =
             java.util.regex.Pattern.compile("^~(\\d+\\.\\d+)-$");
 
-    // Visible pour les tests : permet de vérifier le filtrage sans contacter le manifeste Mojang.
+    // Visible for tests, to check the filtering without contacting the Mojang manifest
     static List<String> commonVersionExtract(String rangeExpression, VersionRangeParser.CompiledVersions allVersions) {
         if (rangeExpression == null || rangeExpression.isEmpty()) {
             return new ArrayList<>();
         }
 
-        // java-semver ignore la convention « -» (inclure les préversions) et lève une exception,
-        // ce qui faisait retomber le filtre sur une égalité stricte d'identifiant, donc sur une
-        // liste vide. Un encadrement semver ne convient pas non plus ici : 26.2-snapshot-1 étant
-        // inférieur à 26.2, « <26.2 » ramènerait les snapshots du cycle suivant. On compare donc
-        // directement le préfixe de la ligne de versions.
+        // java-semver doesn't know the "-" convention (include pre-versions) and throws, which made the filter
+        // fall back to a strict id equality, so an empty list. A semver range doesn't fit either: 26.2-snapshot-1
+        // is below 26.2, so "<26.2" would bring back the next cycle's snapshots. So the version line prefix
+        // is compared directly
         java.util.regex.Matcher versionLine = VERSION_LINE.matcher(rangeExpression.trim());
         if (versionLine.matches()) {
             String line = versionLine.group(1);
@@ -131,7 +127,7 @@ public class VersionRangeParser {
                     .collect(Collectors.toList());
         }
 
-        // Nettoyage de l'expression de range pour SemVer
+        // Clean the range expression for SemVer
         String semverRange = rangeExpression
                 .replace("-rc", "-rc.")
                 .replace("-pre", "-beta.")
@@ -199,14 +195,14 @@ public class VersionRangeParser {
             return allVersions.snapshots().reversed().getFirst();
         }
 
-        // Parcours vers l'avant pour trouver la prochaine version RELEASE
+        // Walk forward to find the next RELEASE version
         for (int i = snapshotIndex + 1; i < allVersions.size(); i++) {
             MinecraftVersion candidate = allVersions.get(i);
             if (candidate.getType() == CompiledVersions.VersionType.RELEASE) {
                 return candidate;
             }
         }
-        // Si aucune version RELEASE n'est trouvée après, retourne null ou lève une exception
+        // If no RELEASE version is found after, return null or throw
         throw new RuntimeException("No release version found for snapshot " + snapshot);
     }
 

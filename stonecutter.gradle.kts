@@ -2,7 +2,7 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-// L'état actif inclut le loader : "<version>-<loader>"
+// The active state includes the loader: "<version>-<loader>"
 stonecutter active "26.3-fabric"
 
 stonecutter parameters {
@@ -12,15 +12,13 @@ stonecutter parameters {
     val loader = node.metadata.project.substringAfterLast('-')
     val tagVersion = node.metadata.project.substringBeforeLast('-')
 
-    // Active les sections [fabric."<version>"] / [neoforge."<version>"] de stonecutter.properties.toml
+    // Enables the [fabric."<version>"] / [neoforge."<version>"] sections of stonecutter.properties.toml
     properties { tags(tagVersion, loader) }
 
     constants.put("fabric", loader == "fabric")
     constants.put("neoforge", loader == "neoforge")
 
-    // Les propriétés du mod et les dépendances versionnées vivent désormais dans
-    // stonecutter.properties.toml. Une clé absente pour la version courante signifie
-    // simplement qu'elle n'est pas utilisée (remplace l'ancien sentinel "[VERSIONED]").
+    // A key missing for the current version simply means it is unused
     val bucketLibProp = properties.getOrNull<String>("deps.bucketlib")
     val hasBucketlib = bucketLibProp != null
 
@@ -36,7 +34,7 @@ stonecutter parameters {
 
     val containsBucket = true
 
-    // 2. Détection du mapping : les versions >1.21.11 (26.x) ne sont plus obfusquées
+    // 2. Mapping detection: versions above 1.21.11 (26.x) are no longer obfuscated
     val isDeobf = afterDeobf
 
     constants.put("isDeobf", isDeobf)

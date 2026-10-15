@@ -4,15 +4,14 @@ on:
   pull_request:
   workflow_dispatch:
 
-# Un push sur une branche avec une PR ouverte déclenche deux runs identiques (push + pull_request) :
-# on garde le plus récent. La branche principale n'est jamais annulée, elle publie la release.
+# A push to a branch with an open PR triggers two identical runs, keep the latest one
+# The main branch is never cancelled since it publishes the release
 concurrency:
   group: build-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/stonecutter' }}
 
 jobs:
-  # Une version de Minecraft par job : les versions se construisent en parallèle sur des runners
-  # distincts, et chaque job ne télécharge/remappe que son propre Minecraft.
+  # One Minecraft version per job, so each one builds in parallel and only downloads its own Minecraft
   build:
     name: 🔨 ${{ matrix.version }}
     runs-on: ubuntu-latest
@@ -21,8 +20,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      # maven.paulem.net est auto-hébergé : trop de jobs simultanés (chacun configure les 25 nœuds
-      # et résout BucketLib) provoquent des timeouts de connexion.
+      # maven.paulem.net is self-hosted, too many concurrent jobs cause connection timeouts
       max-parallel: 6
       matrix:
         include:
@@ -42,8 +40,7 @@ jobs:
           - { version: "26.3", neoforge: true }
           - { version: "26.4", neoforge: false }
 
-    # Le changelog est récupéré pendant la phase de configuration de Gradle : sans ce token
-    # au niveau du job, les tâches interrogent l'API GitHub anonymement (60 req/h partagées).
+    # The changelog is fetched while configuring Gradle, the token avoids anonymous API rate limits
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -63,8 +60,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Cache Gradle complet (dépendances, Minecraft remappé par Loom, artefacts NeoForm) par version.
-      # Seule la branche principale écrit dans le cache, les autres branches le lisent.
+      # Full Gradle cache per version, only the main branch writes to it
       - name: 🪄 Setup Gradle
         uses: gradle/actions/setup-gradle@v6
         with:
@@ -86,8 +82,7 @@ jobs:
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # Le datagen ne tourne que sur le nœud Fabric : le jar NeoForge réutilise sa sortie, il doit donc
-      # être terminé avant les builds (deux invocations, le daemon est réutilisé).
+      # Datagen only runs on the Fabric node and NeoForge reuses its output, so it must finish first
       - name: runDatagen
         run: |
           # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work

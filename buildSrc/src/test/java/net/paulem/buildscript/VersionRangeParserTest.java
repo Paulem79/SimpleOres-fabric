@@ -21,7 +21,7 @@ class VersionRangeParserTest {
 
     @Test
     void testIsSnapshotId() {
-        // Pré-versions : c'est ce qui remplace la détection par nom de dossier "-snapshot".
+        // Pre-versions, this replaces the "-snapshot" folder name detection
         assertTrue(VersionRangeParser.isSnapshotId("26.3-snapshot-8"));
         assertTrue(VersionRangeParser.isSnapshotId("26.2-rc-2"));
         assertTrue(VersionRangeParser.isSnapshotId("26.2-pre-1"));
@@ -40,17 +40,17 @@ class VersionRangeParserTest {
 
     @Test
     void testToCurseforgeVersion() {
-        // CurseForge n'a qu'une entrée "<version>-snapshot" par cycle de développement.
+        // CurseForge only has one "<version>-snapshot" entry per development cycle
         assertEquals("26.3-snapshot", VersionRangeParser.toCurseforgeVersion("26.3-snapshot-8"));
         assertEquals("26.3-snapshot", VersionRangeParser.toCurseforgeVersion("26.3-snapshot-1"));
         assertEquals("26.2-snapshot", VersionRangeParser.toCurseforgeVersion("26.2-rc-2"));
         assertEquals("26.2-snapshot", VersionRangeParser.toCurseforgeVersion("26.2-pre-1"));
         assertEquals("1.21.6-snapshot", VersionRangeParser.toCurseforgeVersion("1.21.6-pre1"));
 
-        // Ancien schéma : identifiant conservé tel quel.
+        // Old scheme: id kept as is
         assertEquals("25w14a", VersionRangeParser.toCurseforgeVersion("25w14a"));
 
-        // Versions stables : inchangées.
+        // Stable versions: unchanged
         assertEquals("26.2", VersionRangeParser.toCurseforgeVersion("26.2"));
         assertEquals("1.21.11", VersionRangeParser.toCurseforgeVersion("1.21.11"));
     }
@@ -67,9 +67,8 @@ class VersionRangeParserTest {
     }
 
     /**
-     * Documente pourquoi {@code ~X.Y-} est traité à part dans le parseur : la bibliothèque ne
-     * connaît pas cette convention et lève une exception, ce qui vidait silencieusement la liste
-     * des versions publiées (CurseForge répondait alors « You must select at least one version »).
+     * Why {@code ~X.Y-} is handled apart in the parser: the library doesn't know this convention and throws,
+     * which silently emptied the published versions list (CurseForge then answered "You must select at least one version").
      */
     @Test
     void testTrailingHyphenIsNotSupportedBySemver() {
@@ -77,8 +76,8 @@ class VersionRangeParserTest {
     }
 
     /**
-     * Un encadrement semver ne peut pas remplacer {@code ~X.Y-} : les préversions du cycle suivant
-     * sont inférieures à sa version stable, donc {@code <26.2} les ramènerait à tort.
+     * A semver range can't replace {@code ~X.Y-}: pre-versions of the next cycle are below its stable
+     * version, so {@code <26.2} would wrongly bring them back.
      */
     @Test
     void testNextCycleSnapshotsSortBelowTheirRelease() {
@@ -95,7 +94,7 @@ class VersionRangeParserTest {
         return new VersionRangeParser.CompiledVersions(list);
     }
 
-    /** Un cycle encore en développement ({@code ~26.3-}) ne doit pas produire une liste vide. */
+    /** A cycle still in development ({@code ~26.3-}) must not give an empty list. */
     @Test
     void testVersionLineKeepsSnapshotsOnlyCycle() {
         assertEquals(
@@ -105,7 +104,7 @@ class VersionRangeParserTest {
                         versions("26.2", "26.2-rc-1", "26.3-snapshot-1", "26.3-snapshot-8")));
     }
 
-    /** {@code ~26.1-} couvre 26.1, ses correctifs et leurs préversions, jamais le cycle suivant. */
+    /** {@code ~26.1-} covers 26.1, its hotfixes and their pre-versions, never the next cycle. */
     @Test
     void testVersionLineCoversPatchesAndPreReleases() {
         assertEquals(

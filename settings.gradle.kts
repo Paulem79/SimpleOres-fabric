@@ -15,8 +15,7 @@ pluginManagement {
 
 plugins {
 	id("dev.kikugie.stonecutter") version "0.9.8"
-	// Applique automatiquement le bon variant de Loom (mappings officiels ou Mojmaps) selon la
-	// version ciblée : plus besoin de choisir/switcher entre fabric-loom et fabric-loom-remap.
+	// Applies the right Loom variant (official or Mojang mappings) depending on the targeted version
 	id("dev.kikugie.loom-back-compat") version "0.4.3"
 }
 
@@ -26,7 +25,7 @@ stonecutter {
 	kotlinController = true
 
 	create(rootProject) {
-		// Chaque version est déclinée par loader : "<version>-<loader>", avec son propre script de build
+		// Each version is split by loader: "<version>-<loader>", with its own build script
 		fun match(version: String, vararg loaders: String) {
 			for (loader in loaders) {
 				version("$version-$loader", version).buildscript("build.$loader.gradle.kts")

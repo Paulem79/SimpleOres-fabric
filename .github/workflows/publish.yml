@@ -7,17 +7,17 @@ on:
         type: choice
         default: build
         options:
-          - build            # reconstruit tout (datagen + build)
-          - last-build-run   # jars du dernier run « Build » réussi sur stonecutter
-          - last-release     # jars de la dernière release GitHub « release-<sha> »
+          - build            # rebuilds everything (datagen + build)
+          - last-build-run   # jars of the last successful Build run on stonecutter
+          - last-release     # jars of the last GitHub release (release-<sha>)
 
 concurrency:
   group: publish
   cancel-in-progress: false
 
 jobs:
-  # Une version de Minecraft par job, comme build.yml. Chaque job publie ses jars Fabric et NeoForge
-  # sur Modrinth/CurseForge ; la release GitHub unique est créée à la fin par le job « release ».
+  # One Minecraft version per job, like build.yml. Each job publishes its jars to Modrinth/CurseForge
+  # The single GitHub release is created at the end by the release job
   publish:
     name: 🚀 ${{ matrix.version }}
     runs-on: ubuntu-latest
@@ -26,7 +26,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      # Ménage maven.paulem.net (auto-hébergé) ainsi que les API Modrinth et CurseForge
+      # Cleans up maven.paulem.net (self-hosted) and the Modrinth and CurseForge APIs
       max-parallel: 4
       matrix:
         include:
@@ -46,8 +46,7 @@ jobs:
           - { version: "26.3", neoforge: true }
           - { version: "26.4", neoforge: false }
 
-    # Le changelog est récupéré pendant la phase de configuration de Gradle : sans ce token
-    # au niveau du job, les tâches interrogent l'API GitHub anonymement (60 req/h partagées).
+    # The changelog is fetched while configuring Gradle, the token avoids anonymous API rate limits
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -90,10 +89,9 @@ jobs:
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # --- source = build : on reconstruit ---
+      # --- source = build: rebuild ---
 
-      # Le datagen ne tourne que sur le nœud Fabric : le jar NeoForge réutilise sa sortie, il doit donc
-      # être terminé avant les builds (deux invocations, le daemon est réutilisé).
+      # Datagen only runs on the Fabric node and NeoForge reuses its output, so it must finish first
       - name: runDatagen
         if: ${{ inputs.source == 'build' }}
         run: |
@@ -123,7 +121,7 @@ jobs:
           mkdir -p dist
           find versions -maxdepth 4 -type f -name "*.jar" -path "*/build/libs/*" -exec cp {} dist/ \;
 
-      # --- source = last-build-run / last-release : on réutilise des jars existants ---
+      # --- source = last-build-run / last-release: reuse existing jars ---
 
       - name: 📥 Fetch jars from the last successful Build run
         if: ${{ inputs.source == 'last-build-run' }}
@@ -159,13 +157,12 @@ jobs:
           if [ "${{ matrix.neoforge }}" = "true" ]; then
             TASKS="$TASKS :${{ matrix.version }}-neoforge:publishMods"
           fi
-          # Publication en série dans le job ; les jars déjà construits (dist/) sont publiés tels quels
+          # Published serially, the prebuilt jars (dist/) are uploaded as they are
           ./gradlew $TASKS --stacktrace --no-parallel --max-workers=1 -PprebuiltJarsDir="$PWD/dist"
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_UPLOAD_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_UPLOAD_TOKEN }}
-          # PAT au quota plus large que le GITHUB_TOKEN d'installation ; si le secret est absent,
-          # la valeur est vide et build.gradle.kts retombe sur GITHUB_TOKEN (changelog).
+          # PAT with a larger quota than the installation GITHUB_TOKEN, falls back to GITHUB_TOKEN when empty
           GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
 
       - name: 📂 Keep the changelog for the release
@@ -178,7 +175,7 @@ jobs:
           if-no-files-found: error
           path: dist/
 
-  # Une seule release GitHub (un tag) pour toutes les versions : tous les jars Fabric et NeoForge
+  # One GitHub release (one tag) for every version, with all the Fabric and NeoForge jars
   release:
     name: 📦 Release
     needs: publish

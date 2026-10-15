@@ -6,10 +6,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.BiConsumer;
 
 /**
- * Map concurrente préservant l'ordre d'insertion (FIFO) via une file séparée.
- * Eviction optionnelle: si maxSize > 0 et la taille dépasse, on enlève les plus anciens.
- * Ne cherche pas à être parfaite côté mémoire (les clés retirées restent éventuellement en file),
- * mais garantit un ordre d'itération cohérent (première apparition) et des opérations non bloquantes.
+ * Concurrent map keeping the insertion order (FIFO) through a separate queue.
+ * Optional eviction: if maxSize > 0 and the size goes over it, the oldest entries are removed.
+ * Not perfect memory-wise (removed keys may stay in the queue), but iteration order stays
+ * consistent (first appearance) and operations are non-blocking.
  */
 public class ConcurrentFifoMap<K, V> {
     private final ConcurrentHashMap<K, V> map = new ConcurrentHashMap<>();
@@ -17,7 +17,7 @@ public class ConcurrentFifoMap<K, V> {
     private final int maxSize;
 
     public ConcurrentFifoMap() {
-        this(0); // 0 => pas de limite
+        this(0); // 0 => no limit
     }
 
     public ConcurrentFifoMap(int maxSize) {
@@ -38,7 +38,7 @@ public class ConcurrentFifoMap<K, V> {
     }
 
     public V remove(K key) {
-        return map.remove(key); // La clé restera peut-être dans la file, filtrée lors des itérations.
+        return map.remove(key); // The key may stay in the queue, it is filtered while iterating
     }
 
     public int size() {
@@ -54,20 +54,20 @@ public class ConcurrentFifoMap<K, V> {
     }
 
     /**
-     * Itération dans l'ordre d'insertion (clé encore présente) sans doublons.
+     * Iterates in insertion order (key still present) without duplicates.
      */
     public void forEach(BiConsumer<K, V> consumer) {
-        // LinkedHashSet pour éviter de traiter plusieurs fois la même clé (si réinsertion jamais faite).
+        // LinkedHashSet so the same key isn't processed twice
         Set<K> seen = new LinkedHashSet<>();
         for (K k : order) {
-            if (!seen.add(k)) continue; // doublon
+            if (!seen.add(k)) continue; // duplicate
             V v = map.get(k);
             if (v != null) consumer.accept(k, v);
         }
     }
 
     /**
-     * Snapshot des valeurs dans l'ordre d'insertion actuel.
+     * Snapshot of the values in the current insertion order.
      */
     public Collection<V> values() {
         List<V> list = new ArrayList<>();
@@ -85,7 +85,7 @@ public class ConcurrentFifoMap<K, V> {
         while (map.size() > maxSize) {
             K oldest = order.poll();
             if (oldest == null) break;
-            map.remove(oldest); // retire éventuellement (si déjà retirée, noop)
+            map.remove(oldest); // may already be removed, no-op then
         }
     }
 

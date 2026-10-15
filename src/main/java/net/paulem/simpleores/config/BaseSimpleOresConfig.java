@@ -5,8 +5,8 @@ import net.paulem.simpleores.stonecutter.SCArmor;
 import net.paulem.simpleores.items.ModToolMaterials;
 
 /**
- * Classe de base contenant les valeurs par défaut des configurations
- * et les classes utilitaires (sans annotations de config).
+ * Base class holding the default config values
+ * and the helper classes (without config annotations).
  */
 @SuppressWarnings("unused")
 public class BaseSimpleOresConfig implements Config {

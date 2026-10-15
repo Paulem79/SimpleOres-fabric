@@ -15,10 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 public class BucketPickupUtils {
 
-    // Le cache stocke un Optional car Guava n'autorise pas les valeurs nulles
+    // Guava doesn't allow null values, so the cache stores an Optional
     private static final LoadingCache<Block, Optional<SolidBucketItem>> BUCKET_CACHE = CacheBuilder.newBuilder()
-            .expireAfterAccess(10, TimeUnit.MINUTES) // Optionnel : vide le cache si inutilisé
-            .maximumSize(1000) // Sécurité pour la mémoire
+            .expireAfterAccess(10, TimeUnit.MINUTES)
+            .maximumSize(1000)
             .build(new CacheLoader<>() {
                 @Override
                 public Optional<SolidBucketItem> load(Block block) {
@@ -31,19 +31,13 @@ public class BucketPickupUtils {
         try {
             return BUCKET_CACHE.get(block).orElse(null);
         } catch (ExecutionException e) {
-            // En cas d'erreur de chargement, on retourne le fallback
             return findBucketInRegistry(block);
         }
     }
 
-    /**
-     * Ta logique originale de recherche, extraite pour le CacheLoader
-     */
     private static @Nullable SolidBucketItem findBucketInRegistry(Block block) {
-        // On itère sur les items
         for (Item item : BuiltInRegistries.ITEM) {
             if (item instanceof SolidBucketItem solidBucket) {
-                // Comparaison de référence (==) : l'opération la plus rapide en Java
                 if (solidBucket.getBlock() == block) {
                     return solidBucket;
                 }

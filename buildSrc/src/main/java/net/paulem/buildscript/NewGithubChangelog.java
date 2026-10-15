@@ -12,16 +12,13 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Génère le changelog publié sur GitHub / Modrinth / CurseForge à partir des commits
- * réalisés depuis le dernier workflow "publish" réussi.
+ * Generates the changelog published on GitHub / Modrinth / CurseForge from the commits
+ * made since the last successful "publish" workflow.
  *
- * <p>Le build Stonecutter contient une quinzaine de sous-projets qui demandent tous le
- * changelog : la génération est donc mémorisée en mémoire (le classloader de buildSrc est
- * partagé par tout le build) puis sur disque, afin de ne contacter l'API GitHub qu'une
- * seule fois par build.</p>
+ * <p>Every Stonecutter subproject asks for the changelog, so it is cached in memory (the buildSrc
+ * classloader is shared by the whole build) then on disk, to only hit the GitHub API once per build.</p>
  *
- * <p>Le coût API est constant (~3 requêtes) au lieu d'être proportionnel au nombre de
- * commits, ce qui évite les erreurs de rate limit.</p>
+ * <p>The API cost is constant (~3 requests) instead of growing with the number of commits.</p>
  */
 public final class NewGithubChangelog {
     public static final String NO_CHANGELOG = "No changelog was specified.";
@@ -30,16 +27,16 @@ public final class NewGithubChangelog {
     private static final String DEFAULT_BRANCH = "stonecutter";
     private static final String HEADER = "This version is uploaded automatically by GitHub Actions.";
 
-    /** Durée de validité du cache disque. */
+    /** Lifetime of the disk cache. */
     private static final long CACHE_TTL_MILLIS = 30 * 60 * 1000L;
-    /** Nombre de commits maximum listés (au-delà, on renvoie vers le diff GitHub). */
+    /** Maximum number of listed commits, beyond that it links to the GitHub diff. */
     private static final int MAX_COMMITS = 50;
-    /** CurseForge et Modrinth n'acceptent pas des changelogs illimités. */
+    /** CurseForge and Modrinth don't accept unlimited changelogs. */
     private static final int MAX_LENGTH = 8_000;
-    /** Marqueur permettant d'exclure un commit du changelog. */
+    /** Marker to exclude a commit from the changelog. */
     private static final String SKIP_MARKER = "[skip changelog]";
 
-    /** Mémoire partagée par tous les sous-projets d'un même build. */
+    /** Shared by every subproject of a build. */
     private static final AtomicReference<String> MEMOIZED = new AtomicReference<>();
 
     private NewGithubChangelog() {
@@ -101,7 +98,7 @@ public final class NewGithubChangelog {
     }
 
     private static void writeCache(Path cachePath, String changelog) {
-        // Écriture atomique : les sous-projets peuvent être configurés en parallèle.
+        // Atomic write, subprojects can be configured in parallel
         try {
             Path tmp = Files.createTempFile(cachePath.getParent(), "changelog", ".tmp");
             Files.writeString(tmp, changelog, StandardCharsets.UTF_8);
@@ -115,7 +112,7 @@ public final class NewGithubChangelog {
         }
     }
 
-    // --- Génération --------------------------------------------------------
+    // --- Generation --------------------------------------------------------
 
     private static String doChangelog(String githubToken, String repositoryName, String branch)
             throws IOException {
@@ -141,7 +138,7 @@ public final class NewGithubChangelog {
         if (lastPublishedSha != null) {
             GHCompare compare = repository.getCompare(lastPublishedSha, headSha);
             entries = toEntries(Arrays.asList(compare.getCommits()));
-            // getCompare renvoie les commits du plus ancien au plus récent.
+            // getCompare returns the commits from oldest to newest
             Collections.reverse(entries);
             diffUrl = compare.getHtmlUrl().toString();
         } else {
@@ -160,8 +157,8 @@ public final class NewGithubChangelog {
     }
 
     /**
-     * Trouve le SHA du dernier commit publié avec succès. Une seule requête paginée sur les
-     * exécutions de workflow réussies, au lieu d'une requête par commit.
+     * Finds the SHA of the last successfully published commit, with a single paginated request
+     * on the successful workflow runs.
      */
     private static String findLastPublishedSha(GHRepository repository, String branch, String headSha) {
         try {
@@ -172,7 +169,7 @@ public final class NewGithubChangelog {
                     .withPageSize(50)) {
                 if (run.getConclusion() != GHWorkflowRun.Conclusion.SUCCESS) continue;
                 if (run.getName() == null || !run.getName().toLowerCase(Locale.ROOT).contains("publish")) continue;
-                // Le commit courant est celui qu'on est en train de publier.
+                // The current commit is the one being published
                 if (headSha.equalsIgnoreCase(run.getHeadSha())) continue;
                 return run.getHeadSha();
             }
@@ -191,15 +188,15 @@ public final class NewGithubChangelog {
                 String message = messageOf(commit);
                 if (message == null || message.isBlank()) continue;
 
-                // Première ligne uniquement : le corps du commit n'a pas sa place dans un changelog.
+                // First line only, the body doesn't belong in a changelog
                 String subject = message.lines().findFirst().orElse("").trim();
                 if (subject.isEmpty()) continue;
                 if (subject.toLowerCase(Locale.ROOT).contains(SKIP_MARKER)) continue;
-                // Les commits de merge n'apportent pas d'information utile.
+                // Merge commits add nothing useful
                 if (subject.startsWith("Merge branch ")
                         || subject.startsWith("Merge remote-tracking branch ")
                         || subject.startsWith("Merge pull request ")) continue;
-                // Un même correctif cherry-pické ne doit apparaître qu'une fois.
+                // A cherry-picked fix should only appear once
                 if (!seenMessages.add(subject.toLowerCase(Locale.ROOT))) continue;
 
                 entries.add(Entry.of(commit.getSHA1(), commit.getHtmlUrl().toString(), subject));
@@ -212,8 +209,8 @@ public final class NewGithubChangelog {
     }
 
     /**
-     * Les commits renvoyés par {@code getCompare} n'exposent pas {@code getCommitShortInfo()}
-     * (null) mais {@code getCommit()} ; ceux de {@code queryCommits} font l'inverse.
+     * Commits from {@code getCompare} have no {@code getCommitShortInfo()} (null) but a
+     * {@code getCommit()}, the ones from {@code queryCommits} are the opposite.
      */
     private static String messageOf(GHCommit commit) throws IOException {
         if (commit instanceof GHCompare.Commit compared) {
@@ -231,7 +228,7 @@ public final class NewGithubChangelog {
 
         StringBuilder changelog = new StringBuilder(HEADER).append("\n");
 
-        // LinkedHashMap : on conserve l'ordre de déclaration des catégories.
+        // LinkedHashMap keeps the category declaration order
         Map<Category, List<Entry>> grouped = new LinkedHashMap<>();
         for (Category category : Category.values()) {
             for (Entry entry : entries) {
@@ -265,7 +262,7 @@ public final class NewGithubChangelog {
         return changelog.substring(0, cut).stripTrailing() + footer;
     }
 
-    /** Catégories de <a href="https://www.conventionalcommits.org">conventional commits</a>. */
+    /** Categories of <a href="https://www.conventionalcommits.org">conventional commits</a>. */
     private enum Category {
         FEATURE("✨ Features", "feat", "feature"),
         FIX("🐛 Bug fixes", "fix", "bugfix", "hotfix"),
@@ -294,7 +291,7 @@ public final class NewGithubChangelog {
         }
     }
 
-    /** Un commit prêt à être rendu : type conventionnel, scope et description séparés. */
+    /** A commit ready to render, with its conventional type, scope and description split. */
     private record Entry(String sha, String url, Category category, String scope, String description) {
         /** {@code type(scope)!: description} */
         private static final java.util.regex.Pattern CONVENTIONAL =

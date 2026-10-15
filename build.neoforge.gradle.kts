@@ -11,8 +11,7 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-// "1.21.11-neoforge" -> "1.21.11-fabric" : le datagen est exécuté par le nœud Fabric correspondant,
-// dont la sortie (recettes, tags, modèles, langues, loot tables...) est réutilisée telle quelle ici.
+// "1.21.11-neoforge" -> "1.21.11-fabric": the matching Fabric node runs the datagen, its output is reused here
 val fabricNode = stonecutter.current.project.replace("-neoforge", "-fabric")
 
 version = "${stonecutter.properties.get<String>("mod.version")}-${stonecutter.current.project}"
@@ -58,7 +57,7 @@ tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
 
-// Source set client : compilé contre main, comme avec Loom "splitEnvironmentSourceSets"
+// Client source set: compiled against main, like Loom's "splitEnvironmentSourceSets"
 val clientSourceSet: SourceSet = sourceSets.create("client") {
     compileClasspath += sourceSets.main.get().output + sourceSets.main.get().compileClasspath
     runtimeClasspath += sourceSets.main.get().output + sourceSets.main.get().runtimeClasspath
@@ -66,18 +65,18 @@ val clientSourceSet: SourceSet = sourceSets.create("client") {
 
 sourceSets {
     all {
-        // Le code propre à Fabric (entrypoints, datagen, Mod Menu) n'est compilé que par les nœuds Fabric
+        // Fabric-only code (entrypoints, datagen, Mod Menu) is only compiled by the Fabric nodes
         java.exclude("**/fabric/**", "net/paulem/simpleores/datagen/**", "net/paulem/simpleores/config/ModMenuCompat.java")
     }
 
     main {
         resources {
             srcDirs(
-                // Sortie du datagen Fabric, partagée avec NeoForge
+                // Fabric datagen output, shared with NeoForge
                 rootProject.file("versions/$fabricNode/src/main/generated"),
                 rootProject.file("versions/$fabricNode/src/main/resources"),
                 project.file("versions/${stonecutter.current.project}/src/main/resources"),
-                // Biome modifiers : sur NeoForge les minerais sont ajoutés par des données, pas par du code
+                // On NeoForge the ores are added by biome modifiers, not code
                 rootProject.file("sc-resources/neoforge/resources"),
                 if (hasBucketlib) rootProject.file("sc-resources/main/hasbucketlib")
                 else rootProject.file("sc-resources/main/nobucketlib")
@@ -101,7 +100,7 @@ val generateChestLoot by tasks.registering(Copy::class) {
 sourceSets.main { resources.srcDir(chestLootDir) }
 tasks.processResources { dependsOn(generateChestLoot) }
 
-// NeoForm consomme beaucoup de mémoire : un seul nœud NeoForge crée ses artefacts Minecraft à la fois
+// NeoForm uses a lot of memory, so only one NeoForge node creates its Minecraft artifacts at a time
 val neoForgeMutex = gradle.sharedServices.registerIfAbsent("neoforge-mutex", NeoForgeMutex::class.java) {
     maxParallelUsages.set(1)
 }
@@ -110,11 +109,11 @@ tasks.matching { it.name == "createMinecraftArtifacts" }.configureEach {
     usesService(neoForgeMutex)
 }
 
-// Les access wideners Fabric ne sont pas lus par NeoForge : on fournit les mêmes entrées en access transformer.
-// Les versions avec BucketLib n'ont besoin que de l'entrée du fourneau, sauf en 26.x où les mixins s'en servent aussi.
+// NeoForge doesn't read Fabric access wideners, so the same entries are given as access transformers
+// Versions with BucketLib only need the furnace entry, except 26.x where the mixins use them too
 val atFile = if (hasBucketlib && !afterDeobf) "at-minimal.cfg" else "at-full.cfg"
 
-// La classe des offres enchantées n'est pas publique avant 1.21.5 (Fabric l'élargit via son propre access widener)
+// The enchanted offers class isn't public before 1.21.5 (Fabric widens it with its own access widener)
 val atFiles = buildList {
     add(rootProject.file("sc-resources/neoforge/$atFile"))
     if (stonecutter.eval(stonecutter.current.version, "<=1.21.3")) add(rootProject.file("sc-resources/neoforge/at-legacy-trades.cfg"))
@@ -144,14 +143,14 @@ neoForge {
 
     addModdingDependenciesTo(clientSourceSet)
 
-    // NeoForge ne lit pas les access wideners : voir sc-resources/neoforge
+    // See sc-resources/neoforge
     accessTransformers.from(atFiles)
 }
 
 val minecraftRange: String = run {
     val range = stonecutter.properties.getOrNull<String>("version_range")
     if (range != null) {
-        // "~26.2-" : la ligne 26.2 et ses correctifs
+        // "~26.2-": the 26.2 line and its hotfixes
         val line = Regex("^~(\\d+)\\.(\\d+)-$").find(range)
         if (line != null) {
             val (major, minor) = line.destructured
@@ -160,12 +159,12 @@ val minecraftRange: String = run {
     } else {
         val min = stonecutter.properties.get<String>("min_version_range")
         val max = stonecutter.properties.get<String>("max_version_range")
-        // Une plage maven ne peut pas avoir deux bornes identiques
+        // A maven range can't have two identical bounds
         if (min == max) "[$min]" else "[$min,$max]"
     }
 }
 
-// Un seul META-INF/accesstransformer.cfg dans le jar : les fichiers sont concaténés
+// A single META-INF/accesstransformer.cfg in the jar, so the files are concatenated
 val mergeAccessTransformers by tasks.registering {
     val output = layout.buildDirectory.file("generated/accesstransformer/accesstransformer.cfg")
     inputs.files(atFiles)
@@ -182,7 +181,7 @@ val mergeAccessTransformers by tasks.registering {
 tasks.processResources {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
-    // Fichiers Fabric / cache du datagen : inutiles dans un jar NeoForge
+    // Fabric files / datagen cache are useless in a NeoForge jar
     exclude("fabric.mod.json", "accesswideners/**", "**/.cache/**", "simpleores_client.mixins.json")
 
     from(mergeAccessTransformers) {
@@ -212,7 +211,7 @@ tasks.processResources {
         "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
     )
 
-    // Les recettes du pulvérisateur d'Energized Power portent une condition Fabric : on ajoute celle de NeoForge
+    // Energized Power pulverizer recipes have a Fabric condition, add the NeoForge one
     filesMatching("data/simpleores/recipe*/pulverizer/*.json") {
         filter { line: String ->
             if (line.contains("\"type\": \"energizedpower:pulverizer\"")) {
@@ -221,8 +220,8 @@ tasks.processResources {
         }
     }
 
-    // Jusqu'à 1.21.11 la couche de rendu vient du modèle : Fabric l'enregistre en code, NeoForge la lit dans le JSON
-    // (à partir de 26.1 elle est déduite des textures). Les portes et les barreaux doivent être "cutout".
+    // Until 1.21.11 the render layer comes from the model (Fabric registers it in code, NeoForge reads the JSON)
+    // From 26.1 it is deduced from the textures. Doors and bars must be "cutout"
     if (!afterDeobf) {
         filesMatching(listOf("assets/simpleores/models/block/*_door_*.json", "assets/simpleores/models/block/*_bars_*.json")) {
             filter { line: String ->
@@ -247,7 +246,7 @@ tasks.jar {
 
 dependencies {
     depOrNull("midnightlib")?.let { midnightlibVersion ->
-        // Les versions sans "+" sont publiées uniquement sur Modrinth
+        // Versions without "+" are only published on Modrinth
         val midnightlib = if (midnightlibVersion.contains("+"))
             "eu.midnightdust:midnightlib:$midnightlibVersion"
         else
@@ -331,13 +330,12 @@ publishing {
     }
 }
 
-// CI : -PprebuiltJarsDir=<dossier> publie des jars déjà construits (artefacts d'un build précédent ou d'une
-// release) sans passer par la compilation. Le jar attendu porte le nom que Gradle lui aurait donné.
+// CI: -PprebuiltJarsDir=<dir> publishes already built jars without compiling
 val prebuiltJar: File? = providers.gradleProperty("prebuiltJarsDir").orNull
     ?.let { File(it, "${base.archivesName.get()}-${project.version}.jar") }
 
 publishMods {
-    // ./gradlew publishMods -PpublishDryRun : génère les requêtes sans rien envoyer
+    // ./gradlew publishMods -PpublishDryRun: generates the requests without sending anything
     dryRun = providers.gradleProperty("publishDryRun").isPresent
 
     file.set(prebuiltJar?.let { layout.file(provider { it }) } ?: tasks.jar.flatMap { it.archiveFile })

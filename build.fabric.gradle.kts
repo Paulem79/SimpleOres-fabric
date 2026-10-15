@@ -3,9 +3,7 @@ import net.paulem.buildscript.VersionRangeParser
 import org.gradle.api.artifacts.ExternalModuleDependency
 
 plugins {
-    // loom-back-compat applique automatiquement le bon variant de Loom (Mojmaps ou mappings
-    // officiels) selon la version : plus besoin de choisir/switcher entre fabric-loom et
-    // fabric-loom-remap nous-mêmes.
+    // Applies the right Loom variant depending on the version
     id("dev.kikugie.loom-back-compat")
 
     `maven-publish`
@@ -14,8 +12,7 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-// 1. Définition du contexte d'exécution (encore utile pour nos propres branches, indépendant
-// du plugin Loom utilisé en interne par loom-back-compat)
+// 1. Execution context (independent from the Loom plugin used by loom-back-compat)
 val isDeobf = stonecutter.eval(stonecutter.current.version, ">1.21.11")
 val isMojmaps = !isDeobf
 
@@ -44,7 +41,7 @@ repositories {
 val hasBucketlib: Boolean = stonecutter.properties.getOrNull<String>("deps.bucketlib") != null
 val containsBucket = stonecutter.eval(stonecutter.current.version, ">1.19.4")
 
-// 2. Interpolation conditionnelle du nom de l'Access Widener
+// 2. Conditional Access Widener name
 val awSuffix = if (isDeobf) "-deobf.accesswidener" else ".accesswidener"
 val accesswidener = when {
     hasBucketlib -> "hasbucketlib$awSuffix"
@@ -52,8 +49,7 @@ val accesswidener = when {
     else -> "nobucket$awSuffix"
 }
 
-// Un seul variant de Loom étant appliqué (via loom-back-compat), plus besoin du contournement
-// "configure<LoomGradleExtensionAPI>" : le bloc "loom" se résout directement.
+// A single Loom variant is applied, so the "loom" block resolves directly
 loom {
     splitEnvironmentSourceSets()
 
@@ -65,7 +61,7 @@ loom {
     }
 
     runConfigs.all {
-        isIdeConfigGenerated = true // Syntaxe de propriété Kotlin DSL
+        isIdeConfigGenerated = true
         runDirectory.set(project.file("run")) // Syntaxe d'API Property Gradle
     }
 
@@ -100,7 +96,7 @@ tasks.processResources {
         "fabric_api_breaks_version" to stonecutter.properties.get<String>("breaks.fabric_api")
     )
 
-    // Les fichiers propres à NeoForge ne doivent pas se retrouver dans le jar Fabric
+    // NeoForge-only files must not end up in the Fabric jar
     exclude("META-INF/neoforge.mods.toml", "META-INF/accesstransformer.cfg", "*.neoforge.mixins.json")
 
     filesMatching(listOf("fabric.mod.json", "*.mixins.json")) {
@@ -111,7 +107,7 @@ tasks.processResources {
 
 sourceSets {
     all {
-        // Le code propre à NeoForge n'est compilé que par les nœuds NeoForge
+        // NeoForge code is only compiled by the NeoForge nodes
         java.exclude("**/neoforge/**")
     }
 
@@ -155,18 +151,17 @@ val generateChestLoot by tasks.registering(Copy::class) {
 sourceSets.main { resources.srcDir(chestLootDir) }
 tasks.processResources { dependsOn(generateChestLoot) }
 
-// Contournement dynamique pour le bloc fabricApi (inaccessible statiquement)
+// fabricApi is not statically accessible
 val fabricApiExt = project.extensions.findByName("fabricApi")
 if (fabricApiExt != null) {
-    // On encapsule dans le type strict FabricApiExtension fourni par Loom.
-    // Le compilateur Kotlin DSL retrouvera ses petits et autorisera "client = true" !
+    // Wrap it in the strict FabricApiExtension type from Loom
     configure<net.fabricmc.loom.api.fabricapi.FabricApiExtension> {
         configureDataGeneration {
             client = true
         }
 
-        // Les gametests vérifient l'intégration à la Fabric Advancement API, qui n'existe qu'à partir de 26.2.
-        // Loom crée le source set "gametest" et la tâche "runGameTest", à lancer manuellement.
+        // The gametests need the Fabric Advancement API, which only exists from 26.2
+        // Loom creates the "gametest" source set and "runGameTest", to run manually
         if (stonecutter.eval(stonecutter.current.version, ">=26.2")) {
             configureTests {
                 createSourceSet = true
@@ -176,7 +171,7 @@ if (fabricApiExt != null) {
                 eula = true
             }
 
-            // Loom rattache "runGameTest" à "check" : on le retire pour ne pas lancer de serveur à chaque build
+            // Loom hooks "runGameTest" to "check", remove it to not start a server on every build
             tasks.named("check") {
                 setDependsOn(dependsOn.filterNot { dep ->
                     val name = when (dep) {
@@ -194,24 +189,21 @@ if (fabricApiExt != null) {
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
 val hasClothConfig: Boolean = hasBucketlib && stonecutter.properties.getOrNull<String>("deps.cloth_config") != null
 
-// Identifiant Mojang réel de la version ciblée. "deps.minecraft" prime sur le nom du dossier
-// Stonecutter : le dossier peut donc s'appeler "26.3-deobf" tout en compilant contre
-// "26.3-snapshot-8". On utilise .version pour éviter que "-mojmaps"/"-deobf" ne s'infiltre ici.
+// Real Mojang id of the target version, "deps.minecraft" wins over the Stonecutter folder name
+// (the folder can be "26.3-deobf" while building against "26.3-snapshot-8")
 val minecraftVersion: String = stonecutter.properties.getOrNull<String>("deps.minecraft")
     ?: stonecutter.current.version
 
-// Déduit de l'identifiant Mojang (26.3-snapshot-8, 1.21.6-pre1, 25w14a…) et non du nom du
-// dossier, ce qui permet de retirer le "-snapshot" des noms de versions Stonecutter.
+// Derived from the Mojang id rather than the folder name, so "-snapshot" can be dropped from Stonecutter names
 val isSnapshot = VersionRangeParser.isSnapshotId(minecraftVersion)
 
 dependencies {
     add("minecraft", "com.mojang:minecraft:${minecraftVersion}")
 
-    // loomx applique les mappings Mojang officiels quand c'est pertinent pour la version
-    // ciblée, et ne fait rien sinon : plus besoin de le déterminer nous-mêmes.
+    // loomx applies the official Mojang mappings when relevant, and does nothing otherwise
     loomx.applyMojangMappings()
 
-    // 3. Fonction locale pour traduire modImplementation -> implementation si deobf
+    // 3. Maps modImplementation -> implementation when deobf
     fun dep(configuration: String, dependencyNotation: Any, action: ExternalModuleDependency.() -> Unit = {}) {
         val configName = if (isDeobf && configuration.startsWith("mod")) {
             configuration.substring(3).replaceFirstChar { it.lowercase() }
@@ -271,8 +263,7 @@ dependencies {
     }
 }
 
-// Une dépendance absente du nœud courant dans stonecutter.properties.toml signifie qu'elle
-// n'est pas utilisée pour cette version (remplace l'ancien sentinel "[VERSIONED]").
+// A dependency missing for the current node in stonecutter.properties.toml means it is unused
 fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull<String>("deps.$depName")
 
 tasks.withType<JavaCompile>().configureEach {
@@ -325,11 +316,8 @@ publishing {
     }
 }
 
-// Le GITHUB_TOKEN d'Actions est un jeton d'installation : son quota (partagé par dépôt et par
-// heure) est bien plus vite épuisé que celui d'un PAT utilisateur. La création des releases passe
-// donc par GH_RELEASE_TOKEN quand il est fourni, et retombe sur GITHUB_TOKEN sinon.
-// Un secret Actions non défini est injecté comme chaîne vide, pas comme variable absente :
-// on ignore donc explicitement les valeurs vides pour que le repli fonctionne.
+// The Actions GITHUB_TOKEN has a low shared quota, so releases use GH_RELEASE_TOKEN when provided
+// An unset Actions secret is injected as an empty string, so blank values are ignored for the fallback
 fun secret(name: String): String? =
     ((findProperty(name) as String?) ?: System.getenv(name))?.takeIf { it.isNotBlank() }
 
@@ -337,7 +325,7 @@ val githubToken = secret("GH_RELEASE_TOKEN") ?: secret("GITHUB_TOKEN")
 val githubChangelog: String = try {
     NewGithubChangelog.getChangelog(project.rootDir.toPath(), githubToken)
 } catch (e: Exception) {
-    // Si l'API GitHub est en panne, on utilise une chaîne vide au lieu de faire échouer le build
+    // If the GitHub API is down, use an empty string instead of failing the build
     project.logger.warn("Impossible de récupérer le changelog de GitHub : ${e.message}")
     "Changelog is currently unavailable."
 }
@@ -349,24 +337,18 @@ val modrinthToken =
     (findProperty("MODRINTH_TOKEN") as String?)
         ?: System.getenv("MODRINTH_TOKEN")
 
-// Reconstitue la vue "gradle.properties" qu'attend VersionRangeParser à partir des propriétés
-// centralisées de stonecutter.properties.toml (version_range/min/max ne sont plus exposées
-// comme propriétés Gradle classiques).
+// Rebuilds the "gradle.properties" view VersionRangeParser expects from stonecutter.properties.toml
 val versionRangeProperties: Map<String, String> = buildMap {
     stonecutter.properties.getOrNull<String>("version_range")?.let { put("version_range", it) }
     stonecutter.properties.getOrNull<String>("min_version_range")?.let { put("min_version_range", it) }
     stonecutter.properties.getOrNull<String>("max_version_range")?.let { put("max_version_range", it) }
 }
 
-// Basé sur l'identifiant Mojang plutôt que sur le nom du dossier : deux snapshots successifs
-// (26.3-snapshot-7 et -8) produisent ainsi des numéros de version distincts, exigés par
-// Modrinth et CurseForge.
+// Based on the Mojang id rather than the folder name, so successive snapshots get distinct version numbers
 fun formatPublishVersion(): String = "${stonecutter.properties.get<String>("mod.version")}-$minecraftVersion"
 
-// Versions de jeu déclarées sur CurseForge. CurseForge ne référence pas chaque snapshot
-// individuellement mais un unique "<version>-snapshot" par cycle : 26.3-snapshot-8 est donc
-// publié sous "26.3-snapshot". La propriété "curseforge_versions" (liste séparée par des
-// virgules) permet de forcer la liste si CurseForge nomme la version autrement.
+// CurseForge only lists one "<version>-snapshot" per cycle, so 26.3-snapshot-8 is published as "26.3-snapshot"
+// "curseforge_versions" (comma-separated) overrides the list
 fun curseforgeVersions(): List<String> {
     val override = stonecutter.properties.getOrNull<String>("curseforge_versions")
         ?.split(',')
@@ -386,13 +368,12 @@ fun curseforgeVersions(): List<String> {
     }
 }
 
-// CI : -PprebuiltJarsDir=<dossier> publie des jars déjà construits (artefacts d'un build précédent ou d'une
-// release) sans passer par la compilation. Le jar attendu porte le nom que Gradle lui aurait donné.
+// CI: -PprebuiltJarsDir=<dir> publishes already built jars without compiling
 val prebuiltJar: File? = providers.gradleProperty("prebuiltJarsDir").orNull
     ?.let { File(it, "${base.archivesName.get()}-${project.version}.jar") }
 
 publishMods {
-    // ./gradlew publishMods -PpublishDryRun : génère les requêtes sans rien envoyer
+    // ./gradlew publishMods -PpublishDryRun: generates the requests without sending anything
     dryRun = providers.gradleProperty("publishDryRun").isPresent
 
     file.set(prebuiltJar?.let { layout.file(provider { it }) } ?: loomx.modJar.flatMap { it.archiveFile })
