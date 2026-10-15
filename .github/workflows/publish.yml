@@ -107,7 +107,7 @@ jobs:
         run: |
           mkdir -p dist
           find versions -maxdepth 4 -type f -name "*.jar" -path "*/build/libs/*" -exec cp {} dist/ \;
-          echo "MOD_VERSION=$(sed -n 's/^mod.version *= *"\(.*\)"//p' stonecutter.properties.toml | head -1)" >> "$GITHUB_ENV"
+          echo "MOD_VERSION=$(sed -n 's/^mod.version *= *"\(.*\)"/\1/p' stonecutter.properties.toml | head -1)" >> "$GITHUB_ENV"
 
       - name: 📦 Create GitHub Release
         uses: softprops/action-gh-release@v3
