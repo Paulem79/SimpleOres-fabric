@@ -4,10 +4,40 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Un push sur une branche avec une PR ouverte déclenche deux runs identiques (push + pull_request) :
+# on garde le plus récent. La branche principale n'est jamais annulée, elle publie la release.
+concurrency:
+  group: build-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/stonecutter' }}
+
 jobs:
+  # Une version de Minecraft par job : les versions se construisent en parallèle sur des runners
+  # distincts, et chaque job ne télécharge/remappe que son propre Minecraft.
   build:
+    name: 🔨 ${{ matrix.version }}
     runs-on: ubuntu-latest
     permissions: write-all
+    timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { version: "1.19.4", neoforge: false }
+          - { version: "1.20.1", neoforge: false }
+          - { version: "1.20.4", neoforge: false }
+          - { version: "1.20.6", neoforge: false }
+          - { version: "1.21", neoforge: true }
+          - { version: "1.21.3", neoforge: true }
+          - { version: "1.21.5", neoforge: true }
+          - { version: "1.21.6", neoforge: true }
+          - { version: "1.21.7", neoforge: true }
+          - { version: "1.21.9", neoforge: true }
+          - { version: "1.21.11", neoforge: true }
+          - { version: "26.1", neoforge: true }
+          - { version: "26.2", neoforge: true }
+          - { version: "26.3", neoforge: true }
+          - { version: "26.4", neoforge: false }
 
     # Le changelog est récupéré pendant la phase de configuration de Gradle : sans ce token
     # au niveau du job, les tâches interrogent l'API GitHub anonymement (60 req/h partagées).
@@ -20,39 +50,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🪄 Cache gradle
-        uses: actions/cache@v6
-        with:
-          path: |
-            ~/.gradle/caches/modules-2
-            ~/.gradle/caches/jars-*
-            ~/.gradle/caches/transforms-*
-            ~/.gradle/wrapper
-            ~/.gradle/build-cache-*
-            ~/.gradle/configuration-cache-*
-            .gradle/patchCache
-            .gradle/patched
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'patches/**/*.patch') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: 🪄 Gradle Cache Cleanup
-        run: |
-          mkdir -p ~/.gradle/caches/modules-2
-          [ -f ~/.gradle/caches/modules-2/modules-2.lock ] && rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          find ~/.gradle/caches -name "*.lock" -type f -delete || echo "No lock files found"
-
-      - name: Configure Gradle Properties
-        run: |
-          mkdir -p ~/.gradle
-          echo "org.gradle.caching=true" >> ~/.gradle/gradle.properties
-          echo "org.gradle.jvmargs=-Xmx2048M -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
-          echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
-          echo "org.gradle.daemon=true" >> ~/.gradle/gradle.properties
-          # The NeoForged maven sometimes answers 502, retry the downloads a few more times
-          echo "systemProp.org.gradle.internal.repository.max.retries=6" >> ~/.gradle/gradle.properties
-          echo "systemProp.org.gradle.internal.repository.initial.backoff=2000" >> ~/.gradle/gradle.properties
-
       - name: 🛠️ Setup jdk 25
         uses: actions/setup-java@v6
         with:
@@ -63,30 +60,46 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Cache Gradle complet (dépendances, Minecraft remappé par Loom, artefacts NeoForm) par version.
+      # Seule la branche principale écrit dans le cache, les autres branches le lisent.
+      - name: 🪄 Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/stonecutter' }}
+
+      - name: Configure Gradle Properties
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.caching=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx3G -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
+          echo "org.gradle.parallel=true" >> ~/.gradle/gradle.properties
+          echo "org.gradle.workers.max=$(nproc)" >> ~/.gradle/gradle.properties
+          # The NeoForged maven sometimes answers 502, retry the downloads a few more times
+          echo "systemProp.org.gradle.internal.repository.max.retries=6" >> ~/.gradle/gradle.properties
+          echo "systemProp.org.gradle.internal.repository.initial.backoff=2000" >> ~/.gradle/gradle.properties
+
       - name: 🆙 Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # Le datagen ne tourne que sur les nœuds Fabric : les jars NeoForge réutilisent sa sortie
+      # Le datagen ne tourne que sur le nœud Fabric : le jar NeoForge réutilise sa sortie, il doit donc
+      # être terminé avant les builds (deux invocations, le daemon est réutilisé).
       - name: runDatagen
         run: |
-          PARALLELISM=$(($(nproc) * 2))
           # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work
           for attempt in 1 2 3; do
-            ./gradlew runDatagen --stacktrace --parallel \
-            --max-workers=$PARALLELISM \
-            --build-cache && break
+            ./gradlew ":${{ matrix.version }}-fabric:runDatagen" --stacktrace && break
             [ "$attempt" = 3 ] && exit 1
             echo "Attempt $attempt failed, retrying"
           done
 
       - name: 🔨 Build project
         run: |
-          PARALLELISM=$(($(nproc) * 2))
-          # Minecraft downloads sometimes get cut off: the files already downloaded stay cached, so retrying resumes the work
+          TASKS=":${{ matrix.version }}-fabric:build"
+          if [ "${{ matrix.neoforge }}" = "true" ]; then
+            TASKS="$TASKS :${{ matrix.version }}-neoforge:build"
+          fi
           for attempt in 1 2 3; do
-            ./gradlew build --stacktrace --parallel \
-            --max-workers=$PARALLELISM \
-            --build-cache && break
+            ./gradlew $TASKS --stacktrace && break
             [ "$attempt" = 3 ] && exit 1
             echo "Attempt $attempt failed, retrying"
           done
@@ -99,10 +112,31 @@ jobs:
       - name: 📦 Upload build artifacts
         uses: actions/upload-artifact@v7
         with:
+          name: dist-${{ matrix.version }}
+          if-no-files-found: error
+          path: dist/
+
+  release:
+    name: 📦 Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: 📥 Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          pattern: dist-*
+          merge-multiple: true
+          path: dist/
+
+      - name: 📦 Upload merged build artifacts
+        uses: actions/upload-artifact@v7
+        with:
           name: dist-artifacts
           if-no-files-found: error
           path: dist/
-      
+
       - name: 📦 Create GitHub Release
         if: ${{ github.ref == 'refs/heads/stonecutter' }}
         uses: softprops/action-gh-release@v3
