@@ -6,8 +6,6 @@ mod.version = "2.1.3"
 deps.fabric_loader = "0.19.5"
 deps.fabricloader_version = "*"
 
-loomx.loom_version = "1.18-SNAPSHOT"
-
 breaks.fabric_api = "<0.1"
 
 

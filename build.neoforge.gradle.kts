@@ -1,5 +1,5 @@
 import net.paulem.buildscript.NeoForgeMutex
-import net.paulem.buildscript.NewGithubChangelog
+import net.paulem.buildscript.ModBuild
 import net.paulem.buildscript.VersionRangeParser
 
 plugins {
@@ -14,26 +14,15 @@ plugins {
 // "1.21.11-neoforge" -> "1.21.11-fabric": the matching Fabric node runs the datagen, its output is reused here
 val fabricNode = stonecutter.current.project.replace("-neoforge", "-fabric")
 
-version = "${stonecutter.properties.get<String>("mod.version")}-${stonecutter.current.project}"
-group = stonecutter.properties.get<String>("maven_group")
+ModBuild.configureBase(
+    project,
+    stonecutter.properties.get<String>("mod.id"),
+    stonecutter.properties.get<String>("mod.version"),
+    stonecutter.properties.get<String>("maven_group"),
+    stonecutter.current.project
+)
 
-base {
-    archivesName.set(stonecutter.properties.get<String>("mod.id"))
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-    maven("https://maven.neoforged.net/releases/") { name = "NeoForged" }
-    maven { url = uri("https://api.modrinth.com/maven") }
-    maven { url = uri("https://jitpack.io") }
-    maven { url = uri("https://maven.shedaniel.me/") }
-    maven("https://maven.midnightdust.eu/releases")
-    maven {
-        name = "paulemReleases"
-        url = uri("https://maven.paulem.net/releases")
-    }
-}
+ModBuild.repositories(repositories, "https://maven.neoforged.net/releases/")
 
 fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull<String>("deps.$depName")
 
@@ -47,15 +36,7 @@ val isSnapshot = VersionRangeParser.isSnapshotId(minecraftVersion) || neoVersion
 val javaversion = if (stonecutter.eval(stonecutter.current.version, ">=26.1"))
     JavaVersion.VERSION_25 else JavaVersion.VERSION_21
 
-java {
-    sourceCompatibility = javaversion
-    targetCompatibility = javaversion
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    options.release.set(javaversion.toString().toInt())
-    options.encoding = "UTF-8"
-}
+ModBuild.configureJava(project, javaversion)
 
 // Client source set: compiled against main, like Loom's "splitEnvironmentSourceSets"
 val clientSourceSet: SourceSet = sourceSets.create("client") {
@@ -85,20 +66,13 @@ sourceSets {
     }
 }
 
-// Chest loot of the base mod: one template set, adapted to the version (folder name and copper equipment)
-val chestLootDir = layout.buildDirectory.dir("generated/chest-loot")
-val generateChestLoot by tasks.registering(Copy::class) {
-    val singularFolder = stonecutter.eval(stonecutter.current.version, ">=1.21")
-    val maxVersionRange = stonecutter.properties.getOrNull<String>("max_version_range") ?: "1.21.8"
-    val vanillaCopperTools = afterDeobf || stonecutter.eval(maxVersionRange, ">1.21.8")
-    val copperTools = Regex("simpleores:copper_(axe|boots|chestplate|helmet|leggings|pickaxe|shovel|sword)")
-
-    from(rootProject.file("sc-resources/chest-loot"))
-    into(chestLootDir.map { it.dir("data/simpleores/${if (singularFolder) "loot_table" else "loot_tables"}/chest") })
-    if (vanillaCopperTools) filter { line -> copperTools.replace(line, "minecraft:copper_$1") }
-}
-sourceSets.main { resources.srcDir(chestLootDir) }
-tasks.processResources { dependsOn(generateChestLoot) }
+ModBuild.registerChestLoot(
+    project,
+    stonecutter.eval(stonecutter.current.version, ">=1.21"),
+    afterDeobf || stonecutter.eval(
+        stonecutter.properties.getOrNull<String>("max_version_range") ?: "1.21.8", ">1.21.8"
+    )
+)
 
 // NeoForm uses a lot of memory, so only one NeoForge node creates its Minecraft artifacts at a time
 val neoForgeMutex = gradle.sharedServices.registerIfAbsent("neoforge-mutex", NeoForgeMutex::class.java) {
@@ -165,7 +139,7 @@ val minecraftRange: String = run {
 }
 
 // A single META-INF/accesstransformer.cfg in the jar, so the files are concatenated
-val mergeAccessTransformers by tasks.registering {
+val mergeAccessTransformers = tasks.register("mergeAccessTransformers") {
     val output = layout.buildDirectory.file("generated/accesstransformer/accesstransformer.cfg")
     inputs.files(atFiles)
     outputs.file(output)
@@ -238,11 +212,9 @@ tasks.processResources {
 
 tasks.jar {
     from(clientSourceSet.output)
-
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
 }
+
+ModBuild.licenseInJar(project)
 
 dependencies {
     depOrNull("midnightlib")?.let { midnightlibVersion ->
@@ -273,66 +245,17 @@ dependencies {
 
 // --- Publication ----------------------------------------------------------------------------------
 
-fun secret(name: String): String? =
-    ((findProperty(name) as String?) ?: System.getenv(name))?.takeIf { it.isNotBlank() }
+ModBuild.configurePublishing(project, "${base.archivesName.get()}-neoforge")
 
-val githubToken = secret("GH_RELEASE_TOKEN") ?: secret("GITHUB_TOKEN")
-val githubChangelog: String = try {
-    NewGithubChangelog.getChangelog(project.rootDir.toPath(), githubToken)
-} catch (e: Exception) {
-    project.logger.warn("Impossible de récupérer le changelog de GitHub : ${e.message}")
-    "Changelog is currently unavailable."
-}
+val githubChangelog = ModBuild.changelog(project)
 
-val versionRangeProperties: Map<String, String> = buildMap {
-    stonecutter.properties.getOrNull<String>("version_range")?.let { put("version_range", it) }
-    stonecutter.properties.getOrNull<String>("min_version_range")?.let { put("min_version_range", it) }
-    stonecutter.properties.getOrNull<String>("max_version_range")?.let { put("max_version_range", it) }
-}
+val versionRangeProperties: Map<String, String> = ModBuild.versionRangeProperties(
+    stonecutter.properties.getOrNull<String>("version_range"),
+    stonecutter.properties.getOrNull<String>("min_version_range"),
+    stonecutter.properties.getOrNull<String>("max_version_range")
+)
 
-fun curseforgeVersions(): List<String> {
-    val override = stonecutter.properties.getOrNull<String>("curseforge_versions")
-        ?.split(',')
-        ?.map(String::trim)
-        ?.filter(String::isNotEmpty)
-        ?: emptyList()
-
-    if (override.isNotEmpty()) return override
-
-    return if (isSnapshot) {
-        listOf(VersionRangeParser.toCurseforgeVersion(minecraftVersion))
-    } else {
-        VersionRangeParser.parseVersionRange(
-            versionRangeProperties,
-            VersionRangeParser.CompiledVersions.VersionType.RELEASE
-        )
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "paulem"
-            url = uri("https://maven.paulem.net/releases")
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = project.group.toString()
-            artifactId = "${base.archivesName.get()}-neoforge"
-            version = project.version.toString()
-            from(components["java"])
-        }
-    }
-}
-
-// CI: -PprebuiltJarsDir=<dir> publishes already built jars without compiling
-val prebuiltJar: File? = providers.gradleProperty("prebuiltJarsDir").orNull
-    ?.let { File(it, "${base.archivesName.get()}-${project.version}.jar") }
+val prebuiltJar: File? = ModBuild.prebuiltJar(project)
 
 publishMods {
     // ./gradlew publishMods -PpublishDryRun: generates the requests without sending anything
@@ -343,7 +266,6 @@ publishMods {
     displayName.set("SimpleOres NeoForge ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
     version.set("${stonecutter.properties.get<String>("mod.version")}-neoforge-$minecraftVersion")
     changelog.set(githubChangelog)
-
 
     type.set(
         if (isSnapshot || !hasBucketlib) BETA
@@ -356,7 +278,7 @@ publishMods {
 
     modrinth {
         projectId.set("Boe3chj8")
-        accessToken.set(secret("MODRINTH_TOKEN"))
+        accessToken.set(ModBuild.secret(project, "MODRINTH_TOKEN"))
 
         minecraftVersions.addAll(versions)
 
@@ -369,12 +291,16 @@ publishMods {
 
     curseforge {
         projectId.set("1092987")
-        accessToken.set(secret("CURSEFORGE_TOKEN"))
+        accessToken.set(ModBuild.secret(project, "CURSEFORGE_TOKEN"))
 
         client.set(true)
         server.set(true)
 
-        minecraftVersions.addAll(curseforgeVersions())
+        minecraftVersions.addAll(
+            ModBuild.curseforgeVersions(
+                stonecutter.properties.getOrNull<String>("curseforge_versions"), isSnapshot, minecraftVersion, versionRangeProperties
+            )
+        )
 
         optional("midnightlib")
         optional("energized-power")
