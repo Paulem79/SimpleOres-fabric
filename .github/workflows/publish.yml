@@ -101,3 +101,21 @@ jobs:
           # PAT au quota plus large que le GITHUB_TOKEN d'installation ; si le secret est absent,
           # la valeur est vide et build.gradle.kts retombe sur GITHUB_TOKEN.
           GH_RELEASE_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+
+      # Une seule release GitHub pour toutes les versions : un tag, tous les jars (Fabric et NeoForge)
+      - name: 📂 Gather Artifacts
+        run: |
+          mkdir -p dist
+          find versions -maxdepth 4 -type f -name "*.jar" -path "*/build/libs/*" -exec cp {} dist/ \;
+          echo "MOD_VERSION=$(sed -n 's/^mod.version *= *"\(.*\)"//p' stonecutter.properties.toml | head -1)" >> "$GITHUB_ENV"
+
+      - name: 📦 Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: SimpleOres ${{ env.MOD_VERSION }}
+          tag_name: ${{ env.MOD_VERSION }}
+          target_commitish: ${{ github.sha }}
+          body_path: changelog.txt
+          files: dist/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN || secrets.GITHUB_TOKEN }}

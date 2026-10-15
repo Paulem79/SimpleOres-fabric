@@ -351,12 +351,6 @@ publishMods {
 
     val versions = VersionRangeParser.parseVersionRange(versionRangeProperties)
 
-    github {
-        accessToken.set(githubToken)
-        repository.set("Paulem79/SimpleOres-fabric")
-        commitish.set("stonecutter")
-    }
-
     modrinth {
         projectId.set("Boe3chj8")
         accessToken.set(secret("MODRINTH_TOKEN"))
