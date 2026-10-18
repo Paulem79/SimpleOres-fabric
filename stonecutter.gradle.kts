@@ -30,6 +30,14 @@ stonecutter parameters {
     val hasModmenu: Boolean = modMenuProp != null
 
     val current = node.metadata
+
+    // Java version used by the node, same rules as the build scripts. Usable in comments as "//? if java >= 21"
+    val javaVersion = when {
+        eval(current.version, ">=26.1") -> 25
+        eval(current.version, ">=1.20.5") -> 21
+        else -> 17
+    }
+    dependencies["java"] = javaVersion.toString()
     val afterDeobf = eval(current.version, ">1.21.11")
 
     val containsBucket = true
@@ -49,6 +57,9 @@ stonecutter parameters {
     constants.put("hasCopperTools", afterDeobf || eval(maxVersionRange, ">1.21.8"))
     constants.put("containsBucket", containsBucket)
     constants.put("afterDeobf", afterDeobf)
+
+    // FastStats has no Fabric artifact above 26.3
+    constants.put("hasFaststats", loader == "neoforge" || eval(current.version, "<=26.3"))
 
     swaps["armorType"] = when {
         eval(current.version, "<=1.21") -> "net.minecraft.world.item.ArmorItem.Type"

@@ -40,6 +40,9 @@ public class SimpleOres {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static Config CONFIG;
 
+	// FastStats project token (public, it only identifies where the statistics go)
+	public static final String FASTSTATS_TOKEN = "ff57f5778febd663b9aa2142d1c85de2";
+
 	public static final Identifier ITEM_GROUP_ID = SCId.of(MOD_ID, "itemgroup.global");
 
 	//? if >1.19.4

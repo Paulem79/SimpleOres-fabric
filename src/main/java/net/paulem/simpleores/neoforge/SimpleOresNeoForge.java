@@ -3,6 +3,9 @@ package net.paulem.simpleores.neoforge;
 //? if neoforge {
 /*import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;
+import dev.faststats.ErrorTracker;
+import dev.faststats.Metrics;
+import dev.faststats.neoforge.NeoForgeContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -21,6 +24,14 @@ import net.paulem.simpleores.villagers.ModLegacyVillagersTrades;
 @Mod(SimpleOres.MOD_ID)
 public class SimpleOresNeoForge {
 	private static boolean contentRegistered = false;
+
+	public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
+
+	private final NeoForgeContext faststats = new NeoForgeContext.Factory(SimpleOres.MOD_ID, SimpleOres.FASTSTATS_TOKEN)
+			.requireConsent()
+			.errorTrackerService(ERROR_TRACKER)
+			.metrics(Metrics.Factory::create)
+			.create();
 
 	public SimpleOresNeoForge(IEventBus modBus) {
 		SimpleOres.loadConfig();

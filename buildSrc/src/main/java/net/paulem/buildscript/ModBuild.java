@@ -53,6 +53,9 @@ public final class ModBuild {
         repos.maven(repo -> repo.setUrl("https://jitpack.io"));
         repos.maven(repo -> repo.setUrl("https://maven.shedaniel.me/"));
         repos.maven(repo -> repo.setUrl("https://maven.midnightdust.eu/releases"));
+        repos.maven(repo -> repo.setUrl("https://repo.faststats.dev/releases"));
+        // Pre-releases, needed for the client consent screen
+        repos.maven(repo -> repo.setUrl("https://repo.faststats.dev/snapshots"));
         repos.maven(repo -> {
             repo.setName("paulemReleases");
             repo.setUrl(PAULEM_MAVEN);

@@ -13,8 +13,23 @@ import net.paulem.simpleores.items.ItemGroups;
 import net.paulem.simpleores.utils.MatchToolShears;
 import net.paulem.simpleores.villagers.ModLegacyVillagersTrades;
 import net.paulem.simpleores.world.ModWorldGeneration;
+//? if hasFaststats {
+import dev.faststats.ErrorTracker;
+import dev.faststats.Metrics;
+import dev.faststats.fabric.FabricContext;
+//?}
 
 public class SimpleOresFabric implements ModInitializer {
+	//? if hasFaststats {
+	public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
+
+	private final FabricContext faststats = new FabricContext.Factory(SimpleOres.MOD_ID, SimpleOres.FASTSTATS_TOKEN)
+			.requireConsent()
+			.errorTrackerService(ERROR_TRACKER)
+			.metrics(Metrics.Factory::create)
+			.create();
+	//?}
+
 	@Override
 	public void onInitialize() {
 		SimpleOres.loadConfig();

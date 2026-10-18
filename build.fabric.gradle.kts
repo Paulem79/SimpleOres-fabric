@@ -223,6 +223,13 @@ dependencies {
         }
     }
 
+    // Statistics, bundled in the jar. No artifact above 26.3
+    if (stonecutter.eval(stonecutter.current.version, "<=26.3")) {
+        val faststats = "dev.faststats.metrics:fabric:${stonecutter.properties.get<String>("faststats_version")}+mc$minecraftVersion"
+        dep("modImplementation", faststats)
+        dep("include", faststats)
+    }
+
     depOrNull("mod_menu")?.let {
         dep("modImplementation", "maven.modrinth:modmenu:$it")
     }

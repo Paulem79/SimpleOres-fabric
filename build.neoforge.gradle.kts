@@ -217,6 +217,11 @@ tasks.jar {
 ModBuild.licenseInJar(project)
 
 dependencies {
+    // Statistics, bundled in the jar
+    val faststats = "dev.faststats.metrics:neoforge:${stonecutter.properties.get<String>("faststats_version")}+mc$minecraftVersion"
+    implementation(faststats)
+    jarJar(faststats)
+
     depOrNull("midnightlib")?.let { midnightlibVersion ->
         // Versions without "+" are only published on Modrinth
         val midnightlib = if (midnightlibVersion.contains("+"))
