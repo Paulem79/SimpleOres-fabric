@@ -120,9 +120,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
     public CustomBucketItem(Item.Properties settings) {
         super(null, Fluids.EMPTY,
                 //? if >=26.4 {
-                SoundEvents.BUCKET_EMPTY,
-                //?} else {
-                //SoundEvents.EMPTY,
+                /^SoundEvents.BUCKET_EMPTY,
+                ^///?} else {
+                SoundEvents.EMPTY,
                 //?}
                 settings
                         .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
@@ -560,7 +560,13 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         if(block == Blocks.AIR) return Items.BUCKET.getDefaultInstance();
 
         Fluid fluid = getFluid(stack);
-        if(fluid != Fluids.EMPTY) return fluid.getBucket().getDefaultInstance();
+        if(fluid != Fluids.EMPTY) {
+            //? if >=26.4 {
+            /^return BuiltInRegistries.ITEM.getValueOrThrow(fluid.getBucket()).getDefaultInstance();
+            ^///?} else {
+            return fluid.getBucket().getDefaultInstance();
+            //?}
+        }
 
         Item solidBucket = BucketPickupUtils.getBucketForBlock(block);
         return solidBucket == null ? ItemStack.EMPTY : solidBucket.getDefaultInstance();
@@ -720,18 +726,18 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         boolean mayReplace = blockState.canBeReplaced(flowingFluid);
         boolean shiftKeyDown = user != null && user.isShiftKeyDown();
         //? if >=26.4 {
-        boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid.getSource());
-        //?} else {
-        //boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid);
+        /^boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid.getSource());
+        ^///?} else {
+        boolean placeLiquid = mayReplace || block instanceof LiquidBlockContainer container && container.canPlaceLiquid(user, level, pos, blockState, flowingFluid);
         //?}
         boolean canPlaceFluidInsideBlock = blockState.isAir() || placeLiquid && (!shiftKeyDown || hitResult == null);
 
         if (!canPlaceFluidInsideBlock) {
             return hitResult != null && this.emptyContents(user, level, hitResult.getBlockPos().relative(hitResult.getDirection()), null, itemStack);
         //? if >=26.4 {
-        } else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.builtInRegistryHolder().is(FluidTags.WATER)) {
-        //?} else {
-        //} else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.is(FluidTags.WATER)) {
+        /^} else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.builtInRegistryHolder().is(FluidTags.WATER)) {
+        ^///?} else {
+        } else if (LevelUtils.doWaterEvaporate(level, pos) && flowingFluid.is(FluidTags.WATER)) {
         //?}
             int x = pos.getX();
             int y = pos.getY();
@@ -746,9 +752,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             return true;
         } else if (block instanceof LiquidBlockContainer containerx && flowingFluid == Fluids.WATER) {
             //? if >=26.4 {
-            containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource());
-            //?} else {
-            //containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource(false));
+            /^containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource());
+            ^///?} else {
+            containerx.placeLiquid(level, pos, blockState, flowingFluid.getSource(false));
             //?}
             this.playEmptySound(user, level, pos, itemStack);
             return true;
@@ -776,9 +782,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         Fluid content = getFluid(itemStack);
 
         //? if >=26.4 {
-        SoundEvent soundEvent = content.builtInRegistryHolder().is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
-        //?} else {
-        //SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        /^SoundEvent soundEvent = content.builtInRegistryHolder().is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
+        ^///?} else {
+        SoundEvent soundEvent = content.is(FluidTags.LAVA) ? SoundEvents.BUCKET_EMPTY_LAVA : SoundEvents.BUCKET_EMPTY;
         //?}
         level.playSound(user, pos, soundEvent, SoundSource.BLOCKS, 1.0F, 1.0F);
         level.gameEvent(user, GameEvent.FLUID_PLACE, pos);

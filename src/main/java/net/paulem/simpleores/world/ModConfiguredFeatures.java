@@ -71,11 +71,16 @@ public class ModConfiguredFeatures {
 
     //? if >26.2 {
     private static void addOre(BootstrapContext<Feature> context, ResourceKey<Feature> key, Block stoneOre, Block deepslateOre, int count) {
-        RuleTest stoneReplaceables = RuleTest.either(
-                new TagMatchTest(BlockTags.HEIGHT_SPECIFIC_ORE_REPLACEABLES), HeightMatchTest.min(0), new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES)
+        TagMatchTest heightSpecific = new TagMatchTest(BlockTags.HEIGHT_SPECIFIC_ORE_REPLACEABLES);
+
+        // previously anyOf(allOf(a, b), allOf(not(a), c)) for either
+        RuleTest stoneReplaceables = RuleTest.anyOf(
+                RuleTest.allOf(heightSpecific, HeightMatchTest.min(0)),
+                RuleTest.allOf(RuleTest.not(heightSpecific), new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES))
         );
-        RuleTest deepslateReplaceables = RuleTest.either(
-                new TagMatchTest(BlockTags.HEIGHT_SPECIFIC_ORE_REPLACEABLES), HeightMatchTest.max(8), new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES)
+        RuleTest deepslateReplaceables = RuleTest.anyOf(
+                RuleTest.allOf(heightSpecific, HeightMatchTest.max(8)),
+                RuleTest.allOf(RuleTest.not(heightSpecific), new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES))
         );
 
         List<BlockReplacement> overworldOres = List.of(

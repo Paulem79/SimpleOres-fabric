@@ -3,7 +3,7 @@ maven_group = "net.paulem.simpleores"
 mod.id = "simpleores"
 mod.version = "2.2"
 
-deps.fabric_loader = "0.19.5"
+deps.fabric_loader = "0.20.1"
 deps.fabricloader_version = "*"
 
 # FastStats SDK (statistics), the artifact is picked per exact Minecraft version: "<version>+mc<minecraft>"
@@ -156,11 +156,11 @@ deps.bucketlib = "26.3-5.3.0.1"
 
 [fabric."26.4"]
 version_range = "~26.4-"
-deps.minecraft = "26.4-snapshot-4"
-deps.fabric_api = "0.163.0+26.4"
-#deps.midnightlib = "1.9.3+26.3-fabric"
+deps.minecraft = "26.4-snapshot-5"
+deps.fabric_api = "0.164.1+26.4"
+#deps.midnightlib = "1.10.0+26.3-fabric"
 #deps.cloth_config = "26.3.159"
-#deps.mod_menu = "21.0.0"
+#deps.mod_menu = "22.0.0-alpha.2"
 #deps.bucketlib = "26.3-5.3.0.1"
 
 

@@ -63,7 +63,13 @@ public class CopperBucketItemSpecialRenderer implements ItemModel {
         if(block instanceof LiquidBlock liquidBlock) {
             Fluid fluid = liquidBlock.fluid;
 
-            if(fluid != Fluids.EMPTY) vanillaBucket = fluid.getBucket();
+            if(fluid != Fluids.EMPTY) {
+                //? if >26.3 {
+                /^vanillaBucket = BuiltInRegistries.ITEM.getValue(fluid.getBucket());
+                ^///?} else {
+                vanillaBucket = fluid.getBucket();
+                //?}
+            }
         } else if(block instanceof BucketPickup) {
             vanillaBucket = BucketPickupUtils.getBucketForBlock(block);
         }
