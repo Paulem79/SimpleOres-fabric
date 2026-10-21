@@ -708,10 +708,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
             return false;
 
         } else if(holdsBlock(itemStack)) {
-            // TODO: Might duplicate behaviour with "use", migrate code to "use" if possible
-            Player player = user instanceof Player p ? p : null;
-            InteractionResult interactionResult = useOn(new UseOnContext(level, player, getHandFor(user, itemStack), itemStack, hitResult != null ? hitResult : new BlockHitResult(Vec3.atCenterOf(pos), Direction.DOWN, pos, false)));
-            return interactionResult.consumesAction();
+            // The block is placed like the vanilla solid buckets do it, but the bucket is not consumed here:
+            // the caller is the only accounting point (use() for a player, the dispenser behaviour otherwise)
+            return placeHeldBlock(user, level, pos, hitResult, itemStack).consumesAction();
         } else if(holdsEntity(itemStack)) {
             return true;
         }
@@ -808,6 +807,32 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
         return placeResult;
     }
 
+    /^*
+     * Places the block held by this bucket at the given position.
+     * <p>
+     * The held stack is never consumed here: the caller is the only accounting point.
+     *
+     * @return the result of the placement.
+     ^/
+    public @NonNull InteractionResult placeHeldBlock(@Nullable LivingEntity user, Level level, BlockPos pos, @Nullable BlockHitResult hitResult, ItemStack itemStack) {
+        Player player = user instanceof Player p ? p : null;
+        InteractionHand hand = getHandFor(user, itemStack);
+
+        UseOnContext context = new UseOnContext(level, player, hand, itemStack,
+                hitResult != null ? hitResult : placementHitResult(pos));
+
+        return this.place(new BlockPlaceContext(context));
+    }
+
+    /^*
+     * @return a hit result placing a block at the given position, for the cases where no hit result is available.
+     ^/
+    private static BlockHitResult placementHitResult(BlockPos pos) {
+        // The block is placed against the block below the target position
+        BlockPos clickedPos = pos.below();
+        return new BlockHitResult(Vec3.atCenterOf(clickedPos), Direction.UP, clickedPos, false);
+    }
+
     public InteractionResult place(final BlockPlaceContext placeContext) {
         Block block = this.getBlock(placeContext.getItemInHand());
 
@@ -872,7 +897,9 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
 
     @Nullable
     protected BlockState getPlacementState(final BlockPlaceContext context) {
-        BlockState stateForPlacement = this.getBlock(context.getItemInHand()).getStateForPlacement(context);
+        Block block = this.getBlock(context.getItemInHand());
+        // Without a player (dispenser), the state cannot be guessed from the look direction: the default one is used
+        BlockState stateForPlacement = context.getPlayer() == null ? block.defaultBlockState() : block.getStateForPlacement(context);
         return stateForPlacement != null && this.canPlace(context, stateForPlacement) ? stateForPlacement : null;
     }
 

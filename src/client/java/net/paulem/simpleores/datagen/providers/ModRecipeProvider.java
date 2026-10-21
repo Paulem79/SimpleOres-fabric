@@ -21,7 +21,6 @@ import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.paulem.simpleores.items.custom.advanced.AdvancedSpearItem;
 import net.paulem.simpleores.stonecutter.SCId;
 import net.paulem.simpleores.tags.ModTags;
 
@@ -112,6 +111,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 null, null, null, null, null, null, null, null, null,
                 //?}
                 ModItems.COPPER_SHEARS,
+                null,
                 ModTags.Items.Conventional.COPPER_ORES, Blocks.COPPER_BLOCK //? if >=26.2
                         .weathering().unaffected()
                 , Blocks.RAW_COPPER_BLOCK, ModTags.Items.Conventional.RAW_COPPER_ORES, Items.RAW_COPPER,
@@ -136,6 +136,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         createMaterialSetRecipes(ModTags.Items.Conventional.TIN_INGOTS, ModItems.TIN_INGOT, exporter, new MaterialRecipeContainer(
                 ModItems.TIN_SWORD, ModItems.TIN_PICKAXE, ModItems.TIN_AXE, ModItems.TIN_SHOVEL, ModItems.TIN_HOE,
                 ModItems.TIN_HELMET, ModItems.TIN_CHESTPLATE, ModItems.TIN_LEGGINGS, ModItems.TIN_BOOTS, ModItems.TIN_SHEARS,
+                //? if >=1.21.11 {
+                ModItems.TIN_SPEAR,
+                //?} else {
+                /*null,
+                *///?}
                 ModTags.Items.Conventional.TIN_ORES, ModBlocks.TIN_BLOCK, ModBlocks.RAW_TIN_BLOCK, ModTags.Items.Conventional.RAW_TIN_ORES, ModItems.RAW_TIN, ModItems.TIN_NUGGET,
                 ModBlocks.tin_door, ModBlocks.tin_bars, ModBlocks.tin_pressure_plate, ModBlocks.TIN_BRICKS, ModBlocks.TIN_BRICK_SLAB, ModBlocks.tin_brick_stairs,
                 //? containsBucket
@@ -147,6 +152,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         createMaterialSetRecipes(ModTags.Items.Conventional.MYTHRIL_INGOTS, ModItems.MYTHRIL_INGOT, exporter, new MaterialRecipeContainer(
                 ModItems.MYTHRIL_SWORD, ModItems.MYTHRIL_PICKAXE, ModItems.MYTHRIL_AXE, ModItems.MYTHRIL_SHOVEL, ModItems.MYTHRIL_HOE,
                 ModItems.MYTHRIL_HELMET, ModItems.MYTHRIL_CHESTPLATE, ModItems.MYTHRIL_LEGGINGS, ModItems.MYTHRIL_BOOTS, ModItems.MYTHRIL_SHEARS,
+                //? if >=1.21.11 {
+                ModItems.MYTHRIL_SPEAR,
+                //?} else {
+                /*null,
+                *///?}
                 ModTags.Items.Conventional.MYTHRIL_ORES, ModBlocks.MYTHRIL_BLOCK, ModBlocks.RAW_MYTHRIL_BLOCK, ModTags.Items.Conventional.RAW_MYTHRIL_ORES, ModItems.RAW_MYTHRIL, ModItems.MYTHRIL_NUGGET,
                 ModBlocks.mythril_door, ModBlocks.mythril_bars, ModBlocks.mythril_pressure_plate, ModBlocks.MYTHRIL_BRICKS, ModBlocks.MYTHRIL_BRICK_SLAB, ModBlocks.mythril_brick_stairs,
                 //? containsBucket
@@ -158,6 +168,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         createMaterialSetRecipes(ModTags.Items.Conventional.ADAMANTIUM_INGOTS, ModItems.ADAMANTIUM_INGOT, exporter, new MaterialRecipeContainer(
                 ModItems.ADAMANTIUM_SWORD, ModItems.ADAMANTIUM_PICKAXE, ModItems.ADAMANTIUM_AXE, ModItems.ADAMANTIUM_SHOVEL, ModItems.ADAMANTIUM_HOE,
                 ModItems.ADAMANTIUM_HELMET, ModItems.ADAMANTIUM_CHESTPLATE, ModItems.ADAMANTIUM_LEGGINGS, ModItems.ADAMANTIUM_BOOTS, ModItems.ADAMANTIUM_SHEARS,
+                //? if >=1.21.11 {
+                ModItems.ADAMANTIUM_SPEAR,
+                //?} else {
+                /*null,
+                *///?}
                 ModTags.Items.Conventional.ADAMANTIUM_ORES, ModBlocks.ADAMANTIUM_BLOCK, ModBlocks.RAW_ADAMANTIUM_BLOCK, ModTags.Items.Conventional.RAW_ADAMANTIUM_ORES, ModItems.RAW_ADAMANTIUM, ModItems.ADAMANTIUM_NUGGET,
                 ModBlocks.adamantium_door, ModBlocks.adamantium_bars, ModBlocks.adamantium_pressure_plate, ModBlocks.ADAMANTIUM_BRICKS, ModBlocks.ADAMANTIUM_BRICK_SLAB, ModBlocks.adamantium_brick_stairs,
                 //? containsBucket
@@ -169,6 +184,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         createMaterialSetRecipes(ModTags.Items.Conventional.ONYX_GEMS, ModItems.ONYX_GEM, exporter, new MaterialRecipeContainer(
                 ModItems.ONYX_SWORD, ModItems.ONYX_PICKAXE, ModItems.ONYX_AXE, ModItems.ONYX_SHOVEL, ModItems.ONYX_HOE,
                 ModItems.ONYX_HELMET, ModItems.ONYX_CHESTPLATE, ModItems.ONYX_LEGGINGS, ModItems.ONYX_BOOTS, ModItems.ONYX_SHEARS,
+                //? if >=1.21.11 {
+                ModItems.ONYX_SPEAR,
+                //?} else {
+                /*null,
+                *///?}
                 ModTags.Items.Conventional.ONYX_ORES, ModBlocks.ONYX_BLOCK, null, null, null, null,
                 ModBlocks.onyx_door, ModBlocks.onyx_bars, ModBlocks.onyx_pressure_plate, ModBlocks.ONYX_BRICKS, ModBlocks.ONYX_BRICK_SLAB, ModBlocks.onyx_brick_stairs,
                 //? containsBucket
@@ -198,32 +218,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .unlockedBy(getHasName(Items.FURNACE), scRecipe.has(Items.FURNACE))
                     .save(exporter);
         }
-
-        //TODO: merge with ore-targeted recipes generation
-        //? if >=1.21.11 {
-        for (Item item : ModItems.registeredItems.values()) {
-            if(!(item instanceof AdvancedSpearItem spearItem)) continue;
-            
-            //$ armorRegistry
-            net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
-                    material = MaterialUtils.toArmor(spearItem.getMaterial());
-
-            String materialName = MaterialUtils.getName(material);
-            if(materialName == null) continue;
-
-            Item materialItem = MaterialUtils.getMaterialItem(materialName);
-            if(materialItem == null) continue;
-
-            scRecipe.createShaped(RecipeCategory.COMBAT, spearItem)
-                    .pattern("  X")
-                    .pattern(" # ")
-                    .pattern("#  ")
-                    .define('#', Items.STICK)
-                    .define('X', materialItem)
-                    .unlockedBy(getHasName(materialItem), scRecipe.has(materialItem))
-                    .save(exporter);
-        }
-        //?}
     }
 
     //? if <1.21.3 {
@@ -300,6 +294,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         }
         if(container.shears() != null) {
             createShearsRecipe(container.shears(), tag, exporter);
+        }
+        if(container.spear() != null) {
+            createSpearRecipe(container.spear(), tag, exporter);
         }
         //? containsBucket {
         if(container.bucket() != null) {
@@ -480,6 +477,17 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .pattern(" R")
                 .pattern("R ")
                 .define('R', tag)
+                .unlockedBy(hasTag(tag), scRecipe.has(tag))
+                .save(exporter);
+    }
+
+    private static void createSpearRecipe(ItemLike output, TagKey<Item> tag, RecipeOutput exporter) {
+        scRecipe.createShaped(RecipeCategory.COMBAT, output)
+                .pattern("  X")
+                .pattern(" # ")
+                .pattern("#  ")
+                .define('#', Items.STICK)
+                .define('X', tag)
                 .unlockedBy(hasTag(tag), scRecipe.has(tag))
                 .save(exporter);
     }

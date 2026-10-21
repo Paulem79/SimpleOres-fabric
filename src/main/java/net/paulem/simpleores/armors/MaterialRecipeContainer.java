@@ -37,6 +37,7 @@ public record MaterialRecipeContainer(
         @Nullable AdvancedArmorItem leggings,
         @Nullable AdvancedArmorItem boots,
         @Nullable AdvancedShearsItem shears,
+        @Nullable Item spear,
         @Nullable TagKey<Item> ores,
         @Nullable Block block,
         @Nullable Block rawBlock,

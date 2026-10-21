@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 /*import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
  *///?}
 
-// TODO : More affiliated to base gen
 public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> TIN_INTRUSION_PLACED_KEY = registerKey("ore_tin_intrusion");
     public static final ResourceKey<PlacedFeature> TIN_PLACER_PLACED_KEY = registerKey("ore_tin_placer");
