@@ -14,7 +14,7 @@ pluginManagement {
 }
 
 plugins {
-	id("dev.kikugie.stonecutter") version "0.9.8"
+	id("dev.kikugie.stonecutter") version "0.10-source-root-test.1"
 	// Applies the right Loom variant (official or Mojang mappings) depending on the targeted version
 	id("dev.kikugie.loom-back-compat") version "0.4.3"
 }
