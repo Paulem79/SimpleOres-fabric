@@ -4,7 +4,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.paulem.simpleores.ModModelPredicateProvider;
 import net.paulem.simpleores.SimpleOres;
 //? if containsBucket && !hasBucketlib {
-/*import net.minecraft.client.renderer.item.ItemModels;
+/*//? if <=26.3 {
+import net.minecraft.client.renderer.item.ItemModels;
+//?} else {
+/^import net.minecraft.client.core.registries.BuiltInClientRegistries;
+import net.minecraft.core.Registry;
+^///?}
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
 *///?}
@@ -61,7 +66,8 @@ public class SimpleOresFabricClient implements ClientModInitializer {
 		});
 
 		//? if containsBucket && !hasBucketlib {
-		/*ItemModels.ID_MAPPER.put(
+		/*//? if <=26.3 {
+		ItemModels.ID_MAPPER.put(
 				SCId.of(SimpleOres.MOD_ID, "copper_bucket_renderer"),
 				CopperBucketItemSpecialRenderer.Unbaked.MAP_CODEC
 		);
@@ -69,6 +75,16 @@ public class SimpleOresFabricClient implements ClientModInitializer {
 				SCId.of(SimpleOres.MOD_ID, "empty_copper_bucket_renderer"),
 				CopperEmptyBucketItemSpecialRenderer.Unbaked.MAP_CODEC
 		);
+		//?} else {
+		/^Registry.register(BuiltInClientRegistries.ITEM_MODEL_TYPE,
+				SCId.of(SimpleOres.MOD_ID, "copper_bucket_renderer"),
+				CopperBucketItemSpecialRenderer.Unbaked.MAP_CODEC
+		);
+		Registry.register(BuiltInClientRegistries.ITEM_MODEL_TYPE,
+				SCId.of(SimpleOres.MOD_ID, "empty_copper_bucket_renderer"),
+				CopperEmptyBucketItemSpecialRenderer.Unbaked.MAP_CODEC
+		);
+		^///?}
 		*///?}
 	}
 }

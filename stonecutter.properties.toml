@@ -1,7 +1,7 @@
 maven_group = "net.paulem.simpleores"
 
 mod.id = "simpleores"
-mod.version = "2.2.2"
+mod.version = "2.2.3"
 
 deps.fabric_loader = "0.20.1"
 deps.fabricloader_version = "*"
@@ -156,8 +156,8 @@ deps.bucketlib = "26.3-5.3.0.1"
 
 [fabric."26.4"]
 version_range = "~26.4-"
-deps.minecraft = "26.4-snapshot-5"
-deps.fabric_api = "0.164.1+26.4"
+deps.minecraft = "26.4-snapshot-7"
+deps.fabric_api = "0.165.3+26.4"
 #deps.midnightlib = "1.10.0+26.3-fabric"
 #deps.cloth_config = "26.3.159"
 #deps.mod_menu = "22.0.0-alpha.2"
