@@ -6,7 +6,7 @@ plugins {
 stonecutter active "26.3-fabric"
 
 stonecutter parameters {
-    filters.exclude("**/*.aw")
+    files.exclude("**/*.aw")
 
     // "1.21.11-neoforge" -> version = "1.21.11", loader = "neoforge"
     val loader = node.metadata.project.substringAfterLast('-')
@@ -19,14 +19,14 @@ stonecutter parameters {
     constants.put("neoforge", loader == "neoforge")
 
     // A key missing for the current version simply means it is unused
-    val bucketLibProp = properties.getOrNull<String>("deps.bucketlib")
+    val bucketLibProp = properties.getOrNull("deps.bucketlib")
     val hasBucketlib = bucketLibProp != null
 
-    val midnightLibProp = properties.getOrNull<String>("deps.midnightlib")
+    val midnightLibProp = properties.getOrNull("deps.midnightlib")
     val hasMidnightLib: Boolean = midnightLibProp != null
     val isLegacyMidnightLib: Boolean = hasMidnightLib && !midnightLibProp!!.contains("+")
 
-    val modMenuProp = properties.getOrNull<String>("deps.mod_menu")
+    val modMenuProp = properties.getOrNull("deps.mod_menu")
     val hasModmenu: Boolean = modMenuProp != null
 
     val current = node.metadata
@@ -37,7 +37,7 @@ stonecutter parameters {
         eval(current.version, ">=1.20.5") -> 21
         else -> 17
     }
-    dependencies["java"] = javaVersion.toString()
+    targets["java"] = javaVersion.toString()
     val afterDeobf = eval(current.version, ">1.21.11")
 
     val containsBucket = true
@@ -53,7 +53,7 @@ stonecutter parameters {
     constants.put("hasModmenu", hasModmenu)
     constants.put("isLegacyMidnightLib", isLegacyMidnightLib)
 
-    val maxVersionRange = properties.getOrNull<String>("max_version_range") ?: "1.21.8"
+    val maxVersionRange = properties.getOrNull("max_version_range") ?: "1.21.8"
     constants.put("hasCopperTools", afterDeobf || eval(maxVersionRange, ">1.21.8"))
     constants.put("containsBucket", containsBucket)
     constants.put("afterDeobf", afterDeobf)

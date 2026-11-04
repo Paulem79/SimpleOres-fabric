@@ -18,15 +18,15 @@ val isMojmaps = !isDeobf
 
 ModBuild.configureBase(
     project,
-    stonecutter.properties.get<String>("mod.id"),
-    stonecutter.properties.get<String>("mod.version"),
-    stonecutter.properties.get<String>("maven_group"),
+    stonecutter.properties.getAs<String>("mod.id"),
+    stonecutter.properties.getAs<String>("mod.version"),
+    stonecutter.properties.getAs<String>("maven_group"),
     stonecutter.current.project
 )
 
 ModBuild.repositories(repositories, "https://maven.architectury.dev/", "https://maven.nucleoid.xyz/")
 
-val hasBucketlib: Boolean = stonecutter.properties.getOrNull<String>("deps.bucketlib") != null
+val hasBucketlib: Boolean = stonecutter.properties.getOrNull("deps.bucketlib") != null
 val containsBucket = stonecutter.eval(stonecutter.current.version, ">1.19.4")
 
 // 2. Conditional Access Widener name
@@ -67,22 +67,22 @@ tasks.processResources {
     val bucketlibExpansion = "\", \"bucketlib\": \"*"
     val clientMixinExpansion = "" //"\", \"simpleores_client.mixins.json"
 
-    val versionRangeProp = stonecutter.properties.getOrNull<String>("version_range")
+    val versionRangeProp = stonecutter.properties.getOrNull("version_range")
     val versionRange = if (versionRangeProp != null) {
         preToBeta(versionRangeProp)
     } else {
-        ">=${preToBeta(stonecutter.properties.get<String>("min_version_range"))} <=${preToBeta(stonecutter.properties.get<String>("max_version_range"))}"
+        ">=${preToBeta(stonecutter.properties.getAs<String>("min_version_range"))} <=${preToBeta(stonecutter.properties.getAs<String>("max_version_range"))}"
     }
 
     val expandProps = mapOf(
         "version" to version,
         "version_range" to versionRange,
-        "fabricloader_version" to stonecutter.properties.get<String>("deps.fabricloader_version"),
+        "fabricloader_version" to stonecutter.properties.getAs<String>("deps.fabricloader_version"),
         "bucketlib_expansion" to if (hasBucketlib) bucketlibExpansion else "",
         "aw_file" to accesswidener,
         "client_mixin_expansion" to if (hasBucketlib) "" else clientMixinExpansion,
         "compatibility_level" to "JAVA_${javaversion.ordinal + 1}",
-        "fabric_api_breaks_version" to stonecutter.properties.get<String>("breaks.fabric_api")
+        "fabric_api_breaks_version" to stonecutter.properties.getAs<String>("breaks.fabric_api")
     )
 
     // NeoForge-only files must not end up in the Fabric jar
@@ -129,7 +129,7 @@ ModBuild.registerChestLoot(
     project,
     stonecutter.eval(stonecutter.current.version, ">=1.21"),
     isDeobf || stonecutter.eval(
-        stonecutter.properties.getOrNull<String>("max_version_range") ?: "1.21.8", ">1.21.8"
+        stonecutter.properties.getOrNull("max_version_range") ?: "1.21.8", ">1.21.8"
     )
 )
 
@@ -169,11 +169,11 @@ if (fabricApiExt != null) {
 }
 
 val includesBucketlib = stonecutter.eval(stonecutter.current.version, "<=1.20.1") && hasBucketlib
-val hasClothConfig: Boolean = hasBucketlib && stonecutter.properties.getOrNull<String>("deps.cloth_config") != null
+val hasClothConfig: Boolean = hasBucketlib && stonecutter.properties.getOrNull("deps.cloth_config") != null
 
 // Real Mojang id of the target version, "deps.minecraft" wins over the Stonecutter folder name
 // (the folder can be "26.3-deobf" while building against "26.3-snapshot-8")
-val minecraftVersion: String = stonecutter.properties.getOrNull<String>("deps.minecraft")
+val minecraftVersion: String = stonecutter.properties.getOrNull("deps.minecraft")
     ?: stonecutter.current.version
 
 // Derived from the Mojang id rather than the folder name, so "-snapshot" can be dropped from Stonecutter names
@@ -225,7 +225,7 @@ dependencies {
 
     // Statistics, bundled in the jar. No artifact above 26.3
     if (stonecutter.eval(stonecutter.current.version, "<=26.3")) {
-        val faststats = "dev.faststats.metrics:fabric:${stonecutter.properties.get<String>("faststats_version")}+mc$minecraftVersion"
+        val faststats = "dev.faststats.metrics:fabric:${stonecutter.properties.getAs<String>("faststats_version")}+mc$minecraftVersion"
         dep("modImplementation", faststats)
         dep("include", faststats)
     }
@@ -253,7 +253,7 @@ dependencies {
 }
 
 // A dependency missing for the current node in stonecutter.properties.toml means it is unused
-fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull<String>("deps.$depName")
+fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull("deps.$depName")
 
 ModBuild.configureJava(project, javaversion)
 
@@ -271,13 +271,13 @@ ModBuild.configurePublishing(project, base.archivesName.get())
 val githubChangelog = ModBuild.changelog(project)
 
 val versionRangeProperties: Map<String, String> = ModBuild.versionRangeProperties(
-    stonecutter.properties.getOrNull<String>("version_range"),
-    stonecutter.properties.getOrNull<String>("min_version_range"),
-    stonecutter.properties.getOrNull<String>("max_version_range")
+    stonecutter.properties.getOrNull("version_range"),
+    stonecutter.properties.getOrNull("min_version_range"),
+    stonecutter.properties.getOrNull("max_version_range")
 )
 
 // Based on the Mojang id rather than the folder name, so successive snapshots get distinct version numbers
-fun formatPublishVersion(): String = "${stonecutter.properties.get<String>("mod.version")}-$minecraftVersion"
+fun formatPublishVersion(): String = "${stonecutter.properties.getAs<String>("mod.version")}-$minecraftVersion"
 
 val prebuiltJar: File? = ModBuild.prebuiltJar(project)
 
@@ -287,7 +287,7 @@ publishMods {
 
     file.set(prebuiltJar?.let { layout.file(provider { it }) } ?: loomx.modJar.flatMap { it.archiveFile })
 
-    displayName.set("SimpleOres Fabric ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
+    displayName.set("SimpleOres Fabric ${stonecutter.properties.getAs<String>("mod.version")} for $minecraftVersion")
     version.set(formatPublishVersion())
     changelog.set(githubChangelog)
 
@@ -334,7 +334,7 @@ publishMods {
 
         minecraftVersions.addAll(
             ModBuild.curseforgeVersions(
-                stonecutter.properties.getOrNull<String>("curseforge_versions"), isSnapshot, minecraftVersion, versionRangeProperties
+                stonecutter.properties.getOrNull("curseforge_versions"), isSnapshot, minecraftVersion, versionRangeProperties
             )
         )
 

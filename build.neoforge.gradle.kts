@@ -16,15 +16,15 @@ val fabricNode = stonecutter.current.project.replace("-neoforge", "-fabric")
 
 ModBuild.configureBase(
     project,
-    stonecutter.properties.get<String>("mod.id"),
-    stonecutter.properties.get<String>("mod.version"),
-    stonecutter.properties.get<String>("maven_group"),
+    stonecutter.properties.getAs<String>("mod.id"),
+    stonecutter.properties.getAs<String>("mod.version"),
+    stonecutter.properties.getAs<String>("maven_group"),
     stonecutter.current.project
 )
 
 ModBuild.repositories(repositories, "https://maven.neoforged.net/releases/")
 
-fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull<String>("deps.$depName")
+fun depOrNull(depName: String): String? = stonecutter.properties.getOrNull("deps.$depName")
 
 val neoVersion: String = depOrNull("neoforge") ?: error("deps.neoforge manquant pour ${stonecutter.current.project}")
 val hasBucketlib: Boolean = depOrNull("bucketlib") != null
@@ -70,7 +70,7 @@ ModBuild.registerChestLoot(
     project,
     stonecutter.eval(stonecutter.current.version, ">=1.21"),
     afterDeobf || stonecutter.eval(
-        stonecutter.properties.getOrNull<String>("max_version_range") ?: "1.21.8", ">1.21.8"
+        stonecutter.properties.getOrNull("max_version_range") ?: "1.21.8", ">1.21.8"
     )
 )
 
@@ -122,7 +122,7 @@ neoForge {
 }
 
 val minecraftRange: String = run {
-    val range = stonecutter.properties.getOrNull<String>("version_range")
+    val range = stonecutter.properties.getOrNull("version_range")
     if (range != null) {
         // "~26.2-": the 26.2 line and its hotfixes
         val line = Regex("^~(\\d+)\\.(\\d+)-$").find(range)
@@ -131,8 +131,8 @@ val minecraftRange: String = run {
             "[$major.$minor,$major.${minor.toInt() + 1})"
         } else range
     } else {
-        val min = stonecutter.properties.get<String>("min_version_range")
-        val max = stonecutter.properties.get<String>("max_version_range")
+        val min = stonecutter.properties.getAs<String>("min_version_range")
+        val max = stonecutter.properties.getAs<String>("max_version_range")
         // A maven range can't have two identical bounds
         if (min == max) "[$min]" else "[$min,$max]"
     }
@@ -218,7 +218,7 @@ ModBuild.licenseInJar(project)
 
 dependencies {
     // Statistics, bundled in the jar
-    val faststats = "dev.faststats.metrics:neoforge:${stonecutter.properties.get<String>("faststats_version")}+mc$minecraftVersion"
+    val faststats = "dev.faststats.metrics:neoforge:${stonecutter.properties.getAs<String>("faststats_version")}+mc$minecraftVersion"
     implementation(faststats)
     jarJar(faststats)
 
@@ -255,9 +255,9 @@ ModBuild.configurePublishing(project, "${base.archivesName.get()}-neoforge")
 val githubChangelog = ModBuild.changelog(project)
 
 val versionRangeProperties: Map<String, String> = ModBuild.versionRangeProperties(
-    stonecutter.properties.getOrNull<String>("version_range"),
-    stonecutter.properties.getOrNull<String>("min_version_range"),
-    stonecutter.properties.getOrNull<String>("max_version_range")
+    stonecutter.properties.getOrNull("version_range"),
+    stonecutter.properties.getOrNull("min_version_range"),
+    stonecutter.properties.getOrNull("max_version_range")
 )
 
 val prebuiltJar: File? = ModBuild.prebuiltJar(project)
@@ -268,8 +268,8 @@ publishMods {
 
     file.set(prebuiltJar?.let { layout.file(provider { it }) } ?: tasks.jar.flatMap { it.archiveFile })
 
-    displayName.set("SimpleOres NeoForge ${stonecutter.properties.get<String>("mod.version")} for $minecraftVersion")
-    version.set("${stonecutter.properties.get<String>("mod.version")}-neoforge-$minecraftVersion")
+    displayName.set("SimpleOres NeoForge ${stonecutter.properties.getAs<String>("mod.version")} for $minecraftVersion")
+    version.set("${stonecutter.properties.getAs<String>("mod.version")}-neoforge-$minecraftVersion")
     changelog.set(githubChangelog)
 
     type.set(
@@ -303,7 +303,7 @@ publishMods {
 
         minecraftVersions.addAll(
             ModBuild.curseforgeVersions(
-                stonecutter.properties.getOrNull<String>("curseforge_versions"), isSnapshot, minecraftVersion, versionRangeProperties
+                stonecutter.properties.getOrNull("curseforge_versions"), isSnapshot, minecraftVersion, versionRangeProperties
             )
         )
 
