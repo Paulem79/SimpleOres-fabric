@@ -13,7 +13,11 @@ public class AdvancedShearsItem extends ShearsItem {
                 .durability(material.durability())
                 .repairable(material.repairItems())
                 .enchantable(material.enchantmentValue())
-                .component(DataComponents.TOOL, ShearsItem.createToolProperties())
+                //? if >=26.4 {
+                .delayedComponent(DataComponents.TOOL, ShearsItem::createToolProperties)
+                //?} else {
+                /*.component(DataComponents.TOOL, ShearsItem.createToolProperties())
+                *///?}
                 //?} else {
                 
                 /*.durability(material.getUses())
