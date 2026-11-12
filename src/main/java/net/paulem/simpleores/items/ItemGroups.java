@@ -19,7 +19,7 @@ public class ItemGroups {
             /*FabricItemGroup
             *///?}
             .builder(//? if <=1.19.4
-            //net.paulem.simpleores.stonecutter.SCId.of("itemgroup.global")
+            //net.paulem.sclib.SCId.of(SimpleOres.MOD_ID, "itemgroup.global")
             )
             .icon(() ->
                             //? if !hasCopperTools {

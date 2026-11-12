@@ -9,7 +9,7 @@ import net.minecraft.data.tags.TagAppender;
 import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.villagers.TradeDefinition;
 import net.paulem.simpleores.villagers.ModVillagersTrades;
 import org.jspecify.annotations.NonNull;
@@ -63,7 +63,7 @@ public class ModVillagersTradesTagProvider extends //? if >=26.1 {
      * Get the tag key for the given profession and level.
      */
     public static TagKey<VillagerTrade> getKey(VillagerProfession profession, int level) {
-        return TagKey.create(Registries.VILLAGER_TRADE, SCId.ofVanilla(
+        return TagKey.create(Registries.VILLAGER_TRADE, SCId.vanilla(
                 getProfessionName(profession).toLowerCase().replace(" ", "_") + "/level_" + level
         ));
     }

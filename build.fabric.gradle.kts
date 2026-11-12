@@ -201,6 +201,15 @@ dependencies {
         dep("modImplementation", "net.fabricmc:fabric-loader:$it")
     }
 
+    // Nullable annotations used by the swaps, not shipped by Minecraft before 1.21.5
+    compileOnly("org.jspecify:jspecify:1.0.0")
+    add("clientCompileOnly", "org.jspecify:jspecify:1.0.0")
+
+    // SC-Lib: multi-version helpers, embedded in the jar
+    val sclib = "net.paulem.sclib:sclib-fabric:${stonecutter.properties.getAs<String>("sclib_version")}+$minecraftVersion"
+    dep("modImplementation", sclib)
+    dep("include", sclib)
+
     depOrNull("fabric_api")?.let {
         dep("modImplementation", "net.fabricmc.fabric-api:fabric-api:$it")
     }

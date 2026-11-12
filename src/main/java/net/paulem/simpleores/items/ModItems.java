@@ -1,7 +1,8 @@
 package net.paulem.simpleores.items;
 
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCArmor;
+import net.paulem.sclib.item.SCArmorSlot;
+import net.paulem.simpleores.armors.ModArmorMaterials;
 import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.items.custom.bows.MythrilBow;
 import net.paulem.simpleores.items.custom.bows.OnyxBow;
@@ -13,7 +14,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.utils.ConcurrentFifoMap;
 
 //? !hasBucketlib && containsBucket
@@ -159,35 +160,35 @@ public class ModItems {
     // ARMOR
     // copper
     //? if !hasCopperTools {
-    /*public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem COPPER_CHESTPLATE = register("copper_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem COPPER_LEGGINGS = register("copper_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem COPPER_BOOTS = register("copper_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.COPPER, SCArmor.ArmorEquipmentType.BOOTS, settings));
+    /*public static final AdvancedArmorItem COPPER_HELMET = register("copper_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER_SC, SCArmorSlot.HELMET, settings));
+    public static final AdvancedArmorItem COPPER_CHESTPLATE = register("copper_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER_SC, SCArmorSlot.CHESTPLATE, settings));
+    public static final AdvancedArmorItem COPPER_LEGGINGS = register("copper_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER_SC, SCArmorSlot.LEGGINGS, settings));
+    public static final AdvancedArmorItem COPPER_BOOTS = register("copper_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.COPPER_SC, SCArmorSlot.BOOTS, settings));
     *///?}
 
     // tin
-    public static final AdvancedArmorItem TIN_HELMET = register("tin_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem TIN_CHESTPLATE = register("tin_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem TIN_LEGGINGS = register("tin_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem TIN_BOOTS = register("tin_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.TIN, SCArmor.ArmorEquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem TIN_HELMET = register("tin_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN_SC, SCArmorSlot.HELMET, settings));
+    public static final AdvancedArmorItem TIN_CHESTPLATE = register("tin_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN_SC, SCArmorSlot.CHESTPLATE, settings));
+    public static final AdvancedArmorItem TIN_LEGGINGS = register("tin_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN_SC, SCArmorSlot.LEGGINGS, settings));
+    public static final AdvancedArmorItem TIN_BOOTS = register("tin_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.TIN_SC, SCArmorSlot.BOOTS, settings));
 
     // mythril
-    public static final AdvancedArmorItem MYTHRIL_HELMET = register("mythril_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem MYTHRIL_CHESTPLATE = register("mythril_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem MYTHRIL_LEGGINGS = register("mythril_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem MYTHRIL_BOOTS = register("mythril_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.MYTHRIL, SCArmor.ArmorEquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem MYTHRIL_HELMET = register("mythril_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL_SC, SCArmorSlot.HELMET, settings));
+    public static final AdvancedArmorItem MYTHRIL_CHESTPLATE = register("mythril_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL_SC, SCArmorSlot.CHESTPLATE, settings));
+    public static final AdvancedArmorItem MYTHRIL_LEGGINGS = register("mythril_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL_SC, SCArmorSlot.LEGGINGS, settings));
+    public static final AdvancedArmorItem MYTHRIL_BOOTS = register("mythril_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.MYTHRIL_SC, SCArmorSlot.BOOTS, settings));
 
     // adamantium
-    public static final AdvancedArmorItem ADAMANTIUM_HELMET = register("adamantium_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem ADAMANTIUM_CHESTPLATE = register("adamantium_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem ADAMANTIUM_LEGGINGS = register("adamantium_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem ADAMANTIUM_BOOTS = register("adamantium_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ADAMANTIUM, SCArmor.ArmorEquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_HELMET = register("adamantium_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM_SC, SCArmorSlot.HELMET, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_CHESTPLATE = register("adamantium_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM_SC, SCArmorSlot.CHESTPLATE, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_LEGGINGS = register("adamantium_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM_SC, SCArmorSlot.LEGGINGS, settings));
+    public static final AdvancedArmorItem ADAMANTIUM_BOOTS = register("adamantium_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.ADAMANTIUM_SC, SCArmorSlot.BOOTS, settings));
 
     // onyx
-    public static final AdvancedArmorItem ONYX_HELMET = register("onyx_helmet", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.HELMET, settings));
-    public static final AdvancedArmorItem ONYX_CHESTPLATE = register("onyx_chestplate", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.CHESTPLATE, settings));
-    public static final AdvancedArmorItem ONYX_LEGGINGS = register("onyx_leggings", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.LEGGINGS, settings));
-    public static final AdvancedArmorItem ONYX_BOOTS = register("onyx_boots", settings -> SCArmor.get(SCArmor.SOArmorMaterial.ONYX, SCArmor.ArmorEquipmentType.BOOTS, settings));
+    public static final AdvancedArmorItem ONYX_HELMET = register("onyx_helmet", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX_SC, SCArmorSlot.HELMET, settings));
+    public static final AdvancedArmorItem ONYX_CHESTPLATE = register("onyx_chestplate", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX_SC, SCArmorSlot.CHESTPLATE, settings));
+    public static final AdvancedArmorItem ONYX_LEGGINGS = register("onyx_leggings", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX_SC, SCArmorSlot.LEGGINGS, settings));
+    public static final AdvancedArmorItem ONYX_BOOTS = register("onyx_boots", settings -> new AdvancedArmorItem(ModArmorMaterials.ONYX_SC, SCArmorSlot.BOOTS, settings));
 
 
     public static Item register(String id, Item.Properties settings) {

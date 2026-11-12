@@ -24,8 +24,8 @@ import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
 import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
-import net.paulem.simpleores.stonecutter.SCArmor;
-import net.paulem.simpleores.stonecutter.SCTag;
+import net.paulem.sclib.item.SCArmorSlot;
+import net.paulem.sclib.tag.SCTags;
 import net.paulem.simpleores.tags.ModTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -58,16 +58,16 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 build(ModTags.Items.ARMORS, item);
 
                 //? if >1.20.4 {
-                if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.HELMET) {
+                if(armorItem.slot() == SCArmorSlot.HELMET) {
                     // Helmets
                     build(ItemTags.HEAD_ARMOR, item);
-                } else if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.CHESTPLATE) {
+                } else if(armorItem.slot() == SCArmorSlot.CHESTPLATE) {
                     // Chestplates
                     build(ItemTags.CHEST_ARMOR, item);
-                } else if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.LEGGINGS) {
+                } else if(armorItem.slot() == SCArmorSlot.LEGGINGS) {
                     // Leggings
                     build(ItemTags.LEG_ARMOR, item);
-                } else if(armorItem.getSCType() == SCArmor.ArmorEquipmentType.BOOTS) {
+                } else if(armorItem.slot() == SCArmorSlot.BOOTS) {
                     // Boots
                     build(ItemTags.FOOT_ARMOR, item);
                 }
@@ -113,7 +113,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_nugget", "");
 
-                TagKey<Item> tag = SCTag.forNugget(material);
+                TagKey<Item> tag = SCTags.nugget(material);
                 build(tag, item);
             } else if(identifier.getPath().contains("_dust")) {
                 // Dusts
@@ -122,7 +122,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_dust", "");
 
-                TagKey<Item> tag = SCTag.forDust(material);
+                TagKey<Item> tag = SCTags.dust(material);
                 build(tag, item);
 
                 build(ConventionalItemTags.DUSTS, tag);
@@ -136,7 +136,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_ingot", "");
 
-                TagKey<Item> tag = SCTag.forIngot(material);
+                TagKey<Item> tag = SCTags.ingot(material);
                 build(tag, item);
             } else if(identifier.getPath().contains("_gem")) {
                 // Gems
@@ -145,7 +145,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_gem", "");
 
-                TagKey<Item> tag = SCTag.forGem(material);
+                TagKey<Item> tag = SCTags.gem(material);
                 build(tag, item);
 
                 build(ConventionalItemTags.GEMS, tag);
@@ -153,7 +153,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("raw_", "");
 
-                TagKey<Item> tag = SCTag.forRawOre(material);
+                TagKey<Item> tag = SCTags.rawOre(material);
                 build(tag, item);
 
                 build(ConventionalItemTags.//? if >1.20.4 {
@@ -169,7 +169,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_rod", "");
 
-                TagKey<Item> tag = SCTag.forRod(material);
+                TagKey<Item> tag = SCTags.rod(material);
                 build(tag, item);
 
                 //? if >1.20.4
@@ -282,7 +282,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("deepslate_", "").replace("basalt_", "").replace("_ore", "");
 
-                TagKey<Item> tag = SCTag.forOre(material);
+                TagKey<Item> tag = SCTags.oreItem(material);
                 build(tag, blockItem);
 
                 build(ConventionalItemTags.ORES, tag);

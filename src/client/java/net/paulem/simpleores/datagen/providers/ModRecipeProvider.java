@@ -21,7 +21,7 @@ import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.tags.ModTags;
 
 import java.util.ArrayList;
@@ -620,7 +620,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .unlockedBy(hasTag(unpackedInput), has(unpackedInput))
                 .save(exporter(), //? if >1.21
                         ResourceKey.create(Registries.RECIPE,
-                                SCId.of(getTagName(unpackedInput) + "_to_" + getItemPath(packedItem))
+                                SCId.of(SimpleOres.MOD_ID, getTagName(unpackedInput) + "_to_" + getItemPath(packedItem))
                         //? if >1.21
                         )
                 );
@@ -630,7 +630,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                     .unlockedBy(getHasName(packedItem), has(packedItem))
                     .save(exporter(), //? if >1.21
                             ResourceKey.create(Registries.RECIPE,
-                                    SCId.of(getItemPath(packedItem) + "_to_" + getItemPath(unpackedItem))
+                                    SCId.of(SimpleOres.MOD_ID, getItemPath(packedItem) + "_to_" + getItemPath(unpackedItem))
                             //? if >1.21
                             )
                     );

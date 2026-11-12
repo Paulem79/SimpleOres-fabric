@@ -1,28 +1,9 @@
 package net.paulem.simpleores.items.custom.advanced;
 
-//? if >1.20.4
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.item.ToolMaterial;
+import net.paulem.sclib.item.*;
 
-public class AdvancedShearsItem extends ShearsItem {
-    public AdvancedShearsItem(ToolMaterial material, Properties settings) {
-        super(settings
-                .stacksTo(1)
-                //? if >1.20.4 && (!= 1.20.6 && != 1.21) {
-                .durability(material.durability())
-                .repairable(material.repairItems())
-                .enchantable(material.enchantmentValue())
-                //? if >=26.4 {
-                .delayedComponent(DataComponents.TOOL, ShearsItem::createToolProperties)
-                //?} else {
-                /*.component(DataComponents.TOOL, ShearsItem.createToolProperties())
-                *///?}
-                //?} else {
-                
-                /*.durability(material.getUses())
-                 
-                *///?}
-        );
+public class AdvancedShearsItem extends SCShearsItem {
+    public AdvancedShearsItem(SCToolStats material, Properties settings) {
+        super(material, settings);
     }
 }

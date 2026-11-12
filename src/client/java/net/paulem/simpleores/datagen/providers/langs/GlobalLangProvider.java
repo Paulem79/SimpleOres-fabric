@@ -73,7 +73,7 @@ public abstract class GlobalLangProvider extends FabricLanguageProvider {
                 // Collect the path of identifier, and the material name of the spear
                 .map(entry -> {
                     AdvancedSpearItem spearItem = (AdvancedSpearItem) entry.getValue();
-                    ToolMaterial toolMaterial = spearItem.getMaterial();
+                    ToolMaterial toolMaterial = spearItem.getMaterial().vanilla();
                     String translatedName = TranslateUtils.getTranslatedName(MaterialUtils.toArmor(toolMaterial), languageCode);
 
                     return new Pair<>(

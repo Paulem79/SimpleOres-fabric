@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.trading.VillagerTrade;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.villagers.ModVillagersTrades;
 import net.paulem.simpleores.villagers.TradeDefinition;
 import org.jspecify.annotations.NonNull;
@@ -53,7 +53,7 @@ public class ModVillagersTradesProvider {
     }
 
     public static ResourceKey<VillagerTrade> resourceKey(final String path) {
-        return ResourceKey.create(Registries.VILLAGER_TRADE, SCId.of(path));
+        return ResourceKey.create(Registries.VILLAGER_TRADE, SCId.of(SimpleOres.MOD_ID, path));
     }
 
     public static Holder.Reference<VillagerTrade> register(final BootstrapContext<VillagerTrade> context, final ResourceKey<VillagerTrade> resourceKey, final VillagerTrade villagerTrade) {

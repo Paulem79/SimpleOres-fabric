@@ -1,11 +1,14 @@
 package net.paulem.simpleores.datagen.providers;
 
+import net.paulem.sclib.SCId;
+import net.paulem.simpleores.SimpleOres;
+
 //? if containsBucket && !hasBucketlib {
 /*import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.resources.Identifier;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 //? if >26.2
 import net.minecraft.client.resources.model.sprite.Material;
 *///?}
@@ -19,10 +22,10 @@ import net.paulem.simpleores.furnaces.ModFurnaces;
 import net.paulem.simpleores.items.custom.advanced.AdvancedArmorItem;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 //? if >=26.1
 import net.minecraft.client.resources.model.sprite.Material;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.item.BowItem;
@@ -58,9 +61,9 @@ public class ModModelProvider extends FabricModelProvider {
 
     private static TextureMapping basaltOnyxOreTextures() {
         //? if >=26.1 {
-        return TextureMapping.column(new Material(SCId.of("block/onyx_ore_basalt_side")), new Material(SCId.ofVanilla("block/basalt_top")));
+        return TextureMapping.column(new Material(SCId.of(SimpleOres.MOD_ID, "block/onyx_ore_basalt_side")), new Material(SCId.vanilla("block/basalt_top")));
         //?} else {
-        /*return TextureMapping.column(SCId.of("block/onyx_ore_basalt_side"), SCId.ofVanilla("block/basalt_top"));
+        /*return TextureMapping.column(SCId.of(SimpleOres.MOD_ID, "block/onyx_ore_basalt_side"), SCId.vanilla("block/basalt_top"));
         *///?}
     }
 
@@ -132,20 +135,20 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.generateBow(bowItem);
             } else if (item instanceof AdvancedArmorItem armorItem) {
                 //? if >26.2 {
-                itemModelGenerator.generateTrimmableItem(item, ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName()),
+                itemModelGenerator.generateTrimmableItem(item, ItemModelGenerators.prefixForSlotTrim(armorItem.slot().vanilla().getName()),
                         false, Map.of());
                 //?} else if >1.21.3 {
                 /*ResourceKey<EquipmentAsset> identifier = armorItem.getMaterial().assetId();
                 itemModelGenerator.generateTrimmableItem(item, identifier,
                         //? if >=1.21.5 {
-                        ItemModelGenerators.prefixForSlotTrim(armorItem.getSCType().getType().getName())
+                        ItemModelGenerators.prefixForSlotTrim(armorItem.slot().vanilla().getName())
                         //?} else if >1.21.3 && <1.21.5 {
                         //armorItem.getType().getName()
                         //?}
                         , false);
                 *///?} else if >1.21 {
                 /*Identifier identifier = armorItem.getMaterial().modelId();
-                itemModelGenerator.generateArmorTrims(item, identifier, ModEquipmentClientModels.REGISTERED_MODELS.get(identifier), armorItem.getSCType().getType().getSlot());
+                itemModelGenerator.generateArmorTrims(item, identifier, ModEquipmentClientModels.REGISTERED_MODELS.get(identifier), armorItem.slot().vanilla().getSlot());
                 *///?} else {
                  /*itemModelGenerator.generateArmorTrims(armorItem);
                 *///?}

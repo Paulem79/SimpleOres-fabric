@@ -5,8 +5,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCId;
-import net.paulem.simpleores.stonecutter.SCTag;
+import net.paulem.sclib.SCId;
+import net.paulem.sclib.tag.SCTags;
 
 public class ModTags {
     public static class Blocks {
@@ -88,32 +88,32 @@ public class ModTags {
         }
 
         public static class Conventional {
-            public static TagKey<Item> TIN_INGOTS = SCTag.forIngot("tin");
-            public static TagKey<Item> MYTHRIL_INGOTS = SCTag.forIngot("mythril");
-            public static TagKey<Item> ADAMANTIUM_INGOTS = SCTag.forIngot("adamantium");
+            public static TagKey<Item> TIN_INGOTS = SCTags.ingot("tin");
+            public static TagKey<Item> MYTHRIL_INGOTS = SCTags.ingot("mythril");
+            public static TagKey<Item> ADAMANTIUM_INGOTS = SCTags.ingot("adamantium");
 
-            public static TagKey<Item> ONYX_GEMS = SCTag.forGem("onyx");
+            public static TagKey<Item> ONYX_GEMS = SCTags.gem("onyx");
 
-            public static TagKey<Item> MYTHRIL_RODS = SCTag.forRod("mythril");
-            public static TagKey<Item> ONYX_RODS = SCTag.forRod("onyx");
+            public static TagKey<Item> MYTHRIL_RODS = SCTags.rod("mythril");
+            public static TagKey<Item> ONYX_RODS = SCTags.rod("onyx");
 
-            public static TagKey<Item> COPPER_INGOTS = SCTag.forIngot("copper");
+            public static TagKey<Item> COPPER_INGOTS = SCTags.ingot("copper");
 
-            public static TagKey<Item> RAW_COPPER_ORES = SCTag.forRawOre("copper");
-            public static TagKey<Item> RAW_TIN_ORES = SCTag.forRawOre("tin");
-            public static TagKey<Item> RAW_MYTHRIL_ORES = SCTag.forRawOre("mythril");
-            public static TagKey<Item> RAW_ADAMANTIUM_ORES = SCTag.forRawOre("adamantium");
+            public static TagKey<Item> RAW_COPPER_ORES = SCTags.rawOre("copper");
+            public static TagKey<Item> RAW_TIN_ORES = SCTags.rawOre("tin");
+            public static TagKey<Item> RAW_MYTHRIL_ORES = SCTags.rawOre("mythril");
+            public static TagKey<Item> RAW_ADAMANTIUM_ORES = SCTags.rawOre("adamantium");
 
-            public static TagKey<Item> COPPER_ORES = SCTag.forOre("copper");
-            public static TagKey<Item> TIN_ORES = SCTag.forOre("tin");
-            public static TagKey<Item> MYTHRIL_ORES = SCTag.forOre("mythril");
-            public static TagKey<Item> ADAMANTIUM_ORES = SCTag.forOre("adamantium");
-            public static TagKey<Item> ONYX_ORES = SCTag.forOre("onyx");
+            public static TagKey<Item> COPPER_ORES = SCTags.oreItem("copper");
+            public static TagKey<Item> TIN_ORES = SCTags.oreItem("tin");
+            public static TagKey<Item> MYTHRIL_ORES = SCTags.oreItem("mythril");
+            public static TagKey<Item> ADAMANTIUM_ORES = SCTags.oreItem("adamantium");
+            public static TagKey<Item> ONYX_ORES = SCTags.oreItem("onyx");
 
-            public static TagKey<Item> COPPER_DUSTS = SCTag.forDust("copper");
-            public static TagKey<Item> TIN_DUSTS = SCTag.forDust("tin");
-            public static TagKey<Item> MYTHRIL_DUSTS = SCTag.forDust("mythril");
-            public static TagKey<Item> ADAMANTIUM_DUSTS = SCTag.forDust("adamantium");
+            public static TagKey<Item> COPPER_DUSTS = SCTags.dust("copper");
+            public static TagKey<Item> TIN_DUSTS = SCTags.dust("tin");
+            public static TagKey<Item> MYTHRIL_DUSTS = SCTags.dust("mythril");
+            public static TagKey<Item> ADAMANTIUM_DUSTS = SCTags.dust("adamantium");
 
             public static TagKey<Item> createTag(String name) {
                 // Both loaders share the "c" namespace of the conventional tags

@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.config.BaseSimpleOresConfig;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 
 //? if >26.2 {
 import net.minecraft.world.level.levelgen.feature.Feature;

@@ -2,6 +2,7 @@ package net.paulem.simpleores.config;
 
 //? if hasMidnightlib {
 import eu.midnightdust.lib.config.MidnightConfig;
+import net.paulem.sclib.item.SCToolStats;
 import net.paulem.simpleores.items.ModToolMaterials;
 
 public class SimpleOresConfig extends MidnightConfig implements Config {
@@ -61,31 +62,31 @@ public class SimpleOresConfig extends MidnightConfig implements Config {
     @Entry(category = ARMORS) public static int onyxArmor_knockbackProtection = new BaseSimpleOresConfig().onyxArmorProtection.knockbackProtection();
     @Entry(category = ARMORS) public static int onyxArmor_enchantability = new BaseSimpleOresConfig().onyxArmorProtection.enchantability();
 
-    @Entry(category = TOOLS) public static ModToolMaterials.MiningLevels copperTools_miningLevel = new BaseSimpleOresConfig().copperTools.miningLevel();
+    @Entry(category = TOOLS) public static SCToolStats.MiningLevel copperTools_miningLevel = new BaseSimpleOresConfig().copperTools.miningLevel();
     @Entry(category = TOOLS) public static int copperTools_itemDurability = new BaseSimpleOresConfig().copperTools.itemDurability();
     @Entry(category = TOOLS) public static float copperTools_miningSpeed = new BaseSimpleOresConfig().copperTools.miningSpeed();
     @Entry(category = TOOLS) public static float copperTools_attackDamage = new BaseSimpleOresConfig().copperTools.attackDamage();
     @Entry(category = TOOLS) public static int copperTools_enchantability = new BaseSimpleOresConfig().copperTools.enchantability();
 
-    @Entry(category = TOOLS) public static ModToolMaterials.MiningLevels tinTools_miningLevel = new BaseSimpleOresConfig().tinTools.miningLevel();
+    @Entry(category = TOOLS) public static SCToolStats.MiningLevel tinTools_miningLevel = new BaseSimpleOresConfig().tinTools.miningLevel();
     @Entry(category = TOOLS) public static int tinTools_itemDurability = new BaseSimpleOresConfig().tinTools.itemDurability();
     @Entry(category = TOOLS) public static float tinTools_miningSpeed = new BaseSimpleOresConfig().tinTools.miningSpeed();
     @Entry(category = TOOLS) public static float tinTools_attackDamage = new BaseSimpleOresConfig().tinTools.attackDamage();
     @Entry(category = TOOLS) public static int tinTools_enchantability = new BaseSimpleOresConfig().tinTools.enchantability();
 
-    @Entry(category = TOOLS) public static ModToolMaterials.MiningLevels mythrilTools_miningLevel = new BaseSimpleOresConfig().mythrilTools.miningLevel();
+    @Entry(category = TOOLS) public static SCToolStats.MiningLevel mythrilTools_miningLevel = new BaseSimpleOresConfig().mythrilTools.miningLevel();
     @Entry(category = TOOLS) public static int mythrilTools_itemDurability = new BaseSimpleOresConfig().mythrilTools.itemDurability();
     @Entry(category = TOOLS) public static float mythrilTools_miningSpeed = new BaseSimpleOresConfig().mythrilTools.miningSpeed();
     @Entry(category = TOOLS) public static float mythrilTools_attackDamage = new BaseSimpleOresConfig().mythrilTools.attackDamage();
     @Entry(category = TOOLS) public static int mythrilTools_enchantability = new BaseSimpleOresConfig().mythrilTools.enchantability();
 
-    @Entry(category = TOOLS) public static ModToolMaterials.MiningLevels adamantiumTools_miningLevel = new BaseSimpleOresConfig().adamantiumTools.miningLevel();
+    @Entry(category = TOOLS) public static SCToolStats.MiningLevel adamantiumTools_miningLevel = new BaseSimpleOresConfig().adamantiumTools.miningLevel();
     @Entry(category = TOOLS) public static int adamantiumTools_itemDurability = new BaseSimpleOresConfig().adamantiumTools.itemDurability();
     @Entry(category = TOOLS) public static float adamantiumTools_miningSpeed = new BaseSimpleOresConfig().adamantiumTools.miningSpeed();
     @Entry(category = TOOLS) public static float adamantiumTools_attackDamage = new BaseSimpleOresConfig().adamantiumTools.attackDamage();
     @Entry(category = TOOLS) public static int adamantiumTools_enchantability = new BaseSimpleOresConfig().adamantiumTools.enchantability();
 
-    @Entry(category = TOOLS) public static ModToolMaterials.MiningLevels onyxTools_miningLevel = new BaseSimpleOresConfig().onyxTools.miningLevel();
+    @Entry(category = TOOLS) public static SCToolStats.MiningLevel onyxTools_miningLevel = new BaseSimpleOresConfig().onyxTools.miningLevel();
     @Entry(category = TOOLS) public static int onyxTools_itemDurability = new BaseSimpleOresConfig().onyxTools.itemDurability();
     @Entry(category = TOOLS) public static float onyxTools_miningSpeed = new BaseSimpleOresConfig().onyxTools.miningSpeed();
     @Entry(category = TOOLS) public static float onyxTools_attackDamage = new BaseSimpleOresConfig().onyxTools.attackDamage();

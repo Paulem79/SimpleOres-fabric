@@ -13,7 +13,7 @@ import net.minecraft.core.Registry;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
 *///?}
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.tooltip.TooltipItem;
 
 //? if >=1.21.6 && !afterDeobf {

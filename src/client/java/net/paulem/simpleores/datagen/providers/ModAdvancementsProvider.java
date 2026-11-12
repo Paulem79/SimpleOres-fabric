@@ -17,7 +17,7 @@ import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
 import org.jspecify.annotations.Nullable;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -48,9 +48,9 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
                 Component.translatable("advancements.welcome"),
                 Component.translatable("advancements.welcome"),
                 //? if !hasCopperTools {
-                /*SCId.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
+                /*SCId.vanilla("textures/gui/advancements/backgrounds/stone.png"),
                 *///?} else {
-                 SCId.ofVanilla("gui/advancements/backgrounds/stone"),
+                 SCId.vanilla("gui/advancements/backgrounds/stone"),
                 //?}
                 AdvancementType.TASK,
                 false,
@@ -293,7 +293,7 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         //? if <=26.2 {
         /*return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
         *///?} else {
-        return builder.save(consumer, SCId.of(path));
+        return builder.save(consumer, SCId.of(SimpleOres.MOD_ID, path));
         //?}
     }
 }

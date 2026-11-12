@@ -1,7 +1,7 @@
 package net.paulem.simpleores.datagen.providers.tags;
 
 import net.paulem.simpleores.blocks.ModBlocks;
-import net.paulem.simpleores.stonecutter.SCTag;
+import net.paulem.sclib.tag.SCTags;
 import net.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
@@ -72,7 +72,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("deepslate_", "").replace("_ore", "");
 
-                TagKey<Block> tag = SCTag.forOres(material);
+                TagKey<Block> tag = SCTags.ore(material);
                 build(tag, block);
 
                 //? if >1.20.4 {
@@ -84,7 +84,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("basalt_", "").replace("_ore", "");
 
-                TagKey<Block> tag = SCTag.forOres(material);
+                TagKey<Block> tag = SCTags.ore(material);
                 build(tag, block);
 
                 //? if >1.20.4 {
@@ -99,7 +99,7 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 // MOD COMPAT
                 String material = identifier.getPath().replace("_block", "");
 
-                TagKey<Block> tag = SCTag.forBlocks(material);
+                TagKey<Block> tag = SCTags.storageBlock(material);
                 build(tag, block);
             }
 
