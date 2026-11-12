@@ -3,7 +3,7 @@ package net.paulem.simpleores.fabric;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.paulem.simpleores.SimpleOres;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 
 import java.util.Map;
 

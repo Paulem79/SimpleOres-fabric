@@ -14,7 +14,7 @@ import net.paulem.simpleores.tooltip.TooltipItem;
 /^import net.neoforged.neoforge.client.event.RegisterItemModelsEvent;
 import net.paulem.simpleores.bucket.renderer.CopperBucketItemSpecialRenderer;
 import net.paulem.simpleores.bucket.renderer.CopperEmptyBucketItemSpecialRenderer;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 ^///?}
 
 // The config screen of MidnightLib is registered by MidnightLib itself

@@ -20,10 +20,10 @@ import net.paulem.simpleores.items.custom.bucket.CustomBucketItem;
 *///?}
 //? >1.21
 import net.paulem.simpleores.migration.CopperDoorMigration;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.items.ItemGroups;
 import net.paulem.simpleores.items.ModItems;
-import net.paulem.simpleores.platform.Platform;
+import net.paulem.sclib.platform.SCPlatform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +54,7 @@ public class SimpleOres {
 	public static void loadConfig() {
 		LOGGER.info("Simple Ores has been initialized!");
 
-		ConfigLoader<? extends Config> configLoader = ConfigLoader.getLoader(Platform.isModLoaded("midnightlib"));
+		ConfigLoader<? extends Config> configLoader = ConfigLoader.getLoader(SCPlatform.isModLoaded("midnightlib"));
 		configLoader.load();
 		CONFIG = configLoader.getConfig();
 	}

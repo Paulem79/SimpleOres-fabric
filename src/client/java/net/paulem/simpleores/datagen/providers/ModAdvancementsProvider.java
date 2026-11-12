@@ -1,12 +1,7 @@
 package net.paulem.simpleores.datagen.providers;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.triggers.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -16,30 +11,20 @@ import net.minecraft.world.level.block.Blocks;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.items.ModItems;
-import org.jspecify.annotations.Nullable;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
+import net.paulem.sclib.datagen.SCAdvancementProvider;
+import net.paulem.sclib.datagen.SCAdvancements;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
-public class ModAdvancementsProvider extends FabricAdvancementProvider {
+public class ModAdvancementsProvider extends SCAdvancementProvider {
     public ModAdvancementsProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(output //? if >1.20.4
-                , registryLookup
-        );
+        super(output, registryLookup, SimpleOres.MOD_ID);
     }
 
     @Override
-    public void generateAdvancement(//? if >1.20.4
-            HolderLookup.Provider registryLookup,
-                                    Consumer<//$ advancementEntry
-                                            net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-                                            > consumer) {
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-                rootAdvancement = buildAdvancement(
-                null,
-                consumer,
+    protected void advancements(SCAdvancements advancements) {
+        var rootAdvancement = advancements.root(
                 //? if !hasCopperTools {
                 /*ModItems.COPPER_PICKAXE,
                 *///?} else {
@@ -48,23 +33,15 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
                 Component.translatable("advancements.welcome"),
                 Component.translatable("advancements.welcome"),
                 //? if !hasCopperTools {
-                /*SCId.ofVanilla("textures/gui/advancements/backgrounds/stone.png"),
+                /*SCId.vanilla("textures/gui/advancements/backgrounds/stone.png"),
                 *///?} else {
-                 SCId.ofVanilla("gui/advancements/backgrounds/stone"),
+                 SCId.vanilla("gui/advancements/backgrounds/stone"),
                 //?}
-                AdvancementType.TASK,
-                false,
-                false,
-                false,
-                null,
                 "root"
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-        neitherOrNeitherIron = buildAdvancement(
+        var neitherOrNeitherIron = advancements.task(
                 rootAdvancement,
-                consumer,
                 Blocks.COPPER_ORE,
                 Component.translatable("advancements.copper_ach"),
                 Component.translatable("advancements.copper_ach.desc"),
@@ -72,11 +49,8 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         );
 
         //? if !hasCopperTools {
-            /*//$ advancementEntry
-            net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-             pickaxeCopper = buildAdvancement(
-                    neitherOrNeitherIron,
-                    consumer,
+            /*var pickaxeCopper = advancements.task(
+                neitherOrNeitherIron,
                     ModItems.COPPER_PICKAXE,
                     Component.translatable("advancements.copper_pick_ach"),
                     Component.translatable("advancements.copper_pick_ach.desc")
@@ -84,216 +58,100 @@ public class ModAdvancementsProvider extends FabricAdvancementProvider {
         *///?}
 
         //? if containsBucket {
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-                copperBucket = buildAdvancement(
+        var copperBucket = advancements.task(
                 neitherOrNeitherIron,
-                consumer,
                 ModItems.COPPER_BUCKET,
                 Component.translatable("advancements.copper_bucket_ach"),
                 Component.translatable("advancements.copper_bucket_ach.desc")
         );
         //?}
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         tinAdvancement = buildAdvancement(
+        var tinAdvancement = advancements.task(
                 neitherOrNeitherIron,
-                consumer,
                 ModBlocks.TIN_ORE,
                 Component.translatable("advancements.tin_ach"),
                 Component.translatable("advancements.tin_ach.desc"),
                 ModItems.RAW_TIN
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         tinShearsAdvancement = buildAdvancement(
+        var tinShearsAdvancement = advancements.task(
                 tinAdvancement,
-                consumer,
                 ModItems.TIN_SHEARS,
                 Component.translatable("advancements.tin_shears_ach"),
                 Component.translatable("advancements.tin_shears_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         mythrilAdvancement = buildAdvancement(
+        var mythrilAdvancement = advancements.task(
                 tinAdvancement,
-                consumer,
                 ModBlocks.MYTHRIL_ORE,
                 Component.translatable("advancements.mythril_ach"),
                 Component.translatable("advancements.mythril_ach.desc"),
                 ModItems.RAW_MYTHRIL
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         tinChestplate = buildAdvancement(
+        var tinChestplate = advancements.task(
                 tinAdvancement,
-                consumer,
                 ModItems.TIN_CHESTPLATE,
                 Component.translatable("advancements.tin_chestplate_ach"),
                 Component.translatable("advancements.tin_chestplate_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         adamantiumAdvancement = buildAdvancement(
+        var adamantiumAdvancement = advancements.task(
                 mythrilAdvancement,
-                consumer,
                 ModBlocks.ADAMANTIUM_ORE,
                 Component.translatable("advancements.adamantium_ach"),
                 Component.translatable("advancements.adamantium_ach.desc"),
                 ModItems.RAW_ADAMANTIUM
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         bowMythril = buildAdvancement(
+        var bowMythril = advancements.task(
                 mythrilAdvancement,
-                consumer,
                 ModItems.MYTHRIL_BOW,
                 Component.translatable("advancements.mythril_bow_ach"),
                 Component.translatable("advancements.mythril_bow_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         axeMythril = buildAdvancement(
+        var axeMythril = advancements.task(
                 mythrilAdvancement,
-                consumer,
                 ModItems.MYTHRIL_AXE,
                 Component.translatable("advancements.mythril_axe_ach"),
                 Component.translatable("advancements.mythril_axe_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         shearsAdamantium = buildAdvancement(
+        var shearsAdamantium = advancements.task(
                 adamantiumAdvancement,
-                consumer,
                 ModItems.ADAMANTIUM_SHEARS,
                 Component.translatable("advancements.adamantium_shears_ach"),
                 Component.translatable("advancements.adamantium_shears_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         leggingsAdamantium = buildAdvancement(
+        var leggingsAdamantium = advancements.task(
                 adamantiumAdvancement,
-                consumer,
                 ModItems.ADAMANTIUM_LEGGINGS,
                 Component.translatable("advancements.adamantium_legs_ach"),
                 Component.translatable("advancements.adamantium_legs_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         onyxAdvancement = buildAdvancement(
+        var onyxAdvancement = advancements.task(
                 adamantiumAdvancement,
-                consumer,
                 ModBlocks.ONYX_ORE,
                 Component.translatable("advancements.onyx_ach"),
                 Component.translatable("advancements.onyx_ach.desc"),
                 ModItems.ONYX_GEM
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         onyxBow = buildAdvancement(
+        var onyxBow = advancements.task(
                 onyxAdvancement,
-                consumer,
                 ModItems.ONYX_BOW,
                 Component.translatable("advancements.onyx_bow_ach"),
                 Component.translatable("advancements.onyx_bow_ach.desc")
         );
 
-        //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         onyxSword = buildAdvancement(
+        var onyxSword = advancements.task(
                 onyxAdvancement,
-                consumer,
                 ModItems.ONYX_SWORD,
                 Component.translatable("advancements.onyx_sword_ach"),
                 Component.translatable("advancements.onyx_sword_ach.desc")
         );
-    }
-
-
-    public static //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         buildAdvancement(//$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         parent, Consumer<//$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-        > consumer, @Nullable Item requiredItem,
-                                                    Component title,
-                                                    Component description) {
-        return buildAdvancement(parent, consumer, requiredItem, title, description, null, AdvancementType.TASK, true, true, false, requiredItem, BuiltInRegistries.ITEM.getKey(requiredItem).getPath());
-    }
-
-    public static //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         buildAdvancement(//$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         parent, Consumer<//$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-        > consumer, ItemLike icon,
-                                                    Component title,
-                                                    Component description,
-                                                    @Nullable Item requiredItem) {
-        return buildAdvancement(parent, consumer, icon, title, description, null, AdvancementType.TASK, true, true, false, requiredItem, BuiltInRegistries.ITEM.getKey(requiredItem).getPath());
-    }
-
-    public static //$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         buildAdvancement(//$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-         parent, Consumer<//$ advancementEntry
-        net.minecraft.advancements.@org.jspecify.annotations.Nullable AdvancementHolder
-        > consumer, ItemLike icon,
-                                                    Component title,
-                                                    Component description,
-                                                    @Nullable Identifier background,
-                                                    AdvancementType frame,
-                                                    boolean showToast,
-                                                    boolean announceToChat,
-                                                    boolean hidden, @Nullable Item requiredItem, String path) {
-        Advancement.Builder builder = Advancement.Builder.advancement();
-
-        if(parent != null) builder
-                .parent(parent);
-
-        //? if >26.2 {
-        // The background is now only accepted on a root advancement
-        if(background != null) builder
-                .rootDisplay(icon.asItem(), title, description, background, frame, showToast, announceToChat, hidden);
-        else builder
-                .display(icon.asItem(), title, description, frame, showToast, announceToChat, hidden);
-        //?} else {
-        /*builder.display(
-                icon,
-                title,
-                description,
-                background,
-                frame,
-                showToast,
-                announceToChat,
-                hidden
-        );
-        *///?}
-
-        if(requiredItem != null) builder
-                .addCriterion(path, InventoryChangeTrigger.TriggerInstance.hasItems(requiredItem));
-        else builder
-                .addCriterion("crafting_table", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CRAFTING_TABLE));
-
-
-        //? if <=26.2 {
-        /*return builder.save(consumer, SimpleOres.MOD_ID + "/" + path);
-        *///?} else {
-        return builder.save(consumer, SCId.of(path));
-        //?}
     }
 }

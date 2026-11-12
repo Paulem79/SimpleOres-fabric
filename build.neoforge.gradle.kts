@@ -217,6 +217,11 @@ tasks.jar {
 ModBuild.licenseInJar(project)
 
 dependencies {
+    // SC-Lib: multi-version helpers, embedded in the jar
+    val sclib = "net.paulem.sclib:sclib-neoforge:${stonecutter.properties.getAs<String>("sclib_version")}+$minecraftVersion"
+    implementation(sclib)
+    jarJar(sclib)
+
     // Statistics, bundled in the jar
     val faststats = "dev.faststats.metrics:neoforge:${stonecutter.properties.getAs<String>("faststats_version")}+mc$minecraftVersion"
     implementation(faststats)

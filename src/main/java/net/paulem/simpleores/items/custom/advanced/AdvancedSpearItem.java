@@ -2,23 +2,23 @@ package net.paulem.simpleores.items.custom.advanced;
 
 //? if >=1.21.11 {
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ToolMaterial;
+import net.paulem.sclib.item.SCToolStats;
 import net.paulem.simpleores.items.ModToolMaterials;
 
 public class AdvancedSpearItem extends Item {
-    private ToolMaterial material;
+    private SCToolStats material;
     
-    public AdvancedSpearItem(ToolMaterial material, Properties settings) {
-        super(settings.spear(material, getAttackDuration(material), getDamageMultiplier(material), getDelay(material), getDismountTime(material), getDismountThreshold(material), getKnockbackTime(material), getKnockbackThreshold(material), getDamageTime(material), getDamageThreshold(material)));
+    public AdvancedSpearItem(SCToolStats material, Properties settings) {
+        super(settings.spear(material.vanilla(), getAttackDuration(material), getDamageMultiplier(material), getDelay(material), getDismountTime(material), getDismountThreshold(material), getKnockbackTime(material), getKnockbackThreshold(material), getDamageTime(material), getDamageThreshold(material)));
         
         this.material = material;
     }
 
-    public ToolMaterial getMaterial() {
+    public SCToolStats getMaterial() {
         return material;
     }
 
-    private static float getAttackDuration(ToolMaterial material) {
+    private static float getAttackDuration(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 0.9F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -30,7 +30,7 @@ public class AdvancedSpearItem extends Item {
         return 1.25F; // For onyx
     }
     
-    private static float getDamageMultiplier(ToolMaterial material) {
+    private static float getDamageMultiplier(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 0.9F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -42,7 +42,7 @@ public class AdvancedSpearItem extends Item {
         return 1.25F; // For onyx
     }
     
-    private static float getDelay(ToolMaterial material) {
+    private static float getDelay(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 0.6F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -54,7 +54,7 @@ public class AdvancedSpearItem extends Item {
         return 0.3F; // For onyx
     }
 
-    private static float getDismountTime(ToolMaterial material) {
+    private static float getDismountTime(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 3.75F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -66,7 +66,7 @@ public class AdvancedSpearItem extends Item {
         return 2.0F; // For onyx
     }
 
-    private static float getDismountThreshold(ToolMaterial material) {
+    private static float getDismountThreshold(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 8.5F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -78,7 +78,7 @@ public class AdvancedSpearItem extends Item {
         return 6.5F; // For onyx
     }
 
-    private static float getKnockbackTime(ToolMaterial material) {
+    private static float getKnockbackTime(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 7.5F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -90,11 +90,11 @@ public class AdvancedSpearItem extends Item {
         return 5.0F; // For onyx
     }
 
-    private static float getKnockbackThreshold(ToolMaterial material) {
+    private static float getKnockbackThreshold(SCToolStats material) {
         return 5.1F; // Constant across vanilla tiers
     }
 
-    private static float getDamageTime(ToolMaterial material) {
+    private static float getDamageTime(SCToolStats material) {
         if(material == ModToolMaterials.TIN) {
             return 11.8F;
         } else if(material == ModToolMaterials.MYTHRIL) {
@@ -106,7 +106,7 @@ public class AdvancedSpearItem extends Item {
         return 8.0F; // For onyx
     }
 
-    private static float getDamageThreshold(ToolMaterial material) {
+    private static float getDamageThreshold(SCToolStats material) {
         return 4.6F; // Constant across vanilla tiers
     }
 }

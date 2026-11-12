@@ -1,7 +1,7 @@
 package net.paulem.simpleores.config;
 
 import net.minecraft.util.Util;
-import net.paulem.simpleores.stonecutter.SCArmor;
+import net.paulem.sclib.item.SCToolStats;
 import net.paulem.simpleores.items.ModToolMaterials;
 
 /**
@@ -49,11 +49,11 @@ public class BaseSimpleOresConfig implements Config {
     public final ArmorProtection onyxArmorProtection = new ArmorProtection(5, 8, 6, 5, 11, 2, 0, 15);
 
     // tools defaults
-    public final ToolsProperties copperTools = new ToolsProperties(ModToolMaterials.MiningLevels.STONE, 185, 4.0f, 1.0f, 8);
-    public final ToolsProperties tinTools = new ToolsProperties(ModToolMaterials.MiningLevels.STONE, 220, 3.5F, 1.0F, 8);
-    public final ToolsProperties mythrilTools = new ToolsProperties(ModToolMaterials.MiningLevels.IRON, 800, 8.0F, 3.0F, 12);
-    public final ToolsProperties adamantiumTools = new ToolsProperties(ModToolMaterials.MiningLevels.IRON, 1150, 14.0F, 3.0F, 3);
-    public final ToolsProperties onyxTools = new ToolsProperties(ModToolMaterials.MiningLevels.NETHERITE, 3280, 10.0F, 5.0F, 15);
+    public final ToolsProperties copperTools = new ToolsProperties(SCToolStats.MiningLevel.STONE, 185, 4.0f, 1.0f, 8);
+    public final ToolsProperties tinTools = new ToolsProperties(SCToolStats.MiningLevel.STONE, 220, 3.5F, 1.0F, 8);
+    public final ToolsProperties mythrilTools = new ToolsProperties(SCToolStats.MiningLevel.IRON, 800, 8.0F, 3.0F, 12);
+    public final ToolsProperties adamantiumTools = new ToolsProperties(SCToolStats.MiningLevel.IRON, 1150, 14.0F, 3.0F, 3);
+    public final ToolsProperties onyxTools = new ToolsProperties(SCToolStats.MiningLevel.NETHERITE, 3280, 10.0F, 5.0F, 15);
 
     // bows defaults
     public final int mythrilBowDurability = 750;
@@ -147,25 +147,6 @@ public class BaseSimpleOresConfig implements Config {
              this.body = body;
          }
 
-         //? if >1.20.4 {
-         public SCArmor.EnumProtection setProtectionAmount() {
-             return Util.make(new SCArmor.EnumProtection(SCArmor.ArmorEquipmentType.class), attribute -> {
-                 attribute.put(SCArmor.ArmorEquipmentType.BOOTS, boots());
-                 attribute.put(SCArmor.ArmorEquipmentType.LEGGINGS, leggings());
-                 attribute.put(SCArmor.ArmorEquipmentType.CHESTPLATE, chestplate());
-                 attribute.put(SCArmor.ArmorEquipmentType.HELMET, helmet());
-                 attribute.put(SCArmor.ArmorEquipmentType.BODY, body());
-             });
-         }
-         //?} else {
-
-         /*public int[] getProtectionAmount() {
-             return new int[]{helmet(), chestplate(), leggings(), boots()};
-         }
-
-         */
-         //?}
-
          public int helmet() {
              return helmet;
          }
@@ -202,13 +183,13 @@ public class BaseSimpleOresConfig implements Config {
 
      @SuppressWarnings("all")
      public static class ToolsProperties {
-         private ModToolMaterials.MiningLevels miningLevel;
+         private SCToolStats.MiningLevel miningLevel;
          private int itemDurability;
          private float miningSpeed;
          private float attackDamage;
          private int enchantability;
 
-         public ToolsProperties(ModToolMaterials.MiningLevels miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
+         public ToolsProperties(SCToolStats.MiningLevel miningLevel, int itemDurability, float miningSpeed, float attackDamage, int enchantability) {
              this.miningLevel = miningLevel;
              this.itemDurability = itemDurability;
              this.miningSpeed = miningSpeed;
@@ -216,7 +197,7 @@ public class BaseSimpleOresConfig implements Config {
              this.enchantability = enchantability;
          }
 
-         public ModToolMaterials.MiningLevels miningLevel() {
+         public SCToolStats.MiningLevel miningLevel() {
              return miningLevel;
          }
 

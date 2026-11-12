@@ -66,13 +66,13 @@ public class MaterialUtils {
     public static //$ armorRegistry
     net.minecraft.world.item.equipment.@org.jspecify.annotations.Nullable ArmorMaterial
     toArmor(ToolMaterial material) {
-        if(material == ModToolMaterials.TIN) {
+        if(material == ModToolMaterials.TIN.vanilla()) {
             return ModArmorMaterials.TIN;
-        } else if(material == ModToolMaterials.MYTHRIL) {
+        } else if(material == ModToolMaterials.MYTHRIL.vanilla()) {
             return ModArmorMaterials.MYTHRIL;
-        } else if(material == ModToolMaterials.ADAMANTIUM) {
+        } else if(material == ModToolMaterials.ADAMANTIUM.vanilla()) {
             return ModArmorMaterials.ADAMANTIUM;
-        } else if(material == ModToolMaterials.ONYX) {
+        } else if(material == ModToolMaterials.ONYX.vanilla()) {
             return ModArmorMaterials.ONYX;
         }
         

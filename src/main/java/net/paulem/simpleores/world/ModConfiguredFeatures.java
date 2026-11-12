@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.paulem.simpleores.SimpleOres;
 import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.simpleores.config.BaseSimpleOresConfig;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 
 import java.util.List;
 

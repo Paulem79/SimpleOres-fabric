@@ -16,8 +16,9 @@ import net.paulem.simpleores.blocks.custom.MultifunctionPressurePlateBlock;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.paulem.simpleores.stonecutter.SCAccess;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.block.SCBlockProps;
+import net.paulem.sclib.block.SCBlocks;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.tooltip.TooltipBlockItem;
 import net.paulem.simpleores.tooltip.TooltipBlock;
 import org.jspecify.annotations.NonNull;
@@ -28,10 +29,7 @@ public class ModBlocks {
     public static final LinkedHashMap<Identifier, BlockItem> registeredBlockItems = new LinkedHashMap<>();
 
     private static BlockBehaviour.Properties SCBlockSettings(ResourceKey<@NonNull Block> key, BlockBehaviour.Properties settings) {
-        return settings
-                //? if >1.21
-                .setId(key)
-        ;
+        return SCBlockProps.withId(settings, key);
     }
 
     // RAW METAL BLOCKS
@@ -74,11 +72,7 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops())));
 
     public static DropExperienceBlock makeExperienceDroppingBlock(IntProvider intProvider, BlockBehaviour.Properties settings) {
-        //? if >1.20.1 {
-        return new DropExperienceBlock(intProvider, settings);
-        //?} else {
-        /*return new DropExperienceBlock(settings, intProvider);
-        *///?}
+        return SCBlocks.experienceBlock(intProvider, settings);
     }
 
     // ORE BLOCKS
@@ -127,58 +121,47 @@ public class ModBlocks {
                     .strength(7.0F, 3.0F)
             )));
 
-    private static final SCAccess<Block, BlockBehaviour.Properties> copyAccess = new SCAccess<>(//? if >1.20.1 {
-            BlockBehaviour.Properties::ofFullCopy
-    //?} else {
-            /*BlockBehaviour.Properties::copy
-    *///?}
-    );
-
     // Blocks - bricks - Simple Ores
 //    public static Block COPPER_BRICKS = registerBlock("copper_bricks", key ->
-//            new Block(SCBlockSettings(key, copyAccess.get(Blocks.COPPER_BLOCK))));
+//            new Block(SCBlockSettings(key, SCBlockProps.copy(Blocks.COPPER_BLOCK))));
     public static Block TIN_BRICKS = registerBlock("tin_bricks", key ->
-            new Block(SCBlockSettings(key, copyAccess.get(TIN_BLOCK))));
+            new Block(SCBlockSettings(key, SCBlockProps.copy(TIN_BLOCK))));
     public static Block ONYX_BRICKS = registerBlock("onyx_bricks", key ->
-            new Block(SCBlockSettings(key, copyAccess.get(ONYX_BLOCK))));
+            new Block(SCBlockSettings(key, SCBlockProps.copy(ONYX_BLOCK))));
     public static Block ADAMANTIUM_BRICKS = registerBlock("adamantium_bricks", key ->
-            new Block(SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BLOCK))));
+            new Block(SCBlockSettings(key, SCBlockProps.copy(ADAMANTIUM_BLOCK))));
     public static Block MYTHRIL_BRICKS = registerBlock("mythril_bricks", key ->
-            new Block(SCBlockSettings(key, copyAccess.get(MYTHRIL_BLOCK))));
+            new Block(SCBlockSettings(key, SCBlockProps.copy(MYTHRIL_BLOCK))));
 
     // blocks - slabs
     public static SlabBlock TIN_BRICK_SLAB = registerBlock("tin_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, copyAccess.get(TIN_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, SCBlockProps.copy(TIN_BRICKS))));
     public static SlabBlock ONYX_BRICK_SLAB = registerBlock("onyx_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, copyAccess.get(ONYX_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, SCBlockProps.copy(ONYX_BRICKS))));
     public static SlabBlock MYTHRIL_BRICK_SLAB = registerBlock("mythril_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, copyAccess.get(MYTHRIL_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, SCBlockProps.copy(MYTHRIL_BRICKS))));
     public static SlabBlock ADAMANTIUM_BRICK_SLAB = registerBlock("adamantium_brick_slab", key ->
-            new SlabBlock(SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BRICKS))));
+            new SlabBlock(SCBlockSettings(key, SCBlockProps.copy(ADAMANTIUM_BRICKS))));
 
     // Blocks - stairs - simpleores
 //    public static StairBlock copper_brick_stairs = registerBlock("copper_brick_stairs", key ->
 //           new StairBlock(COPPER_BRICKS.defaultBlockState(),
-//                   SCBlockSettings(key, copyAccess.get(COPPER_BRICKS))));
+//                   SCBlockSettings(key, SCBlockProps.copy(COPPER_BRICKS))));
     public static StairBlock tin_brick_stairs = registerBlock("tin_brick_stairs", key ->
             new StairBlock(TIN_BRICKS.defaultBlockState(),
-                    SCBlockSettings(key, copyAccess.get(TIN_BRICKS))));
+                    SCBlockSettings(key, SCBlockProps.copy(TIN_BRICKS))));
     public static StairBlock onyx_brick_stairs = registerBlock("onyx_brick_stairs", key ->
             new StairBlock(ONYX_BRICKS.defaultBlockState(),
-                    SCBlockSettings(key, copyAccess.get(ONYX_BRICKS))));
+                    SCBlockSettings(key, SCBlockProps.copy(ONYX_BRICKS))));
     public static StairBlock adamantium_brick_stairs = registerBlock("adamantium_brick_stairs", key ->
             new StairBlock(ADAMANTIUM_BRICKS.defaultBlockState(),
-                    SCBlockSettings(key, copyAccess.get(ADAMANTIUM_BRICKS))));
+                    SCBlockSettings(key, SCBlockProps.copy(ADAMANTIUM_BRICKS))));
     public static StairBlock mythril_brick_stairs = registerBlock("mythril_brick_stairs", key ->
             new StairBlock(MYTHRIL_BRICKS.defaultBlockState(),
-                    SCBlockSettings(key, copyAccess.get(MYTHRIL_BRICKS))));
+                    SCBlockSettings(key, SCBlockProps.copy(MYTHRIL_BRICKS))));
 
     public static DoorBlock makeDoor(BlockSetType blockSetType, BlockBehaviour.Properties settings) {
-        //? if >1.20.1 {
-        return new DoorBlock(blockSetType, settings);
-        //?} else {
-        /*return new DoorBlock(settings, blockSetType);
-        *///?}
+        return SCBlocks.door(blockSetType, settings);
     }
 
     // Blocks - doors - simpleores

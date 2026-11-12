@@ -4,7 +4,7 @@ package net.paulem.simpleores;
 /*import net.paulem.simpleores.items.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 
 public class ModModelPredicateProvider {
 
@@ -14,7 +14,7 @@ public class ModModelPredicateProvider {
     }
 
     private static void registerNewBow(Item bow) {
-        ItemProperties.register(bow, SCId.ofVanilla("pull"), (stack, world, entity, seed) -> {
+        ItemProperties.register(bow, SCId.vanilla("pull"), (stack, world, entity, seed) -> {
             if (entity == null) {
                 return 0.0F;
             } else {
@@ -23,7 +23,7 @@ public class ModModelPredicateProvider {
                 ) - entity.getUseItemRemainingTicks()) / 20.0F;
             }
         });
-        ItemProperties.register(bow, SCId.ofVanilla("pulling"), (stack, world, entity, seed) -> entity != null
+        ItemProperties.register(bow, SCId.vanilla("pulling"), (stack, world, entity, seed) -> entity != null
                 && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 }

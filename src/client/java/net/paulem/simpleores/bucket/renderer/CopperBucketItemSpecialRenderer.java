@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.paulem.simpleores.items.ModComponents;
-import net.paulem.simpleores.stonecutter.SCId;
+import net.paulem.sclib.SCId;
 import net.paulem.simpleores.utils.BucketPickupUtils;
 import org.joml.Matrix4fc;
 import org.jspecify.annotations.NonNull;
