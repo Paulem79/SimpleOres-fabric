@@ -4,7 +4,7 @@ import net.paulem.simpleores.blocks.ModBlocks;
 import net.paulem.sclib.tag.SCTags;
 import net.paulem.simpleores.tags.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+import net.paulem.sclib.datagen.SCBlockTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.world.level.block.*;
 import net.minecraft.core.HolderLookup;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import java.util.concurrent.CompletableFuture;
 
-public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+public class ModBlockTagProvider extends SCBlockTagProvider {
     public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
@@ -28,20 +28,20 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         build(ConventionalBlockTags.ORES, ModTags.Blocks.SIMPLEORES_ORES);
 
         //? if >1.20.4
-        TagBuilder storageBlocksTag = new TagBuilder(ConventionalBlockTags.STORAGE_BLOCKS);
-        TagBuilder carverReplaceables = new TagBuilder(//$ if >26.2 'BlockTags.ORES' else 'BlockTags.OVERWORLD_CARVER_REPLACEABLES'
+        TagKey<Block> storageBlocksTag = ConventionalBlockTags.STORAGE_BLOCKS;
+        TagKey<Block> carverReplaceables = //$ if >26.2 'BlockTags.ORES' else 'BlockTags.OVERWORLD_CARVER_REPLACEABLES'
                 BlockTags.ORES
-        );
+        ;
 
         // ------------------- BLOCKS BREAK -------------------
 
-        TagBuilder pickaxeMineable = new TagBuilder(BlockTags.MINEABLE_WITH_PICKAXE);
+        TagKey<Block> pickaxeMineable = BlockTags.MINEABLE_WITH_PICKAXE;
 
-        TagBuilder needsStoneTool = new TagBuilder(BlockTags.NEEDS_STONE_TOOL);
+        TagKey<Block> needsStoneTool = BlockTags.NEEDS_STONE_TOOL;
 
-        TagBuilder needsIronTool = new TagBuilder(BlockTags.NEEDS_IRON_TOOL);
+        TagKey<Block> needsIronTool = BlockTags.NEEDS_IRON_TOOL;
 
-        TagBuilder needsDiamondTool = new TagBuilder(BlockTags.NEEDS_DIAMOND_TOOL);
+        TagKey<Block> needsDiamondTool = BlockTags.NEEDS_DIAMOND_TOOL;
 
         // ------------------- BEACON BASE -------------------
         build(BlockTags.BEACON_BASE_BLOCKS,
@@ -53,11 +53,11 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
         );
 
         // ------------------- DOORS -------------------
-        TagBuilder doorsTagBuilder = new TagBuilder(BlockTags.DOORS);
+        TagKey<Block> doorsTagBuilder = BlockTags.DOORS;
 
-        TagBuilder pressurePlatesTagBuilder = new TagBuilder(BlockTags.PRESSURE_PLATES);
-        TagBuilder slabsTagBuilder = new TagBuilder(BlockTags.SLABS);
-        TagBuilder stairsTagBuilder = new TagBuilder(BlockTags.STAIRS);
+        TagKey<Block> pressurePlatesTagBuilder = BlockTags.PRESSURE_PLATES;
+        TagKey<Block> slabsTagBuilder = BlockTags.SLABS;
+        TagKey<Block> stairsTagBuilder = BlockTags.STAIRS;
 
         ModBlocks.registeredBlockItems.forEach((identifier, blockItem) -> {
             Block block = blockItem.getBlock();
@@ -131,58 +131,5 @@ public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
                 build(BlockTags.DRAGON_IMMUNE, block);
             }
         });
-    }
-
-    private void build(TagKey<Block> tagKey, Object... objects) {
-        TagBuilder builder = new TagBuilder(tagKey);
-        
-        build(builder, objects);
-    }
-
-    private void build(TagBuilder builder,
-                       Object... objects) {
-        //? if >=1.21.6 {
-        for (Object object : objects) {
-
-            if(object instanceof Block block) {
-                builder.get()
-                        .add(ResourceKey.create(BuiltInRegistries.BLOCK.key(), BuiltInRegistries.BLOCK.getKey(block)));
-            } else if(object instanceof TagKey<?> tag && object.getClass().getGenericSuperclass() == Block.class) {
-                builder.get()
-                        .addTag((TagKey<Block>) tag);
-            }
-        }
-        //?} else {
-            /*for (Object object : objects) {
-                if (object instanceof Block block) {
-                    builder.get().add(block);
-                } else if (object instanceof TagKey<?> tag) {
-                    builder.get().addTag((TagKey<Block>) tag);
-                }
-            }
-        *///?}
-    }
-
-    class TagBuilder {
-        private final TagKey<Block> tag;
-
-        public TagBuilder(TagKey<Block> tag) {
-            this.tag = tag;
-        }
-
-        public //? if >26.1 {
-                TagAppender<Block>
-        //?} else if >=1.21.6 {
-        /*TagAppender<ResourceKey<Block>, Block>
-        *///?} else {
-        //FabricTagsProvider<Block>.FabricTagBuilder
-        //?}
-        get() {
-            /*? if >=1.21.6 {*/
-            return builder(tag);
-            /*?} else {*/
-            /*return getOrCreateTagBuilder(tag);
-            *//*?}*/
-        }
     }
 }
