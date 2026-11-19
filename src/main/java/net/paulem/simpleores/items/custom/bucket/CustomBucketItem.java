@@ -126,10 +126,15 @@ public class CustomBucketItem extends MobBucketItem implements CustomDispensible
                 //?}
                 settings
                         .component(ModComponents.BUCKET_BLOCK_COMPONENT, getBlockIdentifier(Blocks.AIR))
+                        //? if >=26.4
+                        /^.dispensed(CustomBucketDispenseBehaviour.KEY)^/
         );
 
         this.properties = (Properties) settings;
 
+        //? if >=26.4 {
+        /^CustomBucketDispenseBehaviour.register();
+        ^///?} else
         DispenserBlock.registerBehavior(this, CustomBucketDispenseBehaviour.getInstance());
     }
 

@@ -7,6 +7,7 @@ import net.paulem.simpleores.items.custom.advanced.*;
 import net.paulem.simpleores.items.custom.bows.MythrilBow;
 import net.paulem.simpleores.items.custom.bows.OnyxBow;
 import net.minecraft.core.Registry;
+//? if <26.4
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -214,9 +215,12 @@ public class ModItems {
 
         if (item instanceof BlockItem blockItem) {
             blockItem.registerBlocks(Item.BY_BLOCK, item);
-        } else if(item instanceof AdvancedShearsItem) {
+        }
+        //? if <26.4 {
+        else if(item instanceof AdvancedShearsItem) {
             DispenserBlock.registerBehavior(item, new ShearsDispenseItemBehavior());
         }
+        //?}
 
         return Registry.register(BuiltInRegistries.ITEM, key, item);
     }
@@ -231,9 +235,12 @@ public class ModItems {
 
         if (item instanceof BlockItem blockItem) {
             blockItem.registerBlocks(Item.BY_BLOCK, item);
-        } else if(item instanceof AdvancedShearsItem) {
+        }
+        //? if <26.4 {
+        else if(item instanceof AdvancedShearsItem) {
             DispenserBlock.registerBehavior(item, new ShearsDispenseItemBehavior());
         }
+        //?}
 
         return Registry.register(BuiltInRegistries.ITEM, key, item);
     }

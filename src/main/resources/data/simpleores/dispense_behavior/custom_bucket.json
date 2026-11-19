@@ -1,0 +1,8 @@
+[
+  {
+    "type": "simpleores:custom_bucket"
+  },
+  {
+    "type": "minecraft:drop_item"
+  }
+]

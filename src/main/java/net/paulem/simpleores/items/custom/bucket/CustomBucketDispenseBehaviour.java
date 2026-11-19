@@ -2,7 +2,78 @@ package net.paulem.simpleores.items.custom.bucket;
 
 //? if hasBucketlib || !containsBucket {
 public class CustomBucketDispenseBehaviour {}
- //?} else {
+ //?} else if >=26.4 {
+/*import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.core.dispenser.DispenseBehavior;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.paulem.sclib.SCId;
+import net.paulem.simpleores.SimpleOres;
+
+import java.util.List;
+
+/^*
+ * Dispenser behavior of the custom buckets. Since 26.4 the behaviors are data driven: this codec is registered in the
+ * behavior types registry, and referenced by {@code data/simpleores/dispense_behavior/custom_bucket.json}.
+ ^/
+public class CustomBucketDispenseBehaviour implements DispenseBehavior {
+    public static final CustomBucketDispenseBehaviour INSTANCE = new CustomBucketDispenseBehaviour();
+    public static final MapCodec<CustomBucketDispenseBehaviour> CODEC = MapCodec.unit(INSTANCE);
+
+    public static final ResourceKey<List<DispenseBehavior>> KEY =
+            ResourceKey.create(Registries.DISPENSE_BEHAVIOR, SCId.of(SimpleOres.MOD_ID, "custom_bucket"));
+
+    private static boolean registered = false;
+
+    /^* Registers the codec of this behavior, safe to call several times. ^/
+    public static synchronized void register() {
+        if (registered) return;
+        registered = true;
+        Registry.register(BuiltInRegistries.DISPENSE_BEHAVIOR_TYPE, SCId.of(SimpleOres.MOD_ID, "custom_bucket"), CODEC);
+    }
+
+    private CustomBucketDispenseBehaviour() {}
+
+    @Override
+    public DispenseResult execute(final BlockSource source, final ItemStack dispensed) {
+        CustomBucketItem bucket = (CustomBucketItem) dispensed.getItem();
+        BlockPos target = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
+
+        Level level = source.level();
+        if (bucket.emptyContents(null, level, target, null, dispensed)) {
+            bucket.checkExtraContent(null, level, dispensed, target);
+
+            return DispenseBehavior.consumeWithRemainder(source, dispensed, bucket.shouldMelt(dispensed) ? ItemStack.EMPTY : bucket.getEmpty());
+        } else if (bucket.isEmpty(dispensed)) {
+            // Pickup the contents, and return the new item with content inside
+            InteractionResult interactionResult = bucket.pickup(level, null, target, dispensed);
+            if (interactionResult instanceof InteractionResult.Success success) {
+                ItemStack filled = success.heldItemTransformedTo();
+                if (filled != null && !filled.isEmpty()) {
+                    // Only one bucket of the dispensed stack is filled
+                    return DispenseBehavior.consumeWithRemainder(source, dispensed, filled);
+                }
+            }
+        }
+
+        // Falls back on the next behavior of the list (dropping the item)
+        return DispenseResult.failure();
+    }
+
+    @Override
+    public MapCodec<CustomBucketDispenseBehaviour> codec() {
+        return CODEC;
+    }
+}
+*///?} else {
 /*import net.minecraft.core.BlockPos;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
