@@ -3,7 +3,7 @@ import net.paulem.buildscript.ModBuild
 import net.paulem.buildscript.VersionRangeParser
 
 plugins {
-    id("net.neoforged.moddev") version "2.0.148"
+    id("net.neoforged.moddev") version "2.0.149"
 
     `maven-publish`
     id("me.modmuss50.mod-publish-plugin") version "2.2.1"
